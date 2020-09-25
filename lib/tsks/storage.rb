@@ -16,6 +16,24 @@ module Tsks
       SQL
     end
 
+    def self.insert tsk, ctx=nil
+      storage = get_storage_instance
+      now = Time.now.strftime "%Y-%m-%e %H:%M:%S"
+
+      if ctx
+        storage.execute("
+          INSERT INTO tsks (tsk, context, created_at, updated_at)
+          VALUES (?, ?, ?, ?)",
+          [tsk, ctx, now, now]
+         )
+      else
+        storage.execute("
+          INSERT INTO tsks (tsk, created_at, updated_at) VALUES (?, ?, ?)",
+          [tsk, now, now]
+         )
+      end
+    end
+
     private
 
     def self.get_storage_instance
