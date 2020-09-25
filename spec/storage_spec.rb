@@ -23,4 +23,13 @@ RSpec.describe Tsks::Storage do
       described_class.insert "tsk", "ctx"
     end
   end
+
+  describe ".update" do
+    it "Updates the tsk with received id to be done" do
+      mock = instance_double(SQLite3::Database)
+      allow(SQLite3::Database).to receive(:new).and_return mock
+      expect(mock).to receive :execute
+      described_class.update 1
+    end
+  end
 end

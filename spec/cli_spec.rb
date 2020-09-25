@@ -54,12 +54,40 @@ RSpec.describe Tsks::CLI do
         described_class.start ["add", tsk, "--context=#{ctx}"]
       end
     end
+
+    describe "done" do
+      after :each do
+        if File.directory? @setup_folder
+          FileUtils.rmtree @setup_folder
+        end
+      end
+
+      before :each do
+        described_class.start ["init"]
+        storage = SQLite3::Database.new File.join @setup_folder, "tsks.db"
+        storage.execute(
+          "INSERT INTO tsks (tsk, created_at, updated_at)
+          VALUES ('tsk', '0', '0')"
+        )
+      end
+
+      it "Marks a tsk as done" do
+        expect(Tsks::Storage).to receive(:update).with(1)
+        described_class.start ["done", 1]
+      end
+    end
   end
 
   context "Not initialized" do
     it "Require initialization before add a tsk" do
       expect {
         described_class.start ["add", "tsk"]
+      }.to output("tsks was not initialized yet.\n").to_stdout
+    end
+
+    it "Require initialization before done a tsk" do
+      expect {
+        described_class.start ["done", 1]
       }.to output("tsks was not initialized yet.\n").to_stdout
     end
   end

@@ -34,6 +34,11 @@ module Tsks
       end
     end
 
+    def self.update id
+      storage = get_storage_instance
+      storage.execute "UPDATE tsks SET done=true WHERE id=?", id
+    end
+
     private
 
     def self.get_storage_instance

@@ -32,5 +32,14 @@ module Tsks
         Tsks::Storage.insert tsk
       end
     end
+
+    desc "done ID", "Mark a tsk you have already done"
+    def done id
+      if !File.directory? CLI.setup_folder
+        return puts "tsks was not initialized yet."
+      end
+
+      Tsks::Storage.update id
+    end
   end
 end
