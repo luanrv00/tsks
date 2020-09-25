@@ -39,10 +39,47 @@ module Tsks
       storage.execute "UPDATE tsks SET done=true WHERE id=?", id
     end
 
+    def self.select_by params
+      storage = get_storage_instance
+
+      raw_tsks = nil
+
+      if params.count == 2
+        raw_tsks = storage.execute(
+          "SELECT * FROM tsks " \
+          "WHERE #{params.keys.first}=? and #{params.keys.last}=?",
+          [params.values.first, params.values.last]
+        )
+      else
+        raw_tsks = storage.execute(
+          "SELECT * FROM tsks WHERE #{params.keys.first}=?",
+          params.values.first)
+      end
+
+      tsks = structure_tsks raw_tsks
+    end
+
     private
 
     def self.get_storage_instance
       SQLite3::Database.new File.join CLI.setup_folder, "tsks.db"
+    end
+
+    def self.structure_tsks tsks
+      structured_tsks = []
+
+      for tsk in tsks
+        t = {id: tsk[0],
+             tsk: tsk[1],
+             context: tsk[2],
+             done: tsk[3],
+             created_at: tsk[4],
+             updated_at: tsk[4]}
+
+        structured_tsks.append t
+      end
+
+      return structured_tsks
     end
   end
 end

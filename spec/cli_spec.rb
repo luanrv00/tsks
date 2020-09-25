@@ -76,6 +76,55 @@ RSpec.describe Tsks::CLI do
         described_class.start ["done", 1]
       end
     end
+
+    describe "list" do
+      before :each do
+        described_class.start ["init"]
+        storage = SQLite3::Database.new File.join @setup_folder, "tsks.db"
+        storage.execute(
+          "INSERT INTO tsks (tsk, created_at, updated_at)
+          VALUES ('tsk', '0', '0')"
+        )
+        storage.execute(
+          "INSERT INTO tsks (tsk, done, created_at, updated_at)
+          VALUES ('tsk', 1, '0', '0')"
+        )
+        storage.execute(
+          "INSERT INTO tsks (tsk, context, created_at, updated_at)
+          VALUES ('tsk', 'Work', '0', '0')"
+        )
+      end
+
+      after :each do
+        if File.directory? @setup_folder
+          FileUtils.rmtree @setup_folder
+        end
+      end
+
+      it "Lists all active tsks" do
+        expect {
+          described_class.start ["list"]
+        }.to output("1 @Inbox tsk\n3 @Work tsk\n").to_stdout
+      end
+
+      it "Lists all done tsks" do
+        expect {
+          described_class.start ["list", "--done"]
+        }.to output("2 @Inbox tsk\n").to_stdout
+      end
+
+      it "Lists all tsks from a context" do
+        expect {
+          described_class.start ["list", "--context=Work"]
+        }.to output("3 @Work tsk\n").to_stdout
+      end
+
+      it "Shows a no tsks found message" do
+        expect {
+          described_class.start ["list", "--done", "--context=Work"]
+        }.to output("No tsks found.\n").to_stdout
+      end
+    end
   end
 
   context "Not initialized" do
@@ -88,6 +137,12 @@ RSpec.describe Tsks::CLI do
     it "Require initialization before done a tsk" do
       expect {
         described_class.start ["done", 1]
+      }.to output("tsks was not initialized yet.\n").to_stdout
+    end
+
+    it "Require initialization before list tsks" do
+      expect {
+        described_class.start ["list"]
       }.to output("tsks was not initialized yet.\n").to_stdout
     end
   end

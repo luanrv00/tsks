@@ -41,5 +41,34 @@ module Tsks
 
       Tsks::Storage.update id
     end
+
+    desc "list", "See all active tsks, filter by context or that are done"
+    option :done, type: :boolean
+    option :context
+    def list
+      if !File.directory? CLI.setup_folder
+        return puts "tsks was not initialized yet."
+      end
+
+      tsks = nil
+
+      if options[:done] && options[:context]
+        tsks = Tsks::Storage.select_by({done: 1, context: options[:context]})
+      elsif options[:done]
+        tsks = Tsks::Storage.select_by({done: 1})
+      elsif options[:context]
+        tsks = Tsks::Storage.select_by({context: options[:context]})
+      else
+        tsks = Tsks::Storage.select_by({done: 0})
+      end
+
+      if tsks.count > 0
+        for tsk in tsks
+          puts "#{tsk[:id]} @#{tsk[:context]} #{tsk[:tsk]}"
+        end
+      else
+        puts "No tsks found."
+      end
+    end
   end
 end
