@@ -70,5 +70,24 @@ module Tsks
         puts "No tsks found."
       end
     end
+
+    desc "register", "Register an e-mail to be able to sync your tsks"
+    option :email, required: true
+    option :password, required: true
+    def register
+      if !File.directory? CLI.setup_folder
+        return puts "tsks was not initialized yet."
+      end
+
+      res = Tsks::Request.post "/register", {email: options[:email],
+                                             password: options[:password]}
+
+      if res && res[:status_code] == 201
+        File.write File.join(CLI.setup_folder, "token"), res[:token]
+        puts "Succesfully registered."
+      elsif res && res[:status_code] == 409
+        puts "This e-mail is already registered."
+      end
+    end
   end
 end
