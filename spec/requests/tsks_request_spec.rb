@@ -1,0 +1,67 @@
+require 'rails_helper'
+
+RSpec.describe "Tsks", type: :request do
+  let(:invalid_token) { "eyJhbGciOiJub25lIn0.eyJlbWFpbCI6ImludmFsaWQifQ." }
+
+  let(:token) {
+    "eyJhbGciOiJub25lIn0.eyJlbWFpbCI6InJlZ2lzdGVyZWRAYXBpLmNvbSJ9."
+  }
+
+  describe "GET /tsks" do
+    it "Returns the status code 200 on body" do
+      get "/api/v1/tsks", headers: {authorization: "Bearer #{token}"}
+      parsed_body = JSON.parse response.body
+      expect(parsed_body).to include "status_code"
+      expect(parsed_body["status_code"]).to eq 200
+    end
+
+    it "Returns tsks from a registered e-mail" do
+      get "/api/v1/tsks", headers: {authorization: "Bearer #{token}"}
+      parsed_body = JSON.parse response.body
+      expect(parsed_body).to include "tsks"
+    end
+
+    it "Returns the status code 403 on body" do
+      get "/api/v1/tsks", headers: {authorization: "Bearer #{invalid_token}"}
+      parsed_body = JSON.parse response.body
+      expect(parsed_body["status_code"]).to eq 403
+    end
+
+    it "Returns the status code 401 on body" do
+      get "/api/v1/tsks"
+      parsed_body = JSON.parse response.body
+      expect(parsed_body["status_code"]).to eq 401
+    end
+  end
+
+  describe "POST /tsks" do
+    let(:tsks) {
+      [{id: 1,
+        tsk: "t",
+        context: "Inbox",
+        done: 0,
+        created_at: nil,
+        updated_at: nil}]
+    }
+
+    it "Returns the status code 201 on body" do
+      post "/api/v1/tsks", headers: {authorization: "Bearer #{token}"},
+                           params: {tsks: tsks}
+      parsed_body = JSON.parse response.body
+      expect(parsed_body).to include "status_code"
+      expect(parsed_body["status_code"]).to be 201
+    end
+
+    it "Returns the status 403 on body" do
+      post "/api/v1/tsks", headers: {authorization: "Bearer #{invalid_token}"}
+      parsed_body = JSON.parse response.body
+      expect(parsed_body["status_code"]).to eq 403
+    end
+
+    it "Returns the status 401 on body" do
+      post "/api/v1/tsks"
+      parsed_body = JSON.parse response.body
+      expect(parsed_body["status_code"]).to eq 401
+    end
+  end
+end
