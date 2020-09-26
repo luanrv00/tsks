@@ -173,25 +173,25 @@ RSpec.describe Tsks::CLI do
   end
 
   context "Not initialized" do
-    it "Require initialization before add a tsk" do
+    it "Requires initialization before add a tsk" do
       expect {
         described_class.start ["add", "tsk"]
       }.to output("tsks was not initialized yet.\n").to_stdout
     end
 
-    it "Require initialization before done a tsk" do
+    it "Requires initialization before done a tsk" do
       expect {
         described_class.start ["done", 1]
       }.to output("tsks was not initialized yet.\n").to_stdout
     end
 
-    it "Require initialization before list tsks" do
+    it "Requires initialization before list tsks" do
       expect {
         described_class.start ["list"]
       }.to output("tsks was not initialized yet.\n").to_stdout
     end
 
-    it "Require initialization before register" do
+    it "Requires initialization before register" do
       expect {
         described_class.start ["register", "--email=@", "--password=s"]
       }.to output("tsks was not initialized yet.\n").to_stdout
