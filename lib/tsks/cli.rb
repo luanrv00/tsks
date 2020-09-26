@@ -134,9 +134,15 @@ module Tsks
 
       if get_res && get_res[:status_code] == 200
         local_tsks_to_post = local_tsks - remote_tsks
-        Tsks::Request.post "/tsks", token, {tsks: local_tsks_to_post}
+        if local_tsks_to_post.count > 0
+          Tsks::Request.post "/tsks", token, {tsks: local_tsks_to_post}
+        end
+
         remote_tsks_to_storage = remote_tsks - local_tsks
-        Tsks::Storage.insert_many remote_tsks_to_storage
+        if remote_tsks_to_storage.count > 0
+          Tsks::Storage.insert_many remote_tsks_to_storage
+        end
+
         puts "Your tsks were succesfully synchronized."
       end
     end
