@@ -1,4 +1,5 @@
 require "thor"
+require "time"
 require "tsks/storage"
 require "tsks/request"
 
@@ -123,11 +124,18 @@ module Tsks
       token = File.read File.join CLI.setup_folder, "token"
       get_res = Tsks::Request.get "/tsks", token
       local_tsks = Tsks::Storage.select_all
+      remote_tsks = []
+
+      for tsk in get_res[:tsks]
+        tsk[:created_at] = Time.parse(tsk[:created_at]).strftime "%F %T"
+        tsk[:updated_at] = Time.parse(tsk[:updated_at]).strftime "%F %T"
+        remote_tsks.append tsk
+      end
 
       if get_res && get_res[:status_code] == 200
-        local_tsks_to_post = local_tsks - get_res[:tsks]
+        local_tsks_to_post = local_tsks - remote_tsks
         Tsks::Request.post "/tsks", token, {tsks: local_tsks_to_post}
-        remote_tsks_to_storage = get_res[:tsks] - local_tsks
+        remote_tsks_to_storage = remote_tsks - local_tsks
         Tsks::Storage.insert_many remote_tsks_to_storage
         puts "Your tsks were succesfully synchronized."
       end

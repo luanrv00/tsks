@@ -232,8 +232,8 @@ RSpec.describe Tsks::CLI do
          tsk: "t",
          context: "Inbox",
          done: 0,
-         created_at: "0",
-         updated_at: "0"},
+         created_at: "2020-09-26 20:14:13",
+         updated_at: "2020-09-26 20:14:13"},
         {id: 2,
          tsk: "t",
          context: "Inbox",
@@ -246,14 +246,14 @@ RSpec.describe Tsks::CLI do
          tsk: "t",
          context: "Inbox",
          done: 0,
-         created_at: "0",
-         updated_at: "0"},
+         created_at: "2020-09-26 20:14:13",
+         updated_at: "2020-09-26 20:14:13"},
         {id: 3,
          tsk: "t",
          context: "Inbox",
          done: 0,
-         created_at: "0",
-         updated_at: "0"}]
+         created_at: "2020-09-26 20:14:13",
+         updated_at: "2020-09-26 20:14:13"}]
       }
 
       let(:not_synced_local_tsks) { [local_tsks.last] }
@@ -269,7 +269,9 @@ RSpec.describe Tsks::CLI do
 
       it "Gets tsks from the API" do
         File.write File.join(@setup_folder, "token"), "token"
+        allow(Tsks::Request).to receive(:post)
         expect(Tsks::Request).to receive(:get).with("/tsks", "token")
+          .and_return(get_res)
         described_class.start ["sync"]
       end
 
