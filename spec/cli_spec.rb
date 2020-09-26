@@ -215,6 +215,94 @@ RSpec.describe Tsks::CLI do
         }.to output("Invalid e-mail or password.\n").to_stdout
       end
     end
+
+    describe "sync" do
+      before :each do
+        described_class.start ["init"]
+      end
+
+      after :each do
+        if File.directory? @setup_folder
+          FileUtils.rmtree @setup_folder
+        end
+      end
+
+      let(:local_tsks) {
+        [{id: 1,
+         tsk: "t",
+         context: "Inbox",
+         done: 0,
+         created_at: "0",
+         updated_at: "0"},
+        {id: 2,
+         tsk: "t",
+         context: "Inbox",
+         done: 0,
+         created_at: "0",
+         updated_at: "0"}]
+      }
+      let(:remote_tsks) {
+        [{id: 1,
+         tsk: "t",
+         context: "Inbox",
+         done: 0,
+         created_at: "0",
+         updated_at: "0"},
+        {id: 3,
+         tsk: "t",
+         context: "Inbox",
+         done: 0,
+         created_at: "0",
+         updated_at: "0"}]
+      }
+
+      let(:not_synced_local_tsks) { [local_tsks.last] }
+      let(:get_res) { {status_code: 200, tsks: remote_tsks} }
+      let(:post_body) { {tsks: not_synced_local_tsks} }
+      let(:not_synced_remote_tsks) { [remote_tsks.last] }
+
+      it "Requires a login before sync" do
+        expect {
+          described_class.start ["sync"]
+        }.to output("Please, login before try to sync.\n").to_stdout
+      end
+
+      it "Gets tsks from the API" do
+        File.write File.join(@setup_folder, "token"), "token"
+        expect(Tsks::Request).to receive(:get).with("/tsks", "token")
+        described_class.start ["sync"]
+      end
+
+      it "Posts not synced tsks to the API" do
+        File.write File.join(@setup_folder, "token"), "token"
+        allow(Tsks::Request).to receive(:get).and_return(get_res)
+        allow(Tsks::Storage).to receive(:select_all).and_return(local_tsks)
+        expect(Tsks::Request).to receive(:post)
+          .with("/tsks", "token", post_body)
+        described_class.start ["sync"]
+      end
+
+      it "Storages not present locally tsks" do
+        File.write File.join(@setup_folder, "token"), "token"
+        allow(Tsks::Request).to receive(:get).and_return(get_res)
+        allow(Tsks::Storage).to receive(:select_all).and_return(local_tsks)
+        allow(Tsks::Request).to receive(:post)
+        expect(Tsks::Storage).to receive(:insert_many)
+          .with(not_synced_remote_tsks)
+        described_class.start ["sync"]
+      end
+
+      it "Shows a synchronization success message" do
+        File.write File.join(@setup_folder, "token"), "token"
+        allow(Tsks::Request).to receive(:get).and_return(get_res)
+        allow(Tsks::Storage).to receive(:select_all).and_return(local_tsks)
+        allow(Tsks::Request).to receive(:post)
+        allow(Tsks::Storage).to receive(:insert_many)
+        expect {
+          described_class.start ["sync"]
+        }.to output("Your tsks were succesfully synchronized.\n").to_stdout
+      end
+    end
   end
 
   context "Not initialized" do
@@ -245,6 +333,12 @@ RSpec.describe Tsks::CLI do
     it "Requires initialization before login" do
       expect {
         described_class.start ["login", "--email=@", "--password=s"]
+      }.to output("tsks was not initialized yet.\n").to_stdout
+    end
+
+    it "Requires initialization before sync" do
+      expect {
+        described_class.start ["sync"]
       }.to output("tsks was not initialized yet.\n").to_stdout
     end
   end

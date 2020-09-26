@@ -34,6 +34,23 @@ module Tsks
       end
     end
 
+    def self.insert_many tsks
+      storage = get_storage_instance
+
+      for tsk in tsks
+        storage.execute("
+          INSERT INTO tsks (id, tsk, context, done, created_at, updated_at)
+          VALUES (?, ?, ?, ?, ?, ?)",
+          [tsk[:id],
+           tsk[:tsk],
+           tsk[:context],
+           tsk[:done],
+           tsk[:created_at],
+           tsk[:updated_at]]
+        )
+      end
+    end
+
     def self.update id
       storage = get_storage_instance
       storage.execute "UPDATE tsks SET done=true WHERE id=?", id
@@ -56,6 +73,12 @@ module Tsks
           params.values.first)
       end
 
+      tsks = structure_tsks raw_tsks
+    end
+
+    def self.select_all
+      storage = get_storage_instance
+      raw_tsks = storage.execute "SELECT * FROM tsks"
       tsks = structure_tsks raw_tsks
     end
 

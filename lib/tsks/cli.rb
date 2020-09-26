@@ -108,5 +108,28 @@ module Tsks
         puts "Invalid e-mail or password."
       end
     end
+
+    desc "sync", "Synchronize your tsks"
+    def sync
+      if !File.directory? CLI.setup_folder
+        return puts "tsks was not initialized yet."
+      end
+
+      if !File.exist? File.join CLI.setup_folder, "token"
+        return puts "Please, login before try to sync."
+      end
+
+      token = File.read File.join CLI.setup_folder, "token"
+      get_res = Tsks::Request.get "/tsks", token
+      local_tsks = Tsks::Storage.select_all
+
+      if get_res && get_res[:status_code] == 200
+        local_tsks_to_post = local_tsks - get_res[:tsks]
+        Tsks::Request.post "/tsks", token, {tsks: local_tsks_to_post}
+        remote_tsks_to_storage = get_res[:tsks] - local_tsks
+        Tsks::Storage.insert_many remote_tsks_to_storage
+        puts "Your tsks were succesfully synchronized."
+      end
+    end
   end
 end

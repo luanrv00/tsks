@@ -24,6 +24,24 @@ RSpec.describe Tsks::Storage do
     end
   end
 
+  describe ".insert_many" do
+    let(:tsks) {
+      [{id: 1,
+       tsk: "t",
+       context: "Inbox",
+       done: 0,
+       created_at: "0",
+       updated_at: "0"}]
+    }
+
+    it "Inserts received tsks into the storage" do
+      mock = instance_double(SQLite3::Database)
+      allow(SQLite3::Database).to receive(:new).and_return mock
+      expect(mock).to receive(:execute)
+      described_class.insert_many tsks
+    end
+  end
+
   describe ".update" do
     it "Updates the tsk with received id to be done" do
       mock = instance_double(SQLite3::Database)
@@ -67,6 +85,26 @@ RSpec.describe Tsks::Storage do
       allow(SQLite3::Database).to receive(:new).and_return(mock)
       allow(mock).to receive(:execute).and_return(raw_tsks)
       result = described_class.select_by({done: 1})
+      expect(result[0].instance_of? Hash).to be true
+    end
+  end
+
+  describe ".select_all" do
+    let(:raw_tsks) { [[1, 't', 'Work', 1, '0', '0']] }
+
+    it "Returns all tsks" do
+      mock = instance_double(SQLite3::Database)
+      allow(SQLite3::Database).to receive(:new).and_return(mock)
+      expect(mock).to receive(:execute)
+        .with("SELECT * FROM tsks").and_return(raw_tsks)
+      described_class.select_all
+    end
+
+    it "Returns tsks structured as a hash" do
+      mock = instance_double(SQLite3::Database)
+      allow(SQLite3::Database).to receive(:new).and_return(mock)
+      allow(mock).to receive(:execute).and_return(raw_tsks)
+      result = described_class.select_all
       expect(result[0].instance_of? Hash).to be true
     end
   end

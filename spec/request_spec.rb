@@ -29,4 +29,32 @@ RSpec.describe Tsks::Request do
       expect(res.instance_of? Hash).to be true
     end
   end
+
+  describe ".get" do
+    let(:uri) { URI "#{@base_url}/endpoint" }
+    let(:req_headers) { {authorization: "Bearer token"} }
+    let(:success_res) { {status_code: 200, tsks: []}}
+    let(:httparty_res) {
+      req_object = HTTParty::Request.new Net::HTTP::Get, '/'
+      res_object = Net::HTTPOK.new('1.1', 200, 'OK')
+      parsed_response = lambda { {"foo" => "bar"} }
+      options = {body: {param: "value"}.to_json}
+      response = HTTParty::Response.new(req_object,
+                                        res_object,
+                                        parsed_response,
+                                        options)
+    }
+
+    it "Makes a GET request to a received endpoint passing a received token" do
+      expect(HTTParty).to receive(:get).with(uri, headers: req_headers)
+        .and_return(httparty_res)
+      described_class.get "/endpoint", "token"
+    end
+
+    it "Returns the parsed response" do
+      allow(HTTParty).to receive(:get).and_return(httparty_res)
+      res = described_class.get "/endpoint", "token"
+      expect(res.instance_of? Hash).to be true
+    end
+  end
 end
