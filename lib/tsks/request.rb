@@ -10,7 +10,14 @@ module Tsks
 
     def self.post endpoint, token=nil, body
       uri = URI "#{Request.base_uri}#{endpoint}"
-      res = HTTParty.post uri, body: body
+
+      if token
+        res = HTTParty.post uri, body: body,
+                                 headers: {authorization: "Bearer #{token}"}
+      else
+        res = HTTParty.post uri, body: body
+      end
+
       parsed_res = parse_response res.body
     end
 
