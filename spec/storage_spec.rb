@@ -27,11 +27,12 @@ RSpec.describe Tsks::Storage do
   describe ".insert_many" do
     let(:tsks) {
       [{id: 1,
-       tsk: "t",
-       context: "Inbox",
-       done: 0,
-       created_at: "0",
-       updated_at: "0"}]
+        user_id: 1,
+        tsk: "t",
+        context: "Inbox",
+        done: 0,
+        created_at: "0",
+        updated_at: "0"}]
     }
 
     it "Inserts received tsks into the storage" do
@@ -52,7 +53,7 @@ RSpec.describe Tsks::Storage do
   end
 
   describe ".select_by" do
-    let(:raw_tsks) { [[1, 't', 'Work', 1, '0', '0']] }
+    let(:raw_tsks) { [[1, 1, 't', 'Work', 1, '0', '0']] }
 
     it "Returns all done tsks" do
       mock = instance_double(SQLite3::Database)
@@ -90,7 +91,7 @@ RSpec.describe Tsks::Storage do
   end
 
   describe ".select_all" do
-    let(:raw_tsks) { [[1, 't', 'Work', 1, '0', '0']] }
+    let(:raw_tsks) { [[1, 1, 't', 'Work', 1, '0', '0']] }
 
     it "Returns all tsks" do
       mock = instance_double(SQLite3::Database)

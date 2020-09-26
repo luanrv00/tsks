@@ -7,6 +7,7 @@ module Tsks
       storage.execute <<-SQL
         CREATE TABLE tsks (
           id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+          user_id INTEGER DEFAULT 1,
           tsk VARCHAR NOT NULL,
           context VARCHAR DEFAULT Inbox,
           done BOOLEAN DEFAULT false,
@@ -93,11 +94,12 @@ module Tsks
 
       for tsk in tsks
         t = {id: tsk[0],
-             tsk: tsk[1],
-             context: tsk[2],
-             done: tsk[3],
-             created_at: tsk[4],
-             updated_at: tsk[4]}
+             user_id: tsk[1],
+             tsk: tsk[2],
+             context: tsk[3],
+             done: tsk[4],
+             created_at: tsk[5],
+             updated_at: tsk[5]}
 
         structured_tsks.append t
       end
