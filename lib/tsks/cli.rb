@@ -1,5 +1,6 @@
 require "thor"
 require "tsks/storage"
+require "tsks/request"
 
 module Tsks
   class CLI < Thor
