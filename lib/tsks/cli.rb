@@ -89,5 +89,24 @@ module Tsks
         puts "This e-mail is already registered."
       end
     end
+
+    desc "login", "Login to be able to sync your tsks"
+    option :email, required: true
+    option :password, required: true
+    def login
+      if !File.directory? CLI.setup_folder
+        return puts "tsks was not initialized yet."
+      end
+
+      res = Tsks::Request.post "/login", {email: options[:email],
+                                          password: options[:password]}
+
+      if res && res[:status_code] == 200
+        File.write File.join(CLI.setup_folder, "token"), res[:token]
+        puts "Succesfully logged in."
+      elsif res && res[:status_code] == 403
+        puts "Invalid e-mail or password."
+      end
+    end
   end
 end

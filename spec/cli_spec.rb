@@ -170,6 +170,51 @@ RSpec.describe Tsks::CLI do
         }.to output("This e-mail is already registered.\n").to_stdout
       end
     end
+
+    describe "login" do
+      before :each do
+        described_class.start ["init"]
+      end
+
+      after :each do
+        if File.directory? @setup_folder
+          FileUtils.rmtree @setup_folder
+        end
+      end
+
+      let(:req_body) { {email: "tsks@api.com", password: "secret"} }
+      let(:res_body) { {status_code: 200, token: "token"} }
+      let(:bad_res_body) { {status_code: 403} }
+
+      it "Posts credentials to the login api endpoint" do
+        expect(Tsks::Request).to receive(:post)
+          .with("/login", req_body).and_return(res_body)
+        described_class.start ["login",
+                               "--email=#{req_body[:email]}",
+                               "--password=#{req_body[:password]}"]
+      end
+
+      it "Storages the authentication token" do
+        token_path = File.join @setup_folder, "token"
+        allow(Tsks::Request).to receive(:post).and_return(res_body)
+        expect(File).to receive(:write).with(token_path, res_body[:token])
+        described_class.start ["login", "--email=@", "--password=s"]
+      end
+
+      it "Shows a successful logged in message" do
+        allow(Tsks::Request).to receive(:post).and_return(res_body)
+        expect {
+          described_class.start ["login", "--email=@", "--password=s"]
+        }.to output("Succesfully logged in.\n").to_stdout
+      end
+
+      it "Shows an invalid credentials message" do
+        allow(Tsks::Request).to receive(:post).and_return(bad_res_body)
+        expect {
+          described_class.start ["login", "--email=@", "--password=s"]
+        }.to output("Invalid e-mail or password.\n").to_stdout
+      end
+    end
   end
 
   context "Not initialized" do
@@ -194,6 +239,12 @@ RSpec.describe Tsks::CLI do
     it "Requires initialization before register" do
       expect {
         described_class.start ["register", "--email=@", "--password=s"]
+      }.to output("tsks was not initialized yet.\n").to_stdout
+    end
+
+    it "Requires initialization before login" do
+      expect {
+        described_class.start ["login", "--email=@", "--password=s"]
       }.to output("tsks was not initialized yet.\n").to_stdout
     end
   end
