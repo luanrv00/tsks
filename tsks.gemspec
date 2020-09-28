@@ -5,8 +5,8 @@ Gem::Specification.new do |spec|
   spec.version       = Tsks::VERSION
   spec.authors       = ["Luan F. R. Vicente"]
   spec.email         = ["luanrvmood@gmail.com"]
-  spec.summary       = ""
-  spec.homepage      = "https://github.com/luanrvmood/tsks-cli"
+  spec.summary       = "Yet another command line interface to handle your daily tsks with contexts"
+  spec.homepage      = "https://github.com/luanrvmood/tsks"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
   spec.metadata["allowed_push_host"] = "https://rubygems.org"
   spec.metadata["homepage_uri"] = spec.homepage
