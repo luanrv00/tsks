@@ -2,7 +2,7 @@ require "httparty"
 
 module Tsks
   class Request
-    @base_uri = ENV["BASE_API_URI"]
+    @base_uri = ENV["BASE_API_URI"] || "https://tsks-api.herokuapp.com/v1"
 
     def self.base_uri
       @base_uri
