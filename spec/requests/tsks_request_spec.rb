@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe "Tsks", type: :request do
+  let(:base_uri) { "/v1" }
   let(:invalid_token) { "eyJhbGciOiJub25lIn0.eyJlbWFpbCI6ImludmFsaWQifQ." }
+
 
   let(:token) {
     "eyJhbGciOiJub25lIn0.eyJlbWFpbCI6InJlZ2lzdGVyZWRAYXBpLmNvbSJ9."
@@ -9,26 +11,26 @@ RSpec.describe "Tsks", type: :request do
 
   describe "GET /tsks" do
     it "Returns the status code 200 on body" do
-      get "/api/v1/tsks", headers: {authorization: "Bearer #{token}"}
+      get "#{base_uri}/tsks", headers: {authorization: "Bearer #{token}"}
       parsed_body = JSON.parse response.body
       expect(parsed_body).to include "status_code"
       expect(parsed_body["status_code"]).to eq 200
     end
 
     it "Returns tsks from a registered e-mail" do
-      get "/api/v1/tsks", headers: {authorization: "Bearer #{token}"}
+      get "#{base_uri}/tsks", headers: {authorization: "Bearer #{token}"}
       parsed_body = JSON.parse response.body
       expect(parsed_body).to include "tsks"
     end
 
     it "Returns the status code 403 on body" do
-      get "/api/v1/tsks", headers: {authorization: "Bearer #{invalid_token}"}
+      get "#{base_uri}/tsks", headers: {authorization: "Bearer #{invalid_token}"}
       parsed_body = JSON.parse response.body
       expect(parsed_body["status_code"]).to eq 403
     end
 
     it "Returns the status code 401 on body" do
-      get "/api/v1/tsks"
+      get "#{base_uri}/tsks"
       parsed_body = JSON.parse response.body
       expect(parsed_body["status_code"]).to eq 401
     end
@@ -45,7 +47,7 @@ RSpec.describe "Tsks", type: :request do
     }
 
     it "Returns the status code 201 on body" do
-      post "/api/v1/tsks", headers: {authorization: "Bearer #{token}"},
+      post "#{base_uri}/tsks", headers: {authorization: "Bearer #{token}"},
                            params: {tsks: tsks}
       parsed_body = JSON.parse response.body
       expect(parsed_body).to include "status_code"
@@ -53,13 +55,13 @@ RSpec.describe "Tsks", type: :request do
     end
 
     it "Returns the status 403 on body" do
-      post "/api/v1/tsks", headers: {authorization: "Bearer #{invalid_token}"}
+      post "#{base_uri}/tsks", headers: {authorization: "Bearer #{invalid_token}"}
       parsed_body = JSON.parse response.body
       expect(parsed_body["status_code"]).to eq 403
     end
 
     it "Returns the status 401 on body" do
-      post "/api/v1/tsks"
+      post "#{base_uri}/tsks"
       parsed_body = JSON.parse response.body
       expect(parsed_body["status_code"]).to eq 401
     end
