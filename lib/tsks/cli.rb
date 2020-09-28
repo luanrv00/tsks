@@ -21,7 +21,7 @@ module Tsks
       Tsks::Storage.init
     end
 
-    desc "add TSK", "Add a new tsk (Use --context to specify one i.g. Work)"
+    desc "add TSK", "Add a new tsk (Use --context to specify one e.g. Work)"
     option :context
     def add tsk
       if !File.directory? CLI.setup_folder
