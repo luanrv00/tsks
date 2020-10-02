@@ -53,13 +53,13 @@ RSpec.describe Tsks::Storage do
   end
 
   describe ".select_by" do
-    let(:raw_tsks) { [[1, 1, 't', 'Work', 1, '0', '0']] }
+    let(:raw_tsks) { [['uuid', 1, 1, 't', 'Work', 1, '0', '0']] }
 
     it "Returns all done tsks" do
       mock = instance_double(SQLite3::Database)
       allow(SQLite3::Database).to receive(:new).and_return(mock)
       expect(mock).to receive(:execute)
-        .with("SELECT * FROM tsks WHERE done=?", 1).and_return(raw_tsks)
+        .with("SELECT rowid, * FROM tsks WHERE done=?", 1).and_return(raw_tsks)
       described_class.select_by({done: 1})
     end
 
@@ -67,7 +67,7 @@ RSpec.describe Tsks::Storage do
       mock = instance_double(SQLite3::Database)
       allow(SQLite3::Database).to receive(:new).and_return mock
       expect(mock).to receive(:execute)
-        .with("SELECT * FROM tsks WHERE context=?", 'Work')
+        .with("SELECT rowid, * FROM tsks WHERE context=?", 'Work')
         .and_return(raw_tsks)
       described_class.select_by({context: "Work"})
     end
@@ -76,7 +76,7 @@ RSpec.describe Tsks::Storage do
       mock = instance_double(SQLite3::Database)
       allow(SQLite3::Database).to receive(:new).and_return(mock)
       expect(mock).to receive(:execute)
-        .with("SELECT * FROM tsks WHERE done=? and context=?", [1, 'Work'])
+        .with("SELECT rowid, * FROM tsks WHERE done=? and context=?", [1, 'Work'])
         .and_return(raw_tsks)
       described_class.select_by({done: 1, context: "Work"})
     end
@@ -91,13 +91,13 @@ RSpec.describe Tsks::Storage do
   end
 
   describe ".select_all" do
-    let(:raw_tsks) { [[1, 1, 't', 'Work', 1, '0', '0']] }
+    let(:raw_tsks) { [['uuid', 1, 1, 't', 'Work', 1, '0', '0']] }
 
     it "Returns all tsks" do
       mock = instance_double(SQLite3::Database)
       allow(SQLite3::Database).to receive(:new).and_return(mock)
       expect(mock).to receive(:execute)
-        .with("SELECT * FROM tsks").and_return(raw_tsks)
+        .with("SELECT rowid, * FROM tsks").and_return(raw_tsks)
       described_class.select_all
     end
 

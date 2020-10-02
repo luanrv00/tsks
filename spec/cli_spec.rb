@@ -66,8 +66,8 @@ RSpec.describe Tsks::CLI do
         described_class.start ["init"]
         storage = SQLite3::Database.new File.join @setup_folder, "tsks.db"
         storage.execute(
-          "INSERT INTO tsks (tsk, created_at, updated_at)
-          VALUES ('tsk', '0', '0')"
+          "INSERT INTO tsks (id, tsk, created_at, updated_at)
+          VALUES ('uuid', 'tsk', '0', '0')"
         )
       end
 
@@ -82,16 +82,16 @@ RSpec.describe Tsks::CLI do
         described_class.start ["init"]
         storage = SQLite3::Database.new File.join @setup_folder, "tsks.db"
         storage.execute(
-          "INSERT INTO tsks (tsk, created_at, updated_at)
-          VALUES ('tsk', '0', '0')"
+          "INSERT INTO tsks (id, tsk, created_at, updated_at)
+          VALUES ('uuid1', 'tsk', '0', '0')"
         )
         storage.execute(
-          "INSERT INTO tsks (tsk, done, created_at, updated_at)
-          VALUES ('tsk', 1, '0', '0')"
+          "INSERT INTO tsks (id, tsk, done, created_at, updated_at)
+          VALUES ('uuid22', 'tsk', 1, '0', '0')"
         )
         storage.execute(
-          "INSERT INTO tsks (tsk, context, created_at, updated_at)
-          VALUES ('tsk', 'Work', '0', '0')"
+          "INSERT INTO tsks (id, tsk, context, created_at, updated_at)
+          VALUES ('uuid3', 'tsk', 'Work', '0', '0')"
         )
       end
 
@@ -228,27 +228,27 @@ RSpec.describe Tsks::CLI do
       end
 
       let(:local_tsks) {
-        [{id: 1,
+        [{id: "uuid1",
          tsk: "t",
          context: "Inbox",
          done: 0,
          created_at: "2020-09-26 20:14:13",
          updated_at: "2020-09-26 20:14:13"},
-        {id: 2,
+        {id: "uuid2",
          tsk: "t",
          context: "Inbox",
          done: 0,
-         created_at: "0",
-         updated_at: "0"}]
+         created_at: "2020-09-26 20:14:13",
+         updated_at: "2020-09-26 20:14:13"}]
       }
       let(:remote_tsks) {
-        [{id: 1,
+        [{id: "uuid2",
          tsk: "t",
          context: "Inbox",
          done: 0,
          created_at: "2020-09-26 20:14:13",
          updated_at: "2020-09-26 20:14:13"},
-        {id: 3,
+        {id: "uuid3",
          tsk: "t",
          context: "Inbox",
          done: 0,
@@ -256,7 +256,7 @@ RSpec.describe Tsks::CLI do
          updated_at: "2020-09-26 20:14:13"}]
       }
 
-      let(:not_synced_local_tsks) { [local_tsks.last] }
+      let(:not_synced_local_tsks) { [local_tsks.first] }
       let(:get_res) { {status_code: 200, tsks: remote_tsks} }
       let(:post_body) { {tsks: not_synced_local_tsks} }
       let(:not_synced_remote_tsks) { [remote_tsks.last] }

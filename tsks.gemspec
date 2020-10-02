@@ -22,4 +22,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "thor"
   spec.add_dependency "sqlite3"
   spec.add_dependency "httparty"
+  spec.add_dependency "uuid"
 end

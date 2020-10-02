@@ -66,7 +66,7 @@ module Tsks
 
       if tsks.count > 0
         for tsk in tsks
-          puts "#{tsk[:id]} @#{tsk[:context]} #{tsk[:tsk]}"
+          puts "#{tsk[:local_id]} @#{tsk[:context]} #{tsk[:tsk]}"
         end
       else
         puts "No tsks found."
@@ -123,7 +123,7 @@ module Tsks
 
       token = File.read File.join CLI.setup_folder, "token"
       get_res = Tsks::Request.get "/tsks", token
-      local_tsks = Tsks::Storage.select_all
+      local_tsks = Tsks::Storage.select_all local_id=false
       remote_tsks = []
 
       for tsk in get_res[:tsks]
