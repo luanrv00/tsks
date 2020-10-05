@@ -52,7 +52,7 @@ DEPENDENCIES
   sqlite3 (~> 1.4.2)
   thor (~> 1.0.1)
   tsks!
-  uuid
+  uuid (~> 2.3.9)
 
 BUNDLED WITH
    2.1.2

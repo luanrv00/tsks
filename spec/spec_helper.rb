@@ -2,6 +2,7 @@ require "bundler/setup"
 require "dotenv/load"
 require "tsks/storage"
 require "tsks/request"
+require "tsks/actions"
 require "tsks"
 
 RSpec.configure do |config|

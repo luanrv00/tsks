@@ -2,6 +2,7 @@ require "thor"
 require "time"
 require "tsks/storage"
 require "tsks/request"
+require "tsks/actions"
 
 module Tsks
   class CLI < Thor
@@ -87,6 +88,7 @@ module Tsks
       if res && res[:status_code] == 201
         File.write File.join(CLI.setup_folder, "token"), res[:token]
         File.write File.join(CLI.setup_folder, "user_id"), res[:user_id]
+        Tsks::Actions.update_tsks_with_uuid res[:user_id]
         puts "Succesfully registered."
       elsif res && res[:status_code] == 409
         puts "This e-mail is already registered."
@@ -107,6 +109,7 @@ module Tsks
       if res && res[:status_code] == 200
         File.write File.join(CLI.setup_folder, "token"), res[:token]
         File.write File.join(CLI.setup_folder, "user_id"), res[:user_id]
+        Tsks::Actions.update_tsks_with_uuid res[:user_id]
         puts "Succesfully logged in."
       elsif res && res[:status_code] == 403
         puts "Invalid e-mail or password."

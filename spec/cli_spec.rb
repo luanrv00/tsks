@@ -165,6 +165,14 @@ RSpec.describe Tsks::CLI do
         described_class.start ["register", "--email=@", "--password=s"]
       end
 
+      it "Updates local tsks with the storaged user_id" do
+        allow(Tsks::Request).to receive(:post).and_return(res_body)
+        allow(File).to receive(:write)
+        expect(Tsks::Actions).to receive(:update_tsks_with_uuid)
+          .with(res_body[:user_id])
+        described_class.start ["register", "--email=@", "--password=s"]
+      end
+
       it "Shows a successful registered message" do
         allow(Tsks::Request).to receive(:post).and_return(res_body)
         expect {
@@ -216,6 +224,14 @@ RSpec.describe Tsks::CLI do
         allow(Tsks::Request).to receive(:post).and_return(res_body)
         allow(File).to receive(:write)
         expect(File).to receive(:write).with(user_id_path, res_body[:user_id])
+        described_class.start ["login", "--email=@", "--password=s"]
+      end
+
+      it "Updates local tsks with the storaged user_id" do
+        allow(Tsks::Request).to receive(:post).and_return(res_body)
+        allow(File).to receive(:write)
+        expect(Tsks::Actions).to receive(:update_tsks_with_uuid)
+          .with(res_body[:user_id])
         described_class.start ["login", "--email=@", "--password=s"]
       end
 
