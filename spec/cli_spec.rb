@@ -138,7 +138,7 @@ RSpec.describe Tsks::CLI do
       end
 
       let(:req_body) { {email: "tsks@api.com", password: "secret"} }
-      let(:res_body) { {status_code: 201, token: "token"} }
+      let(:res_body) { {status_code: 201, token: "token", user_id: "uuid"} }
       let(:bad_res_body) { {status_code: 409} }
 
       it "Posts credentials to the register api endpoint" do
@@ -152,7 +152,16 @@ RSpec.describe Tsks::CLI do
       it "Storages the authentication token" do
         token_path = File.join @setup_folder, "token"
         allow(Tsks::Request).to receive(:post).and_return(res_body)
+        allow(File).to receive(:write)
         expect(File).to receive(:write).with(token_path, res_body[:token])
+        described_class.start ["register", "--email=@", "--password=s"]
+      end
+
+      it "Storages the user_id token" do
+        user_id_path = File.join @setup_folder, "user_id"
+        allow(Tsks::Request).to receive(:post).and_return(res_body)
+        allow(File).to receive(:write)
+        expect(File).to receive(:write).with(user_id_path, res_body[:user_id])
         described_class.start ["register", "--email=@", "--password=s"]
       end
 
@@ -183,7 +192,7 @@ RSpec.describe Tsks::CLI do
       end
 
       let(:req_body) { {email: "tsks@api.com", password: "secret"} }
-      let(:res_body) { {status_code: 200, token: "token"} }
+      let(:res_body) { {status_code: 200, token: "token", user_id: "uuid"} }
       let(:bad_res_body) { {status_code: 403} }
 
       it "Posts credentials to the login api endpoint" do
@@ -197,7 +206,16 @@ RSpec.describe Tsks::CLI do
       it "Storages the authentication token" do
         token_path = File.join @setup_folder, "token"
         allow(Tsks::Request).to receive(:post).and_return(res_body)
+        allow(File).to receive(:write)
         expect(File).to receive(:write).with(token_path, res_body[:token])
+        described_class.start ["login", "--email=@", "--password=s"]
+      end
+
+      it "Storages the user_id token" do
+        user_id_path = File.join @setup_folder, "user_id"
+        allow(Tsks::Request).to receive(:post).and_return(res_body)
+        allow(File).to receive(:write)
+        expect(File).to receive(:write).with(user_id_path, res_body[:user_id])
         described_class.start ["login", "--email=@", "--password=s"]
       end
 
