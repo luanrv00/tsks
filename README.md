@@ -1,12 +1,14 @@
 # tsks-cli
 
-_Yet another command line interface to handle your daily tsks with contexts._
+_A stateful command line interface to help you handle your daily tsks 
+(with contexts!)._
 
 ## Features
 
 * Add tsks, check what is already done and list active or archived tsks
-* Synchronize your tsks and access them from all your devices (In develpoment!)
-* Increase your daily tsks with contexts (see `tsks help add` for more info!)
+* Synchronize your tsks and access them from all your terminals!)
+* Increase your daily tsks management with contexts `tsks add tsk --context=today`
+  (see `tsks help add` for more info!)
 
 ## Installation
 
