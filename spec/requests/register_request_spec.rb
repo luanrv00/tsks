@@ -28,7 +28,12 @@ RSpec.describe "Registers", type: :request do
     end
 
     it "Returns the user_id" do
-      #post "/v1"
+      post "#{base_uri}/register", params: {email: "tsks@api.com",
+                                        password: "s",
+                                        password_confirmation: "s"}
+
+      parsed_body = JSON.parse response.body
+      expect(parsed_body).to include "user_id"
     end
 
     it "Returns the status code 409 on body" do

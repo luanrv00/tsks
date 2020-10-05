@@ -17,6 +17,13 @@ RSpec.describe "Logins", type: :request do
       expect(parsed_body).to include "token"
     end
 
+    it "Returns the user_id" do
+      post "#{base_uri}/login", params: {email: "registered@api.com", password: "s"}
+
+      parsed_body = JSON.parse response.body
+      expect(parsed_body).to include "user_id"
+    end
+
     it "Returns the status code 403 on body" do
       post "#{base_uri}/login", params: {email: "invalid@api.com", password: "s"}
       parsed_body = JSON.parse response.body
