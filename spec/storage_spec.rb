@@ -47,8 +47,17 @@ RSpec.describe Tsks::Storage do
     it "Updates the tsk with received id to be done" do
       mock = instance_double(SQLite3::Database)
       allow(SQLite3::Database).to receive(:new).and_return mock
-      expect(mock).to receive :execute
+      expect(mock).to receive(:execute)
+        .with("UPDATE tsks SET done=true WHERE rowid=?", 1)
       described_class.update 1
+    end
+
+    it "Updates data based on received params" do
+      mock = instance_double(SQLite3::Database)
+      allow(SQLite3::Database).to receive(:new).and_return mock
+      expect(mock).to receive(:execute)
+        .with("UPDATE tsks SET id=? WHERE rowid=?", ["uuid", 1])
+      described_class.update 1, {id: "uuid"}
     end
   end
 

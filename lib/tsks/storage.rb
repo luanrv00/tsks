@@ -55,9 +55,22 @@ module Tsks
       end
     end
 
-    def self.update local_id
+    def self.update local_id, params=nil
       storage = get_storage_instance
-      storage.execute "UPDATE tsks SET done=true WHERE rowid=?", local_id
+
+      if params && params.count == 1
+        # NOTE
+        # there is only a currently in use case covered by this conditional
+        # ant that is ok for now, but we should make sure it is updated when
+        # Storage.update starting to be called from many different ways.
+        storage.execute(
+          "UPDATE tsks SET " \
+          "#{params.keys.first}=? " \
+          "WHERE rowid=?",
+          [params.values.first, local_id])
+      else
+        storage.execute "UPDATE tsks SET done=true WHERE rowid=?", local_id
+      end
     end
 
     def self.select_by params
