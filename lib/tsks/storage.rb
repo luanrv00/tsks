@@ -20,7 +20,7 @@ module Tsks
 
     def self.insert tsk, ctx=nil
       storage = get_storage_instance
-      now = Time.now.strftime "%Y-%m-%e %H:%M:%S"
+      now = Time.now.strftime "%F %T"
       uuid = UUID.new.generate
 
       if ctx
@@ -43,9 +43,11 @@ module Tsks
 
       for tsk in tsks
         storage.execute("
-          INSERT INTO tsks (id, tsk, context, done, created_at, updated_at)
-          VALUES (?, ?, ?, ?, ?, ?)",
+          INSERT INTO tsks
+          (id, user_id, tsk, context, done, created_at, updated_at) VALUES
+          (?, ?, ?, ?, ?, ?, ?)",
           [tsk[:id],
+           tsk[:user_id],
            tsk[:tsk],
            tsk[:context],
            tsk[:done],
