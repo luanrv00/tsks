@@ -295,14 +295,26 @@ RSpec.describe Tsks::CLI do
       let(:post_body) { {tsks: not_synced_local_tsks} }
       let(:not_synced_remote_tsks) { [remote_tsks.last] }
 
+      subject {
+        File.write File.join(@setup_folder, "token"), "token"
+        File.write File.join(@setup_folder, "user_id"), "uuid"
+      }
+
       it "Requires a login before sync" do
         expect {
           described_class.start ["sync"]
         }.to output("Please, login before try to sync.\n").to_stdout
       end
 
+      it "Updates local tsks with the storaged user_id" do
+        subject
+        allow(Tsks::Request).to receive(:get).and_return(get_res)
+        expect(Tsks::Actions).to receive(:update_tsks_with_uuid).with("uuid")
+        described_class.start ["sync"]
+      end
+
       it "Gets tsks from the API" do
-        File.write File.join(@setup_folder, "token"), "token"
+        subject
         allow(Tsks::Request).to receive(:post)
         expect(Tsks::Request).to receive(:get).with("/tsks", "token")
           .and_return(get_res)
@@ -310,7 +322,7 @@ RSpec.describe Tsks::CLI do
       end
 
       it "Posts not synced tsks to the API" do
-        File.write File.join(@setup_folder, "token"), "token"
+        subject
         allow(Tsks::Request).to receive(:get).and_return(get_res)
         allow(Tsks::Storage).to receive(:select_all).and_return(local_tsks)
         expect(Tsks::Request).to receive(:post)
@@ -319,7 +331,7 @@ RSpec.describe Tsks::CLI do
       end
 
       it "Storages not present locally tsks" do
-        File.write File.join(@setup_folder, "token"), "token"
+        subject
         allow(Tsks::Request).to receive(:get).and_return(get_res)
         allow(Tsks::Storage).to receive(:select_all).and_return(local_tsks)
         allow(Tsks::Request).to receive(:post)
@@ -329,7 +341,7 @@ RSpec.describe Tsks::CLI do
       end
 
       it "Shows a synchronization success message" do
-        File.write File.join(@setup_folder, "token"), "token"
+        subject
         allow(Tsks::Request).to receive(:get).and_return(get_res)
         allow(Tsks::Storage).to receive(:select_all).and_return(local_tsks)
         allow(Tsks::Request).to receive(:post)

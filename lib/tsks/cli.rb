@@ -126,11 +126,13 @@ module Tsks
         return puts "Please, login before try to sync."
       end
 
+      user_id = File.read File.join CLI.setup_folder, "user_id"
+      Tsks::Actions.update_tsks_with_uuid user_id
+      local_tsks = Tsks::Storage.select_all local_id=false
+
       token = File.read File.join CLI.setup_folder, "token"
       get_res = Tsks::Request.get "/tsks", token
-      local_tsks = Tsks::Storage.select_all local_id=false
       remote_tsks = []
-
       for tsk in get_res[:tsks]
         tsk[:created_at] = Time.parse(tsk[:created_at]).strftime "%F %T"
         tsk[:updated_at] = Time.parse(tsk[:updated_at]).strftime "%F %T"
