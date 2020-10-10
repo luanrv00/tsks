@@ -3,6 +3,8 @@
 A stateful command line interface to help you handle your daily tsks 
 (with contexts!).
 
+[![build](https://travis-ci.com/luanrvmood/tsks.svg?branch=master)](https://travis-ci.com/luanrvmood/tsks)
+
 ## Features
 
 * Add tsks, check what is already done and list active or archived tsks
