@@ -80,19 +80,6 @@ RSpec.describe Tsks::CLI do
     describe "list" do
       before :each do
         described_class.start ["init"]
-        storage = SQLite3::Database.new File.join @setup_folder, "tsks.db"
-        storage.execute(
-          "INSERT INTO tsks (id, tsk, created_at, updated_at)
-          VALUES ('uuid1', 'tsk', '0', '0')"
-        )
-        storage.execute(
-          "INSERT INTO tsks (id, tsk, done, created_at, updated_at)
-          VALUES ('uuid22', 'tsk', 1, '0', '0')"
-        )
-        storage.execute(
-          "INSERT INTO tsks (id, tsk, context, created_at, updated_at)
-          VALUES ('uuid3', 'tsk', 'Work', '0', '0')"
-        )
       end
 
       after :each do
@@ -101,25 +88,67 @@ RSpec.describe Tsks::CLI do
         end
       end
 
+      let(:active_tsks) {
+        [{id: "uuid1",
+          local_id: 1,
+          tsk: "tsk",
+          context: "Inbox",
+          done: 0,
+          created_at: "2020-09-26 20:14:13",
+          updated_at: "2020-09-26 20:14:13"},
+         {id: "uuid3",
+          local_id: 3,
+          tsk: "tsk",
+          context: "Work",
+          done: 0,
+          created_at: "2020-09-26 20:14:13",
+          updated_at: "2020-09-26 20:14:13"}]
+      }
+
+      let(:archived_tsks) {
+        [{id: "uuid2",
+          local_id: 2,
+          tsk: "tsk",
+          context: "Inbox",
+          done: 1,
+          created_at: "2020-09-26 20:14:13",
+          updated_at: "2020-09-26 20:14:13"}]
+      }
+
+      let(:work_context_tsks) {
+        [{id: "uuid3",
+          local_id: 3,
+          tsk: "tsk",
+          context: "Work",
+          done: 0,
+          created_at: "2020-09-26 20:14:13",
+          updated_at: "2020-09-26 20:14:13"}]
+      }
+
       it "Lists all active tsks" do
+        allow(Tsks::Storage).to receive(:select_by).and_return(active_tsks)
         expect {
           described_class.start ["list"]
         }.to output("1 @Inbox tsk\n3 @Work tsk\n").to_stdout
       end
 
       it "Lists all done tsks" do
+        allow(Tsks::Storage).to receive(:select_by).and_return(archived_tsks)
         expect {
           described_class.start ["list", "--done"]
         }.to output("2 @Inbox tsk\n").to_stdout
       end
 
       it "Lists all tsks from a context" do
+        allow(Tsks::Storage).to receive(:select_by)
+          .and_return(work_context_tsks)
         expect {
           described_class.start ["list", "--context=Work"]
         }.to output("3 @Work tsk\n").to_stdout
       end
 
       it "Shows a no tsks found message" do
+        allow(Tsks::Storage).to receive(:select_by).and_return([])
         expect {
           described_class.start ["list", "--done", "--context=Work"]
         }.to output("No tsks found.\n").to_stdout
