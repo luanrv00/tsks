@@ -96,6 +96,8 @@ module Tsks
         end
       rescue Errno::ECONNREFUSED
         puts "Failed to connect to the API."
+      rescue JSON::ParserError
+        puts "Error on reading data from the API."
       end
     end
 
@@ -121,6 +123,8 @@ module Tsks
         end
       rescue Errno::ECONNREFUSED
         puts "Failed to connect to the API."
+      rescue JSON::ParserError
+        puts "Error on reading data from the API."
       end
     end
 
@@ -142,27 +146,31 @@ module Tsks
       remote_tsks = []
       begin
         get_res = Tsks::Request.get "/tsks", token
-        for tsk in get_res[:tsks]
-          tsk[:created_at] = Time.parse(tsk[:created_at]).strftime "%F %T"
-          tsk[:updated_at] = Time.parse(tsk[:updated_at]).strftime "%F %T"
-          remote_tsks.append tsk
-        end
-
-        if get_res && get_res[:status_code] == 200
-          local_tsks_to_post = local_tsks - remote_tsks
-          if local_tsks_to_post.count > 0
-            Tsks::Request.post "/tsks", token, {tsks: local_tsks_to_post}
+        if get_res[:tsks]
+          for tsk in get_res[:tsks]
+            tsk[:created_at] = Time.parse(tsk[:created_at]).strftime "%F %T"
+            tsk[:updated_at] = Time.parse(tsk[:updated_at]).strftime "%F %T"
+            remote_tsks.append tsk
           end
 
-          remote_tsks_to_storage = remote_tsks - local_tsks
-          if remote_tsks_to_storage.count > 0
-            Tsks::Storage.insert_many remote_tsks_to_storage
-          end
+          if get_res[:status_code] == 200
+            local_tsks_to_post = local_tsks - remote_tsks
+            if local_tsks_to_post.count > 0
+              Tsks::Request.post "/tsks", token, {tsks: local_tsks_to_post}
+            end
 
-          puts "Your tsks were succesfully synchronized."
+            remote_tsks_to_storage = remote_tsks - local_tsks
+            if remote_tsks_to_storage.count > 0
+              Tsks::Storage.insert_many remote_tsks_to_storage
+            end
+
+            puts "Your tsks were succesfully synchronized."
+          end
         end
       rescue Errno::ECONNREFUSED
         puts "Failed to connect to the API."
+      rescue JSON::ParserError
+        puts "Error on reading data from the API."
       end
     end
   end
