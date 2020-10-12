@@ -82,16 +82,20 @@ module Tsks
         return puts "tsks was not initialized yet."
       end
 
-      res = Tsks::Request.post "/register", {email: options[:email],
-                                             password: options[:password]}
+      begin
+        res = Tsks::Request.post "/register", {email: options[:email],
+                                               password: options[:password]}
 
-      if res && res[:status_code] == 201
-        File.write File.join(CLI.setup_folder, "token"), res[:token]
-        File.write File.join(CLI.setup_folder, "user_id"), res[:user_id]
-        Tsks::Actions.update_tsks_with_uuid res[:user_id]
-        puts "Succesfully registered."
-      elsif res && res[:status_code] == 409
-        puts "This e-mail is already registered."
+        if res && res[:status_code] == 201
+          File.write File.join(CLI.setup_folder, "token"), res[:token]
+          File.write File.join(CLI.setup_folder, "user_id"), res[:user_id]
+          Tsks::Actions.update_tsks_with_uuid res[:user_id]
+          puts "Succesfully registered."
+        elsif res && res[:status_code] == 409
+          puts "This e-mail is already registered."
+        end
+      rescue Errno::ECONNREFUSED
+        puts "Failed to connect to the API."
       end
     end
 
@@ -103,16 +107,20 @@ module Tsks
         return puts "tsks was not initialized yet."
       end
 
-      res = Tsks::Request.post "/login", {email: options[:email],
-                                          password: options[:password]}
+      begin
+        res = Tsks::Request.post "/login", {email: options[:email],
+                                            password: options[:password]}
 
-      if res && res[:status_code] == 200
-        File.write File.join(CLI.setup_folder, "token"), res[:token]
-        File.write File.join(CLI.setup_folder, "user_id"), res[:user_id]
-        Tsks::Actions.update_tsks_with_uuid res[:user_id]
-        puts "Succesfully logged in."
-      elsif res && res[:status_code] == 403
-        puts "Invalid e-mail or password."
+        if res && res[:status_code] == 200
+          File.write File.join(CLI.setup_folder, "token"), res[:token]
+          File.write File.join(CLI.setup_folder, "user_id"), res[:user_id]
+          Tsks::Actions.update_tsks_with_uuid res[:user_id]
+          puts "Succesfully logged in."
+        elsif res && res[:status_code] == 403
+          puts "Invalid e-mail or password."
+        end
+      rescue Errno::ECONNREFUSED
+        puts "Failed to connect to the API."
       end
     end
 
@@ -131,26 +139,30 @@ module Tsks
       local_tsks = Tsks::Storage.select_all local_id=false
 
       token = File.read File.join CLI.setup_folder, "token"
-      get_res = Tsks::Request.get "/tsks", token
       remote_tsks = []
-      for tsk in get_res[:tsks]
-        tsk[:created_at] = Time.parse(tsk[:created_at]).strftime "%F %T"
-        tsk[:updated_at] = Time.parse(tsk[:updated_at]).strftime "%F %T"
-        remote_tsks.append tsk
-      end
-
-      if get_res && get_res[:status_code] == 200
-        local_tsks_to_post = local_tsks - remote_tsks
-        if local_tsks_to_post.count > 0
-          Tsks::Request.post "/tsks", token, {tsks: local_tsks_to_post}
+      begin
+        get_res = Tsks::Request.get "/tsks", token
+        for tsk in get_res[:tsks]
+          tsk[:created_at] = Time.parse(tsk[:created_at]).strftime "%F %T"
+          tsk[:updated_at] = Time.parse(tsk[:updated_at]).strftime "%F %T"
+          remote_tsks.append tsk
         end
 
-        remote_tsks_to_storage = remote_tsks - local_tsks
-        if remote_tsks_to_storage.count > 0
-          Tsks::Storage.insert_many remote_tsks_to_storage
-        end
+        if get_res && get_res[:status_code] == 200
+          local_tsks_to_post = local_tsks - remote_tsks
+          if local_tsks_to_post.count > 0
+            Tsks::Request.post "/tsks", token, {tsks: local_tsks_to_post}
+          end
 
-        puts "Your tsks were succesfully synchronized."
+          remote_tsks_to_storage = remote_tsks - local_tsks
+          if remote_tsks_to_storage.count > 0
+            Tsks::Storage.insert_many remote_tsks_to_storage
+          end
+
+          puts "Your tsks were succesfully synchronized."
+        end
+      rescue Errno::ECONNREFUSED
+        puts "Failed to connect to the API."
       end
     end
   end

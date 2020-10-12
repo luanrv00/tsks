@@ -215,6 +215,13 @@ RSpec.describe Tsks::CLI do
           described_class.start ["register", "--email=@", "--password=s"]
         }.to output("This e-mail is already registered.\n").to_stdout
       end
+
+      it "Shows a feedback message when failing to connect to the API" do
+        allow(Tsks::Request).to receive(:post).and_raise(Errno::ECONNREFUSED)
+        expect {
+          described_class.start ["register", "--email=@", "--password=s"]
+        }.to output("Failed to connect to the API.\n").to_stdout
+      end
     end
 
     describe "login" do
@@ -276,6 +283,13 @@ RSpec.describe Tsks::CLI do
         expect {
           described_class.start ["login", "--email=@", "--password=s"]
         }.to output("Invalid e-mail or password.\n").to_stdout
+      end
+
+      it "Shows a feedback message when failing to connect to the API" do
+        allow(Tsks::Request).to receive(:post).and_raise(Errno::ECONNREFUSED)
+        expect {
+          described_class.start ["login", "--email=@", "--password=s"]
+        }.to output("Failed to connect to the API.\n").to_stdout
       end
     end
 
@@ -378,6 +392,14 @@ RSpec.describe Tsks::CLI do
         expect {
           described_class.start ["sync"]
         }.to output("Your tsks were succesfully synchronized.\n").to_stdout
+      end
+
+      it "Shows a feedback message when failing to connect to the API" do
+        subject
+        allow(Tsks::Request).to receive(:get).and_raise(Errno::ECONNREFUSED)
+        expect {
+          described_class.start ["sync"]
+        }.to output("Failed to connect to the API.\n").to_stdout
       end
     end
   end
