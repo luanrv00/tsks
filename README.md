@@ -8,7 +8,7 @@ A stateful command line interface to help you handle your daily tsks
 ## Features
 
 * Add tsks, check what is already done and list active or archived tsks
-* Synchronize your tsks and access them from all your terminals! 
+* Synchronise your tsks and access them from all your terminals! 
   (soon accessible from a webapp as well)
 * Increase your daily tsks management with contexts using 
   `tsks add tsk --context=today` (see `tsks help add` for more info)
@@ -64,11 +64,11 @@ tsks list --done
 **Tip:** It's possible to combine the flags `--done` and `--context` when 
 listing.
 
-### Synchronizing your tsks
+### Synchronising your tsks
 
 As easy as running `tsks sync`. This command will fetch your tsks from the API, 
-then filter what is not synced yet from local, and then update both remote and 
-local tsks with most recent data.
+then filter what is not synchronised yet from local, then update both 
+remote and local tsks with most recent data.
 
 #### To be able to sync you will need to login or register an account
 
