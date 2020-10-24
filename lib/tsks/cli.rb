@@ -94,7 +94,7 @@ module Tsks
         elsif res && res[:status_code] == 409
           puts "This e-mail is already registered."
         end
-      rescue Errno::ECONNREFUSED
+      rescue Errno::ECONNREFUSED, SocketError
         puts "Failed to connect to the API."
       rescue JSON::ParserError
         puts "Error on reading data from the API."
@@ -121,7 +121,7 @@ module Tsks
         elsif res && res[:status_code] == 403
           puts "Invalid e-mail or password."
         end
-      rescue Errno::ECONNREFUSED
+      rescue Errno::ECONNREFUSED, SocketError
         puts "Failed to connect to the API."
       rescue JSON::ParserError
         puts "Error on reading data from the API."
@@ -167,7 +167,7 @@ module Tsks
             puts "Your tsks were succesfully synchronized."
           end
         end
-      rescue Errno::ECONNREFUSED
+      rescue Errno::ECONNREFUSED, SocketError
         puts "Failed to connect to the API."
       rescue JSON::ParserError
         puts "Error on reading data from the API."

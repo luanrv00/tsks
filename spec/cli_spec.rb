@@ -229,6 +229,13 @@ RSpec.describe Tsks::CLI do
           described_class.start ["register", "--email=@", "--password=s"]
         }.to output("Error on reading data from the API.\n").to_stdout
       end
+
+      it "Shows a feedback message when the API is off or sleeping" do
+        allow(Tsks::Request).to receive(:post).and_raise(SocketError)
+        expect {
+          described_class.start ["register", "--email=@", "--password=s"]
+        }.to output("Failed to connect to the API.\n").to_stdout
+      end
     end
 
     describe "login" do
@@ -304,6 +311,13 @@ RSpec.describe Tsks::CLI do
         expect {
           described_class.start ["login", "--email=@", "--password=s"]
         }.to output("Error on reading data from the API.\n").to_stdout
+      end
+
+      it "Shows a feedback message when the API is off or sleeping" do
+        allow(Tsks::Request).to receive(:post).and_raise(SocketError)
+        expect {
+          described_class.start ["login", "--email=@", "--password=s"]
+        }.to output("Failed to connect to the API.\n").to_stdout
       end
     end
 
@@ -418,10 +432,18 @@ RSpec.describe Tsks::CLI do
 
       it "Shows a feedback message when not processing the API's response" do
         subject
-        allow(Tsks::Request).to receive(:post).and_raise(JSON::ParserError)
+        allow(Tsks::Request).to receive(:get).and_raise(JSON::ParserError)
         expect {
           described_class.start ["sync"]
         }.to output("Error on reading data from the API.\n").to_stdout
+      end
+
+      it "Shows a feedback message when the API is off or sleeping" do
+        subject
+        allow(Tsks::Request).to receive(:get).and_raise(SocketError)
+        expect {
+          described_class.start ["sync"]
+        }.to output("Failed to connect to the API.\n").to_stdout
       end
     end
   end
