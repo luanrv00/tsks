@@ -3,7 +3,7 @@ RSpec.describe Tsks::Storage do
     it "Creates the database table" do
       mock = instance_double(SQLite3::Database)
       allow(SQLite3::Database).to receive(:new).and_return mock
-      expect(mock).to receive :execute
+      expect(mock).to receive(:execute).twice
       described_class.init
     end
   end
@@ -116,6 +116,64 @@ RSpec.describe Tsks::Storage do
       allow(mock).to receive(:execute).and_return(raw_tsks)
       result = described_class.select_all
       expect(result[0].instance_of? Hash).to be true
+    end
+  end
+
+  describe ".delete" do
+    let(:removed_tsks) { [['uuid', 1, 1, 't', 'Inbox', 1, '0', '0']] }
+
+    it "Deletes a tsk from the storage" do
+      mock = instance_double(SQLite3::Database)
+      allow(SQLite3::Database).to receive(:new).and_return(mock)
+      allow(mock).to receive(:execute).and_return(removed_tsks)
+      expect(mock).to receive(:execute)
+        .with("DELETE FROM tsks WHERE rowid=?", 1)
+      described_class.delete 1
+    end
+
+    it "Saves the removed tsks uuids into the removed_tsks table" do
+      mock = instance_double(SQLite3::Database)
+      allow(SQLite3::Database).to receive(:new).and_return(mock)
+      allow(mock).to receive(:execute).and_return(removed_tsks)
+      allow(mock).to receive(:execute).with("DELETE FROM tsks WHERE rowid=?", 1)
+      expect(mock).to receive(:execute)
+        .with("INSERT INTO removed_tsks (tsk_uuid) VALUES (?)", removed_tsks[0][0])
+      described_class.delete 1
+    end
+
+    it "Returns false for non existing tsk" do
+      mock = instance_double(SQLite3::Database)
+      allow(SQLite3::Database).to receive(:new).and_return(mock)
+      allow(mock).to receive(:execute).and_return([])
+      op_status = described_class.delete 0
+      expect(op_status).to be false
+    end
+  end
+
+  describe ".select_removed_uuids" do
+    it "Selects all ids from removed_tsks" do
+      mock = instance_double(SQLite3::Database)
+      allow(SQLite3::Database).to receive(:new).and_return(mock)
+      expect(mock).to receive(:execute).with("SELECT * FROM removed_tsks")
+        .and_return([])
+      described_class.select_removed_uuids
+    end
+
+    it "Returns an array" do
+      mock = instance_double(SQLite3::Database)
+      allow(SQLite3::Database).to receive(:new).and_return(mock)
+      allow(mock).to receive(:execute).and_return([])
+      result = described_class.select_removed_uuids
+      expect(result.instance_of? Array).to be true
+    end
+  end
+
+  describe ".delete_removed_uuids" do
+    it "Drops all ids from removed_tsks" do
+      mock = instance_double(SQLite3::Database)
+      allow(SQLite3::Database).to receive(:new).and_return(mock)
+      expect(mock).to receive(:execute).with("DELETE FROM removed_tsks")
+      described_class.delete_removed_uuids
     end
   end
 end

@@ -139,10 +139,12 @@ module Tsks
       end
 
       user_id = File.read File.join CLI.setup_folder, "user_id"
+      token = File.read File.join CLI.setup_folder, "token"
       Tsks::Actions.update_tsks_with_uuid user_id
+      Tsks::Actions.update_server_for_removed_tsks token
+      Tsks::Storage.delete_removed_uuids
       local_tsks = Tsks::Storage.select_all local_id=false
 
-      token = File.read File.join CLI.setup_folder, "token"
       remote_tsks = []
       begin
         get_res = Tsks::Request.get "/tsks", token
@@ -171,6 +173,18 @@ module Tsks
         puts "Failed to connect to the API."
       rescue JSON::ParserError
         puts "Error on reading data from the API."
+      end
+    end
+
+    desc "remove ID", "..."
+    def remove id
+      if !File.directory? CLI.setup_folder
+        return puts "tsks was not initialized yet."
+      end
+
+      op_status = Tsks::Storage.delete id
+      if !op_status
+        puts "The specified tsk do not exist."
       end
     end
   end

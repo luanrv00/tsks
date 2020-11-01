@@ -324,6 +324,8 @@ RSpec.describe Tsks::CLI do
     describe "sync" do
       before :each do
         described_class.start ["init"]
+        allow(Tsks::Actions).to receive(:update_server_for_removed_tsks)
+        allow(Tsks::Storage).to receive(:delete_removed_uuids)
       end
 
       after :each do
@@ -445,6 +447,43 @@ RSpec.describe Tsks::CLI do
           described_class.start ["sync"]
         }.to output("Failed to connect to the API.\n").to_stdout
       end
+
+      it "Calls Actions.update_server_for_removed_tsks to update remote data" do
+        subject
+        expect(Tsks::Actions).to receive(:update_server_for_removed_tsks)
+        described_class.start ["sync"]
+      end
+
+      it "Clear the removed_tsks storage after sync" do
+        subject
+        allow(Tsks::Actions).to receive(:update_server_for_removed_tsks)
+        expect(Tsks::Storage).to receive(:delete_removed_uuids)
+        described_class.start ["sync"]
+      end
+    end
+
+    describe "remove" do
+      before :each do
+        described_class.start ["init"]
+      end
+
+      after :each do
+        if File.directory? @setup_folder
+          FileUtils.rmtree @setup_folder
+        end
+      end
+
+      it "Calls the Storage.delete method with the tsk id to be removed" do
+        expect(Tsks::Storage).to receive(:delete).with(1)
+        described_class.start ["remove", 1]
+      end
+
+      it "Displays a message for non existing tsks" do
+        allow(Tsks::Storage).to receive(:delete).and_return(false)
+        expect {
+          described_class.start ["remove", 0]
+        }.to output("The specified tsk do not exist.\n").to_stdout
+      end
     end
   end
 
@@ -482,6 +521,12 @@ RSpec.describe Tsks::CLI do
     it "Requires initialization before sync" do
       expect {
         described_class.start ["sync"]
+      }.to output("tsks was not initialized yet.\n").to_stdout
+    end
+
+    it "Requires initialization before remove" do
+      expect {
+        described_class.start ["remove", 1]
       }.to output("tsks was not initialized yet.\n").to_stdout
     end
   end

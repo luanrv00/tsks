@@ -27,6 +27,12 @@ module Tsks
       parsed_res = parse_response res.body
     end
 
+    def self.delete endpoint, token
+      uri = URI "#{Request.base_uri}#{endpoint}"
+      res = HTTParty.delete uri, headers: {authorization: "Bearer #{token}"}
+      parsed_res = parse_response res.body
+    end
+
     private
 
     def self.parse_response body

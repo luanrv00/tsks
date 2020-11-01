@@ -16,6 +16,12 @@ module Tsks
           updated_at VARCHAR NOT NULL
         )
       SQL
+
+      storage.execute <<-SQL
+        CREATE TABLE removed_tsks (
+          tsk_uuid VARCHAR UNIQUE NOT NULL
+        )
+      SQL
     end
 
     def self.insert tsk, ctx=nil
@@ -101,6 +107,34 @@ module Tsks
         storage.execute("SELECT rowid, * FROM tsks") :
         storage.execute("SELECT * FROM tsks")
       tsks = structure_tsks(raw_tsks, local_id=local_id)
+    end
+
+    def self.delete local_id
+      storage = get_storage_instance
+      removed_tsks = storage
+                      .execute("SELECT * FROM tsks WHERE rowid=?", local_id)
+      if removed_tsks.empty?
+        return false
+      end
+      storage
+        .execute("INSERT INTO removed_tsks (tsk_uuid) VALUES (?)", removed_tsks[0][0])
+      storage.execute("DELETE FROM tsks WHERE rowid=?", local_id)
+    end
+
+    def self.select_removed_uuids
+      storage = get_storage_instance
+      result = storage.execute("SELECT * FROM removed_tsks")
+
+      tsk_uuids = []
+      for item in result
+        tsk_uuids.append item[0]
+      end
+      return tsk_uuids
+    end
+
+    def self.delete_removed_uuids
+      storage = get_storage_instance
+      storage.execute("DELETE FROM removed_tsks")
     end
 
     private

@@ -32,4 +32,13 @@ RSpec.describe Tsks::Actions do
       described_class.update_tsks_with_uuid "uuid"
     end
   end
+
+  context ".update_server_for_removed_tsks" do
+    it "Makes a DELETE request for each id from removed_tsks storage" do
+      allow(Tsks::Storage).to receive(:select_removed_uuids)
+        .and_return(["uuid1", "uuid2"])
+      expect(Tsks::Request).to receive(:delete).twice
+      described_class.update_server_for_removed_tsks "token"
+    end
+  end
 end
