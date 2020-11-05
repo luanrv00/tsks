@@ -43,5 +43,25 @@ module V1
         render json: {status_code: 403}, status: :forbidden
       end
     end
+
+    def destroy
+      if !request.headers.include? :authorization
+        return render json: {status_code: 401}, status: :unauthorized
+      end
+
+      token = request.headers[:authorization].split(" ").last
+      decoded = JWT.decode token, nil, false
+      user = User.find_by_email decoded[0]["email"] if decoded[0]["email"]
+
+      if !user
+        return render json: {status_code: 403}, status: :forbidden
+      end
+
+      tsk = user.tsks.find params[:id]
+
+      if tsk && tsk.destroy
+        render json: {status_code: 200}, status: :ok
+      end
+    end
   end
 end

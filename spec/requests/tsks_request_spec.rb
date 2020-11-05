@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.describe "Tsks", type: :request do
   let(:base_uri) { "/v1" }
   let(:invalid_token) { "eyJhbGciOiJub25lIn0.eyJlbWFpbCI6ImludmFsaWQifQ." }
-
-
   let(:token) {
     "eyJhbGciOiJub25lIn0.eyJlbWFpbCI6InJlZ2lzdGVyZWRAYXBpLmNvbSJ9."
   }
@@ -62,6 +60,28 @@ RSpec.describe "Tsks", type: :request do
 
     it "Returns the status 401 on body" do
       post "#{base_uri}/tsks"
+      parsed_body = JSON.parse response.body
+      expect(parsed_body["status_code"]).to eq 401
+    end
+  end
+
+  describe "DELETE /tsks/:id" do
+    it "Returns the status 200" do
+      u = User.find_by_email("registered@api.com")
+      tsk = u.tsks.create!({tsk: "tsk"})
+      delete "#{base_uri}/tsks/#{tsk[:id]}", headers: {authorization: "Bearer #{token}"}
+      parsed_body = JSON.parse response.body
+      expect(parsed_body["status_code"]).to eq 200
+    end
+
+    it "Returns the status 403" do
+      delete "#{base_uri}/tsks/fake-id", headers: {authorization: "Bearer #{invalid_token}"}
+      parsed_body = JSON.parse response.body
+      expect(parsed_body["status_code"]).to eq 403
+    end
+
+    it "Returns the status 401" do
+      delete "#{base_uri}/tsks/fake-id"
       parsed_body = JSON.parse response.body
       expect(parsed_body["status_code"]).to eq 401
     end
