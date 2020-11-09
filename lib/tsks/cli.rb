@@ -12,6 +12,11 @@ module Tsks
       @setup_folder
     end
 
+    desc "version", ""
+    def version
+      puts "tsks #{Tsks::VERSION}"
+    end
+
     desc "init", "Setup tsks folder and storage"
     def init
       if File.directory? CLI.setup_folder

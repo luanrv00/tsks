@@ -4,6 +4,14 @@ RSpec.describe Tsks::CLI do
       @setup_folder = described_class.setup_folder
     end
 
+    describe "version" do
+      it "Shows the current installed version" do
+        expect {
+          described_class.start ["version"]
+        }.to output("tsks #{Tsks::VERSION}\n").to_stdout
+      end
+    end
+
     describe "init" do
       after :each do
         if File.directory? @setup_folder
