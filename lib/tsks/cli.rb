@@ -6,10 +6,14 @@ require "tsks/actions"
 
 module Tsks
   class CLI < Thor
-    @setup_folder = File.expand_path ENV["SETUP_FOLDER"] || "~/.tsks"
+    @setup_folder = File.expand_path "~/.tsks"
 
     def self.setup_folder
       @setup_folder
+    end
+
+    def self.setup_folder= folder_path
+      @setup_folder = folder_path
     end
 
     desc "version", ""

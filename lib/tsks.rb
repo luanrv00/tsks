@@ -1,4 +1,3 @@
-require "dotenv/load"
 require "tsks/version"
 require "tsks/cli"
 

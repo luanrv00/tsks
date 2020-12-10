@@ -1,7 +1,8 @@
 RSpec.describe Tsks::CLI do
   context "Commands" do
     before :all do
-      @setup_folder = described_class.setup_folder
+      @setup_folder = File.expand_path "~/.tsks_test"
+      described_class.setup_folder = @setup_folder
     end
 
     describe "version" do
