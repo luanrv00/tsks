@@ -5,10 +5,12 @@ module V1
     def create
       user = User.find_by_email params[:email]
 
-      if user && user.authenticate(params[:password])
+      if user && user.authenticate params[:password]
         payload = {email: params[:email]}
         token = JWT.encode payload, nil, "none"
-        render json: {status_code: 200, token: token, user_id: user.id},
+        render json: {status_code: 200,
+                      token: token,
+                      user_id: user.id},
                       status: :ok
       else
         render json: {status_code: 403}, status: :forbidden
