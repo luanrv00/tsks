@@ -20,7 +20,7 @@ module V1
     private
 
     def register_params
-      params.permit(:email, :password, :password_confirmation)
+      params.permit(:email, :password)
     end
   end
 end

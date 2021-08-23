@@ -9,9 +9,7 @@ RSpec.describe "Registers", type: :request do
     end
 
     context "New user" do
-      let(:register_data) {
-        {email: "tsks@api.com", password: "s", password_confirmation: "s"}
-      }
+      let(:register_data) { {email: "tsks@api.com", password: "s"} }
 
       it "Returns the status code 201" do
         post "#{base_uri}/register", params: register_data
@@ -37,9 +35,7 @@ RSpec.describe "Registers", type: :request do
     end
 
     context "Already registered" do
-      let (:registered_data) {
-        {email: "registered@api.com", password: "s", password_confirmation: "s"}
-      }
+      let (:registered_data) { {email: "registered@api.com", password: "s"} }
 
       it "Returns the status code 409" do
         post "#{base_uri}/register", params: registered_data
