@@ -1,16 +1,19 @@
 # tsks-api
 
-## Endpoints
+## Resources and endpoints
 
-### For `tsks` resource
+### `tsks`
 
 **Headers:**
 
-_Required for all tsks endpoints._
+```json
+{
+  "authorization": "Bearer <token>",
+  "content-type": "application/json"
+}
 
 ```
-authorization: 'Bearer <token>'
-```
+
 _Required for all tsks endpoints._
 
 #### `GET /tsks`
@@ -137,7 +140,17 @@ id = tsk_id
 }
 ```
 
-### For `user` resource (Signup/Signin)
+### `user` (Signup/Signin)
+
+**Headers:**
+
+```json
+{
+  "content-type": "application/json"
+}
+```
+
+_Required for all endpoints._
 
 #### `POST /register`
 
@@ -206,6 +219,16 @@ id = tsk_id
 
 ## Development
 
-* Create a user `tsks` with `superuser` privilegies for **PostgreSQL** so we 
-would be able to create the necessary extension `pgcrypto`
+**Starting the server:**
 
+```
+docker-compose up
+```
+
+**Running e2e tests:**
+
+```
+docker-compose run web spec
+```
+
+**Obs.:** After each of the commands above, run `docker-compose down` to put all containers down.
