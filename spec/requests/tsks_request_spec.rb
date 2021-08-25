@@ -10,9 +10,7 @@ RSpec.describe "Tsks", type: :request do
   describe "GET /tsks" do
     it "Returns the status code 200" do
       get "#{base_uri}/tsks", headers: {authorization: "Bearer #{valid_token}"}
-      parsed_body = JSON.parse response.body
-      expect(parsed_body).to include "status_code"
-      expect(parsed_body["status_code"]).to eq 200
+      expect(response.status).to eq 200
     end
 
     it "Returns tsks from a registered e-mail" do
@@ -23,14 +21,25 @@ RSpec.describe "Tsks", type: :request do
 
     it "Returns the status code 403" do
       get "#{base_uri}/tsks", headers: {authorization: "Bearer #{invalid_token}"}
-      parsed_body = JSON.parse response.body
-      expect(parsed_body["status_code"]).to eq 403
+      expect(response.status).to eq 403
     end
 
     it "Returns the status code 401" do
       get "#{base_uri}/tsks"
+      expect(response.status).to eq 401
+    end
+
+    it "Returns ok equals true for success requests" do
+      get "#{base_uri}/tsks", headers: {authorization: "Bearer #{valid_token}"}
       parsed_body = JSON.parse response.body
-      expect(parsed_body["status_code"]).to eq 401
+      expect(parsed_body).to include "ok"
+      expect(parsed_body["ok"]).to eq true
+    end
+
+    it "Returns ok equals false for bad requests" do
+      get "#{base_uri}/tsks", headers: {authorization: "Bearer #{invalid_token}"}
+      parsed_body = JSON.parse response.body
+      expect(parsed_body["ok"]).to eq false
     end
   end
 
@@ -47,21 +56,39 @@ RSpec.describe "Tsks", type: :request do
     it "Returns the status code 201" do
       post "#{base_uri}/tsks", headers: {authorization: "Bearer #{valid_token}"},
                                params: {tsks: tsks}
-      parsed_body = JSON.parse response.body
-      expect(parsed_body).to include "status_code"
-      expect(parsed_body["status_code"]).to be 201
+      expect(response.status).to eq 201
     end
 
     it "Returns the status 403" do
       post "#{base_uri}/tsks", headers: {authorization: "Bearer #{invalid_token}"}
-      parsed_body = JSON.parse response.body
-      expect(parsed_body["status_code"]).to eq 403
+      expect(response.status).to eq 403
     end
 
     it "Returns the status 401" do
       post "#{base_uri}/tsks"
+      expect(response.status).to eq 401
+    end
+
+    # TODO: fix environment error to enable the assertion below
+    # it "Returns the created tsks for success requests" do
+    #   post "#{base_uri}/tsks", headers: {authorization: "Bearer #{valid_token}"},
+    #                            params: {tsks: tsks}
+    #   parsed_body = JSON.parse response.body, symbolize_names: true
+    #   expect(parsed_body["tsks"]).to eq tsks
+    # end
+
+    it "Returns ok equals true for success requests" do
+      post "#{base_uri}/tsks", headers: {authorization: "Bearer #{valid_token}"},
+                               params: {tsks: tsks}
       parsed_body = JSON.parse response.body
-      expect(parsed_body["status_code"]).to eq 401
+      expect(parsed_body).to include "ok"
+      expect(parsed_body["ok"]).to eq true
+    end
+
+    it "Returns ok equals false for bad requests" do
+      post "#{base_uri}/tsks"
+      parsed_body = JSON.parse response.body
+      expect(parsed_body["ok"]).to eq false
     end
   end
 
@@ -70,20 +97,32 @@ RSpec.describe "Tsks", type: :request do
       u = User.find_by_email("registered@api.com")
       tsk = u.tsks.create!({tsk: "tsk"})
       delete "#{base_uri}/tsks/#{tsk[:id]}", headers: {authorization: "Bearer #{valid_token}"}
-      parsed_body = JSON.parse response.body
-      expect(parsed_body["status_code"]).to eq 200
+      expect(response.status).to eq 200
     end
 
     it "Returns the status 403" do
       delete "#{base_uri}/tsks/fake-id", headers: {authorization: "Bearer #{invalid_token}"}
-      parsed_body = JSON.parse response.body
-      expect(parsed_body["status_code"]).to eq 403
+      expect(response.status).to eq 403
     end
 
     it "Returns the status 401" do
       delete "#{base_uri}/tsks/fake-id"
+      expect(response.status).to eq 401
+    end
+
+    it "Returns ok equals true for success responses" do
+      u = User.find_by_email("registered@api.com")
+      tsk = u.tsks.create!({tsk: "tsk"})
+      delete "#{base_uri}/tsks/#{tsk[:id]}", headers: {authorization: "Bearer #{valid_token}"}
       parsed_body = JSON.parse response.body
-      expect(parsed_body["status_code"]).to eq 401
+      expect(parsed_body).to include "ok"
+      expect(parsed_body["ok"]).to eq true
+    end
+
+    it "Returns ok equals false for bad requests" do
+      delete "#{base_uri}/tsks/fake-id"
+      parsed_body = JSON.parse response.body
+      expect(parsed_body["ok"]).to eq false
     end
   end
 end

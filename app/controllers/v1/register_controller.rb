@@ -8,12 +8,12 @@ module V1
       if user.save
         payload = {email: params[:email]}
         token = JWT.encode payload, nil, "none"
-        render json: {status_code: 201,
+        render json: {ok: true,
                       token: token,
                       user_id: user.id},
-                      status: :ok
+                      status: :created
       elsif user.errors.details[:email]
-        render json: {status_code: 409}, status: :conflict
+        render json: {ok: false}, status: :conflict
       end
     end
 

@@ -4,7 +4,7 @@ module V1
   class TsksController < ApplicationController
     def index
       if !request.headers.include? :authorization
-        return render json: {status_code: 401}, status: :unauthorized
+        return render json: {ok: false}, status: :unauthorized
       end
 
       token = request.headers[:authorization].split(" ").last
@@ -13,15 +13,15 @@ module V1
 
       if user
         tsks = user.tsks.all
-        render json: {status_code: 200, tsks: tsks}, status: :ok
+        render json: {ok: true, tsks: tsks}, status: :ok
       else
-        render json: {status_code: 403}, status: :forbidden
+        render json: {ok: false}, status: :forbidden
       end
     end
 
     def create
       if !request.headers.include? :authorization
-        return render json: {status_code: 401}, status: :unauthorized
+        return render json: {ok: false}, status: :unauthorized
       end
 
       token = request.headers[:authorization].split(" ").last
@@ -38,15 +38,15 @@ module V1
                             updated_at: tsk[:updated_at]})
         end
 
-        render json: {status_code: 201}, status: :created
+        render json: {ok: true, tsks: params[:tsks]}, status: :created
       else
-        render json: {status_code: 403}, status: :forbidden
+        render json: {ok: false}, status: :forbidden
       end
     end
 
     def destroy
       if !request.headers.include? :authorization
-        return render json: {status_code: 401}, status: :unauthorized
+        return render json: {ok: false}, status: :unauthorized
       end
 
       token = request.headers[:authorization].split(" ").last
@@ -54,13 +54,13 @@ module V1
       user = User.find_by_email decoded[0]["email"] if decoded[0]["email"]
 
       if !user
-        return render json: {status_code: 403}, status: :forbidden
+        return render json: {ok: false}, status: :forbidden
       end
 
       tsk = user.tsks.find params[:id]
 
       if tsk && tsk.destroy
-        render json: {status_code: 200}, status: :ok
+        render json: {ok: true}, status: :ok
       end
     end
   end

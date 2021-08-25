@@ -216,7 +216,6 @@ _Required for all endpoints._
 }
 ```
 
-
 ## Development
 
 **Starting the server:**

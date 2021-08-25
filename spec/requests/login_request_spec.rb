@@ -9,9 +9,7 @@ RSpec.describe "Logins", type: :request do
 
       it "Returns the status code 200" do
         post "#{base_uri}/login", params: valid_credentials
-        parsed_body = JSON.parse response.body
-        expect(parsed_body).to include "status_code"
-        expect(parsed_body["status_code"]).to eq 200
+        expect(response.status).to eq 200
       end
 
       it "Returns an authentication token" do
@@ -26,6 +24,13 @@ RSpec.describe "Logins", type: :request do
         parsed_body = JSON.parse response.body
         expect(parsed_body).to include "user_id"
       end
+
+      it "Returns ok equals true for success requests" do
+        post "#{base_uri}/login", params: {email: "registered@api.com", password: "s"}
+        parsed_body = JSON.parse response.body
+        expect(parsed_body).to include "ok"
+        expect(parsed_body["ok"]).to eq true
+      end
     end
 
     context "Invalid credentials" do
@@ -33,8 +38,14 @@ RSpec.describe "Logins", type: :request do
 
       it "Returns the status code 403" do
         post "#{base_uri}/login", params: invalid_credentials
+        expect(response.status).to eq 403
+      end
+
+      it "Returns ok equals false for bad requests" do
+        post "#{base_uri}/login", params: invalid_credentials
         parsed_body = JSON.parse response.body
-        expect(parsed_body["status_code"]).to eq 403
+        expect(parsed_body).to include "ok"
+        expect(parsed_body["ok"]).to eq false
       end
     end
   end
