@@ -176,8 +176,8 @@ RSpec.describe Tsks::CLI do
       end
 
       let(:req_body) { {email: "tsks@api.com", password: "secret"} }
-      let(:res_body) { {status_code: 201, token: "token", user_id: "uuid"} }
-      let(:bad_res_body) { {status_code: 409} }
+      let(:res_body) { {ok: true, token: "token", user_id: "uuid"} }
+      let(:bad_res_body) { {ok: false} }
 
       it "Posts credentials to the register api endpoint" do
         expect(Tsks::Request).to receive(:post)
@@ -259,8 +259,8 @@ RSpec.describe Tsks::CLI do
       end
 
       let(:req_body) { {email: "tsks@api.com", password: "secret"} }
-      let(:res_body) { {status_code: 200, token: "token", user_id: "uuid"} }
-      let(:bad_res_body) { {status_code: 403} }
+      let(:res_body) { {ok: true, token: "token", user_id: "uuid"} }
+      let(:bad_res_body) { {ok: false} }
 
       it "Posts credentials to the login api endpoint" do
         expect(Tsks::Request).to receive(:post)
@@ -373,7 +373,7 @@ RSpec.describe Tsks::CLI do
       }
 
       let(:not_synced_local_tsks) { [local_tsks.first] }
-      let(:get_res) { {status_code: 200, tsks: remote_tsks} }
+      let(:get_res) { {ok: true, tsks: remote_tsks} }
       let(:post_body) { {tsks: not_synced_local_tsks} }
       let(:not_synced_remote_tsks) { [remote_tsks.last] }
 

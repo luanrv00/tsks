@@ -95,12 +95,12 @@ module Tsks
         res = Tsks::Request.post "/register", {email: options[:email],
                                                password: options[:password]}
 
-        if res && res[:status_code] == 201
+        if res && res[:ok] == true
           File.write File.join(CLI.setup_folder, "token"), res[:token]
           File.write File.join(CLI.setup_folder, "user_id"), res[:user_id]
           Tsks::Actions.update_tsks_with_uuid res[:user_id]
           puts "Succesfully registered."
-        elsif res && res[:status_code] == 409
+        elsif res && res[:ok] == false
           puts "This e-mail is already registered."
         end
       rescue Errno::ECONNREFUSED, SocketError
@@ -122,12 +122,12 @@ module Tsks
         res = Tsks::Request.post "/login", {email: options[:email],
                                             password: options[:password]}
 
-        if res && res[:status_code] == 200
+        if res && res[:ok] == true
           File.write File.join(CLI.setup_folder, "token"), res[:token]
           File.write File.join(CLI.setup_folder, "user_id"), res[:user_id]
           Tsks::Actions.update_tsks_with_uuid res[:user_id]
           puts "Succesfully logged in."
-        elsif res && res[:status_code] == 403
+        elsif res && res[:ok] == false
           puts "Invalid e-mail or password."
         end
       rescue Errno::ECONNREFUSED, SocketError
@@ -164,7 +164,7 @@ module Tsks
             remote_tsks.append tsk
           end
 
-          if get_res[:status_code] == 200
+          if get_res[:ok] == true
             local_tsks_to_post = local_tsks - remote_tsks
             if local_tsks_to_post.count > 0
               Tsks::Request.post "/tsks", token, {tsks: local_tsks_to_post}

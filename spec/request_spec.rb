@@ -33,7 +33,7 @@ RSpec.describe Tsks::Request do
   describe ".get" do
     let(:uri) { URI "#{@base_url}/endpoint" }
     let(:req_headers) { {authorization: "Bearer token"} }
-    let(:success_res) { {status_code: 200, tsks: []}}
+    let(:success_res) { {ok: true, tsks: []}}
     let(:httparty_res) {
       req_object = HTTParty::Request.new Net::HTTP::Get, '/'
       res_object = Net::HTTPOK.new('1.1', 200, 'OK')
