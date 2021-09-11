@@ -29,5 +29,6 @@ ENV BUNDLE_PATH /gems
 RUN yarn install
 RUN bundle install
 
+CMD ["rm", "/app/tmp/pids/server.pid"]
 CMD ["bin/rails", "s", "-b", "0.0.0.0"]
 EXPOSE 3000
