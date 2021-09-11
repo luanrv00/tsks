@@ -1,5 +1,5 @@
 Rails.application.configure do
-  config.hosts << "staging-tsks-api.herokuapp.com"
+  config.hosts << "tsks-api-staging.herokuapp.com"
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
