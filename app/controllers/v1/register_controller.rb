@@ -13,7 +13,7 @@ module V1
                       user_id: user.id},
                       status: :created
       elsif user.errors.details[:email]
-        render json: {ok: false}, status: :conflict
+        render json: {ok: false, message: "E-mail already registered"}, status: :conflict
       end
     end
 
