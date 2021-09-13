@@ -3,6 +3,10 @@ require "jwt"
 module V1
   class RegisterController < ApplicationController
     def create
+      if User.exists?(email: params['email'])
+        return render json: {ok: false, message: "E-mail already registered"}, status: :conflict
+      end
+
       user = User.new register_params
 
       if user.save
@@ -12,8 +16,8 @@ module V1
                       token: token,
                       user_id: user.id},
                       status: :created
-      elsif user.errors.details[:email]
-        render json: {ok: false, message: "E-mail already registered"}, status: :conflict
+      else
+        return render json: {ok: false, message: "Params email and password are required"}, status: :bad_request
       end
     end
 
