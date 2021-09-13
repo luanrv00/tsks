@@ -3,6 +3,10 @@ require "jwt"
 module V1
   class LoginController < ApplicationController
     def create
+      if !params["email"] || !params["password"]
+        return render json: {ok: false, message: "Params email and password are required"}
+      end
+
       user = User.find_by_email params[:email]
 
       if user && user.authenticate(params[:password])
@@ -13,7 +17,7 @@ module V1
                       user_id: user.id},
                       status: :ok
       else
-        render json: {ok: false}, status: :forbidden
+        render json: {ok: false, message: "Permission denied"}, status: :forbidden
       end
     end
   end

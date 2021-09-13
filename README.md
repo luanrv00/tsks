@@ -225,6 +225,15 @@ _Required for all endpoints._
 }
 ```
 
+##### `400`
+
+```json
+{
+  "ok": false,
+  "message": "Params email and password are required",
+}
+```
+
 ## Development
 
 **Starting the server:**

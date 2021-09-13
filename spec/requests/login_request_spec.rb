@@ -41,8 +41,22 @@ RSpec.describe "Logins", type: :request do
         expect(response.status).to eq 403
       end
 
-      it "Returns ok equals false for bad requests" do
+      it "Returns ok equals false for invalid requests" do
         post "#{base_uri}/login", params: invalid_credentials
+        parsed_body = JSON.parse response.body
+        expect(parsed_body).to include "ok"
+        expect(parsed_body["ok"]).to eq false
+      end
+    end
+
+    context "Bad request" do
+      it "Returns the status code 400" do
+        post "#{base_uri}/login", params: {}
+        expect(response.status).to eq 400
+      end
+
+      it "Returns ok equals false for bad requests" do
+        post "#{base_uri}/login", params: {}
         parsed_body = JSON.parse response.body
         expect(parsed_body).to include "ok"
         expect(parsed_body["ok"]).to eq false
