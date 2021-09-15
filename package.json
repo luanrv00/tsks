@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "format": "yarn prettier -w **/*.js",
     "test:e2e": "cypress run",
     "test:unit": "jest components"
   },
@@ -24,7 +25,9 @@
     "cypress": "^8.3.0",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.0",
+    "eslint-config-prettier": "^8.3.0",
     "jest": "^27.0.6",
+    "prettier": "^2.4.0",
     "react-test-renderer": "^17.0.2"
   }
 }
