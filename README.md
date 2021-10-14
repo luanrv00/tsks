@@ -96,5 +96,4 @@ path).
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at 
-https://github.com/luanrvmood/tsks-cli.
+Bug reports and pull requests are welcome on GitHub at https://github.com/luanrvmood/tsks.
