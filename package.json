@@ -9,7 +9,7 @@
     "lint": "next lint",
     "format": "yarn prettier -w **/*.js",
     "test:e2e": "cypress run",
-    "test:unit": "jest components"
+    "test:unit": "jest"
   },
   "dependencies": {
     "next": "11.1.1",
