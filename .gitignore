@@ -34,3 +34,4 @@ yarn-error.log*
 .vercel
 *.txt
 package-lock.json
+.env
