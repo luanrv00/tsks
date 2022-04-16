@@ -10,8 +10,8 @@ module Tsks
           id VARCHAR PRIMARY KEY UNIQUE NOT NULL,
           user_id INTEGER DEFAULT 1,
           tsk VARCHAR NOT NULL,
+          status VARCHAR DEFAULT todo,
           context VARCHAR DEFAULT Inbox,
-          done BOOLEAN DEFAULT false,
           created_at VARCHAR NOT NULL,
           updated_at VARCHAR NOT NULL
         )
@@ -31,15 +31,15 @@ module Tsks
 
       if ctx
         storage.execute("
-          INSERT INTO tsks (id, tsk, context, created_at, updated_at)
-          VALUES (?, ?, ?, ?, ?)",
-          [uuid, tsk, ctx, now, now]
+          INSERT INTO tsks (id, tsk, status, context, created_at, updated_at)
+          VALUES (?, ?, ?, ?, ?, ?)",
+          [uuid, tsk, 'todo', ctx, now, now]
          )
       else
         storage.execute("
-          INSERT INTO tsks (id, tsk, created_at, updated_at)
-          VALUES (?, ?, ?, ?)",
-          [uuid, tsk, now, now]
+          INSERT INTO tsks (id, tsk, status, created_at, updated_at)
+          VALUES (?, ?, ?, ?, ?)",
+          [uuid, tsk, 'todo', now, now]
          )
       end
     end
@@ -50,13 +50,13 @@ module Tsks
       for tsk in tsks
         storage.execute("
           INSERT INTO tsks
-          (id, user_id, tsk, context, done, created_at, updated_at) VALUES
+          (id, user_id, tsk, status, context, created_at, updated_at) VALUES
           (?, ?, ?, ?, ?, ?, ?)",
           [tsk[:id],
            tsk[:user_id],
            tsk[:tsk],
+           tsk[:status],
            tsk[:context],
-           tsk[:done],
            tsk[:created_at],
            tsk[:updated_at]]
         )
@@ -77,7 +77,7 @@ module Tsks
           "WHERE rowid=?",
           [params.values.first, local_id])
       else
-        storage.execute "UPDATE tsks SET done=true WHERE rowid=?", local_id
+        storage.execute "UPDATE tsks SET status='done' WHERE rowid=?", local_id
       end
     end
 
@@ -154,16 +154,16 @@ module Tsks
            t[:id] = tsk[1]
            t[:user_id] = tsk[2]
            t[:tsk] = tsk[3]
-           t[:context] = tsk[4]
-           t[:done] = tsk[5]
+           t[:status] = tsk[4]
+           t[:context] = tsk[5]
            t[:created_at] = tsk[6]
            t[:updated_at] = tsk[7]
         else
            t[:id] = tsk[0]
            t[:user_id] = tsk[1]
            t[:tsk] = tsk[2]
-           t[:context] = tsk[3]
-           t[:done] = tsk[4]
+           t[:status] = tsk[3]
+           t[:context] = tsk[4]
            t[:created_at] = tsk[5]
            t[:updated_at] = tsk[6]
         end

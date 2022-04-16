@@ -65,13 +65,13 @@ module Tsks
       tsks = nil
 
       if options[:done] && options[:context]
-        tsks = Tsks::Storage.select_by({done: 1, context: options[:context]})
+        tsks = Tsks::Storage.select_by({status: 'done', context: options[:context]})
       elsif options[:done]
-        tsks = Tsks::Storage.select_by({done: 1})
+        tsks = Tsks::Storage.select_by({status: 'done'})
       elsif options[:context]
         tsks = Tsks::Storage.select_by({context: options[:context]})
       else
-        tsks = Tsks::Storage.select_by({done: 0})
+        tsks = Tsks::Storage.select_by({status: 'todo'})
       end
 
       if tsks.count > 0

@@ -75,8 +75,8 @@ RSpec.describe Tsks::CLI do
         described_class.start ["init"]
         storage = SQLite3::Database.new File.join @setup_folder, "tsks.db"
         storage.execute(
-          "INSERT INTO tsks (id, tsk, created_at, updated_at)
-          VALUES ('uuid', 'tsk', '0', '0')"
+          "INSERT INTO tsks (id, tsk, status, created_at, updated_at)
+          VALUES ('uuid', 'tsk', 'todo', '0', '0')"
         )
       end
 
@@ -101,15 +101,15 @@ RSpec.describe Tsks::CLI do
         [{id: "uuid1",
           local_id: 1,
           tsk: "tsk",
+          status: 'todo',
           context: "Inbox",
-          done: 0,
           created_at: "2020-09-26 20:14:13",
           updated_at: "2020-09-26 20:14:13"},
          {id: "uuid3",
           local_id: 3,
           tsk: "tsk",
+          status: 'todo',
           context: "Work",
-          done: 0,
           created_at: "2020-09-26 20:14:13",
           updated_at: "2020-09-26 20:14:13"}]
       }
@@ -118,8 +118,8 @@ RSpec.describe Tsks::CLI do
         [{id: "uuid2",
           local_id: 2,
           tsk: "tsk",
+          status: 'done',
           context: "Inbox",
-          done: 1,
           created_at: "2020-09-26 20:14:13",
           updated_at: "2020-09-26 20:14:13"}]
       }
@@ -128,8 +128,8 @@ RSpec.describe Tsks::CLI do
         [{id: "uuid3",
           local_id: 3,
           tsk: "tsk",
+          status: 'todo',
           context: "Work",
-          done: 0,
           created_at: "2020-09-26 20:14:13",
           updated_at: "2020-09-26 20:14:13"}]
       }
@@ -347,13 +347,13 @@ RSpec.describe Tsks::CLI do
         [{id: "uuid1",
          tsk: "t",
          context: "Inbox",
-         done: 0,
+         status: 'todo',
          created_at: "2020-09-26 20:14:13",
          updated_at: "2020-09-26 20:14:13"},
         {id: "uuid2",
          tsk: "t",
          context: "Inbox",
-         done: 0,
+         status: 'todo',
          created_at: "2020-09-26 20:14:13",
          updated_at: "2020-09-26 20:14:13"}]
       }
@@ -361,13 +361,13 @@ RSpec.describe Tsks::CLI do
         [{id: "uuid2",
          tsk: "t",
          context: "Inbox",
-         done: 0,
+         status: 'todo',
          created_at: "2020-09-26 20:14:13",
          updated_at: "2020-09-26 20:14:13"},
         {id: "uuid3",
          tsk: "t",
          context: "Inbox",
-         done: 0,
+         status: 'todo',
          created_at: "2020-09-26 20:14:13",
          updated_at: "2020-09-26 20:14:13"}]
       }

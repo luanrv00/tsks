@@ -6,7 +6,7 @@ RSpec.describe Tsks::Actions do
        local_id: 1,
        user_id: 1,
        tsk: "tsk",
-       done: 0,
+       status: 'todo',
        context: "Inbox",
        created_at: "",
        updated_at: ""},
@@ -14,7 +14,7 @@ RSpec.describe Tsks::Actions do
        local_id: 2,
        user_id: 2,
        tsk: "tsk",
-       done: 0,
+       status: 'todo',
        context: "Inbox",
        created_at: "",
        updated_at: ""}]

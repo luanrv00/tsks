@@ -30,7 +30,7 @@ RSpec.describe Tsks::Storage do
         user_id: 1,
         tsk: "t",
         context: "Inbox",
-        done: 0,
+        status: 'todo',
         created_at: "0",
         updated_at: "0"}]
     }
@@ -48,7 +48,7 @@ RSpec.describe Tsks::Storage do
       mock = instance_double(SQLite3::Database)
       allow(SQLite3::Database).to receive(:new).and_return mock
       expect(mock).to receive(:execute)
-        .with("UPDATE tsks SET done=true WHERE rowid=?", 1)
+        .with("UPDATE tsks SET status=done WHERE rowid=?", 1)
       described_class.update 1
     end
 
@@ -62,14 +62,15 @@ RSpec.describe Tsks::Storage do
   end
 
   describe ".select_by" do
+    # TODO: get correct tsk structure as it comes from storage
     let(:raw_tsks) { [['uuid', 1, 1, 't', 'Work', 1, '0', '0']] }
 
     it "Returns all done tsks" do
       mock = instance_double(SQLite3::Database)
       allow(SQLite3::Database).to receive(:new).and_return(mock)
       expect(mock).to receive(:execute)
-        .with("SELECT rowid, * FROM tsks WHERE done=?", 1).and_return(raw_tsks)
-      described_class.select_by({done: 1})
+        .with("SELECT rowid, * FROM tsks WHERE status=?", 'done').and_return(raw_tsks)
+      described_class.select_by({status: 'done'})
     end
 
     it "Returns all tsks from storage with the received context" do
@@ -100,6 +101,7 @@ RSpec.describe Tsks::Storage do
   end
 
   describe ".select_all" do
+    # TODO
     let(:raw_tsks) { [['uuid', 1, 1, 't', 'Work', 1, '0', '0']] }
 
     it "Returns all tsks" do
