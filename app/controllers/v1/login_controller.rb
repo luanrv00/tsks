@@ -4,7 +4,7 @@ module V1
   class LoginController < ApplicationController
     def create
       if !params["email"] || !params["password"]
-        return render json: {ok: false, message: "Params email and password are required"}
+        return render json: {ok: false, message: "Params email and password are required"}, status: :bad_request
       end
 
       user = User.find_by_email params[:email]
