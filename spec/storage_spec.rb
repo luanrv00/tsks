@@ -48,7 +48,7 @@ RSpec.describe Tsks::Storage do
       mock = instance_double(SQLite3::Database)
       allow(SQLite3::Database).to receive(:new).and_return mock
       expect(mock).to receive(:execute)
-        .with("UPDATE tsks SET status=done WHERE rowid=?", 1)
+        .with("UPDATE tsks SET status='done' WHERE rowid=?", 1)
       described_class.update 1
     end
 

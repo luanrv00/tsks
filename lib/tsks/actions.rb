@@ -19,5 +19,17 @@ module Tsks
         end
       end
     end
+
+    def self.get_tsk_status status
+      available_status = {
+        todo: '+',
+        done: '-',
+        doing: '*',
+        freezed: '||',
+        archived: 'x',
+      }
+
+      available_status[status.to_sym]
+    end
   end
 end

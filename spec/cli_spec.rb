@@ -138,14 +138,14 @@ RSpec.describe Tsks::CLI do
         allow(Tsks::Storage).to receive(:select_by).and_return(active_tsks)
         expect {
           described_class.start ["list"]
-        }.to output("1 @Inbox tsk\n3 @Work tsk\n").to_stdout
+        }.to output("+ | 1 tsk @Inbox\n+ | 3 tsk @Work\n").to_stdout
       end
 
       it "Lists all done tsks" do
         allow(Tsks::Storage).to receive(:select_by).and_return(archived_tsks)
         expect {
           described_class.start ["list", "--done"]
-        }.to output("2 @Inbox tsk\n").to_stdout
+        }.to output("- | 2 tsk @Inbox\n").to_stdout
       end
 
       it "Lists all tsks from a context" do
@@ -153,7 +153,7 @@ RSpec.describe Tsks::CLI do
           .and_return(work_context_tsks)
         expect {
           described_class.start ["list", "--context=Work"]
-        }.to output("3 @Work tsk\n").to_stdout
+        }.to output("+ | 3 tsk @Work\n").to_stdout
       end
 
       it "Shows a no tsks found message" do
