@@ -91,8 +91,7 @@ After checking out the repo, run `bin/setup` to install dependencies. Then, run
 prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`
-(This command installs the current tsks version **v0.0.2** in your machine
-path).
+(This command installs the current tsks version in your machine).
 
 ## Contributing
 
