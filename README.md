@@ -1,16 +1,16 @@
 # tsks
 
-A stateful command line interface to help you handle your daily tsks (with 
-synchronisation and contexts!).
+[![build](https://app.travis-ci.com/luanramosvicente/tsks.svg?branch=main)](https://travis-ci.com/luanrvmood/tsks)
 
-[![build](https://travis-ci.com/luanrvmood/tsks.svg?branch=master)](https://travis-ci.com/luanrvmood/tsks)
+A stateful command line interface to help you handle your daily tsks (with
+synchronisation and contexts!).
 
 ## Features
 
-* Add tsks, check what is already done and list active or archived tsks
-* Synchronise your tsks and access them from all your terminals! 
+- Add tsks, check what is already done and list active or archived tsks
+- Synchronise your tsks and access them from all your terminals!
   (soon accessible from a webapp as well)
-* Increase your daily tsks management with contexts using 
+- Increase your daily tsks management with contexts using
   `tsks add tsk --context=today` (see `tsks help add` for more info)
 
 ## Installation
@@ -21,9 +21,9 @@ gem install tsks
 
 ## Usage
 
-After follow the step above you should be able to run `tsks` from your terminal. 
+After follow the step above you should be able to run `tsks` from your terminal.
 
-_It's important to notice that you will need to run `tsks init` to setup stuffs 
+_It's important to notice that you will need to run `tsks init` to setup stuffs
 like the storage before any other command._
 
 ### Adding new tsks
@@ -38,7 +38,7 @@ tsks add "My first tsk"
 tsks add "Bootstraps my pet project environment" --context=Today
 ```
 
-### Marking tsks as done 
+### Marking tsks as done
 
 ```sh
 tsks done 2 # Where 2 is the tsk id
@@ -57,17 +57,18 @@ tsks list --context=Today
 ```
 
 **Or tsks already done**
+
 ```sh
 tsks list --done
 ```
 
-**Tip:** It's possible to combine the flags `--done` and `--context` when 
+**Tip:** It's possible to combine the flags `--done` and `--context` when
 listing.
 
 ### Synchronising your tsks
 
-As easy as running `tsks sync`. This command will fetch your tsks from the API, 
-then filter what is not synchronised yet from local, then update both 
+As easy as running `tsks sync`. This command will fetch your tsks from the API,
+then filter what is not synchronised yet from local, then update both
 remote and local tsks with most recent data.
 
 #### To be able to sync you will need to login or register an account
