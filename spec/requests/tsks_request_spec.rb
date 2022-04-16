@@ -48,7 +48,7 @@ RSpec.describe "Tsks", type: :request do
       [{id: 1,
         tsk: "t",
         context: "Inbox",
-        done: 0,
+        status: 'todo',
         created_at: nil,
         updated_at: nil}]
     }

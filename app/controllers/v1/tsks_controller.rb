@@ -33,7 +33,7 @@ module V1
           user.tsks.create({id: tsk[:id],
                             tsk: tsk[:tsk],
                             context: tsk[:context],
-                            done: tsk[:done],
+                            status: tsk[:status],
                             created_at: tsk[:created_at],
                             updated_at: tsk[:updated_at]})
         end
