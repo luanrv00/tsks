@@ -8,7 +8,7 @@ services:
       - "5432:5432"
     volumes:
       - "dbdata:/var/lib/postgresql/data"
-  web:
+  api:
     build: .
     environment:
       - DATABASE_URL=postgres://postgres:password@db:5432/postgres
