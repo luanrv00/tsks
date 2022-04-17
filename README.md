@@ -1,5 +1,7 @@
 # tsks-api
 
+[![build](https://app.travis-ci.com/luanramosvicente/tsks-api.svg?branch=main)](https://travis-ci.com/luanrvmood/tsks-api)
+
 ## Resources and endpoints
 
 ### `tsks`
@@ -11,7 +13,6 @@
   "authorization": "Bearer <token>",
   "content-type": "application/json"
 }
-
 ```
 
 _Required for all tsks endpoints._
@@ -159,7 +160,7 @@ _Required for all endpoints._
 ```json
 {
   "email": "<any>",
-  "password": "<any>",
+  "password": "<any>"
 }
 ```
 
@@ -171,7 +172,7 @@ _Required for all endpoints._
 {
   "ok": true,
   "token": "<any>",
-  "user_id": "<any>",
+  "user_id": "<any>"
 }
 ```
 
@@ -180,7 +181,7 @@ _Required for all endpoints._
 ```json
 {
   "ok": false,
-  "message": "E-mail already registered",
+  "message": "E-mail already registered"
 }
 ```
 
@@ -189,7 +190,7 @@ _Required for all endpoints._
 ```json
 {
   "ok": false,
-  "message": "Params email and password are required",
+  "message": "Params email and password are required"
 }
 ```
 
@@ -200,7 +201,7 @@ _Required for all endpoints._
 ```json
 {
   "email": "<any>",
-  "password": "<any>",
+  "password": "<any>"
 }
 ```
 
@@ -212,7 +213,7 @@ _Required for all endpoints._
 {
   "ok": true,
   "token": "<any>",
-  "user_id": "<any>",
+  "user_id": "<any>"
 }
 ```
 
@@ -221,7 +222,7 @@ _Required for all endpoints._
 ```json
 {
   "ok": false,
-  "message": "Permission denied",
+  "message": "Permission denied"
 }
 ```
 
@@ -230,7 +231,7 @@ _Required for all endpoints._
 ```json
 {
   "ok": false,
-  "message": "Params email and password are required",
+  "message": "Params email and password are required"
 }
 ```
 
@@ -245,7 +246,7 @@ docker-compose up
 **Running e2e tests:**
 
 ```
-docker-compose run web spec
+docker-compose run api spec
 ```
 
 **Obs.:** After each of the commands above, run `docker-compose down` to put all containers down.
