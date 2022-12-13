@@ -7,11 +7,11 @@ export default function Index() {
   const router = useRouter()
 
   useEffect(() => {
-    const userInfo = JSON.parse(window.localStorage.getItem('@tsks-user'))
+    const userId = window.localStorage.getItem('@tsks-userId')
 
-    if (!userInfo) {
-      router.push('/signup')
-    } else if (userInfo.id != undefined) {
+    if (!userId) {
+      router.push('/signin')
+    } else {
       router.push('/tsks')
     }
   }, [])
