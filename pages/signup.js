@@ -20,6 +20,7 @@ export default function SignUp() {
 
     if (res.ok) {
       window.localStorage.setItem('@tsks-token', res.token)
+      window.localStorage.setItem('@tsks-userId', res.user_id)
       router.push('/tsks')
     } else {
       setReqError(res.message)
