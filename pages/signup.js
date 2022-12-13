@@ -28,8 +28,8 @@ export default function SignUp() {
 
   return (
     <>
-      <FlashMessage type='error' message={reqError}/>
-      <UserForm handleSubmit={handleSubmit}/>
+      <FlashMessage type='error' message={reqError} />
+      <UserForm handleSubmit={handleSubmit} />
     </>
   )
 }

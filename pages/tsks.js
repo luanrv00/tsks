@@ -13,11 +13,13 @@ export default function Tsks() {
   }
 
   useEffect(async () => {
+    const apiToken = window.localStorage.getItem('@tsks-token')
+
     try {
       // TODO: move fetching data to a separate service
       await fetch(`${NEXT_PUBLIC_API_URL}/tsks`, {
         headers: {
-          authorization: `Bearer ${NEXT_PUBLIC_API_TOKEN}`,
+          authorization: `Bearer ${apiToken}`,
           'Access-Control-Allow-Origin': '*',
         },
       })
