@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import {useRouter} from 'next/router'
+import Link from 'next/link'
 import UserForm from '../components/user-form'
 import FlashMessage from '../components/flash-message'
 
@@ -28,8 +29,9 @@ export default function SignIn() {
 
   return (
     <>
-      <FlashMessage type='error' message={reqError}/>
-      <UserForm handleSubmit={handleSubmit}/>
+      <FlashMessage type='error' message={reqError} />
+      <UserForm handleSubmit={handleSubmit} />
+      <Link href='/signup'>or signup a new account</Link>
     </>
   )
 }
