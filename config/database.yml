@@ -8,13 +8,13 @@ default: &default
   adapter: postgresql
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
+  host: db
+  username: postgres
+  password: postgres
 
 development:
   <<: *default
   database: tsks_api_development
-  host: localhost
-  username: tsks
-  password: tsks
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -22,9 +22,6 @@ development:
 test:
   <<: *default
   database: tsks_api_test
-  host: localhost
-  username: tsks
-  password: tsks
 
 production:
   <<: *default

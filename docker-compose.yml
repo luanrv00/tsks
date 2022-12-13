@@ -1,23 +1,24 @@
 version: '3.8'
 services:
   db:
-    image: postgres:latest
+    image: postgres
     environment:
-      - POSTGRES_PASSWORD=password
-    ports:
-      - "5432:5432"
+      - POSTGRES_PASSWORD=postgres
     volumes:
-      - "dbdata:/var/lib/postgresql/data"
-  api:
+      - "./tmp/db:/var/lib/postgresql/data"
+  db-migration:
     build: .
+    command: bundle exec rake db:prepare
     environment:
-      - DATABASE_URL=postgres://postgres:password@db:5432/postgres
-      - POSTGRES_PASSWORD=password
-    ports:
-      - "3000:3000"
+      RAILS_ENV: development
     depends_on:
       - db
     volumes:
       - .:/app
-volumes:
-  dbdata:
+  svc:
+    build: .
+    depends_on:
+      - db
+      - db-migration
+    volumes:
+     - .:/app
