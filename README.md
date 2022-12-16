@@ -8,6 +8,8 @@
 
 **Headers:**
 
+_Required for all tsks endpoints._
+
 ```json
 {
   "authorization": "Bearer <token>",
@@ -15,11 +17,11 @@
 }
 ```
 
-_Required for all tsks endpoints._
-
 #### `GET /tsks`
 
 **Responses:**
+
+##### Errors `401` `403`
 
 ##### `200`
 
@@ -36,15 +38,6 @@ _Required for all tsks endpoints._
       "updated_at": "<date>"
     }
   ]
-}
-```
-
-##### `401`
-
-```json
-{
-  "ok": false,
-  "message": "401 Unauthorized"
 }
 ```
 
@@ -54,25 +47,6 @@ _Required for all tsks endpoints._
 
 ```json
 {
-  "tsks": [
-    {
-      "id": 1,
-      "tsk": "t",
-      "context": "Inbox",
-      "done": 0,
-      "created_at": "<date>",
-      "updated_at": "<date>"
-    }
-  ]
-}
-```
-
-**Responses:**
-
-##### `201`
-
-```json
-{
   "ok": true,
   "tsks": [
     {
@@ -87,63 +61,41 @@ _Required for all tsks endpoints._
 }
 ```
 
-##### `401`
+**Responses:**
+
+##### Errors `400` `401` `403`
+
+##### `201`
 
 ```json
 {
-  "ok": false,
-  "message": "401 Unauthorized"
-}
-```
-
-##### `400`
-
-```json
-{
-  "ok": false,
-  "message": "400 Bad request"
+  "ok": true,
+  "tsk": {
+    "id": 1,
+    "tsk": "t",
+    "context": "Inbox",
+    "done": 0,
+    "created_at": "<date>",
+    "updated_at": "<date>"
+  }
 }
 ```
 
 #### `DELETE /tsks/:id`
 
-**Params**
-
-```
-id = tsk_id
-```
-
 **Responses:**
 
-##### `203`
+##### Errors `401` `403`
 
-```json
-{
-  "ok": true
-}
-```
+##### `204`
 
-##### `401`
-
-```json
-{
-  "ok": false,
-  "message": "401 Unauthorized"
-}
-```
-
-##### `400`
-
-```json
-{
-  "ok": false,
-  "message": "400 Bad request"
-}
-```
+<hr/>
 
 ### `user` (Signup/Signin)
 
 **Headers:**
+
+_Required for all endpoints._
 
 ```json
 {
@@ -151,9 +103,7 @@ id = tsk_id
 }
 ```
 
-_Required for all endpoints._
-
-#### `POST /register`
+#### `POST /signup`
 
 **Body:**
 
@@ -165,36 +115,25 @@ _Required for all endpoints._
 ```
 
 **Responses:**
+
+##### Errors `400` `409`
 
 ##### `201`
 
 ```json
 {
   "ok": true,
-  "token": "<any>",
-  "user_id": "<any>"
+  "auth_token": "<any>",
+  "user": {
+    "id": 0,
+    "email": "<any>",
+    "created_at": "<date>",
+    "updated_at": "<date>"
+  }
 }
 ```
 
-##### `409`
-
-```json
-{
-  "ok": false,
-  "message": "E-mail already registered"
-}
-```
-
-##### `400`
-
-```json
-{
-  "ok": false,
-  "message": "Params email and password are required"
-}
-```
-
-#### `POST /login`
+#### `POST /signin`
 
 **Body:**
 
@@ -207,31 +146,20 @@ _Required for all endpoints._
 
 **Responses:**
 
+##### Errors `400` `401` `403`
+
 ##### `200`
 
 ```json
 {
   "ok": true,
-  "token": "<any>",
-  "user_id": "<any>"
-}
-```
-
-##### `403`
-
-```json
-{
-  "ok": false,
-  "message": "Permission denied"
-}
-```
-
-##### `400`
-
-```json
-{
-  "ok": false,
-  "message": "Params email and password are required"
+  "auth_token": "<any>",
+  "user": {
+    "id": 0,
+    "email": "<any>",
+    "created_at": "<date>",
+    "updated_at": "<date>"
+  }
 }
 ```
 
@@ -245,8 +173,10 @@ docker-compose up
 
 **Running e2e tests:**
 
+_Need server started._
+
 ```
 docker-compose run api spec
 ```
 
-**Obs.:** After each of the commands above, run `docker-compose down` to put all containers down.
+**Obs.:** run `docker-compose down` to put each container down.
