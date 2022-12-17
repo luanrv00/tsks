@@ -6,9 +6,7 @@
 
 ### `tsks`
 
-**Headers:**
-
-_Required for all tsks endpoints._
+**Headers:** (_Required for all requests._)
 
 ```json
 {
@@ -23,7 +21,7 @@ _Required for all tsks endpoints._
 
 ##### Errors `401` `403`
 
-##### `200`
+##### Success `200`
 
 ```json
 {
@@ -63,21 +61,23 @@ _Required for all tsks endpoints._
 
 **Responses:**
 
-##### Errors `400` `401` `403`
+##### Errors `400` `401` `403` `422`
 
-##### `201`
+##### Success `201`
 
 ```json
 {
   "ok": true,
-  "tsk": {
-    "id": 1,
-    "tsk": "t",
-    "context": "Inbox",
-    "done": 0,
-    "created_at": "<date>",
-    "updated_at": "<date>"
-  }
+  "tsks": [
+    {
+      "id": 1,
+      "tsk": "t",
+      "context": "Inbox",
+      "done": 0,
+      "created_at": "<date>",
+      "updated_at": "<date>"
+    }
+  ]
 }
 ```
 
@@ -85,17 +85,15 @@ _Required for all tsks endpoints._
 
 **Responses:**
 
-##### Errors `401` `403`
+##### Errors `400` `401` `403` `404`
 
-##### `204`
+##### Success `204`
 
 <hr/>
 
 ### `user` (Signup/Signin)
 
-**Headers:**
-
-_Required for all endpoints._
+**Headers:** (_Required for all requests._)
 
 ```json
 {
@@ -116,9 +114,9 @@ _Required for all endpoints._
 
 **Responses:**
 
-##### Errors `400` `409`
+##### Errors `400` `409` `422`
 
-##### `201`
+##### Success `201`
 
 ```json
 {
@@ -146,9 +144,9 @@ _Required for all endpoints._
 
 **Responses:**
 
-##### Errors `400` `401` `403`
+##### Errors `400` `404` `403` `422`
 
-##### `200`
+##### Success `200`
 
 ```json
 {
@@ -163,6 +161,71 @@ _Required for all endpoints._
 }
 ```
 
+### Errors Responses
+
+##### `400 Bad Request`
+
+```json
+{
+  "ok": false,
+  "message": "400 Bad Request",
+}
+```
+
+##### `401 Unauthorized`
+
+```json
+{
+  "ok": false,
+  "message": "401 Unauthorized",
+}
+```
+
+##### `403 Forbidden`
+
+```json
+{
+  "ok": false,
+  "message": "403 Forbidden",
+}
+```
+
+##### `404 Not Found`
+
+```json
+{
+  "ok": false,
+  "message": "404 Not Found",
+}
+```
+
+##### `409 Conflict`
+
+```json
+{
+  "ok": false,
+  "message": "409 Conflict",
+}
+```
+
+##### `422 Unprocessable Entity`
+
+```json
+{
+  "ok": false,
+  "message": "422 Unprocessable Entity",
+}
+```
+
+##### `500 Server Error`
+
+```json
+{
+  "ok": false,
+  "message": "500 Server Error",
+}
+```
+
 ## Development
 
 **Starting the server:**
@@ -171,12 +234,10 @@ _Required for all endpoints._
 docker-compose up
 ```
 
-**Running e2e tests:**
-
-_Need server started._
+**Running feature tests:** (_Need server started._)
 
 ```
-docker-compose run api spec
+docker-compose run api rake spec
 ```
 
-**Obs.:** run `docker-compose down` to put each container down.
+**Obs.:** after testing run `docker-compose down` to put svc and test containers down.
