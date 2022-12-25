@@ -85,34 +85,29 @@ RSpec.describe "Signup", type: :request do
         end
       end
 
-      # TODO: implement param type checking
-      #context "cannot with invalid email" do
-      #  before :all do
-      #    Rails.application.load_seed
-      #  end
+      context "cannot with invalid email" do
+        let (:signup_data) { {email: "random string", password: "x"} }
 
-      #  let (:signup_data) { {email: "random string", password: "x"} }
+        it "returns status code 400" do
+          post "#{base_uri}/signup", params: signup_data
 
-      #  it "returns status code 400" do
-      #    post "#{base_uri}/signup", params: signup_data
+          expect(response.status).to eq 400
+        end
 
-      #    expect(response.status).to eq 400
-      #  end
+        it "returns not ok" do
+          post "#{base_uri}/signup", params: signup_data
 
-      #  it "returns not ok" do
-      #    post "#{base_uri}/signup", params: signup_data
+          parsed_body = JSON.parse response.body
+          expect(parsed_body["ok"]).to eq false
+        end
 
-      #    parsed_body = JSON.parse response.body
-      #    expect(parsed_body["ok"]).to eq false
-      #  end
+        it "returns error message" do
+          post "#{base_uri}/signup", params: signup_data
 
-      #  it "returns error message" do
-      #    post "#{base_uri}/signup", params: signup_data
-
-      #    parsed_body = JSON.parse response.body
-      #    expect(parsed_body["message"]).to eq "400 bad Request"
-      #  end
-      #end
+          parsed_body = JSON.parse response.body
+          expect(parsed_body["message"]).to eq "400 Bad Request"
+        end
+      end
 
       context "cannot with already registered email" do
         before :all do

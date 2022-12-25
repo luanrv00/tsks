@@ -79,6 +79,8 @@ GEM
     database_cleaner-core (2.0.1)
     diff-lcs (1.5.0)
     digest (3.1.0)
+    email_validator (2.2.4)
+      activemodel
     erubi (1.10.0)
     ffi (1.15.5)
     globalid (1.0.0)
@@ -198,6 +200,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
   database_cleaner-active_record
+  email_validator
   jwt
   listen (~> 3.2)
   pg

@@ -18,19 +18,25 @@ module V1
 
       user = User.new register_params
 
-      if user.save
-        payload = {email: params[:email]}
-        token = JWT.encode payload, nil, "none"
-        # TODO: save token on db
+      begin
+        if user.save!
+          payload = {email: params[:email]}
+          token = JWT.encode payload, nil, "none"
+          # TODO: save token on db
 
-        render json: {ok: true,
-                      auth_token: token,
-                      user: user},
-                      status: :created
-      else
+          render json: {ok: true,
+                        auth_token: token,
+                        user: user},
+                        status: :created
+        else
+          return render json: {ok: false,
+                              message: "422 Unprocessable Entity"},
+                              status: :unprocessable_entity
+        end
+      rescue ActiveRecord::RecordInvalid
         return render json: {ok: false,
-                             message: "422 Unprocessable Entity"},
-                             status: :unprocessable_entity
+                             message: "400 Bad Request"},
+                             status: :bad_request
       end
     end
 
