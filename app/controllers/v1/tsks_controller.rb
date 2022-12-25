@@ -26,7 +26,7 @@ module V1
     # TODO: implement each Tsk required params error to respond 400
     # when review done of current data structure
     def create
-      if !params["tsks"]
+      if !params["tsk"]
         return render json: {ok: false,
                              message: "400 Bad Request"},
                              status: :bad_request
@@ -43,22 +43,15 @@ module V1
       @user = User.find_by_email(decoded[0]["email"])
 
       if @user
-        for tsk in params[:tsks]
-          # TODO: verify if an array of tsks are being created correctly
-          @user.tsks.create({id: tsk[:id],
-                            tsk: tsk[:tsk],
-                            context: tsk[:context],
-                            status: tsk[:status],
-                            created_at: tsk[:created_at],
-                            updated_at: tsk[:updated_at]})
-        end
-
+        @user.tsks.create(tsk_params)
         # TODO: fix "password can't be blank" 422 error
-        if @user.save!
-          render json: {ok: true, tsks: @user.tsks.all}, status: :created
-        else
-          return render json: {ok: false, message: "422 Unprocessable Entity"},
-            status: :unprocessable_entity
+        begin
+          if @user.save!
+            render json: {ok: true, tsk: @user.tsks.last}, status: :created
+          end
+        rescue ActiveRecord::RecordInvalid
+          return render json: {ok: false, message: "400 Bad Request"},
+            status: :bad_request
         end
       else
         # TODO: 403
@@ -93,6 +86,12 @@ module V1
       if tsk && tsk.destroy
         return render json: {ok: true}, status: :no_content
       end
+    end
+
+    private
+
+    def tsk_params
+      params.require(:tsk).permit(:tsk, :context, :status)
     end
   end
 end

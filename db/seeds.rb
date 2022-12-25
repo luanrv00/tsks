@@ -7,5 +7,5 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 user = User.create({id: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", email: "registered@api.com", password: "s"})
 user.save!
-user.tsks.create({id: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", tsk: "t"})
+user.tsks.create({id: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", tsk: "t", status: "todo"})
 user.save!

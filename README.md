@@ -46,16 +46,14 @@
 ```json
 {
   "ok": true,
-  "tsks": [
-    {
-      "id": 1,
-      "tsk": "t",
-      "context": "Inbox",
-      "done": 0,
-      "created_at": "<date>",
-      "updated_at": "<date>"
-    }
-  ]
+  "tsks": {
+    "id": 1,
+    "tsk": "t",
+    "context": "Inbox",
+    "done": 0,
+    "created_at": "<date>",
+    "updated_at": "<date>"
+  }
 }
 ```
 
@@ -68,16 +66,14 @@
 ```json
 {
   "ok": true,
-  "tsks": [
-    {
-      "id": 1,
-      "tsk": "t",
-      "context": "Inbox",
-      "done": 0,
-      "created_at": "<date>",
-      "updated_at": "<date>"
-    }
-  ]
+  "tsks": {
+    "id": 1,
+    "tsk": "t",
+    "context": "Inbox",
+    "done": 0,
+    "created_at": "<date>",
+    "updated_at": "<date>"
+  }
 }
 ```
 
