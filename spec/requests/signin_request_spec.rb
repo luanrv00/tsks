@@ -149,7 +149,7 @@ RSpec.describe "Signin", type: :request do
         end
       end
 
-      # TODO: implement param type checking
+      # TODO: implement email type checking on Signin#create
       #context "cannot with invalid email" do
       #  let(:invalid_credentials) { {email: "invalid string", password: "x"} }
 

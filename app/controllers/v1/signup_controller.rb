@@ -2,7 +2,6 @@ require "jwt"
 
 module V1
   class SignupController < ApplicationController
-    # TODO: implement param type checking
     def create
       if !params["email"] || !params["password"]
         return render json: {ok: false,

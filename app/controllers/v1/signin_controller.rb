@@ -3,12 +3,13 @@ require "jwt"
 module V1
   class SigninController < ApplicationController
     def create
-      # TODO: implement param type checking
       if !params["email"] || !params["password"]
         return render json: {ok: false,
                              message: "400 Bad Request"},
                              status: :bad_request
       end
+
+      # TODO: implement email type checking
 
       user = User.find_by_email params[:email]
 
