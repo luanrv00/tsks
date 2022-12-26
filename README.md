@@ -6,7 +6,7 @@
 
 ### `tsks`
 
-**Headers:** (_Required for all requests._)
+**Headers:** (_Required for all requests_)
 
 ```json
 {
@@ -230,7 +230,7 @@
 docker-compose up
 ```
 
-**Running feature tests:** (_Need server started._)
+**Running feature tests:** (_Need server started_)
 
 ```
 docker-compose run api rake spec
