@@ -1,5 +1,9 @@
 # tsks-api
 
+Project under development with studies purposes only. Currently learning
+fundamentals of rails modeling and testing and planning deployment pipelines as
+next steps.
+
 [![build](https://app.travis-ci.com/luanramosvicente/tsks-api.svg?branch=main)](https://travis-ci.com/luanrvmood/tsks-api)
 
 ## Resources and endpoints
