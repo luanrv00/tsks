@@ -374,7 +374,7 @@ RSpec.describe Tsks::CLI do
 
       let(:not_synced_local_tsks) { [local_tsks.first] }
       let(:get_res) { {ok: true, tsks: remote_tsks} }
-      let(:post_body) { {tsks: not_synced_local_tsks} }
+      let(:post_body) { {tsk: not_synced_local_tsks.first} }
       let(:not_synced_remote_tsks) { [remote_tsks.last] }
 
       subject {
@@ -407,8 +407,8 @@ RSpec.describe Tsks::CLI do
         subject
         allow(Tsks::Request).to receive(:get).and_return(get_res)
         allow(Tsks::Storage).to receive(:select_all).and_return(local_tsks)
-        expect(Tsks::Request).to receive(:post)
-          .with("/tsks", "token", post_body)
+        expect(Tsks::Request).to receive(:post).exactly(not_synced_local_tsks.count).times
+
         described_class.start ["sync"]
       end
 

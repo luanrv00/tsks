@@ -168,7 +168,9 @@ module Tsks
           if get_res[:ok] == true
             local_tsks_to_post = local_tsks - remote_tsks
             if local_tsks_to_post.count > 0
-              Tsks::Request.post "/tsks", token, {tsks: local_tsks_to_post}
+              for tsk in local_tsks_to_post
+                Tsks::Request.post "/tsks", token, {tsk: tsk}
+              end
             end
 
             remote_tsks_to_storage = remote_tsks - local_tsks
