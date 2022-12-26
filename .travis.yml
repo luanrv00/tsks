@@ -3,6 +3,6 @@ services:
   - docker
 script:
   - docker-compose up --detach
-  - docker-compose run api bundle exec rake db:create
-  - docker-compose run api bundle exec rake db:migrate
-  - docker-compose run api bundle exec rake spec
+  - docker-compose run svc bundle exec rake db:create
+  - docker-compose run svc bundle exec rake db:migrate
+  - docker-compose run svc bundle exec rake spec
