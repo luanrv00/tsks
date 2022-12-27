@@ -177,7 +177,6 @@ RSpec.describe "Tsks", type: :request do
 
     # TODO: implement 403 error handling
 
-    # TODO: create issued params structure
     context "cannot without valid params" do
       before :all do
         Rails.application.load_seed
