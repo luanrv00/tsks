@@ -17,6 +17,8 @@ services:
       - .:/app
   svc:
     build: .
+    environment:
+      RAILS_ENV: development
     depends_on:
       - db
       - db-migration

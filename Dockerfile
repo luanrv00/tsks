@@ -26,10 +26,11 @@ WORKDIR /app
 COPY . /app/
 
 ENV BUNDLE_PATH /gems
+ENV RAILS_ENV=development
 RUN yarn install
 RUN bundle install
 
 RUN rm -f app/tmp/pids/server.pid
-RUN rm -f tmp/db
+RUN rm -f tmp
 EXPOSE 5000 5432
 CMD ["bin/rails", "s", "-b", "0.0.0.0"]
