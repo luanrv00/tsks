@@ -91,7 +91,7 @@ module V1
     private
 
     def tsk_params
-      params.require(:tsk).permit(:tsk, :context, :status)
+      params.require(:tsk).permit(:tsk, :context, :status, :user_id, :created_at, :updated_at)
     end
   end
 end
