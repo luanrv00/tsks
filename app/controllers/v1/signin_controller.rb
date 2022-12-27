@@ -15,9 +15,15 @@ module V1
 
       if user
         if user.authenticate(params[:password])
-          # TODO: get token from db, previously saved on signup
           payload = {email: params[:email]}
           token = JWT.encode payload, nil, "none"
+
+          # TODO: verify if auth_token must exist on storage in this step
+          #if !user.auth_token
+          #  user.auth_token = token
+          #  user.save!
+          #end
+
           render json: {ok: true,
                         auth_token: token,
                         user: user},

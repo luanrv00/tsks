@@ -15,14 +15,13 @@ module V1
                              status: :conflict
       end
 
+      payload = {email: params[:email]}
+      token = JWT.encode payload, nil, "none"
       user = User.new register_params
+      user.auth_token = token
 
       begin
         if user.save!
-          payload = {email: params[:email]}
-          token = JWT.encode payload, nil, "none"
-          # TODO: save token on db
-
           render json: {ok: true,
                         auth_token: token,
                         user: user},

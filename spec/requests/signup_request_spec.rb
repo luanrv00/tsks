@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Signup", type: :request do
+  # TODO: write tests covering auth_token storage
   describe "POST /signup" do
     let(:base_uri) { "/v1/" }
 
