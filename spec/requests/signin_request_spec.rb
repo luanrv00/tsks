@@ -149,30 +149,29 @@ RSpec.describe "Signin", type: :request do
         end
       end
 
-      # TODO: implement email type checking on Signin#create
-      #context "cannot with invalid email" do
-      #  let(:invalid_credentials) { {email: "invalid string", password: "x"} }
+      context "cannot with invalid email" do
+        let(:invalid_credentials) { {email: "invalid string", password: "x"} }
 
-      #  it "returns status code 400" do
-      #    post "#{base_uri}/signin", params: invalid_credentials
+        it "returns status code 400" do
+          post "#{base_uri}/signin", params: invalid_credentials
 
-      #    expect(response.status).to eq 422
-      #  end
+          expect(response.status).to eq 400
+        end
 
-      #  it "returns not ok" do
-      #    post "#{base_uri}/signin", params: invalid_credentials
+        it "returns not ok" do
+          post "#{base_uri}/signin", params: invalid_credentials
 
-      #    parsed_body = JSON.parse response.body
-      #    expect(parsed_body["ok"]).to eq false
-      #  end
+          parsed_body = JSON.parse response.body
+          expect(parsed_body["ok"]).to eq false
+        end
 
-      #  it "returns error message" do
-      #    post "#{base_uri}/signin", params: invalid_credentials
+        it "returns error message" do
+          post "#{base_uri}/signin", params: invalid_credentials
 
-      #    parsed_body = JSON.parse response.body
-      #    expect(parsed_body["message"]).to eq "422 Unprocessable Entity"
-      #  end
-      #end
+          parsed_body = JSON.parse response.body
+          expect(parsed_body["message"]).to eq "400 Bad Request"
+        end
+      end
     end
   end
 end

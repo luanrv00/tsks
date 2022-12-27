@@ -28,8 +28,8 @@ module V1
                         status: :created
         else
           return render json: {ok: false,
-                              message: "422 Unprocessable Entity"},
-                              status: :unprocessable_entity
+                               message: "422 Unprocessable Entity"},
+                               status: :unprocessable_entity
         end
       rescue ActiveRecord::RecordInvalid
         return render json: {ok: false,

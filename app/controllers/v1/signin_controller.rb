@@ -1,4 +1,5 @@
 require "jwt"
+require "email_validator"
 
 module V1
   class SigninController < ApplicationController
@@ -9,7 +10,12 @@ module V1
                              status: :bad_request
       end
 
-      # TODO: implement email type checking
+      isEmailValid = EmailValidator.valid? params["email"]
+      if !isEmailValid
+        return render json: {ok: false,
+                             message: "400 Bad Request"},
+                             status: :bad_request
+      end
 
       user = User.find_by_email params[:email]
 
