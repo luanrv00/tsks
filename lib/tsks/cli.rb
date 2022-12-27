@@ -93,7 +93,7 @@ module Tsks
       end
 
       begin
-        res = Tsks::Request.post "/register", {email: options[:email],
+        res = Tsks::Request.post "/signup", {email: options[:email],
                                                password: options[:password]}
 
         if res && res[:ok] == true
@@ -120,7 +120,7 @@ module Tsks
       end
 
       begin
-        res = Tsks::Request.post "/login", {email: options[:email],
+        res = Tsks::Request.post "/signin", {email: options[:email],
                                             password: options[:password]}
 
         if res && res[:ok] == true
