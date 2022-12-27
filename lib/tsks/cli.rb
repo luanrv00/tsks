@@ -97,7 +97,7 @@ module Tsks
                                                password: options[:password]}
 
         if res && res[:ok] == true
-          File.write File.join(CLI.setup_folder, "token"), res[:token]
+          File.write File.join(CLI.setup_folder, "token"), res[:auth_token]
           File.write File.join(CLI.setup_folder, "user_id"), res[:user_id]
           Tsks::Actions.update_tsks_with_uuid res[:user_id]
           puts "Succesfully registered."
@@ -124,7 +124,7 @@ module Tsks
                                             password: options[:password]}
 
         if res && res[:ok] == true
-          File.write File.join(CLI.setup_folder, "token"), res[:token]
+          File.write File.join(CLI.setup_folder, "token"), res[:auth_token]
           File.write File.join(CLI.setup_folder, "user_id"), res[:user_id]
           Tsks::Actions.update_tsks_with_uuid res[:user_id]
           puts "Succesfully logged in."
