@@ -3,10 +3,10 @@ require_relative 'lib/tsks/version'
 Gem::Specification.new do |spec|
   spec.name          = "tsks"
   spec.version       = Tsks::VERSION
-  spec.authors       = ["Luan F. R. Vicente"]
+  spec.authors       = ["Luan Ramos Vicente"]
   spec.email         = ["luanrvmood@gmail.com"]
-  spec.summary       = "A stateful command line interface to help you handle your daily tsks (with synchronisation and contexts!)"
-  spec.homepage      = "https://github.com/luanrvmood/tsks"
+  spec.summary       = "A stateful command line interface to help you handle your daily tsks (with synchronisation and contexts)"
+  spec.homepage      = "https://github.com/luanrv/tsks"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
   spec.metadata["allowed_push_host"] = "https://rubygems.org"
   spec.metadata["homepage_uri"] = spec.homepage
