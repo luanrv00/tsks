@@ -7,9 +7,9 @@ export default function Index() {
   const router = useRouter()
 
   useEffect(() => {
-    const userId = window.localStorage.getItem('@tsks-userId')
+    const hasSession = window.localStorage.getItem('@tsks-user')
 
-    if (!userId) {
+    if (!hasSession) {
       router.push('/signin')
     } else {
       router.push('/tsks')
@@ -19,7 +19,7 @@ export default function Index() {
   return (
     <Layout>
       <Head>
-        <title>tsks</title>
+        <title>tsks homepage</title>
       </Head>
     </Layout>
   )
