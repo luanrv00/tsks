@@ -1,83 +1,117 @@
 describe('SignUp', () => {
-  it('registers an e-mail', () => {
-    cy.intercept('POST', '**/v1/register', {
-      statusCode: 201,
-      body: {
-        ok: true
-      }
-    })
+  cy.fixture('user').as('user')
 
-    cy.visit('/signup')
-    cy.get('[placeholder="user@tsks.app"]').type('test@tsks.mail')
-    cy.get('[placeholder="******"]').type('testpass')
-    cy.get('[type="submit"]').click()
-    cy.get('[data-signup-error]').should('not.exist')
-  })
+  context('signup succesfully', () => {
+    const testApiPostRequest = {
+      method: 'POST',
+      endpoint: '**/v1/signup',
+    }
 
-  it('redirects to tsks list after registering an e-mail', () => {
-    cy.intercept('POST', '**/v1/register', {
-      statusCode: 201,
-      body: {
-        ok: true
-      }
-    })
-
-    cy.visit('/signup')
-    cy.get('[placeholder="user@tsks.app"]').type('test@tsks.mail')
-    cy.get('[placeholder="******"]').type('testpass')
-    cy.get('[type="submit"]').click()
-    cy.location('pathname').should('eq', '/tsks')
-  })
-
-  it('renders an error for already registered e-mail', () => {
-    cy.intercept('POST', '**/v1/register', {
-      statusCode: 409,
-      body: {
-        ok: false,
-        message: 'E-mail already registered'
-      }
-    })
-
-    cy.visit('/signup')
-    cy.get('[placeholder="user@tsks.app"]').type('test@tsks.mail')
-    cy.get('[placeholder="******"]').type('testpass')
-    cy.get('[type="submit"]').click()
-    cy.get('.error').should('exist')
-    cy.get('.error').should('have.text', 'E-mail already registered')
-  })
-
-  it('renders an error for missing network connection', () => {
-    cy.intercept('POST', '**/v1/register', {
-      statusCode: 409,
-      body: {
-        ok: false,
-        message: 'NetworkError when attempting to fetch resource'
-      }
-    })
-
-    cy.visit('/signup')
-    cy.get('[placeholder="user@tsks.app"]').type('test@tsks.mail')
-    cy.get('[placeholder="******"]').type('testpass')
-    cy.get('[type="submit"]').click()
-    cy.get('.error').should('exist')
-    cy.get('.error').should('have.text', 'NetworkError when attempting to fetch resource')
-  })
-
-  it('stores user\'s token on browser\'s local storage', () => {
-    cy.intercept('POST', '**/v1/register', {
+    const testApiPostResponse = {
       statusCode: 201,
       body: {
         ok: true,
-        token: 'token'
-      }
+        user,
+      },
+    }
+
+    beforeEach(() => {
+      cy.intercept(
+        testApiPostRequest.method,
+        testApiPostRequest.endpoint,
+        testApiPostResponse
+      )
+
+      cy.visit('/signup')
+      cy.get('.signup-email').type(user.email)
+      cy.get('.signup-password').type(user.password)
     })
 
-    cy.visit('/signup')
-    cy.get('[placeholder="user@tsks.app"]').type('test@tsks.mail')
-    cy.get('[placeholder="******"]').type('testpass')
-    cy.get('[type="submit"]').click().should(() => {
-      const localStorageData = localStorage.getItem('@tsks-token')
-      expect(localStorageData).to.eq('token')
+    // TODO: verify if saving user as session is better than localStorage
+    it('saves user on localStorage', () => {
+      cy.get('[type="submit"]')
+        .click()
+        .should(() => {
+          const localStorageUser = localStorage.getItem('@tsks-user')
+          expect(localStorageUser).to.eq(user)
+        })
+    })
+
+    it('redirects to tsks', () => {
+      cy.get('[type="submit"]').click()
+      cy.location('pathname').should('eq', '/tsks')
+    })
+  })
+
+  context('cannot without email', () => {
+    beforeEach(() => {
+      cy.visit('/signup')
+      cy.get('.signup-password').type(user.password)
+      cy.get('[type="submit"]').click()
+    })
+
+    it('renders error message', () => {
+      // TODO: update msg
+      cy.contains('wo email error').should('exist')
+    })
+  })
+
+  context('cannot without password', () => {
+    beforeEach(() => {
+      cy.visit('/signup')
+      cy.get('.signup.email').type(user.email)
+      cy.get('[type="submit"]').click()
+    })
+
+    it('renders error message', () => {
+      // TODO: update msg
+      cy.contains('wo password error').should('exist')
+    })
+  })
+
+  context('cannot without valid email', () => {
+    beforeEach(() => {
+      cy.visit('/signup')
+      cy.get('.signup.email').type('invalid email')
+      cy.get('[type="submit"]').click()
+    })
+
+    it('renders error message', () => {
+      // TODO: update msg
+      cy.contains('invalid email error').should('exist')
+    })
+  })
+
+  context('cannot with already registered email', () => {
+    const testApiPostRequest = {
+      method: 'POST',
+      endpoint: '**/v1/signup',
+    }
+
+    const testApiPostResponse = {
+      statusCode: 409,
+      body: {
+        ok: false,
+        message: '409 Conflict',
+      },
+    }
+
+    beforeEach(() => {
+      cy.intercept(
+        testApiPostRequest.method,
+        testApiPostRequest.endpoint,
+        testApiPostResponse
+      )
+
+      cy.visit('/signup')
+      cy.get('.signup-email').type(user.email)
+      cy.get('.signup-password').type(user.password)
+      cy.get('[type="submit"]').click()
+    })
+
+    it('renders error message', () => {
+      // TODO: update msg
+      cy.contains('signup-error-msg').should('exist')
     })
   })
 })
