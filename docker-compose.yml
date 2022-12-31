@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  tsks-web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
