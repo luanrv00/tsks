@@ -27,6 +27,7 @@ COPY . /app/
 
 ENV BUNDLE_PATH /gems
 ENV RAILS_ENV=development
+ENV PORT 5000
 RUN yarn install
 RUN bundle install
 RUN rm -f app/tmp/pids/server.pid
