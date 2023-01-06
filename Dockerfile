@@ -31,5 +31,5 @@ RUN bundle install
 
 RUN rm -f app/tmp/pids/server.pid
 RUN rm -f tmp/db
-EXPOSE 3000 5432
+EXPOSE 5000 5432
 CMD ["bin/rails", "s", "-b", "0.0.0.0"]
