@@ -23,8 +23,8 @@ describe('SignUp', () => {
       )
 
       cy.visit('/signup')
-      cy.get('.signup-email').type(user.email)
-      cy.get('.signup-password').type('123')
+      cy.get('.user-email').type(user.email)
+      cy.get('.user-password').type('123')
       cy.get('[type="submit"]').click()
     })
 
@@ -66,7 +66,7 @@ describe('SignUp', () => {
       )
 
       cy.visit('/signup')
-      cy.get('.signup-password').type('123')
+      cy.get('.user-password').type('123')
       cy.get('[type="submit"]').click()
     })
 
@@ -97,7 +97,7 @@ describe('SignUp', () => {
       )
 
       cy.visit('/signup')
-      cy.get('.signup-email').type(user.email)
+      cy.get('.user-email').type(user.email)
       cy.get('[type="submit"]').click()
     })
 
@@ -128,7 +128,7 @@ describe('SignUp', () => {
       )
 
       cy.visit('/signup')
-      cy.get('.signup-email').type('invalid email')
+      cy.get('.user-email').type('invalid email')
       cy.get('[type="submit"]').click()
     })
 
@@ -159,8 +159,8 @@ describe('SignUp', () => {
       )
 
       cy.visit('/signup')
-      cy.get('.signup-email').type(user.email)
-      cy.get('.signup-email').type('123')
+      cy.get('.user-email').type(user.email)
+      cy.get('.user-password').type('123')
       cy.get('[type="submit"]').click()
     })
 
