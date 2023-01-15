@@ -1,10 +1,10 @@
-describe('SignIn', () => {
-  cy.fixture('user').as('user')
+import user from '../fixtures/user.json'
 
+describe('SignIn', () => {
   describe('signin succesfully', () => {
     const testApiPostRequest = {
       method: 'POST',
-      endpoint: '**/v1/signup',
+      endpoint: '**/v1/signin',
     }
 
     const testApiPostResponse = {
@@ -23,61 +23,92 @@ describe('SignIn', () => {
       )
 
       cy.visit('/signin')
-      cy.get('.signin.email').type(user.email)
-      cy.get('.signin.password').type(user.password)
-    })
-
-    it('renders success message', () => {
+      cy.get('.user-email').type(user.email)
+      cy.get('.user-password').type('123')
       cy.get('[type="submit"]').click()
-      // TODO: update msg
-      cy.contains('signin-success-msg').should('exist')
-    })
-
-    it('saves user on localStorage', () => {
-      cy.get('[type="submit"]')
-        .click()
-        .should(() => {
-          const localStorageUser = localStorage.getItem('@tsks-user')
-          expect(localStorageUser).to.eq(user)
-        })
     })
 
     it('redirects to tsks', () => {
-      cy.get('[type="submit"]').click()
       cy.location('pathname').should('eq', '/tsks')
+    })
+
+    it('saves user on localStorage', () => {
+      cy.wait(2000)
+      cy.window().then(window => {
+        const localStorageUser = JSON.parse(
+          window.localStorage.getItem('@tsks-user')
+        )
+        expect(localStorageUser).to.deep.eq(user)
+      })
     })
   })
 
   describe('cannot without email', () => {
+    const testApiPostRequest = {
+      method: 'POST',
+      endpoint: '**/v1/signin',
+    }
+
+    const testApiPostResponse = {
+      statusCode: 400,
+      body: {
+        ok: false,
+        message: '400 Bad Request',
+      },
+    }
+
     beforeEach(() => {
-      cy.visit('/signup')
-      cy.get('.signin.password').type(user.password)
+      cy.intercept(
+        testApiPostRequest.method,
+        testApiPostRequest.endpoint,
+        testApiPostResponse
+      )
+
+      cy.visit('/signin')
+      cy.get('.user-password').type('123')
       cy.get('[type="submit"]').click()
     })
 
     it('renders error message', () => {
-      // TODO: update msg
-      cy.contains('wo email error').should('exist')
+      cy.contains('400 Bad Request').should('exist')
     })
   })
 
   describe('cannot without password', () => {
+    const testApiPostRequest = {
+      method: 'POST',
+      endpoint: '**/v1/signin',
+    }
+
+    const testApiPostResponse = {
+      statusCode: 400,
+      body: {
+        ok: false,
+        message: '400 Bad Request',
+      },
+    }
+
     beforeEach(() => {
-      cy.visit('/signup')
-      cy.get('.signin.email').type(user.email)
+      cy.intercept(
+        testApiPostRequest.method,
+        testApiPostRequest.endpoint,
+        testApiPostResponse
+      )
+
+      cy.visit('/signin')
+      cy.get('.user-email').type(user.email)
       cy.get('[type="submit"]').click()
     })
 
     it('renders error message', () => {
-      // TODO: update msg
-      cy.contains('wo password error').should('exist')
+      cy.contains('400 Bad Request').should('exist')
     })
   })
 
   describe('cannot with wrong password', () => {
     const testApiPostRequest = {
       method: 'POST',
-      endpoint: '**/v1/signup',
+      endpoint: '**/v1/signin',
     }
 
     const testApiPostResponse = {
@@ -95,29 +126,28 @@ describe('SignIn', () => {
         testApiPostResponse
       )
 
-      cy.visit('/signup')
-      cy.get('.signin-email').type(user.email)
-      cy.get('.signin-password').type(user.password)
+      cy.visit('/signin')
+      cy.get('.user-email').type(user.email)
+      cy.get('.user-password').type('123')
       cy.get('[type="submit"]').click()
     })
 
     it('renders error message', () => {
-      // TODO; update msg
-      cy.contains('wrong password error').should('exist')
+      cy.contains('401 Unauthorized').should('exist')
     })
   })
 
   describe('cannot with not registered email', () => {
     const testApiPostRequest = {
       method: 'POST',
-      endpoint: '**/v1/signup',
+      endpoint: '**/v1/signin',
     }
 
     const testApiPostResponse = {
-      statusCode: 401,
+      statusCode: 404,
       body: {
         ok: false,
-        message: '401 Unauthorized',
+        message: '404 Not Found',
       },
     }
 
@@ -128,29 +158,46 @@ describe('SignIn', () => {
         testApiPostResponse
       )
 
-      cy.visit('/signup')
-      cy.get('.signin-email').type(user.email)
-      cy.get('.signin-password').type(user.password)
+      cy.visit('/signin')
+      cy.get('.user-email').type(user.email)
+      cy.get('.user-password').type('123')
       cy.get('[type="submit"]').click()
     })
 
     it('renders error message', () => {
-      // TODO: update msg
-      cy.contains('not registered email').should('exist')
+      cy.contains('404 Not Found').should('exist')
     })
   })
 
   describe('cannot with invalid email', () => {
+    const testApiPostRequest = {
+      method: 'POST',
+      endpoint: '**/v1/signin',
+    }
+
+    const testApiPostResponse = {
+      statusCode: 400,
+      body: {
+        ok: false,
+        message: '400 Bad Request',
+      },
+    }
+
     beforeEach(() => {
-      cy.visit('/signup')
-      cy.get('.signin-email').type('invalid email')
-      cy.get('.signin-password').type(user.password)
+      cy.intercept(
+        testApiPostRequest.method,
+        testApiPostRequest.endpoint,
+        testApiPostResponse
+      )
+
+      cy.visit('/signin')
+      cy.get('.user-email').type('invalid email')
+      cy.get('.user-password').type('123')
       cy.get('[type="submit"]').click()
     })
 
     it('renders error message', () => {
-      // TODO: update msg
-      cy.contains('invalid email error').should('exist')
+      cy.contains('400 Bad Request').should('exist')
     })
   })
 })
