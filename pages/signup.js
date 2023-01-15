@@ -3,12 +3,14 @@ import {useRouter} from 'next/router'
 import UserForm from '../components/user-form'
 import FlashMessage from '../components/flash-message'
 
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL
+
 export default function SignUp() {
   const router = useRouter()
   const [reqError, setReqError] = useState('')
 
   async function handleSubmit(userCredentials) {
-    const res = await fetch('http://localhost:3000/v1/register', {
+    const res = await fetch(`${NEXT_PUBLIC_API_URL}/signup`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -19,8 +21,7 @@ export default function SignUp() {
       .catch(e => e)
 
     if (res.ok) {
-      window.localStorage.setItem('@tsks-token', res.token)
-      window.localStorage.setItem('@tsks-userId', res.user_id)
+      window.localStorage.setItem('@tsks-user', JSON.stringify(res.user))
       router.push('/tsks')
     } else {
       setReqError(res.message)

@@ -1,6 +1,6 @@
-describe('SignUp', () => {
-  cy.fixture('user').as('user')
+import user from '../fixtures/user.json'
 
+describe('SignUp', () => {
   context('signup succesfully', () => {
     const testApiPostRequest = {
       method: 'POST',
@@ -24,61 +24,116 @@ describe('SignUp', () => {
 
       cy.visit('/signup')
       cy.get('.signup-email').type(user.email)
-      cy.get('.signup-password').type(user.password)
-    })
-
-    // TODO: verify if saving user as session is better than localStorage
-    it('saves user on localStorage', () => {
-      cy.get('[type="submit"]')
-        .click()
-        .should(() => {
-          const localStorageUser = localStorage.getItem('@tsks-user')
-          expect(localStorageUser).to.eq(user)
-        })
+      cy.get('.signup-password').type('123')
+      cy.get('[type="submit"]').click()
     })
 
     it('redirects to tsks', () => {
-      cy.get('[type="submit"]').click()
       cy.location('pathname').should('eq', '/tsks')
+    })
+
+    it('saves user on localStorage', () => {
+      cy.wait(2000)
+      cy.window().then(window => {
+        const localStorageUser = JSON.parse(
+          window.localStorage.getItem('@tsks-user')
+        )
+
+        expect(localStorageUser).to.deep.eq(user)
+      })
     })
   })
 
   context('cannot without email', () => {
     beforeEach(() => {
+      const testApiPostRequest = {
+        method: 'POST',
+        endpoint: '**/v1/signup',
+      }
+
+      const testApiPostResponse = {
+        statusCode: 400,
+        body: {
+          ok: false,
+          message: '400 Bad Request',
+        },
+      }
+
+      cy.intercept(
+        testApiPostRequest.method,
+        testApiPostRequest.endpoint,
+        testApiPostResponse
+      )
+
       cy.visit('/signup')
-      cy.get('.signup-password').type(user.password)
+      cy.get('.signup-password').type('123')
       cy.get('[type="submit"]').click()
     })
 
     it('renders error message', () => {
-      // TODO: update msg
-      cy.contains('wo email error').should('exist')
+      cy.contains('400 Bad Request').should('exist')
     })
   })
 
   context('cannot without password', () => {
     beforeEach(() => {
+      const testApiPostRequest = {
+        method: 'POST',
+        endpoint: '**/v1/signup',
+      }
+
+      const testApiPostResponse = {
+        statusCode: 400,
+        body: {
+          ok: false,
+          message: '400 Bad Request',
+        },
+      }
+
+      cy.intercept(
+        testApiPostRequest.method,
+        testApiPostRequest.endpoint,
+        testApiPostResponse
+      )
+
       cy.visit('/signup')
-      cy.get('.signup.email').type(user.email)
+      cy.get('.signup-email').type(user.email)
       cy.get('[type="submit"]').click()
     })
 
     it('renders error message', () => {
-      // TODO: update msg
-      cy.contains('wo password error').should('exist')
+      cy.contains('400 Bad Request').should('exist')
     })
   })
 
-  context('cannot without valid email', () => {
+  context('cannot with invalid email', () => {
     beforeEach(() => {
+      const testApiPostRequest = {
+        method: 'POST',
+        endpoint: '**/v1/signup',
+      }
+
+      const testApiPostResponse = {
+        statusCode: 400,
+        body: {
+          ok: false,
+          message: '400 Bad Request',
+        },
+      }
+
+      cy.intercept(
+        testApiPostRequest.method,
+        testApiPostRequest.endpoint,
+        testApiPostResponse
+      )
+
       cy.visit('/signup')
-      cy.get('.signup.email').type('invalid email')
+      cy.get('.signup-email').type('invalid email')
       cy.get('[type="submit"]').click()
     })
 
     it('renders error message', () => {
-      // TODO: update msg
-      cy.contains('invalid email error').should('exist')
+      cy.contains('400 Bad Request').should('exist')
     })
   })
 
@@ -105,13 +160,12 @@ describe('SignUp', () => {
 
       cy.visit('/signup')
       cy.get('.signup-email').type(user.email)
-      cy.get('.signup-password').type(user.password)
+      cy.get('.signup-email').type('123')
       cy.get('[type="submit"]').click()
     })
 
     it('renders error message', () => {
-      // TODO: update msg
-      cy.contains('signup-error-msg').should('exist')
+      cy.contains('409 Conflict').should('exist')
     })
   })
 })
