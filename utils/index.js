@@ -1,2 +1,2 @@
-export * from './set-current-session'
-export * from './get-current-session'
+export * from './set-current-user'
+export * from './get-current-user'
