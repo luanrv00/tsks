@@ -2,17 +2,18 @@ import React, {useEffect} from 'react'
 import {useRouter} from 'next/router'
 import Head from 'next/head'
 import Layout from '../components/layout'
+import {getCurrentSession} from '../utils'
 
 export default function Index() {
   const router = useRouter()
 
   useEffect(() => {
-    const hasSession = window.localStorage.getItem('@tsks-user')
+    const user = getCurrentSession()
 
-    if (!hasSession) {
-      router.push('/signin')
+    if (!user) {
+      return router.push('/signin')
     } else {
-      router.push('/tsks')
+      return router.push('/tsks')
     }
   }, [])
 

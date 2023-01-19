@@ -1,13 +1,15 @@
+import user from '../../cypress/fixtures/user.json'
+
 describe('Homepage', () => {
   describe('when has session', () => {
-    cy.fixture('user').as('user')
-
-    beforeAll(() => {
-      localStorage.setItem('@tsks-user', user)
+    beforeEach(() => {
+      cy.session('session', () => {
+        window.localStorage.setItem('@tsks-user', JSON.stringify(user))
+      })
     })
 
-    afterAll(() => {
-      localStorage.removeItem('@tsks-user')
+    afterEach(() => {
+      window.localStorage.removeItem('@tsks-user')
     })
 
     it('redirects to tsks', () => {
@@ -17,9 +19,9 @@ describe('Homepage', () => {
   })
 
   describe('when has not session', () => {
-    it('redirects to signup', () => {
+    it('redirects to signin', () => {
       cy.visit('/')
-      cy.location('pathname').should('eq', '/signup')
+      cy.location('pathname').should('eq', '/signin')
     })
   })
 })
