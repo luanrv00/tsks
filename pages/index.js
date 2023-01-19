@@ -2,24 +2,25 @@ import React, {useEffect} from 'react'
 import {useRouter} from 'next/router'
 import Head from 'next/head'
 import Layout from '../components/layout'
+import {getCurrentUser} from '../utils'
 
 export default function Index() {
   const router = useRouter()
 
   useEffect(() => {
-    const userId = window.localStorage.getItem('@tsks-userId')
+    const user = getCurrentUser()
 
-    if (!userId) {
-      router.push('/signin')
+    if (!user) {
+      return router.push('/signin')
     } else {
-      router.push('/tsks')
+      return router.push('/tsks')
     }
   }, [])
 
   return (
     <Layout>
       <Head>
-        <title>tsks</title>
+        <title>tsks homepage</title>
       </Head>
     </Layout>
   )
