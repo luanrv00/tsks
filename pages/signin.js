@@ -3,7 +3,7 @@ import {useRouter} from 'next/router'
 import Link from 'next/link'
 import UserForm from '../components/user-form'
 import FlashMessage from '../components/flash-message'
-import {setCurrentSession} from '../utils'
+import {setCurrentUser} from '../utils'
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -23,7 +23,7 @@ export default function SignIn() {
       .catch(e => e)
 
     if (res.ok) {
-      setCurrentSession(res.user)
+      setCurrentUser(res.user)
       return router.push('/tsks')
     } else {
       setReqError(res.message)

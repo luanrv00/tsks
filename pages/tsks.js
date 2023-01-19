@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import TsksList from '../components/tsks-list'
-import {getCurrentSession} from '../utils'
+import {getCurrentUser} from '../utils'
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -11,7 +11,7 @@ export default function Tsks() {
   const [fallbackMsg, setFallbackMsg] = useState('No tsks found')
 
   useEffect(async () => {
-    const user = getCurrentSession()
+    const user = getCurrentUser()
 
     if (!user) {
       return router.push('/signin')
