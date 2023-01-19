@@ -3,6 +3,7 @@ import {useRouter} from 'next/router'
 import Link from 'next/link'
 import UserForm from '../components/user-form'
 import FlashMessage from '../components/flash-message'
+import {setCurrentSession} from '../utils'
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -22,8 +23,8 @@ export default function SignIn() {
       .catch(e => e)
 
     if (res.ok) {
-      window.localStorage.setItem('@tsks-user', JSON.stringify(res.user))
-      router.push('/tsks')
+      setCurrentSession(res.user)
+      return router.push('/tsks')
     } else {
       setReqError(res.message)
     }
