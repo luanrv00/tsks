@@ -1,6 +1,8 @@
 import user from '../fixtures/user.json'
 import tsks from '../fixtures/tsks.json'
 
+const TSKS_AUTH_TOKEN_NAME = process.env.TSKS_AUTH_TOKEN_NAME
+
 describe('Tsks', () => {
   describe('when has not session', () => {
     beforeEach(() => {
@@ -39,7 +41,10 @@ describe('Tsks', () => {
       describe('when has tsks', () => {
         beforeEach(() => {
           cy.session('session', () => {
-            window.localStorage.setItem('@tsks-user', JSON.stringify(user))
+            window.localStorage.setItem(
+              TSKS_AUTH_TOKEN_NAME,
+              JSON.stringify(user)
+            )
           })
 
           cy.intercept(
@@ -49,6 +54,12 @@ describe('Tsks', () => {
           )
 
           cy.visit('/tsks')
+        })
+
+        afterEach(() => {
+          cy.window().then(window =>
+            window.localStorage.removeItem(TSKS_AUTH_TOKEN_NAME)
+          )
         })
 
         it('renders each tsk succesfully', () => {

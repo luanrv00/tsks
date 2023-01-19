@@ -1,15 +1,19 @@
 import user from '../../cypress/fixtures/user.json'
 
+const TSKS_AUTH_TOKEN_NAME = process.env.TSKS_AUTH_TOKEN_NAME
+
 describe('Homepage', () => {
   describe('when has session', () => {
     beforeEach(() => {
       cy.session('session', () => {
-        window.localStorage.setItem('@tsks-user', JSON.stringify(user))
+        window.localStorage.setItem(TSKS_AUTH_TOKEN_NAME, JSON.stringify(user))
       })
     })
 
     afterEach(() => {
-      window.localStorage.removeItem('@tsks-user')
+      cy.window().then(window =>
+        window.localStorage.removeItem(TSKS_AUTH_TOKEN_NAME)
+      )
     })
 
     it('redirects to tsks', () => {

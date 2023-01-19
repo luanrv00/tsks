@@ -1,5 +1,7 @@
 import user from '../fixtures/user.json'
 
+const TSKS_AUTH_TOKEN_NAME = process.env.TSKS_AUTH_TOKEN_NAME
+
 describe('SignIn', () => {
   describe('signin succesfully', () => {
     const testApiPostRequest = {
@@ -36,7 +38,7 @@ describe('SignIn', () => {
       cy.wait(2000)
       cy.window().then(window => {
         const localStorageUser = JSON.parse(
-          window.localStorage.getItem('@tsks-user')
+          window.localStorage.getItem(TSKS_AUTH_TOKEN_NAME)
         )
         expect(localStorageUser).to.deep.eq(user)
       })
