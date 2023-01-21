@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import styles from './index.styles'
+import styles from './index.module.css'
 import {Input, Button} from '../'
 
 export default function UserForm({handleSubmit}) {
@@ -11,7 +11,7 @@ export default function UserForm({handleSubmit}) {
   }
 
   return (
-    <form onSubmit={onSubmit} style={styles.form}>
+    <form onSubmit={onSubmit} className={styles.form}>
       <Input
         onChange={e => setFormValues(v => ({...v, email: e.target.value}))}
         value={formValues.email}
