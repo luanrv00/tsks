@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import {useRouter} from 'next/router'
-import UserForm from '../components/user-form'
-import FlashMessage from '../components/flash-message'
+import {UserForm, FlashMessage} from '../components'
 import {setCurrentUser} from '../utils'
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL

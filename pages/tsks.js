@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
-import TsksList from '../components/tsks-list'
-import Layout from '../components/layout'
+import {TsksList, Layout} from '../components'
 import {getCurrentUser} from '../utils'
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL
