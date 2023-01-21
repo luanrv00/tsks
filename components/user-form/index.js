@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import styles from './index.styles'
-import {Input} from '../'
+import {Input, Button} from '../'
 
 export default function UserForm({handleSubmit}) {
   const [formValues, setFormValues] = useState({email: '', password: ''})
@@ -25,7 +25,7 @@ export default function UserForm({handleSubmit}) {
         placeholder='******'
         style={styles.input}
       />
-      <input type='submit' value='Send' style={styles.button} />
+      <Button value='Send' />
     </form>
   )
 }
