@@ -3,3 +3,9 @@
   margin-right: auto;
   margin-left: auto;
 }
+
+@media (min-width: 1024px) {
+  .wrapper {
+    max-width: 1024px;
+  }
+}
