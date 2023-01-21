@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import TsksList from '../components/tsks-list'
+import Layout from '../components/layout'
 import {getCurrentUser} from '../utils'
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL
@@ -42,12 +43,12 @@ export default function Tsks() {
   }, [])
 
   return (
-    <div className='tsks'>
+    <Layout>
       {Boolean(Object.keys(tsks).length) ? (
         <TsksList tsksData={tsks} />
       ) : (
         <p>{fallbackMsg}</p>
       )}
-    </div>
+    </Layout>
   )
 }
