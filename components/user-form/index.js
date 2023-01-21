@@ -1,4 +1,6 @@
 import React, {useState} from 'react'
+import styles from './index.styles'
+import {Input} from '../'
 
 export default function UserForm({handleSubmit}) {
   const [formValues, setFormValues] = useState({email: '', password: ''})
@@ -9,21 +11,21 @@ export default function UserForm({handleSubmit}) {
   }
 
   return (
-    <form onSubmit={onSubmit}>
-      <input
+    <form onSubmit={onSubmit} style={styles.form}>
+      <Input
         onChange={e => setFormValues(v => ({...v, email: e.target.value}))}
         value={formValues.email}
         placeholder='user@tsks.app'
-        className='user-email'
+        style={styles.input}
       />
-      <input
+      <Input
         onChange={e => setFormValues(v => ({...v, password: e.target.value}))}
         value={formValues.password}
         type='password'
         placeholder='******'
-        className='user-password'
+        style={styles.input}
       />
-      <input type='submit' value='Send' />
+      <input type='submit' value='Send' style={styles.button} />
     </form>
   )
 }

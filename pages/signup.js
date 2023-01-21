@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {useRouter} from 'next/router'
-import {UserForm, FlashMessage} from '../components'
+import {Layout, UserForm, FlashMessage} from '../components'
 import {setCurrentUser} from '../utils'
 
 const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL
@@ -29,9 +29,9 @@ export default function SignUp() {
   }
 
   return (
-    <>
+    <Layout>
       <FlashMessage type='error' message={reqError} />
       <UserForm handleSubmit={handleSubmit} />
-    </>
+    </Layout>
   )
 }
