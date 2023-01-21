@@ -44,7 +44,7 @@ export default function Tsks() {
   return (
     <Layout>
       {Boolean(Object.keys(tsks).length) ? (
-        <TsksList tsksData={tsks} />
+        <TsksList tsks={tsks} />
       ) : (
         <p>{fallbackMsg}</p>
       )}

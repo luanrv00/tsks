@@ -1,13 +1,15 @@
 import React from 'react'
-import styles from './index.styles'
+import styles from './index.module.css'
+import {TskStatus} from '../'
 
-export default function Tsk({tsk, context}) {
+export default function Tsk({tsk, context, status}) {
   return (
-    <li className='tsks-item' style={styles.tsks.item}>
-      <p className='tsk-content'>{tsk}</p>
-      <span className='tsk-context' style={styles.tsk.context}>
-        @{context}
-      </span>
+    <li className={styles.wrapper}>
+      <div className={styles.status}>
+        <TskStatus status={status} />
+        <p className={styles.tsk}>{tsk}</p>
+      </div>
+      <span className={styles.context}>@{context}</span>
     </li>
   )
 }

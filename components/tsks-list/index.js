@@ -2,11 +2,11 @@ import React from 'react'
 import Tsk from '../tsk'
 import styles from './index.styles'
 
-export default function TsksList({tsksData}) {
+export default function TsksList({tsks}) {
   return (
     <ul className='tsks-list' style={styles.tsks.list}>
-      {tsksData.map(({id, tsk, context}) => (
-        <Tsk key={id} tsk={tsk} context={context} />
+      {tsks.map(({id, tsk, context, status}) => (
+        <Tsk key={id} tsk={tsk} context={context} status={status} />
       ))}
     </ul>
   )

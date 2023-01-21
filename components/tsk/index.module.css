@@ -1,0 +1,22 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.status {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.tsk {
+}
+
+.context {
+  font-size: 12px;
+  color: #999;
+}
