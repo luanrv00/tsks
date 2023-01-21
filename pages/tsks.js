@@ -3,7 +3,7 @@ import {useRouter} from 'next/router'
 import {TsksList, Layout} from '../components'
 import {getCurrentUser} from '../utils'
 
-const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL
+const {NEXT_PUBLIC_API_URL} = process.env
 
 export default function Tsks() {
   const router = useRouter()

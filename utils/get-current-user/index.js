@@ -1,5 +1,7 @@
-const TSKS_LOCALSTORAGE_KEY_NAME = process.env.TSKS_LOCALSTORAGE_KEY_NAME
+const {NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY} = process.env
 
 export function getCurrentUser() {
-  return JSON.parse(window.localStorage.getItem(TSKS_LOCALSTORAGE_KEY_NAME))
+  return JSON.parse(
+    window.localStorage.getItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+  )
 }
