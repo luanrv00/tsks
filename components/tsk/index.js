@@ -7,7 +7,9 @@ export default function Tsk({tsk, context, status}) {
     <li className={styles.wrapper}>
       <div className={styles.status}>
         <TskStatus status={status} />
-        <p className={styles.tsk}>{tsk}</p>
+        <p className={styles.tsk} data-testid='tsk'>
+          {tsk}
+        </p>
       </div>
       <span className={styles.context}>@{context}</span>
     </li>
