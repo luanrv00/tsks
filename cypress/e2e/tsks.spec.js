@@ -1,7 +1,9 @@
 import user from '../fixtures/user.json'
 import tsks from '../fixtures/tsks.json'
 
-const {NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY} = process.env
+// TODO: fix env var not being loaded
+const NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY =
+  process.env.NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY || '@tsks-user'
 
 describe('Tsks', () => {
   describe('when has not session', () => {
@@ -40,7 +42,7 @@ describe('Tsks', () => {
 
       describe('when has tsks', () => {
         beforeEach(() => {
-          cy.session('session', () => {
+          cy.window().then(window => {
             window.localStorage.setItem(
               NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
               JSON.stringify(user)
@@ -64,7 +66,7 @@ describe('Tsks', () => {
 
         it('renders each tsk succesfully', () => {
           cy.wait(2000)
-          cy.get('.tsks-item').should(
+          cy.get('[data-testid="tsk"]').should(
             'have.length',
             testApiGetResponse.body.tsks.length
           )

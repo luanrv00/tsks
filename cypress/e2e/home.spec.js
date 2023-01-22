@@ -1,16 +1,18 @@
 import user from '../../cypress/fixtures/user.json'
 
-const {NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY} = process.env
+// TODO: fix env var not being loaded
+const NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY =
+  process.env.NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY || '@tsks-user'
 
 describe('Homepage', () => {
   describe('when has session', () => {
     beforeEach(() => {
-      cy.session('session', () => {
+      cy.window().then(window =>
         window.localStorage.setItem(
           NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
           JSON.stringify(user)
         )
-      })
+      )
     })
 
     afterEach(() => {

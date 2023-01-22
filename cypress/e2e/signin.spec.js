@@ -1,6 +1,8 @@
 import user from '../fixtures/user.json'
 
-const {NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY} = process.env
+// TODO: fix env var not being loaded
+const NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY =
+  process.env.NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY || '@tsks-user'
 
 describe('SignIn', () => {
   describe('signin succesfully', () => {
@@ -25,9 +27,9 @@ describe('SignIn', () => {
       )
 
       cy.visit('/signin')
-      cy.get('.user-email').type(user.email)
-      cy.get('.user-password').type('123')
-      cy.get('[type="submit"]').click()
+      cy.get('input[placeholder="user@tsks.app"]').type(user.email)
+      cy.get('input[placeholder="******"]').type('123')
+      cy.get('button').click()
     })
 
     it('redirects to tsks', () => {
@@ -67,8 +69,8 @@ describe('SignIn', () => {
       )
 
       cy.visit('/signin')
-      cy.get('.user-password').type('123')
-      cy.get('[type="submit"]').click()
+      cy.get('input[placeholder="******"]').type('123')
+      cy.get('button').click()
     })
 
     it('renders error message', () => {
@@ -98,8 +100,8 @@ describe('SignIn', () => {
       )
 
       cy.visit('/signin')
-      cy.get('.user-email').type(user.email)
-      cy.get('[type="submit"]').click()
+      cy.get('input[placeholder="user@tsks.app"]').type(user.email)
+      cy.get('button').click()
     })
 
     it('renders error message', () => {
@@ -129,9 +131,9 @@ describe('SignIn', () => {
       )
 
       cy.visit('/signin')
-      cy.get('.user-email').type(user.email)
-      cy.get('.user-password').type('123')
-      cy.get('[type="submit"]').click()
+      cy.get('input[placeholder="user@tsks.app"]').type(user.email)
+      cy.get('input[placeholder="******"]').type('123')
+      cy.get('button').click()
     })
 
     it('renders error message', () => {
@@ -161,9 +163,9 @@ describe('SignIn', () => {
       )
 
       cy.visit('/signin')
-      cy.get('.user-email').type(user.email)
-      cy.get('.user-password').type('123')
-      cy.get('[type="submit"]').click()
+      cy.get('input[placeholder="user@tsks.app"]').type(user.email)
+      cy.get('input[placeholder="******"]').type('123')
+      cy.get('button').click()
     })
 
     it('renders error message', () => {
@@ -193,9 +195,9 @@ describe('SignIn', () => {
       )
 
       cy.visit('/signin')
-      cy.get('.user-email').type('invalid email')
-      cy.get('.user-password').type('123')
-      cy.get('[type="submit"]').click()
+      cy.get('input[placeholder="user@tsks.app"]').type(user.email)
+      cy.get('input[placeholder="******"]').type('123')
+      cy.get('button').click()
     })
 
     it('renders error message', () => {
