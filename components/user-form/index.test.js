@@ -1,20 +1,20 @@
 import React from 'react'
-import {render, fireEvent, screen, waitFor} from '@testing-library/react'
+import {render, screen} from '@testing-library/react'
 import UserForm from '.'
 
 describe('UserForm', () => {
   it('renders an input to enter email', () => {
-    render(<UserForm/>)
+    render(<UserForm />)
     expect(screen.getByPlaceholderText('user@tsks.app')).toBeTruthy()
   })
 
   it('renders an input to enter password', () => {
-    render(<UserForm/>)
+    render(<UserForm />)
     expect(screen.getByPlaceholderText('******')).toBeTruthy()
   })
 
   it('renders a button to send user data', () => {
-    render(<UserForm/>)
+    render(<UserForm />)
     expect(screen.getByRole('button')).toBeTruthy()
   })
 
