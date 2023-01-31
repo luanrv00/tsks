@@ -26,7 +26,7 @@ module V1
     # TODO: implement each Tsk required params error to respond 400
     # when review done of current data structure
     def create
-      if !params["tsk"]
+      if !params[:tsk]
         return render json: {ok: false,
                              message: "400 Bad Request"},
                              status: :bad_request
@@ -91,7 +91,7 @@ module V1
     private
 
     def tsk_params
-      params.require(:tsk).permit(:tsk, :context, :status, :user_id, :created_at, :updated_at)
+      params.require(:tsk).permit(:tsk, :context, :status)
     end
   end
 end
