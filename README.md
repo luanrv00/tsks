@@ -34,8 +34,8 @@ next steps.
     {
       "id": 1,
       "tsk": "t",
-      "context": "Inbox",
-      "done": 0,
+      "context": "inbox",
+      "status": "todo/doing/done/freezed",
       "created_at": "<date>",
       "updated_at": "<date>"
     }
@@ -53,8 +53,8 @@ next steps.
   "tsks": {
     "id": 1,
     "tsk": "t",
-    "context": "Inbox",
-    "done": 0,
+    "context": "inbox",
+    "status": "todo/doing/done/freezed",
     "created_at": "<date>",
     "updated_at": "<date>"
   }
@@ -73,8 +73,8 @@ next steps.
   "tsks": {
     "id": 1,
     "tsk": "t",
-    "context": "Inbox",
-    "done": 0,
+    "context": "inbox",
+    "status": "todo/doing/done/freezed",
     "created_at": "<date>",
     "updated_at": "<date>"
   }
@@ -121,10 +121,10 @@ next steps.
 ```json
 {
   "ok": true,
-  "auth_token": "<any>",
   "user": {
     "id": 0,
     "email": "<any>",
+    "auth_token": "<any>",
     "created_at": "<date>",
     "updated_at": "<date>"
   }
@@ -151,10 +151,10 @@ next steps.
 ```json
 {
   "ok": true,
-  "auth_token": "<any>",
   "user": {
     "id": 0,
     "email": "<any>",
+    "auth_token": "<any>",
     "created_at": "<date>",
     "updated_at": "<date>"
   }
