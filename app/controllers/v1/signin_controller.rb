@@ -35,7 +35,7 @@ module V1
                         user: user},
                         status: :ok
         else
-          render json: {ok: false, message: "403 Forbidden"}, status: :forbidden
+          render json: {ok: false, message: "401 Unauthorized"}, status: :unauthorized
         end
       else
         render json: {ok: false, message: '404 Not Found'}, status: :not_found
