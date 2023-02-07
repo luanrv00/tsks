@@ -4,7 +4,7 @@ Project under development with studies purposes only. Currently learning
 fundamentals of rails modeling and testing and planning deployment pipelines as
 next steps.
 
-[![build](https://app.travis-ci.com/luanramosvicente/tsks-api.svg?branch=main)](https://travis-ci.com/luanrvmood/tsks-api)
+[![build](https://app.travis-ci.com/luanrv/tsks-api.svg?branch=main)](https://app.travis-ci.com/luanrv/tsks-api)
 
 ## Resources and endpoints
 
