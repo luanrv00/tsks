@@ -21,7 +21,7 @@ module Tsks
       puts "tsks #{Tsks::VERSION}"
     end
 
-    desc "init", "Setup tsks folder and storage"
+    desc "init", "setup tsks folder and storage"
     def init
       if File.directory? CLI.setup_folder
         return puts "tsks was already initialized."
@@ -31,7 +31,7 @@ module Tsks
       Tsks::Storage.init
     end
 
-    desc "add TSK", "Add a new tsk (Use --context to specify one e.g. Work)"
+    desc "add TSK", "add a new tsk (Use --context to specify one e.g. Work)"
     option :context
     def add tsk
       if !File.directory? CLI.setup_folder
@@ -45,7 +45,7 @@ module Tsks
       end
     end
 
-    desc "done ID", "Mark a tsk you have already done"
+    desc "done ID", "mark a tsk you have already done"
     def done id
       if !File.directory? CLI.setup_folder
         return puts "tsks was not initialized yet."
@@ -54,7 +54,7 @@ module Tsks
       Tsks::Storage.update id
     end
 
-    desc "list", "See all active tsks, filter by context or that are done"
+    desc "list", "see all active tsks, filter by context or that are done"
     option :done, type: :boolean
     option :context
     def list
@@ -80,11 +80,11 @@ module Tsks
           puts "#{tsk_status} | #{tsk[:local_id]} #{tsk[:tsk]} @#{tsk[:context]}"
         end
       else
-        puts "No tsks found."
+        puts "no tsks found."
       end
     end
 
-    desc "register", "Register an e-mail to be able to sync your tsks"
+    desc "register", "register an e-mail to be able to sync your tsks"
     option :email, required: true
     option :password, required: true
     def register
@@ -94,24 +94,24 @@ module Tsks
 
       begin
         res = Tsks::Request.post "/signup", {email: options[:email],
-                                               password: options[:password]}
+                                             password: options[:password]}
 
         if res && res[:ok] == true
-          File.write File.join(CLI.setup_folder, "token"), res[:auth_token]
-          File.write File.join(CLI.setup_folder, "user_id"), res[:user_id]
-          Tsks::Actions.update_tsks_with_uuid res[:user_id]
-          puts "Succesfully registered."
+          File.write File.join(CLI.setup_folder, "token"), res[:user][:auth_token]
+          File.write File.join(CLI.setup_folder, "user_id"), res[:user][:id]
+          Tsks::Actions.update_tsks_with_uuid res[:user][:id]
+          puts "succesfully registered."
         elsif res && res[:ok] == false
-          puts "This e-mail is already registered."
+          puts "this e-mail is already registered."
         end
       rescue Errno::ECONNREFUSED, SocketError
-        puts "Failed to connect to the API."
+        puts "failed to connect to API."
       rescue JSON::ParserError
-        puts "Error on reading data from the API."
+        puts "error on reading data from API."
       end
     end
 
-    desc "login", "Login to be able to sync your tsks"
+    desc "login", "login to be able to sync your tsks"
     option :email, required: true
     option :password, required: true
     def login
@@ -121,31 +121,31 @@ module Tsks
 
       begin
         res = Tsks::Request.post "/signin", {email: options[:email],
-                                            password: options[:password]}
+                                             password: options[:password]}
 
         if res && res[:ok] == true
-          File.write File.join(CLI.setup_folder, "token"), res[:auth_token]
-          File.write File.join(CLI.setup_folder, "user_id"), res[:user_id]
-          Tsks::Actions.update_tsks_with_uuid res[:user_id]
-          puts "Succesfully logged in."
+          File.write File.join(CLI.setup_folder, "token"), res[:user][:auth_token]
+          File.write File.join(CLI.setup_folder, "user_id"), res[:user][:id]
+          Tsks::Actions.update_tsks_with_uuid res[:user][:id]
+          puts "succesfully logged in."
         elsif res && res[:ok] == false
-          puts "Invalid e-mail or password."
+          puts "invalid e-mail or password."
         end
       rescue Errno::ECONNREFUSED, SocketError
-        puts "Failed to connect to the API."
+        puts "failed to connect to API."
       rescue JSON::ParserError
-        puts "Error on reading data from the API."
+        puts "error on reading data from API."
       end
     end
 
-    desc "sync", "Synchronize your tsks"
+    desc "sync", "synchronize your tsks"
     def sync
       if !File.directory? CLI.setup_folder
         return puts "tsks was not initialized yet."
       end
 
       if !File.exist? File.join CLI.setup_folder, "token"
-        return puts "Please, login before try to sync."
+        return puts "please, login before try to sync."
       end
 
       user_id = File.read File.join CLI.setup_folder, "user_id"
@@ -178,13 +178,13 @@ module Tsks
               Tsks::Storage.insert_many remote_tsks_to_storage
             end
 
-            puts "Your tsks were succesfully synchronized."
+            puts "your tsks were succesfully synchronized."
           end
         end
       rescue Errno::ECONNREFUSED, SocketError
-        puts "Failed to connect to the API."
+        puts "failed to connect to API."
       rescue JSON::ParserError
-        puts "Error on reading data from the API."
+        puts "error on reading data from API."
       end
     end
 
@@ -196,7 +196,7 @@ module Tsks
 
       op_status = Tsks::Storage.delete id
       if !op_status
-        puts "The specified tsk do not exist."
+        puts "the specified tsk do not exist."
       end
     end
   end

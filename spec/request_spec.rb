@@ -17,14 +17,14 @@ RSpec.describe Tsks::Request do
                                         options)
     }
 
-    it "Makes a POST request to a received endpoint passing received params" do
-      expect(HTTParty). to receive(:post).with(uri, body: req_body)
-        .and_return(httparty_res)
+    it "makes a POST request to a received endpoint passing received params" do
+      expect(HTTParty). to receive(:post).with(uri, body: req_body).and_return(httparty_res)
       described_class.post "/endpoint", req_body
     end
 
     it "Returns the parsed response" do
       allow(HTTParty). to receive(:post).and_return(httparty_res)
+
       res = described_class.post "/endpoint", {}
       expect(res.instance_of? Hash).to be true
     end
@@ -45,13 +45,13 @@ RSpec.describe Tsks::Request do
                                         options)
     }
 
-    it "Makes a GET request to a received endpoint passing a received token" do
+    it "makes a GET request to a received endpoint passing a received token" do
       expect(HTTParty).to receive(:get).with(uri, headers: req_headers)
         .and_return(httparty_res)
       described_class.get "/endpoint", "token"
     end
 
-    it "Returns the parsed response" do
+    it "returns parsed response" do
       allow(HTTParty).to receive(:get).and_return(httparty_res)
       res = described_class.get "/endpoint", "token"
       expect(res.instance_of? Hash).to be true
@@ -72,16 +72,17 @@ RSpec.describe Tsks::Request do
                                         options)
     }
 
-    it "Makes a DELETE request to a received endpoint passing recvd auth" do
+    it "makes a DELETE request to a received endpoint passing recvd auth" do
       tsk_id = "uuid"
       uri = URI "#{@base_url}/tsks/#{tsk_id}"
-      expect(HTTParty). to receive(:delete).with(uri, headers: req_headers)
-        .and_return(httparty_res)
+
+      expect(HTTParty). to receive(:delete).with(uri, headers: req_headers).and_return(httparty_res)
       described_class.delete "/tsks/#{tsk_id}", "token"
     end
 
-    it "Returns the parsed response" do
+    it "returns parsed response" do
       allow(HTTParty). to receive(:delete).and_return(httparty_res)
+
       res = described_class.delete "/endpoint", "token"
       expect(res.instance_of? Hash).to be true
     end

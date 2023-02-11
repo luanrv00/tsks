@@ -6,7 +6,7 @@ module Tsks
       current_tsks = Tsks::Storage.select_all
 
       for tsk in current_tsks
-        Tsks::Storage.update tsk[:local_id], {user_id: uuid}
+        Tsks::Storage.update tsk[:local_id], {id: uuid}
       end
     end
 
@@ -22,10 +22,10 @@ module Tsks
 
     def self.get_tsk_status status
       available_status = {
-        todo: '+',
-        done: '-',
-        doing: '*',
-        freezed: '||',
+        todo: '-',
+        done: '*',
+        doing: '+',
+        freezed: '!',
         archived: 'x',
       }
 
