@@ -23,7 +23,6 @@ module V1
       begin
         if user.save!
           render json: {ok: true,
-                        auth_token: auth_token,
                         user: user},
                         status: :created
         else
