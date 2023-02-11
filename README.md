@@ -1,6 +1,6 @@
 # tsks
 
-[![build](https://app.travis-ci.com/luanramosvicente/tsks.svg?branch=main)](https://travis-ci.com/luanrvmood/tsks)
+[![build](https://app.travis-ci.com/luanrv/tsks-cli.svg?branch=main)](https://app.travis-ci.com/luanrv/tsks-cli)
 
 A stateful command line interface to help you handle your daily tsks (with
 synchronisation and contexts!).
