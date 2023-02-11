@@ -2,13 +2,13 @@ import React, {useEffect} from 'react'
 import {useRouter} from 'next/router'
 import Head from 'next/head'
 import {Layout} from '../components'
-import {getCurrentUser} from '../utils'
+import {getCurrentUserAtBrowser} from '../utils'
 
 export default function Index() {
   const router = useRouter()
 
   useEffect(() => {
-    const user = getCurrentUser()
+    const user = getCurrentUserAtBrowser()
 
     if (!user) {
       return router.push('/signin')

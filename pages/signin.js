@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
 import {Layout, UserForm, FlashMessage, SpacerSmall} from '../components'
-import {setCurrentUser} from '../utils'
+import {setCurrentUserAtBrowser} from '../utils'
 
 const {NEXT_PUBLIC_API_URL} = process.env
 
@@ -22,7 +22,7 @@ export default function SignIn() {
       .catch(e => e)
 
     if (res.ok) {
-      setCurrentUser(res.user)
+      setCurrentUserAtBrowser(res.user)
       return router.push('/tsks')
     } else {
       setReqError(res.message)
