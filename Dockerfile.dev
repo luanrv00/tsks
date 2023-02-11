@@ -4,5 +4,4 @@ WORKDIR /app/
 COPY . /app/
 EXPOSE 3000
 RUN yarn --frozen-lockfile
-RUN yarn build
 CMD ["yarn", "dev"]
