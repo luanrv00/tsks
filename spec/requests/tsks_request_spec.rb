@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe "Tsks", type: :request do
-  let(:tsks_endpoint) { "/v1/tsks" }
   let(:auth_token) {
     "Bearer eyJhbGciOiJub25lIn0.eyJlbWFpbCI6InJlZ2lzdGVyZWRAYXBpLmNvbSJ9."
   }
+  let(:api_endpoint) { "/v1/tsks" }
+  let(:api_headers) { {authorization: auth_token} }
   let(:tsk) {
     {tsk: "t",
      context: "inbox",
@@ -17,7 +18,7 @@ RSpec.describe "Tsks", type: :request do
   describe "GET /tsks" do
     context "cannot without authentication token" do
       before :each do
-        get tsks_endpoint
+        get api_endpoint
       end
 
       it "returns status code 401" do
@@ -45,7 +46,7 @@ RSpec.describe "Tsks", type: :request do
       end
 
       before :each do
-        get tsks_endpoint, headers: {authorization: auth_token}
+        get api_endpoint, headers: api_headers
       end
 
       it "returns status code 200" do
@@ -69,7 +70,7 @@ RSpec.describe "Tsks", type: :request do
     # TODO: verify if need pass params
     context "cannot without authentication token" do
       before :each do
-        post tsks_endpoint, params: {tsk: tsk}
+        post api_endpoint, params: {tsk: tsk}
       end
 
       it "returns status code 401" do
@@ -106,7 +107,7 @@ RSpec.describe "Tsks", type: :request do
       }
 
       before :each do
-        post tsks_endpoint, headers: {authorization: auth_token}, params: {tsk: invalid_tsk}
+        post api_endpoint, headers: api_headers, params: {tsk: invalid_tsk}
       end
 
       it "returns status code 400" do
@@ -135,7 +136,7 @@ RSpec.describe "Tsks", type: :request do
     #  end
 
     #  before :each do
-    #    post tsks_endpoint, headers: {authorization: auth_token}, params: {tsk: tsk}
+    #    post api_endpoint, headers: api_headers, params: {tsk: tsk}
     #  end
 
     #  it "returns status code 201" do
@@ -158,7 +159,7 @@ RSpec.describe "Tsks", type: :request do
   describe "DELETE /tsks/:id" do
     context "cannot without authentication token" do
       before :each do
-        delete "#{tsks_endpoint}/fake-id"
+        delete "#{api_endpoint}/fake-id"
       end
 
       it "returns status code 401" do
@@ -186,7 +187,7 @@ RSpec.describe "Tsks", type: :request do
       end
 
       before :each do
-        delete "#{tsks_endpoint}/fake-id", headers: {authorization: auth_token}
+        delete "#{api_endpoint}/fake-id", headers: api_headers
       end
 
       it "returns status code 404" do
@@ -215,7 +216,7 @@ RSpec.describe "Tsks", type: :request do
 
       it "returns status code 204" do
         tsk = Tsk.find_by({id: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"})
-        delete "#{tsks_endpoint}/#{tsk.id}", headers: {authorization: auth_token}
+        delete "#{api_endpoint}/#{tsk.id}", headers: api_headers
 
         expect(response.status).to eq 204
       end

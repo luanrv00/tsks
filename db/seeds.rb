@@ -5,7 +5,11 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-user = User.create({id: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", email: "registered@api.com", password: "s"})
+#user = User.create({id: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", email: "registered@api.com", password: "s"})
+user = User.create({id: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", email: "registered@api.com", password: "s", auth_token: "token"})
 user.save!
 user.tsks.create({id: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", tsk: "t", status: "todo"})
 user.save!
+user = User.create({email: "missingauthtoken@api.com", password: "s"})
+user.save!
+

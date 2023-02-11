@@ -2,13 +2,14 @@ require 'rails_helper'
 
 RSpec.describe "Signin", type: :request do
   describe "POST /signin" do
-    let(:signin_endpoint) { "/v1/signin" }
+    let(:api_endpoint) { "/v1/signin" }
     let(:user_email) {"registered@api.com"}
+    let(:user_wo_auth_token_email) {"missingauthtoken@api.com"}
     let(:user_password) {"s"}
 
     context "cannot without email" do
       before :each do
-        post signin_endpoint, params: {password: user_password}
+        post api_endpoint, params: {password: user_password}
       end
 
       it "returns status code 400" do
@@ -28,7 +29,7 @@ RSpec.describe "Signin", type: :request do
 
     context "cannot without password" do
       before :each do
-        post signin_endpoint, params: {email: user_email}
+        post api_endpoint, params: {email: user_email}
       end
 
       it "returns status code 400" do
@@ -56,7 +57,7 @@ RSpec.describe "Signin", type: :request do
       end
 
       before :each do
-        post signin_endpoint, params: {email: user_email, password: "wrong"}
+        post api_endpoint, params: {email: user_email, password: "wrong"}
       end
 
       it "returns status code 401" do
@@ -76,7 +77,7 @@ RSpec.describe "Signin", type: :request do
 
     context "cannot with not registered email" do
       before :each do
-        post signin_endpoint, params: {email: "new@tsks.api", password: "x"}
+        post api_endpoint, params: {email: "new@tsks.api", password: "x"}
       end
 
       it "returns status code 404" do
@@ -96,7 +97,7 @@ RSpec.describe "Signin", type: :request do
 
     context "cannot with invalid email" do
       before :each do
-        post signin_endpoint, params: {email: "invalid string", password: "x"}
+        post api_endpoint, params: {email: "invalid string", password: "x"}
       end
 
       it "returns status code 400" do
@@ -114,6 +115,34 @@ RSpec.describe "Signin", type: :request do
       end
     end
 
+    context "cannot without existent authentication token on db" do
+      before :all do
+        Rails.application.load_seed
+      end
+
+      after :all do
+        DatabaseCleaner.clean
+      end
+
+      before :each do
+        post api_endpoint, params: {email: user_wo_auth_token_email, password: user_password}
+      end
+
+      it "returns status code 500" do
+        expect(response.status).to eq 500
+      end
+
+      it "returns not ok" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["ok"]).to eq false
+      end
+
+      it "returns error message" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["message"]).to eq "500 Internal Server Error"
+      end
+    end
+
     context "signin succesfully" do
       before :all do
         Rails.application.load_seed
@@ -124,7 +153,7 @@ RSpec.describe "Signin", type: :request do
       end
 
       before :each do
-        post signin_endpoint, params: {email: user_email, password: user_password}
+        post api_endpoint, params: {email: user_email, password: user_password}
       end
 
       it "returns status code 200" do
@@ -136,15 +165,15 @@ RSpec.describe "Signin", type: :request do
         expect(parsed_body["ok"]).to eq true
       end
 
-      it "returns authentication token" do
-        parsed_body = JSON.parse response.body
-        expect(parsed_body).to include "auth_token"
-      end
-
       it "returns user" do
         parsed_body = JSON.parse response.body
         expect(parsed_body).to include "user"
         # TODO: expect(parsed_body["user"]).to eq user data structure
+      end
+
+      it "returns authentication token" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["user"]).to include "auth_token"
       end
     end
   end

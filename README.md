@@ -50,7 +50,7 @@ next steps.
 ```json
 {
   "ok": true,
-  "tsks": {
+  "tsk": {
     "id": 1,
     "tsk": "t",
     "context": "inbox",
@@ -70,7 +70,7 @@ next steps.
 ```json
 {
   "ok": true,
-  "tsks": {
+  "tsk": {
     "id": 1,
     "tsk": "t",
     "context": "inbox",

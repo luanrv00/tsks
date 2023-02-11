@@ -10,7 +10,7 @@ module V1
                              status: :bad_request
       end
 
-      isEmailValid = EmailValidator.valid? params["email"]
+      isEmailValid = is_email_valid params["email"]
       if !isEmailValid
         return render json: {ok: false,
                              message: "400 Bad Request"},
@@ -22,24 +22,27 @@ module V1
       if user
         if user.authenticate(params[:password])
           payload = {email: params[:email]}
-          token = JWT.encode payload, nil, "none"
+          auth_token = user.auth_token
 
-          # TODO: verify if auth_token must exist on storage in this step
-          #if !user.auth_token
-          #  user.auth_token = token
-          #  user.save!
-          #end
+          if !auth_token
+            return render json: {ok: false, message: "500 Internal Server Error"}, status: :internal_server_error
+          end
 
-          render json: {ok: true,
-                        auth_token: token,
-                        user: user},
-                        status: :ok
+          return render json: {ok: true,
+                               user: user},
+                               status: :ok
         else
-          render json: {ok: false, message: "401 Unauthorized"}, status: :unauthorized
+          return render json: {ok: false, message: "401 Unauthorized"}, status: :unauthorized
         end
       else
-        render json: {ok: false, message: '404 Not Found'}, status: :not_found
+        return render json: {ok: false, message: '404 Not Found'}, status: :not_found
       end
+    end
+
+    private
+
+    def is_email_valid email
+      EmailValidator.valid? email
     end
   end
 end

@@ -16,14 +16,14 @@ module V1
       end
 
       payload = {email: params[:email]}
-      token = JWT.encode payload, nil, "none"
+      auth_token = JWT.encode payload, nil, "none"
       user = User.new register_params
-      user.auth_token = token
+      user.auth_token = auth_token
 
       begin
         if user.save!
           render json: {ok: true,
-                        auth_token: token,
+                        auth_token: auth_token,
                         user: user},
                         status: :created
         else
