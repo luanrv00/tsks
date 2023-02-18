@@ -238,6 +238,7 @@ docker-compose up
 
 ```
 docker-compose run api rake spec
+./bin/test
 ```
 
 **Obs.:** after testing run `docker-compose down` to put svc and test containers down.
