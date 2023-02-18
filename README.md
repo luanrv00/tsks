@@ -228,18 +228,16 @@ next steps.
 
 ## Development
 
-**Starting the server:**
+**Starting dev server:**
 
 ```
-docker-compose up
 ./bin/up
 ```
 
-**Running feature tests:** (_Need server started_)
+**Running end to end tests:** (_Need server started_)
 
 ```
-docker-compose run api rake spec
 ./bin/test
 ```
 
-**Obs.:** after testing run `docker-compose down` to put svc and test containers down.
+**Obs.:** after testing run `./bin/stop` to put svc and test containers down.
