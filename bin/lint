@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+echo "running linter"
+docker-compose run web yarn lint

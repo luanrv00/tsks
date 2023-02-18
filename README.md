@@ -5,9 +5,25 @@ Currently learning fundamentals of react ecosystem and testing and planning depl
 
 ## Development
 
-Using `yarn` to install development dependencies should enable to local
-development. The file `package.json` contains some npm scripts to start server
-and run tasks.
+**Starting dev server:**
+
+```
+./bin/up
+```
+
+**Running end to end tests:** (_Need server started_)
+
+```
+./bin/test
+```
+
+**Running linter:**
+
+```
+./bin/lint
+```
+
+**Obs.:** after testing run `./bin/stop` to put svc and test containers down.
 
 ## Troubleshooting
 

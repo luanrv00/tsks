@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+echo "running end to end tests"
+docker-compose run web yarn test:e2e

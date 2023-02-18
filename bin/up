@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+echo "starting container"
+docker-compose up
