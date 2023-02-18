@@ -232,6 +232,7 @@ next steps.
 
 ```
 docker-compose up
+./bin/up
 ```
 
 **Running feature tests:** (_Need server started_)
