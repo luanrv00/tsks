@@ -35,7 +35,7 @@ next steps.
       "id": 1,
       "tsk": "t",
       "context": "inbox",
-      "status": "todo/doing/done/freezed",
+      "status": "todo/doing/done",
       "created_at": "<date>",
       "updated_at": "<date>"
     }
@@ -54,7 +54,7 @@ next steps.
     "id": 1,
     "tsk": "t",
     "context": "inbox",
-    "status": "todo/doing/done/freezed",
+    "status": "todo/doing/done",
     "created_at": "<date>",
     "updated_at": "<date>"
   }
@@ -74,7 +74,7 @@ next steps.
     "id": 1,
     "tsk": "t",
     "context": "inbox",
-    "status": "todo/doing/done/freezed",
+    "status": "todo/doing/done",
     "created_at": "<date>",
     "updated_at": "<date>"
   }
