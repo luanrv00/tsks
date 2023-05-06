@@ -27,7 +27,6 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
-ENV NODE_ENV=production
 RUN yarn build
 
 # If using npm comment out above and use below instead
@@ -58,4 +57,4 @@ EXPOSE 3000
 
 ENV PORT 3000
 
-CMD ["yarn", "start"]
+CMD ["node", "server.js"]
