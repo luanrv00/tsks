@@ -1,10 +1,5 @@
 services:
 - type: web
-  name: tsks-web
-  env: node
+  env: docker
   plan: starter
-  buildCommand: yarn; yarn build
-  startCommand: yarn start
-  envVars:
-  - key: NODE_ENV
-    value: production
+  name: tsks-web
