@@ -30,7 +30,10 @@ ENV RAILS_ENV=development
 ENV PORT 5000
 RUN yarn install
 RUN bundle install
-RUN rm -f app/tmp/pids/server.pid
-RUN rm -f tmp
+
+#COPY entrypoint.sh /usr/bin/
+#RUN chmod +x /usr/bin/entrypoint.sh
+#ENTRYPOINT ["entrypoint.sh"]
+
 EXPOSE 5000 5432
 CMD ["bin/rails", "s", "-b", "0.0.0.0"]
