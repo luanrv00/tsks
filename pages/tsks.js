@@ -10,35 +10,39 @@ export default function Tsks() {
   const [tsks, setTsks] = useState({})
   const [fallbackMsg, setFallbackMsg] = useState('No tsks found')
 
-  useEffect(async () => {
-    const user = getCurrentUserAtBrowser()
+  useEffect(() => {
+    async function fetchTsks() {
+      const user = getCurrentUserAtBrowser()
 
-    if (!user) {
-      return router.push('/signin')
-    }
+      if (!user) {
+        return router.push('/signin')
+      }
 
-    const apiToken = user.auth_token
+      const apiToken = user.auth_token
 
-    try {
-      // TODO: move fetching data to a separate service
-      await fetch(`${NEXT_PUBLIC_API_URL}/tsks`, {
-        headers: {
-          authorization: `Bearer ${apiToken}`,
-          'Access-Control-Allow-Origin': '*',
-        },
-      })
-        .then(res => res.json())
-        .then(res => {
-          if (!res.ok) {
-            return setFallbackMsg(res.msg)
-          } else if (res.tsks.length && !res.error) {
-            return setTsks(res.tsks)
-          }
+      try {
+        // TODO: move fetching data to a separate service
+        await fetch(`${NEXT_PUBLIC_API_URL}/tsks`, {
+          headers: {
+            authorization: `Bearer ${apiToken}`,
+            'Access-Control-Allow-Origin': '*',
+          },
         })
-        .catch(e => setFallbackMsg(e.toString()))
-    } catch (e) {
-      handleError(e)
+          .then(res => res.json())
+          .then(res => {
+            if (!res.ok) {
+              return setFallbackMsg(res.msg)
+            } else if (res.tsks.length && !res.error) {
+              return setTsks(res.tsks)
+            }
+          })
+          .catch(e => setFallbackMsg(e.toString()))
+      } catch (e) {
+        handleError(e)
+      }
     }
+
+    fetchTsks()
   }, [])
 
   return (

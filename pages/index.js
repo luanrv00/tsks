@@ -8,13 +8,17 @@ export default function Index() {
   const router = useRouter()
 
   useEffect(() => {
-    const user = getCurrentUserAtBrowser()
+    function redirect() {
+      const user = getCurrentUserAtBrowser()
 
-    if (!user) {
-      return router.push('/signin')
-    } else {
-      return router.push('/tsks')
+      if (!user) {
+        return router.push('/signin')
+      } else {
+        return router.push('/tsks')
+      }
     }
+
+    redirect()
   }, [])
 
   return (
