@@ -1,15 +1,15 @@
-FROM node:18-alpine as builder
+FROM node:18-alpine
 WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 COPY . .
 RUN yarn build
 
-COPY --from=builder /app/package.json .
-COPY --from=builder /app/yarn.lock .
-COPY --from=builder /app/next.config.js ./
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
+COPY /app/package.json .
+COPY /app/yarn.lock .
+COPY /app/next.config.js ./
+COPY /app/public ./public
+COPY /app/.next/standalone ./
+COPY /app/.next/static ./.next/static
 EXPOSE 3000
 CMD ["yarn", "start"]
