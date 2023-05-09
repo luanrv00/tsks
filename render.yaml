@@ -1,5 +1,11 @@
 services:
 - type: web
-  env: docker
-  plan: starter
   name: tsks-web
+  env: node
+  plan: starter
+  buildCommand: yarn; yarn build
+  startCommand: yarn start
+  autoDeploy: false
+  envVars:
+  - key: NODE_ENV
+    value: production
