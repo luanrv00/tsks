@@ -3,8 +3,6 @@ import {useRouter} from 'next/router'
 import {TsksList, Layout} from '../components'
 import {getCurrentUserAtBrowser} from '../utils'
 
-const {NEXT_PUBLIC_API_URL} = process.env
-
 export default function Tsks() {
   const router = useRouter()
   const [tsks, setTsks] = useState({})
@@ -22,7 +20,7 @@ export default function Tsks() {
 
       try {
         // TODO: move fetching data to a separate service
-        await fetch(`${NEXT_PUBLIC_API_URL}/tsks`, {
+        await fetch('https://tsks-api.onrender.com/v1/tsks', {
           headers: {
             authorization: `Bearer ${apiToken}`,
             'Access-Control-Allow-Origin': '*',
