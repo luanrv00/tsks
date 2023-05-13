@@ -49,7 +49,6 @@ next steps.
 
 ```json
 {
-  "ok": true,
   "tsk": {
     "id": 1,
     "tsk": "t",
