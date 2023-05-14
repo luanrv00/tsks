@@ -1,4 +1,4 @@
 class Tsk < ApplicationRecord
   belongs_to :user
-  validates :tsk, :status, presence: true
+  validates :tsk, :context, :status, presence: true
 end
