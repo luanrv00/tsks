@@ -18,7 +18,7 @@ jobs:
       - checkout
       - run:
           name: bundle install
-          command: ./bin/install
+          command: bundle install
       - run:
           name: test
           command: ./bin/test
