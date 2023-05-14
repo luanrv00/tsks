@@ -11,7 +11,7 @@ module Tsks
           user_id INTEGER DEFAULT 1,
           tsk VARCHAR NOT NULL,
           status VARCHAR DEFAULT todo,
-          context VARCHAR DEFAULT Inbox,
+          context VARCHAR DEFAULT inbox,
           created_at VARCHAR NOT NULL,
           updated_at VARCHAR NOT NULL
         )
