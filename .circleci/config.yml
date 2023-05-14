@@ -31,9 +31,9 @@ jobs:
       - run:
           name: test
           command: |
-            docker-compose run svc bundle exec rake db:create
-            docker-compose run svc bundle exec rake db:migrate
-            docker-compose run svc bundle exec rake spec
+            docker-compose run project_svc bundle exec rake db:create
+            docker-compose run project_svc bundle exec rake db:migrate
+            docker-compose run project_svc bundle exec rake spec
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
