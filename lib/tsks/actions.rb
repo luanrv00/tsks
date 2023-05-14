@@ -2,11 +2,11 @@ require "tsks/storage"
 
 module Tsks
   class Actions
-    def self.update_tsks_with_uuid uuid
+    def self.update_tsks_with_user_id user_id
       current_tsks = Tsks::Storage.select_all
 
       for tsk in current_tsks
-        Tsks::Storage.update tsk[:local_id], {id: uuid}
+        Tsks::Storage.update tsk[:local_id], {user_id: user_id}
       end
     end
 

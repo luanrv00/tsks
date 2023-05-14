@@ -213,7 +213,7 @@ RSpec.describe Tsks::CLI do
         allow(Tsks::Request).to receive(:post).and_return(res_body)
         allow(File).to receive(:write)
 
-        expect(Tsks::Actions).to receive(:update_tsks_with_uuid).with(res_body[:user][:id])
+        expect(Tsks::Actions).to receive(:update_tsks_with_user_id).with(res_body[:user][:id])
         described_class.start ["register", "--email=@", "--password=s"]
       end
 
@@ -304,7 +304,7 @@ RSpec.describe Tsks::CLI do
         allow(Tsks::Request).to receive(:post).and_return(res_body)
         allow(File).to receive(:write)
 
-        expect(Tsks::Actions).to receive(:update_tsks_with_uuid).with(res_body[:user][:id])
+        expect(Tsks::Actions).to receive(:update_tsks_with_user_id).with(res_body[:user][:id])
         described_class.start ["login", "--email=@", "--password=s"]
       end
 
@@ -398,7 +398,7 @@ RSpec.describe Tsks::CLI do
 
       subject {
         File.write File.join(@setup_folder, "token"), "token"
-        File.write File.join(@setup_folder, "user_id"), "uuid"
+        File.write File.join(@setup_folder, "user_id"), 3
       }
 
       it "requires a login before sync" do
@@ -411,7 +411,7 @@ RSpec.describe Tsks::CLI do
         subject
         allow(Tsks::Request).to receive(:get).and_return(get_res)
 
-        expect(Tsks::Actions).to receive(:update_tsks_with_uuid).with("uuid")
+        expect(Tsks::Actions).to receive(:update_tsks_with_user_id).with("3")
         described_class.start ["sync"]
       end
 

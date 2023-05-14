@@ -99,7 +99,7 @@ module Tsks
         if res && res[:ok] == true
           File.write File.join(CLI.setup_folder, "token"), res[:user][:auth_token]
           File.write File.join(CLI.setup_folder, "user_id"), res[:user][:id]
-          Tsks::Actions.update_tsks_with_uuid res[:user][:id]
+          Tsks::Actions.update_tsks_with_user_id res[:user][:id]
           puts "succesfully registered."
         elsif res && res[:ok] == false
           puts "this e-mail is already registered."
@@ -126,7 +126,7 @@ module Tsks
         if res && res[:ok] == true
           File.write File.join(CLI.setup_folder, "token"), res[:user][:auth_token]
           File.write File.join(CLI.setup_folder, "user_id"), res[:user][:id]
-          Tsks::Actions.update_tsks_with_uuid res[:user][:id]
+          Tsks::Actions.update_tsks_with_user_id res[:user][:id]
           puts "succesfully logged in."
         elsif res && res[:ok] == false
           puts "invalid e-mail or password."
@@ -150,7 +150,7 @@ module Tsks
 
       user_id = File.read File.join CLI.setup_folder, "user_id"
       token = File.read File.join CLI.setup_folder, "token"
-      Tsks::Actions.update_tsks_with_uuid user_id
+      Tsks::Actions.update_tsks_with_user_id user_id
       Tsks::Actions.update_server_for_removed_tsks token
       Tsks::Storage.delete_removed_uuids
       local_tsks = Tsks::Storage.select_all local_id=false
