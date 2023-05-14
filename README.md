@@ -85,7 +85,7 @@ Or this to register an account:
 tsks register --email=sample@mail.com --password=secret
 ```
 
-## Development
+## Developing
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run
 `rake spec` to run the tests. You can also run `bin/console` for an interactive
@@ -93,6 +93,12 @@ prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`
 (This command installs the current tsks version in your machine).
+
+## Releasing
+
+```sh
+./bin/release
+```
 
 ## Contributing
 

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    tsks (0.0.9)
+    tsks (0.0.10)
       httparty
       sqlite3
       thor
