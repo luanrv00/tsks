@@ -6,7 +6,8 @@ require "tsks/actions"
 
 module Tsks
   class CLI < Thor
-    @setup_folder = File.expand_path "~/.tsks"
+    @setup_folder = File.expand_path "~/.tsks_tmp"
+    #@setup_folder = File.expand_path "~/.tsks"
 
     def self.setup_folder
       @setup_folder
