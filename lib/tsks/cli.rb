@@ -51,7 +51,10 @@ module Tsks
         return puts "tsks was not initialized yet."
       end
 
-      Tsks::Storage.update id
+      op_status = Tsks::Storage.update id
+      if !op_status
+        puts "the specified tsk do not exist."
+      end
     end
 
     desc "list", "see all active tsks, filter by context or that are done"
@@ -71,7 +74,7 @@ module Tsks
       elsif options[:context]
         tsks = Tsks::Storage.select_by({context: options[:context]})
       else
-        tsks = Tsks::Storage.select_by({status: 'todo'})
+        tsks = Tsks::Storage.select_active
       end
 
       if tsks.count > 0
@@ -195,6 +198,18 @@ module Tsks
       end
 
       op_status = Tsks::Storage.delete id
+      if !op_status
+        puts "the specified tsk do not exist."
+      end
+    end
+
+    desc "doing ID", "mark a tsk you started doing"
+    def doing id
+      if !File.directory? CLI.setup_folder
+        return puts "tsks was not initialized yet."
+      end
+
+      op_status = Tsks::Storage.update id, {status: 'doing'}
       if !op_status
         puts "the specified tsk do not exist."
       end

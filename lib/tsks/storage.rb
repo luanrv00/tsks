@@ -109,6 +109,12 @@ module Tsks
       tsks = structure_tsks(raw_tsks, local_id=local_id)
     end
 
+    def self.select_active
+      storage = get_storage_instance
+      raw_tsks = storage.execute("SELECT rowid, * FROM tsks WHERE status NOT LIKE 'done'")
+      tsks = structure_tsks raw_tsks
+    end
+
     def self.delete local_id
       storage = get_storage_instance
       removed_tsks = storage

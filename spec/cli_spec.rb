@@ -87,6 +87,13 @@ RSpec.describe Tsks::CLI do
         expect(Tsks::Storage).to receive(:update).with(1)
         described_class.start ["done", 1]
       end
+
+      it "displays a message for non existing tsks" do
+        allow(Tsks::Storage).to receive(:update).and_return(false)
+        expect {
+          described_class.start ["done", 0]
+        }.to output("the specified tsk do not exist.\n").to_stdout
+      end
     end
 
     describe "list" do
@@ -138,7 +145,7 @@ RSpec.describe Tsks::CLI do
       }
 
       it "lists all active tsks" do
-        allow(Tsks::Storage).to receive(:select_by).and_return(active_tsks)
+        allow(Tsks::Storage).to receive(:select_active).and_return(active_tsks)
         expect {
           described_class.start ["list"]
         }.to output("- | 1 tsk @inbox\n- | 3 tsk @work\n").to_stdout
@@ -518,6 +525,35 @@ RSpec.describe Tsks::CLI do
         allow(Tsks::Storage).to receive(:delete).and_return(false)
         expect {
           described_class.start ["remove", 0]
+        }.to output("the specified tsk do not exist.\n").to_stdout
+      end
+    end
+
+    describe "doing" do
+      after :each do
+        if File.directory? @setup_folder
+          FileUtils.rmtree @setup_folder
+        end
+      end
+
+      before :each do
+        described_class.start ["init"]
+        storage = SQLite3::Database.new File.join @setup_folder, "tsks.db"
+        storage.execute(
+          "insert into tsks (id, tsk, status, created_at, updated_at)
+          values ('uuid', 'tsk', 'todo', '0', '0')"
+        )
+      end
+
+      it "marks a tsk as doing" do
+        expect(Tsks::Storage).to receive(:update).with(1, {status: 'doing'})
+        described_class.start ["doing", 1]
+      end
+
+      it "displays a message for non existing tsks" do
+        allow(Tsks::Storage).to receive(:update).and_return(false)
+        expect {
+          described_class.start ["doing", 0]
         }.to output("the specified tsk do not exist.\n").to_stdout
       end
     end

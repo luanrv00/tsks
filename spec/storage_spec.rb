@@ -133,6 +133,29 @@ RSpec.describe Tsks::Storage do
     end
   end
 
+  describe ".select_active" do
+    let(:raw_tsks) { [['uuid', 1, 't', 'doing', 'work', '0', '0']] }
+
+    it "returns all active tsks" do
+      mock = instance_double(SQLite3::Database)
+      allow(SQLite3::Database).to receive(:new).and_return(mock)
+
+      expect(mock).to receive(:execute)
+        .with("SELECT rowid, * FROM tsks WHERE status NOT LIKE 'done'")
+        .and_return(raw_tsks)
+      described_class.select_active
+    end
+
+    it "returns tsks structured as a hash" do
+      mock = instance_double(SQLite3::Database)
+      allow(SQLite3::Database).to receive(:new).and_return(mock)
+      allow(mock).to receive(:execute).and_return(raw_tsks)
+
+      result = described_class.select_active
+      expect(result[0].instance_of? Hash).to be true
+    end
+  end
+
   describe ".delete" do
     let(:removed_tsks) { [['uuid', 1, 1, 't', 'Inbox', 1, '0', '0']] }
 
