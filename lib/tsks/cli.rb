@@ -31,7 +31,7 @@ module Tsks
       Tsks::Storage.init
     end
 
-    desc "add TSK", "add a new tsk (Use --context to specify one e.g. Work)"
+    desc "add TSK", "add a new tsk (Use --context to specify one e.g. --context=work)"
     option :context
     def add tsk
       if !File.directory? CLI.setup_folder
@@ -45,7 +45,7 @@ module Tsks
       end
     end
 
-    desc "done ID", "mark a tsk you have already done"
+    desc "done ID", "mark a tsk you have done"
     def done id
       if !File.directory? CLI.setup_folder
         return puts "tsks was not initialized yet."
