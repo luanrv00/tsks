@@ -144,8 +144,33 @@ RSpec.describe Tsks::CLI do
           updated_at: "2020-09-26 20:14:13"}]
       }
 
+      let(:all_tsks) {
+        [{id: "uuid1",
+          local_id: 1,
+          tsk: "tsk",
+          status: 'todo',
+          context: "inbox",
+          created_at: "2020-09-26 20:14:13",
+          updated_at: "2020-09-26 20:14:13"},
+         {id: "uuid2",
+          local_id: 2,
+          tsk: "tsk",
+          status: 'done',
+          context: "inbox",
+          created_at: "2020-09-26 20:14:13",
+          updated_at: "2020-09-26 20:14:13"},
+         {id: "uuid3",
+          local_id: 3,
+          tsk: "tsk",
+          status: 'todo',
+          context: "work",
+          created_at: "2020-09-26 20:14:13",
+          updated_at: "2020-09-26 20:14:13"}]
+      }
+
       it "lists all active tsks" do
         allow(Tsks::Storage).to receive(:select_active).and_return(active_tsks)
+
         expect {
           described_class.start ["list"]
         }.to output("- | 1 tsk @inbox\n- | 3 tsk @work\n").to_stdout
@@ -153,6 +178,7 @@ RSpec.describe Tsks::CLI do
 
       it "lists all done tsks" do
         allow(Tsks::Storage).to receive(:select_by).and_return(archived_tsks)
+
         expect {
           described_class.start ["list", "--done"]
         }.to output("* | 2 tsk @inbox\n").to_stdout
@@ -164,6 +190,14 @@ RSpec.describe Tsks::CLI do
         expect {
           described_class.start ["list", "--context=work"]
         }.to output("- | 3 tsk @work\n").to_stdout
+      end
+
+      it "lists all tsks" do
+        allow(Tsks::Storage).to receive(:select_all).and_return(all_tsks)
+
+        expect {
+          described_class.start ["list", "--all"]
+        }.to output("- | 1 tsk @inbox\n* | 2 tsk @inbox\n- | 3 tsk @work\n").to_stdout
       end
 
       it "shows a no tsks found message" do

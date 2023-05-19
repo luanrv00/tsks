@@ -59,6 +59,7 @@ module Tsks
 
     desc "list", "see all active tsks, filter by context or that are done"
     option :done, type: :boolean
+    option :all, type: :boolean
     option :context
     def list
       if !File.directory? CLI.setup_folder
@@ -73,6 +74,8 @@ module Tsks
         tsks = Tsks::Storage.select_by({status: 'done'})
       elsif options[:context]
         tsks = Tsks::Storage.select_by({context: options[:context]})
+      elsif options[:all]
+        tsks = Tsks::Storage.select_all
       else
         tsks = Tsks::Storage.select_active
       end
