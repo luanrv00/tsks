@@ -1,0 +1,14 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.inputs {
+  display: flex;
+  gap: 10px;
+}
+
+.inputs input:last-child {
+  max-width: 100px;
+}

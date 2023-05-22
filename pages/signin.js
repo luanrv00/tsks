@@ -4,12 +4,14 @@ import Link from 'next/link'
 import {Layout, UserForm, FlashMessage, SpacerSmall} from '../components'
 import {setCurrentUserAtBrowser} from '../utils'
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL
+
 export default function SignIn() {
   const router = useRouter()
   const [reqError, setReqError] = useState('')
 
   async function handleSubmit(userCredentials) {
-    const res = await fetch('https://tsks-api.onrender.com/v1/signin', {
+    const res = await fetch(`${API_URL}/signin`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',

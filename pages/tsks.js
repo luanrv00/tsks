@@ -1,12 +1,15 @@
 import React, {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
-import {TsksList, Layout} from '../components'
+import {Layout, FlashMessage, TsksList, TskForm} from '../components'
 import {getCurrentUserAtBrowser} from '../utils'
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL
 
 export default function Tsks() {
   const router = useRouter()
   const [tsks, setTsks] = useState({})
   const [fallbackMsg, setFallbackMsg] = useState('No tsks found')
+  const [reqError, setReqError] = useState('')
 
   useEffect(() => {
     async function fetchTsks() {
@@ -20,7 +23,8 @@ export default function Tsks() {
 
       try {
         // TODO: move fetching data to a separate service
-        await fetch('https://tsks-api.onrender.com/v1/tsks', {
+        //await fetch('https://tsks-api.onrender.com/v1/tsks', {
+        await fetch(`${API_URL}/tsks`, {
           headers: {
             authorization: `Bearer ${apiToken}`,
             'Access-Control-Allow-Origin': '*',
@@ -36,20 +40,51 @@ export default function Tsks() {
           })
           .catch(e => setFallbackMsg(e.toString()))
       } catch (e) {
-        handleError(e)
+        setReqError(e.message)
       }
     }
 
     fetchTsks()
   }, [])
 
+  async function handleSubmit(formValues) {
+    const now = new Date().toISOString()
+    const tsk = {
+      ...formValues,
+      status: 'todo',
+      created_at: now,
+      updated_at: now
+    }
+    const user = getCurrentUserAtBrowser()
+    const apiToken = user.auth_token
+    const res = await fetch(`${API_URL}/tsks`, {
+      method: 'POST',
+      headers: {
+        authorization: `Bearer ${apiToken}`,
+        'Access-Control-Allow-Origin': '*',
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({tsk: tsk}),
+    })
+      .then(r => r.json())
+      .catch(e => e)
+
+    if (res.ok) {
+      return router.reload()
+    } else {
+      setReqError(res.message)
+    }
+  }
+
   return (
     <Layout>
+      <FlashMessage type='error' message={reqError} />
       {Boolean(Object.keys(tsks).length) ? (
         <TsksList tsks={tsks} />
       ) : (
         <p>{fallbackMsg}</p>
       )}
+      <TskForm handleSubmit={handleSubmit} />
     </Layout>
   )
 }
