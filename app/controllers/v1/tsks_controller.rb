@@ -43,15 +43,16 @@ module V1
       @user = User.find_by_email(decoded[0]["email"])
 
       if @user
-        @user.tsks.create(tsk_params)
+        tsk = @user.tsks.build tsk_params
         # TODO: fix "password can't be blank" 422 error
         begin
-          if @user.save!
-            render json: {ok: true, tsk: @user.tsks.last}, status: :created
+          if tsk.save
+            return render json: {ok: true, tsk: @user.tsks.last}, status: :created
           end
-        rescue ActiveRecord::RecordInvalid
-          return render json: {ok: false, message: "400 Bad Request"},
-            status: :bad_request
+        rescue ActiveRecord::RecordInvalid => e
+          return render json: {ok: false,
+                               message: "400 Bad Request (2nd)"},
+                               status: :bad_request
         end
       else
         # TODO: 403
@@ -91,7 +92,7 @@ module V1
     private
 
     def tsk_params
-      params.require(:tsk).permit(:tsk, :context, :status)
+      params.require(:tsk).permit(:tsk, :context, :status, :created_at, :updated_at)
     end
   end
 end
