@@ -169,14 +169,14 @@ RSpec.describe Tsks::Storage do
       described_class.delete 1
     end
 
-    it "saves the removed tsks uuids into the removed_tsks table" do
+    it "saves the removed tsks ids into the removed_tsks table" do
       mock = instance_double(SQLite3::Database)
       allow(SQLite3::Database).to receive(:new).and_return(mock)
       allow(mock).to receive(:execute).and_return(removed_tsks)
       allow(mock).to receive(:execute).with("DELETE FROM tsks WHERE rowid=?", 1)
 
       expect(mock).to receive(:execute)
-        .with("INSERT INTO removed_tsks (tsk_uuid) VALUES (?)", removed_tsks[0][0])
+        .with("INSERT INTO removed_tsks (tsk_id) VALUES (?)", removed_tsks[0][0])
       described_class.delete 1
     end
 

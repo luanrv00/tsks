@@ -19,7 +19,7 @@ module Tsks
 
       storage.execute <<-SQL
         CREATE TABLE removed_tsks (
-          tsk_uuid VARCHAR UNIQUE NOT NULL
+          tsk_id VARCHAR UNIQUE NOT NULL
         )
       SQL
     end
@@ -30,15 +30,15 @@ module Tsks
 
       if ctx
         storage.execute("
-          INSERT INTO tsks (id, tsk, status, context, created_at, updated_at)
-          VALUES (?, ?, ?, ?, ?, ?)",
-          [uuid, tsk, 'todo', ctx, now, now]
+          INSERT INTO tsks (tsk, status, context, created_at, updated_at)
+          VALUES (?, ?, ?, ?, ?)",
+          [tsk, 'todo', ctx, now, now]
          )
       else
         storage.execute("
-          INSERT INTO tsks (id, tsk, status, created_at, updated_at)
-          VALUES (?, ?, ?, ?, ?)",
-          [uuid, tsk, 'todo', now, now]
+          INSERT INTO tsks (tsk, status, created_at, updated_at)
+          VALUES (?, ?, ?, ?)",
+          [tsk, 'todo', now, now]
          )
       end
     end
@@ -127,13 +127,11 @@ module Tsks
 
     def self.delete local_id
       storage = get_storage_instance
-      removed_tsks = storage
-                      .execute("SELECT * FROM tsks WHERE rowid=?", local_id)
+      removed_tsks = storage.execute("SELECT * FROM tsks WHERE rowid=?", local_id)
       if removed_tsks.empty?
         return false
       end
-      storage
-        .execute("INSERT INTO removed_tsks (tsk_uuid) VALUES (?)", removed_tsks[0][0])
+      storage.execute("INSERT INTO removed_tsks (tsk_id) VALUES (?)", removed_tsks[0][0])
       storage.execute("DELETE FROM tsks WHERE rowid=?", local_id)
     end
 
@@ -141,11 +139,11 @@ module Tsks
       storage = get_storage_instance
       result = storage.execute("SELECT * FROM removed_tsks")
 
-      tsk_uuids = []
+      tsk_ids = []
       for item in result
-        tsk_uuids.append item[0]
+        tsk_ids.append item[0]
       end
-      return tsk_uuids
+      return tsk_ids
     end
 
     def self.delete_removed_uuids
