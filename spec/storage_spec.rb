@@ -219,4 +219,8 @@ RSpec.describe Tsks::Storage do
       described_class.delete_removed_uuids
     end
   end
+
+  # TODO: write tests for Storage.select_local_id
+  describe ".select_local_id" do
+  end
 end

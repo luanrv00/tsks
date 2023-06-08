@@ -7,7 +7,7 @@ module Tsks
       storage = get_storage_instance
       storage.execute <<-SQL
         CREATE TABLE tsks (
-          id VARCHAR PRIMARY KEY UNIQUE NOT NULL,
+          id VARCHAR PRIMARY KEY UNIQUE,
           user_id INTEGER DEFAULT 1,
           tsk VARCHAR NOT NULL,
           status VARCHAR DEFAULT todo,
@@ -26,8 +26,7 @@ module Tsks
 
     def self.insert tsk, ctx=nil
       storage = get_storage_instance
-      now = Time.now.strftime "%F %T"
-      uuid = UUID.new.generate
+      now = Time.now.strftime("%Y-%m-%dT%H:%M:%S.%LZ")
 
       if ctx
         storage.execute("
@@ -99,6 +98,17 @@ module Tsks
       end
 
       tsks = structure_tsks raw_tsks
+    end
+
+    # TODO: write tests for Storage.select_local_id
+    def self.select_local_id params
+      storage = get_storage_instance
+
+      tsk = storage.execute(
+        "SELECT rowid, * FROM tsks WHERE #{params.keys.first}=? AND #{params.keys[1]}=? AND #{params.keys.last}=?",
+        params.values.first, params.values[1], params.values.last)
+
+      tsk_local_id = tsk[0][0]
     end
 
     def self.select_all local_id=true

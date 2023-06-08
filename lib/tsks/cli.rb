@@ -161,25 +161,33 @@ module Tsks
       Tsks::Storage.delete_removed_uuids
       local_tsks = Tsks::Storage.select_all local_id=false
 
-      remote_tsks = []
       begin
         get_res = Tsks::Request.get "/tsks", token
-        if get_res[:tsks]
-          for tsk in get_res[:tsks]
-            tsk[:created_at] = Time.parse(tsk[:created_at]).strftime "%F %T"
-            tsk[:updated_at] = Time.parse(tsk[:updated_at]).strftime "%F %T"
-            remote_tsks.append tsk
-          end
+        remote_tsks = get_res[:tsks]
 
+        if get_res[:tsks]
           if get_res[:ok] == true
             local_tsks_to_post = local_tsks - remote_tsks
+
             if local_tsks_to_post.count > 0
               for tsk in local_tsks_to_post
-                Tsks::Request.post "/tsks", token, {tsk: tsk}
+                post_res = Tsks::Request.post "/tsks", token, {tsk: tsk}
+                posted_tsk = post_res[:tsk]
+
+                if posted_tsk
+                  # TODO: write tests for Storage.select_local_id
+                  tsk_local_id = Tsks::Storage.select_local_id({tsk: posted_tsk[:tsk],
+                                                                created_at: posted_tsk[:created_at],
+                                                                updated_at: posted_tsk[:updated_at]})
+
+                  Tsks::Storage.update tsk_local_id, {id: posted_tsk[:id]}
+                end
               end
             end
 
-            remote_tsks_to_storage = remote_tsks - local_tsks
+            updated_local_tsks = Tsks::Storage.select_all local_id=false
+            remote_tsks_to_storage = remote_tsks - updated_local_tsks
+
             if remote_tsks_to_storage.count > 0
               Tsks::Storage.insert_many remote_tsks_to_storage
             end
