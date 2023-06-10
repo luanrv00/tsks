@@ -84,7 +84,7 @@ module Tsks
       if tsks.count > 0
         for tsk in tsks
           tsk_status = Tsks::Actions.get_tsk_status tsk[:status]
-          puts "#{tsk_status} | #{tsk[:local_id]} #{tsk[:tsk]} @#{tsk[:context]}"
+          puts "#{tsk[:id]} #{tsk_status} | #{tsk[:tsk]} @#{tsk[:context]}"
         end
       else
         puts "no tsks found."
