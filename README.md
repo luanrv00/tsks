@@ -1,7 +1,5 @@
 # tsks
 
-[![build](https://dl.circleci.com/status-badge/img/gh/luanrv/tsks-cli/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/luanrv/tsks-cli/tree/main)
-
 A stateful command line interface to help you handle your daily tsks (with
 synchronisation and contexts!).
 
