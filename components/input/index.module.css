@@ -5,3 +5,19 @@
   background-color: #555;
   color: #fff;
 }
+
+.input::-webkit-input-placeholder {
+  color: var(--subtext-color);
+}
+
+.input::-moz-placeholder {
+  color: var(--subtext-color);
+}
+
+.input::-ms-placeholder {
+  color: var(--subtext-color);
+}
+
+.input::placeholder {
+  color: var(--subtext-color);
+}
