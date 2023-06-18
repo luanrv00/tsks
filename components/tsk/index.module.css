@@ -2,8 +2,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-right: 5px;
-  padding-left: 5px;
+  padding-right: 15px;
+  padding-left: 15px;
 }
 
 .status {
@@ -13,7 +13,9 @@
   gap: 20px;
 }
 
-.tsk {
+.wrapper:hover {
+  box-shadow: 0 0 6px 1px #666;
+  cursor: pointer;
 }
 
 .context {

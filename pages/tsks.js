@@ -53,7 +53,7 @@ export default function Tsks() {
       ...formValues,
       status: 'todo',
       created_at: now,
-      updated_at: now
+      updated_at: now,
     }
     const user = getCurrentUserAtBrowser()
     const apiToken = user.auth_token
@@ -62,7 +62,35 @@ export default function Tsks() {
       headers: {
         authorization: `Bearer ${apiToken}`,
         'Access-Control-Allow-Origin': '*',
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({tsk: tsk}),
+    })
+      .then(r => r.json())
+      .catch(e => e)
+
+    if (res.ok) {
+      return router.reload()
+    } else {
+      setReqError(res.message)
+    }
+  }
+
+  // TODO: write tests
+  async function handleDoing(tskId) {
+    const now = new Date().toISOString()
+    const tsk = {
+      status: 'doing',
+      updated_at: now,
+    }
+    const user = getCurrentUserAtBrowser()
+    const apiToken = user.auth_token
+    const res = await fetch(`${API_URL}/tsks/${tskId}`, {
+      method: 'PUT',
+      headers: {
+        authorization: `Bearer ${apiToken}`,
+        'Access-Control-Allow-Origin': '*',
+        'content-type': 'application/json',
       },
       body: JSON.stringify({tsk: tsk}),
     })
@@ -80,7 +108,7 @@ export default function Tsks() {
     <Layout>
       <FlashMessage type='error' message={reqError} />
       {Boolean(Object.keys(tsks).length) ? (
-        <TsksList tsks={tsks} />
+        <TsksList tsks={tsks} handleDoing={handleDoing} />
       ) : (
         <p>{fallbackMsg}</p>
       )}
