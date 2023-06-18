@@ -60,6 +60,40 @@ module V1
       end
     end
 
+    # TODO: write tests
+    def update
+      if !params[:tsk]
+        return render json: {ok: false,
+                             message: "400 Bad Request"},
+                             status: :bad_request
+      end
+
+      if !request.headers.include? :authorization
+        return render json: {ok: false,
+                             message: "401 Unauthorized"},
+                             status: :unauthorized
+      end
+
+      token = request.headers[:authorization].split(" ").last
+      decoded = JWT.decode token, nil, false
+      @user = User.find_by_email(decoded[0]["email"])
+      tsk = @user.tsks.find params[:id]
+
+      if @user
+        if tsk
+          begin
+            if tsk.update tsk_params
+              return render json: {ok: true, tsk: tsk}, status: :ok
+            end
+          rescue
+            return render json: {ok: false,
+                                message: "500 Internal Server Error"},
+                                status: :internal_server_error
+          end
+        end
+      end
+    end
+
     def destroy
       if !request.headers.include? :authorization
         return render json: {ok: false, message: "401 Unauthorized"},

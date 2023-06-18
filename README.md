@@ -75,6 +75,40 @@ next steps.
 }
 ```
 
+#### `PUT /tsks`
+
+**Body:**
+
+```json
+{
+  "tsk": {
+    "tsk": "t",
+    "context": "inbox",
+    "status": "todo/doing/done"
+  }
+}
+```
+
+**Responses:**
+
+##### Errors `400` `401` `403` `422`
+
+##### Success `200`
+
+```json
+{
+  "ok": true,
+  "tsk": {
+    "id": 1,
+    "tsk": "t",
+    "context": "inbox",
+    "status": "todo/doing/done",
+    "created_at": "<date>",
+    "updated_at": "<date>"
+  }
+}
+```
+
 #### `DELETE /tsks/:id`
 
 **Responses:**
@@ -162,7 +196,7 @@ next steps.
 ```json
 {
   "ok": false,
-  "message": "400 Bad Request",
+  "message": "400 Bad Request"
 }
 ```
 
@@ -171,7 +205,7 @@ next steps.
 ```json
 {
   "ok": false,
-  "message": "401 Unauthorized",
+  "message": "401 Unauthorized"
 }
 ```
 
@@ -180,7 +214,7 @@ next steps.
 ```json
 {
   "ok": false,
-  "message": "403 Forbidden",
+  "message": "403 Forbidden"
 }
 ```
 
@@ -189,7 +223,7 @@ next steps.
 ```json
 {
   "ok": false,
-  "message": "404 Not Found",
+  "message": "404 Not Found"
 }
 ```
 
@@ -198,7 +232,7 @@ next steps.
 ```json
 {
   "ok": false,
-  "message": "409 Conflict",
+  "message": "409 Conflict"
 }
 ```
 
@@ -207,7 +241,7 @@ next steps.
 ```json
 {
   "ok": false,
-  "message": "422 Unprocessable Entity",
+  "message": "422 Unprocessable Entity"
 }
 ```
 
@@ -216,7 +250,7 @@ next steps.
 ```json
 {
   "ok": false,
-  "message": "500 Server Error",
+  "message": "500 Server Error"
 }
 ```
 
