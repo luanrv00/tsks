@@ -8,7 +8,7 @@
 #user = User.create({id: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", email: "registered@api.com", password: "s"})
 user = User.create({id: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", email: "registered@api.com", password: "s", auth_token: "token"})
 user.save!
-user.tsks.create({id: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", tsk: "t", status: "todo", created_at: "2023-05-29 01:56:56", updated_at: "2023-05-29 01:56:56"})
+user.tsks.create({id: 0, tsk: "t", status: "todo", created_at: "2023-05-29 01:56:56", updated_at: "2023-05-29 01:56:56"})
 user.save!
 user = User.create({email: "missingauthtoken@api.com", password: "s"})
 user.save!
