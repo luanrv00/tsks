@@ -7,8 +7,8 @@ module Tsks
       storage = get_storage_instance
       storage.execute <<-SQL
         CREATE TABLE tsks (
-          id VARCHAR PRIMARY KEY UNIQUE,
-          user_id INTEGER DEFAULT 1,
+          id INTEGER PRIMARY KEY UNIQUE,
+          user_id INTEGER DEFAULT 0,
           tsk VARCHAR NOT NULL,
           status VARCHAR DEFAULT todo,
           context VARCHAR DEFAULT inbox,
@@ -19,7 +19,7 @@ module Tsks
 
       storage.execute <<-SQL
         CREATE TABLE removed_tsks (
-          tsk_id VARCHAR UNIQUE NOT NULL
+          tsk_id INTEGER UNIQUE NOT NULL
         )
       SQL
     end
