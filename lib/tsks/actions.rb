@@ -6,7 +6,7 @@ module Tsks
       current_tsks = Tsks::Storage.select_all
 
       for tsk in current_tsks
-        Tsks::Storage.update tsk[:local_id], {user_id: user_id}
+        Tsks::Storage.update_by({rowid: tsk[:rowid]}, {user_id: user_id})
       end
     end
 

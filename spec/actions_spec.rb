@@ -3,7 +3,7 @@ RSpec.describe Tsks::Actions do
   context ".update_tsks_with_user_id" do
     let(:old_tsks) {
       [{id: "tsk-uuid",
-       local_id: 1,
+       rowid: 1,
        user_id: 1,
        tsk: "tsk",
        status: 'todo',
@@ -11,7 +11,7 @@ RSpec.describe Tsks::Actions do
        created_at: "",
        updated_at: ""},
       {id: "tsk-uuid",
-       local_id: 2,
+       rowid: 2,
        user_id: 2,
        tsk: "tsk",
        status: 'todo',
@@ -25,10 +25,10 @@ RSpec.describe Tsks::Actions do
       described_class.update_tsks_with_user_id 3
     end
 
-    it "iterates over a tsks array by local_id passing received params" do
+    it "iterates over a tsks array by rowid passing received params" do
       allow(Tsks::Storage).to receive(:select_all).and_return(old_tsks)
-      expect(Tsks::Storage).to receive(:update).with(1, {user_id: 3})
-      expect(Tsks::Storage).to receive(:update).with(2, {user_id: 3})
+      expect(Tsks::Storage).to receive(:update_by).with({rowid: 1}, {user_id: 3})
+      expect(Tsks::Storage).to receive(:update_by).with({rowid: 2}, {user_id: 3})
 
       described_class.update_tsks_with_user_id 3
     end

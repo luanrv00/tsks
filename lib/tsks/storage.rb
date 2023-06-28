@@ -1,5 +1,4 @@
 require "sqlite3"
-require "uuid"
 
 module Tsks
   class Storage
@@ -62,7 +61,7 @@ module Tsks
       end
     end
 
-    def self.update local_id, params=nil
+    def self.update tsk_id, params=nil
       storage = get_storage_instance
 
       if params && params.count == 1
@@ -73,11 +72,22 @@ module Tsks
         storage.execute(
           "UPDATE tsks SET " \
           "#{params.keys.first}=? " \
-          "WHERE rowid=?",
-          [params.values.first, local_id])
+          "WHERE id=?",
+          [params.values.first, tsk_id])
       else
-        storage.execute "UPDATE tsks SET status='done' WHERE rowid=?", local_id
+        storage.execute "UPDATE tsks SET status='done' WHERE id=?", tsk_id
       end
+    end
+
+    # TODO: write tests
+    def self.update_by tsk_params, params=nil
+      storage = get_storage_instance
+
+      storage.execute(
+        "UPDATE tsks SET " \
+        "#{params.keys.first}=? " \
+        "WHERE #{tsk_params.keys.first}=?",
+        [params.values.first, tsk_params.values.first])
     end
 
     def self.select_by params
@@ -100,23 +110,10 @@ module Tsks
       tsks = structure_tsks raw_tsks
     end
 
-    # TODO: write tests for Storage.select_local_id
-    def self.select_local_id params
+    def self.select_all
       storage = get_storage_instance
-
-      tsk = storage.execute(
-        "SELECT rowid, * FROM tsks WHERE #{params.keys.first}=? AND #{params.keys[1]}=? AND #{params.keys.last}=?",
-        params.values.first, params.values[1], params.values.last)
-
-      tsk_local_id = tsk[0][0]
-    end
-
-    def self.select_all local_id=true
-      storage = get_storage_instance
-      raw_tsks = local_id ?
-        storage.execute("SELECT rowid, * FROM tsks") :
-        storage.execute("SELECT * FROM tsks")
-      tsks = structure_tsks(raw_tsks, local_id=local_id)
+      raw_tsks = storage.execute("SELECT rowid, * FROM tsks")
+      tsks = structure_tsks raw_tsks
     end
 
     def self.select_active
@@ -125,17 +122,18 @@ module Tsks
       tsks = structure_tsks raw_tsks
     end
 
-    def self.delete local_id
+    def self.delete tsk_id
       storage = get_storage_instance
-      removed_tsks = storage.execute("SELECT * FROM tsks WHERE rowid=?", local_id)
+      removed_tsks = storage.execute("SELECT * FROM tsks WHERE id=?", tsk_id)
+
       if removed_tsks.empty?
         return false
       end
       storage.execute("INSERT INTO removed_tsks (tsk_id) VALUES (?)", removed_tsks[0][0])
-      storage.execute("DELETE FROM tsks WHERE rowid=?", local_id)
+      storage.execute("DELETE FROM tsks WHERE id=?", tsk_id)
     end
 
-    def self.select_removed_uuids
+    def self.select_removed_tsk_ids
       storage = get_storage_instance
       result = storage.execute("SELECT * FROM removed_tsks")
 
@@ -146,7 +144,7 @@ module Tsks
       return tsk_ids
     end
 
-    def self.delete_removed_uuids
+    def self.delete_removed_tsk_ids
       storage = get_storage_instance
       storage.execute("DELETE FROM removed_tsks")
     end
@@ -157,30 +155,19 @@ module Tsks
       SQLite3::Database.new File.join CLI.setup_folder, "tsks.db"
     end
 
-    def self.structure_tsks tsks, local_id=true
+    def self.structure_tsks tsks
       structured_tsks = []
 
       for tsk in tsks
         t = {}
-
-        if local_id
-           t[:local_id] = tsk[0]
-           t[:id] = tsk[1]
-           t[:user_id] = tsk[2]
-           t[:tsk] = tsk[3]
-           t[:status] = tsk[4]
-           t[:context] = tsk[5]
-           t[:created_at] = tsk[6]
-           t[:updated_at] = tsk[7]
-        else
-           t[:id] = tsk[0]
-           t[:user_id] = tsk[1]
-           t[:tsk] = tsk[2]
-           t[:status] = tsk[3]
-           t[:context] = tsk[4]
-           t[:created_at] = tsk[5]
-           t[:updated_at] = tsk[6]
-        end
+        t[:rowid] = tsk[0]
+        t[:id] = tsk[1]
+        t[:user_id] = tsk[2]
+        t[:tsk] = tsk[3]
+        t[:status] = tsk[4]
+        t[:context] = tsk[5]
+        t[:created_at] = tsk[6]
+        t[:updated_at] = tsk[7]
 
         structured_tsks.append t
       end

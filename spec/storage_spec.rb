@@ -53,7 +53,7 @@ RSpec.describe Tsks::Storage do
       allow(SQLite3::Database).to receive(:new).and_return mock
 
       expect(mock).to receive(:execute)
-        .with("UPDATE tsks SET status='done' WHERE rowid=?", 1)
+        .with("UPDATE tsks SET status='done' WHERE id=?", 1)
       described_class.update 1
     end
 
@@ -62,16 +62,16 @@ RSpec.describe Tsks::Storage do
       allow(SQLite3::Database).to receive(:new).and_return mock
 
       expect(mock).to receive(:execute)
-        .with("UPDATE tsks SET id=? WHERE rowid=?", ["uuid", 1])
-      described_class.update 1, {id: "uuid"}
+        .with("UPDATE tsks SET id=? WHERE id=?", [0, 1])
+      described_class.update 1, {id: 0}
     end
   end
 
   describe ".select_by" do
     # TODO: get correct tsk structure as it comes from storage
-    let(:raw_tsks) { [['uuid', 1, 1, 't', 'Work', 1, '0', '0']] }
+    let(:raw_tsks) { [[0, 1, 1, 't', 'Work', 1, '0', '0']] }
 
-    it "Returns all done tsks" do
+    it "returns all done tsks" do
       mock = instance_double(SQLite3::Database)
       allow(SQLite3::Database).to receive(:new).and_return(mock)
 
@@ -112,7 +112,7 @@ RSpec.describe Tsks::Storage do
 
   describe ".select_all" do
     # TODO
-    let(:raw_tsks) { [['uuid', 1, 1, 't', 'Work', 1, '0', '0']] }
+    let(:raw_tsks) { [[0, 1, 1, 't', 'Work', 1, '0', '0']] }
 
     it "returns all tsks" do
       mock = instance_double(SQLite3::Database)
@@ -134,7 +134,7 @@ RSpec.describe Tsks::Storage do
   end
 
   describe ".select_active" do
-    let(:raw_tsks) { [['uuid', 1, 't', 'doing', 'work', '0', '0']] }
+    let(:raw_tsks) { [[0, 1, 't', 'doing', 'work', '0', '0']] }
 
     it "returns all active tsks" do
       mock = instance_double(SQLite3::Database)
@@ -157,15 +157,15 @@ RSpec.describe Tsks::Storage do
   end
 
   describe ".delete" do
-    let(:removed_tsks) { [['uuid', 1, 1, 't', 'Inbox', 1, '0', '0']] }
+    let(:removed_tsks) { [[0, 1, 1, 't', 'Inbox', 1, '0', '0']] }
 
     it "deletes a tsk from the storage" do
       mock = instance_double(SQLite3::Database)
       allow(SQLite3::Database).to receive(:new).and_return(mock)
-      allow(mock).to receive(:execute).and_return(removed_tsks)
-
-      expect(mock).to receive(:execute)
-        .with("DELETE FROM tsks WHERE rowid=?", 1)
+      allow(mock).to receive(:execute).with("SELECT * FROM tsks WHERE id=?", 1).and_return(removed_tsks)
+      allow(mock).to receive(:execute).with("INSERT INTO removed_tsks (tsk_id) VALUES (?)", 0)
+      
+      expect(mock).to receive(:execute).with("DELETE FROM tsks WHERE id=?", 1)
       described_class.delete 1
     end
 
@@ -190,14 +190,14 @@ RSpec.describe Tsks::Storage do
     end
   end
 
-  describe ".select_removed_uuids" do
+  describe ".select_removed_tsk_ids" do
     it "selects all ids from removed_tsks" do
       mock = instance_double(SQLite3::Database)
       allow(SQLite3::Database).to receive(:new).and_return(mock)
 
       expect(mock).to receive(:execute).with("SELECT * FROM removed_tsks")
         .and_return([])
-      described_class.select_removed_uuids
+      described_class.select_removed_tsk_ids
     end
 
     it "returns an array" do
@@ -205,22 +205,18 @@ RSpec.describe Tsks::Storage do
       allow(SQLite3::Database).to receive(:new).and_return(mock)
       allow(mock).to receive(:execute).and_return([])
 
-      result = described_class.select_removed_uuids
+      result = described_class.select_removed_tsk_ids
       expect(result.instance_of? Array).to be true
     end
   end
 
-  describe ".delete_removed_uuids" do
+  describe ".delete_removed_tsk_ids" do
     it "drops all ids from removed_tsks" do
       mock = instance_double(SQLite3::Database)
       allow(SQLite3::Database).to receive(:new).and_return(mock)
 
       expect(mock).to receive(:execute).with("DELETE FROM removed_tsks")
-      described_class.delete_removed_uuids
+      described_class.delete_removed_tsk_ids
     end
-  end
-
-  # TODO: write tests for Storage.select_local_id
-  describe ".select_local_id" do
   end
 end

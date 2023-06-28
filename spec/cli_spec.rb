@@ -79,7 +79,7 @@ RSpec.describe Tsks::CLI do
         storage = SQLite3::Database.new File.join @setup_folder, "tsks.db"
         storage.execute(
           "insert into tsks (id, tsk, status, created_at, updated_at)
-          values ('uuid', 'tsk', 'todo', '0', '0')"
+          values (0, 'tsk', 'todo', '0', '0')"
         )
       end
 
@@ -108,15 +108,15 @@ RSpec.describe Tsks::CLI do
       end
 
       let(:active_tsks) {
-        [{id: "uuid1",
-          local_id: 1,
+        [{id: 0,
+          rowid: 1,
           tsk: "tsk",
           status: 'todo',
           context: "inbox",
           created_at: "2020-09-26 20:14:13",
           updated_at: "2020-09-26 20:14:13"},
-         {id: "uuid3",
-          local_id: 3,
+         {id: 1,
+          rowid: 3,
           tsk: "tsk",
           status: 'todo',
           context: "work",
@@ -125,8 +125,8 @@ RSpec.describe Tsks::CLI do
       }
 
       let(:archived_tsks) {
-        [{id: "uuid2",
-          local_id: 2,
+        [{id: 0,
+          rowid: 2,
           tsk: "tsk",
           status: 'done',
           context: "inbox",
@@ -135,8 +135,8 @@ RSpec.describe Tsks::CLI do
       }
 
       let(:work_context_tsks) {
-        [{id: "uuid3",
-          local_id: 3,
+        [{id: 1,
+          rowid: 3,
           tsk: "tsk",
           status: 'todo',
           context: "work",
@@ -145,22 +145,22 @@ RSpec.describe Tsks::CLI do
       }
 
       let(:all_tsks) {
-        [{id: "uuid1",
-          local_id: 1,
+        [{id: 0,
+          rowid: 1,
           tsk: "tsk",
           status: 'todo',
           context: "inbox",
           created_at: "2020-09-26 20:14:13",
           updated_at: "2020-09-26 20:14:13"},
-         {id: "uuid2",
-          local_id: 2,
+         {id: 1,
+          rowid: 2,
           tsk: "tsk",
           status: 'done',
           context: "inbox",
           created_at: "2020-09-26 20:14:13",
           updated_at: "2020-09-26 20:14:13"},
-         {id: "uuid3",
-          local_id: 3,
+         {id: 2,
+          rowid: 3,
           tsk: "tsk",
           status: 'todo',
           context: "work",
@@ -173,7 +173,7 @@ RSpec.describe Tsks::CLI do
 
         expect {
           described_class.start ["list"]
-        }.to output("- | 1 tsk @inbox\n- | 3 tsk @work\n").to_stdout
+        }.to output("0 | - tsk @inbox\n1 | - tsk @work\n").to_stdout
       end
 
       it "lists all done tsks" do
@@ -181,7 +181,7 @@ RSpec.describe Tsks::CLI do
 
         expect {
           described_class.start ["list", "--done"]
-        }.to output("* | 2 tsk @inbox\n").to_stdout
+        }.to output("0 | * tsk @inbox\n").to_stdout
       end
 
       it "lists all tsks from a context" do
@@ -189,7 +189,7 @@ RSpec.describe Tsks::CLI do
 
         expect {
           described_class.start ["list", "--context=work"]
-        }.to output("- | 3 tsk @work\n").to_stdout
+        }.to output("1 | - tsk @work\n").to_stdout
       end
 
       it "lists all tsks" do
@@ -197,7 +197,7 @@ RSpec.describe Tsks::CLI do
 
         expect {
           described_class.start ["list", "--all"]
-        }.to output("- | 1 tsk @inbox\n* | 2 tsk @inbox\n- | 3 tsk @work\n").to_stdout
+        }.to output("0 | - tsk @inbox\n1 | * tsk @inbox\n2 | - tsk @work\n").to_stdout
       end
 
       it "shows a no tsks found message" do
@@ -394,7 +394,7 @@ RSpec.describe Tsks::CLI do
       before :each do
         described_class.start ["init"]
         allow(Tsks::Actions).to receive(:update_server_for_removed_tsks)
-        allow(Tsks::Storage).to receive(:delete_removed_uuids)
+        allow(Tsks::Storage).to receive(:delete_removed_tsk_ids)
       end
 
       after :each do
@@ -404,13 +404,13 @@ RSpec.describe Tsks::CLI do
       end
 
       let(:local_tsks) {
-        [{id: "uuid1",
+        [{id: 0,
          tsk: "t",
          context: "inbox",
          status: 'todo',
          created_at: "2020-09-26 20:14:13",
          updated_at: "2020-09-26 20:14:13"},
-        {id: "uuid2",
+        {id: 1,
          tsk: "t",
          context: "inbox",
          status: 'todo',
@@ -418,13 +418,13 @@ RSpec.describe Tsks::CLI do
          updated_at: "2020-09-26 20:14:13"}]
       }
       let(:remote_tsks) {
-        [{id: "uuid2",
+        [{id: 1,
          tsk: "t",
          context: "inbox",
          status: 'todo',
          created_at: "2020-09-26 20:14:13",
          updated_at: "2020-09-26 20:14:13"},
-        {id: "uuid3",
+        {id: 2,
          tsk: "t",
          context: "inbox",
          status: 'todo',
@@ -434,6 +434,7 @@ RSpec.describe Tsks::CLI do
 
       let(:not_synced_local_tsks) { [local_tsks.first] }
       let(:get_res) { {ok: true, tsks: remote_tsks} }
+      let(:post_res) { {ok: true, tsk: remote_tsks.last} }
       let(:post_body) { {tsk: not_synced_local_tsks.first} }
       let(:not_synced_remote_tsks) { [remote_tsks.last] }
 
@@ -469,6 +470,7 @@ RSpec.describe Tsks::CLI do
         subject
         allow(Tsks::Request).to receive(:get).and_return(get_res)
         allow(Tsks::Storage).to receive(:select_all).and_return(local_tsks)
+        allow(Tsks::Request).to receive(:post).and_return(post_res)
 
         expect(Tsks::Request).to receive(:post).exactly(not_synced_local_tsks.count).times
         described_class.start ["sync"]
@@ -478,7 +480,7 @@ RSpec.describe Tsks::CLI do
         subject
         allow(Tsks::Request).to receive(:get).and_return(get_res)
         allow(Tsks::Storage).to receive(:select_all).and_return(local_tsks)
-        allow(Tsks::Request).to receive(:post)
+        allow(Tsks::Request).to receive(:post).and_return(post_res)
 
         expect(Tsks::Storage).to receive(:insert_many).with(not_synced_remote_tsks)
         described_class.start ["sync"]
@@ -488,7 +490,7 @@ RSpec.describe Tsks::CLI do
         subject
         allow(Tsks::Request).to receive(:get).and_return(get_res)
         allow(Tsks::Storage).to receive(:select_all).and_return(local_tsks)
-        allow(Tsks::Request).to receive(:post)
+        allow(Tsks::Request).to receive(:post).and_return(post_res)
         allow(Tsks::Storage).to receive(:insert_many)
 
         expect {
@@ -534,7 +536,7 @@ RSpec.describe Tsks::CLI do
         subject
 
         allow(Tsks::Actions).to receive(:update_server_for_removed_tsks)
-        expect(Tsks::Storage).to receive(:delete_removed_uuids)
+        expect(Tsks::Storage).to receive(:delete_removed_tsk_ids)
         described_class.start ["sync"]
       end
     end
@@ -575,7 +577,7 @@ RSpec.describe Tsks::CLI do
         storage = SQLite3::Database.new File.join @setup_folder, "tsks.db"
         storage.execute(
           "insert into tsks (id, tsk, status, created_at, updated_at)
-          values ('uuid', 'tsk', 'todo', '0', '0')"
+          values (0, 'tsk', 'todo', '0', '0')"
         )
       end
 
