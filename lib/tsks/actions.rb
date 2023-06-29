@@ -11,7 +11,7 @@ module Tsks
     end
 
     def self.update_server_for_removed_tsks token
-      tsks_uuids = Tsks::Storage.select_removed_uuids
+      tsks_uuids = Tsks::Storage.select_removed_tsk_ids
 
       if !tsks_uuids.empty?
         for id in tsks_uuids
