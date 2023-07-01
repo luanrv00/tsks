@@ -168,10 +168,20 @@ module Tsks
 
         if get_res[:tsks]
           if get_res[:ok] == true
-            local_tsks_to_post = local_tsks - remote_tsks
+            raw_local_tsks = local_tsks.map {|t| t.reject{|k,_| k == :rowid}}
+            local_tsks_to_post = raw_local_tsks - remote_tsks
 
-            if local_tsks_to_post.count > 0
-              for tsk in local_tsks_to_post
+            tsks_to_post = []
+            for local_tsk in local_tsks
+              for local_tsk_to_post in local_tsks_to_post
+                if local_tsk[:tsk] == local_tsk_to_post[:tsk]
+                  tsks_to_post.append local_tsk
+                end
+              end
+            end
+
+            if tsks_to_post.count > 0
+              for tsk in tsks_to_post
                 post_res = Tsks::Request.post "/tsks", token, {tsk: tsk}
                 posted_tsk = post_res[:tsk]
 
@@ -183,7 +193,8 @@ module Tsks
 
             # TODO: review this process
             updated_local_tsks = Tsks::Storage.select_all
-            remote_tsks_to_storage = remote_tsks - updated_local_tsks
+            raw_updated_local_tsks = updated_local_tsks.map {|t| t.reject{|k,_| k == :rowid}}
+            remote_tsks_to_storage = remote_tsks - raw_updated_local_tsks
 
             if remote_tsks_to_storage.count > 0
               Tsks::Storage.insert_many remote_tsks_to_storage
