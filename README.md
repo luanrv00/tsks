@@ -65,6 +65,11 @@ listing.
 
 ### Synchronising your tsks
 
+**`Important!`**
+
+Obs.: Until tsks-api is hosted somewhere, please download and run [tsks-api ](https://github.com/luanrv/tsks-api)
+then you will be able to use the commands below.
+
 As easy as running `tsks sync`. This command will fetch your tsks from the API,
 then filter what is not synchronised yet from local, then update both
 remote and local tsks with most recent data.
