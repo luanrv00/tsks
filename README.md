@@ -106,3 +106,7 @@ To install this gem onto your local machine, run `bundle exec rake install`
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/luanrvmood/tsks.
+
+### Docs
+
+https://gist.github.com/luanrv/cd580adf5be96d9d2eecd6add1733322
