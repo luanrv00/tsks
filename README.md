@@ -37,3 +37,7 @@ shared object file: No such file or directory`
 ```
 sudo apt install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
 ```
+
+### Docs
+
+https://gist.github.com/luanrv/cd580adf5be96d9d2eecd6add1733322
