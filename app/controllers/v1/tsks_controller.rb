@@ -16,10 +16,8 @@ module V1
       if user
         tsks = user.tsks.all
         render json: {ok: true, tsks: tsks}, status: :ok
-
-        # TODO: research about 403 handling
-        #else
-        #  render json: {ok: false, message: "403 Forbidden"}, status: :forbidden
+      else
+        render json: {ok: false, message: "403 Forbidden"}, status: :forbidden
       end
     end
 
@@ -40,14 +38,18 @@ module V1
 
       token = request.headers[:authorization].split(" ").last
       decoded = JWT.decode token, nil, false
-      @user = User.find_by_email(decoded[0]["email"])
+      user = User.find_by_email(decoded[0]["email"])
 
-      if @user
-        tsk = @user.tsks.build tsk_params
+      if user
+        tsk = user.tsks.build tsk_params
         # TODO: fix "password can't be blank" 422 error
         begin
           if tsk.save
             return render json: {ok: true, tsk: @user.tsks.last}, status: :created
+          else
+            return render json: {ok: false,
+                                message: "400 Bad Request"},
+                                status: :bad_request
           end
         rescue ActiveRecord::RecordInvalid => e
           return render json: {ok: false,
@@ -55,8 +57,7 @@ module V1
                                status: :bad_request
         end
       else
-        # TODO: 403
-        #  render json: {ok: false, message: "403 Forbidden"}, status: :forbidden
+        return render json: {ok: false, message: "403 Forbidden"}, status: :forbidden
       end
     end
 
@@ -76,10 +77,10 @@ module V1
 
       token = request.headers[:authorization].split(" ").last
       decoded = JWT.decode token, nil, false
-      @user = User.find_by_email(decoded[0]["email"])
-      tsk = @user.tsks.find params[:id]
+      user = User.find_by_email(decoded[0]["email"])
+      tsk = user.tsks.find params[:id]
 
-      if @user
+      if user
         if tsk
           begin
             if tsk.update tsk_params
@@ -105,9 +106,9 @@ module V1
       user = User.find_by_email decoded[0]["email"] if decoded[0]["email"]
 
       # TODO: research cookies usage for checking session <> token validity
-      #if !user
-      #  return render json: {ok: false, message: "403 Forbidden"}, status: :forbidden
-      #end
+      if !user
+        return render json: {ok: false, message: "403 Forbidden"}, status: :forbidden
+      end
 
       begin
         # NOTE: breaks with invalid token. should implement a better way of

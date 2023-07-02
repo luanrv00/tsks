@@ -4,8 +4,12 @@ RSpec.describe "Tsks", type: :request do
   let(:auth_token) {
     "Bearer eyJhbGciOiJub25lIn0.eyJlbWFpbCI6InJlZ2lzdGVyZWRAYXBpLmNvbSJ9."
   }
+  let(:invalid_auth_token) {
+    "Bearer eyJhbGciOiJub25lIn0.eyJlbWFpbCI6ImJAZy5nIn0."
+  }
   let(:api_endpoint) { "/v1/tsks" }
   let(:api_headers) { {authorization: auth_token} }
+  let(:invalid_api_headers) { {authorization: invalid_auth_token} }
   let(:tsk) {
     {tsk: "t",
      context: "inbox",
@@ -33,6 +37,34 @@ RSpec.describe "Tsks", type: :request do
       it "returns error message" do
         parsed_body = JSON.parse response.body
         expect(parsed_body["message"]).to eq "401 Unauthorized"
+      end
+    end
+
+    context "cannot without valid authentication token" do
+      before :all do
+        Rails.application.load_seed
+      end
+
+      after :all do
+        DatabaseCleaner.clean
+      end
+
+      before :each do
+        get api_endpoint, headers: invalid_api_headers
+      end
+
+      it "returns status code 403" do
+        expect(response.status).to eq 403
+      end
+
+      it "returns not ok" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["ok"]).to eq false
+      end
+
+      it "returns error message" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["message"]).to eq "403 Forbidden"
       end
     end
 
@@ -85,6 +117,34 @@ RSpec.describe "Tsks", type: :request do
       it "returns error message" do
         parsed_body = JSON.parse response.body
         expect(parsed_body["message"]).to eq "401 Unauthorized"
+      end
+    end
+
+    context "cannot without valid authentication token" do
+      before :all do
+        Rails.application.load_seed
+      end
+
+      after :all do
+        DatabaseCleaner.clean
+      end
+
+      before :each do
+        get api_endpoint, headers: invalid_api_headers
+      end
+
+      it "returns status code 403" do
+        expect(response.status).to eq 403
+      end
+
+      it "returns not ok" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["ok"]).to eq false
+      end
+
+      it "returns error message" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["message"]).to eq "403 Forbidden"
       end
     end
 
@@ -177,6 +237,34 @@ RSpec.describe "Tsks", type: :request do
       end
     end
 
+    context "cannot without valid authentication token" do
+      before :all do
+        Rails.application.load_seed
+      end
+
+      after :all do
+        DatabaseCleaner.clean
+      end
+
+      before :each do
+        get api_endpoint, headers: invalid_api_headers
+      end
+
+      it "returns status code 403" do
+        expect(response.status).to eq 403
+      end
+
+      it "returns not ok" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["ok"]).to eq false
+      end
+
+      it "returns error message" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["message"]).to eq "403 Forbidden"
+      end
+    end
+
     context "cannot unexistent tsk" do
       before :all do
         Rails.application.load_seed
@@ -215,7 +303,7 @@ RSpec.describe "Tsks", type: :request do
       end
 
       it "returns status code 204" do
-        tsk = Tsk.find_by({id: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"})
+        tsk = Tsk.find_by({id: 012})
         delete "#{api_endpoint}/#{tsk.id}", headers: api_headers
 
         expect(response.status).to eq 204
