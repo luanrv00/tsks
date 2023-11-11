@@ -47,7 +47,7 @@ RSpec.describe "Signin", type: :request do
       end
     end
 
-    context "cannot with wrong password" do
+    context "cannot without correct password" do
       before :all do
         Rails.application.load_seed
       end
@@ -75,7 +75,7 @@ RSpec.describe "Signin", type: :request do
       end
     end
 
-    context "cannot with not registered email" do
+    context "cannot without registered email" do
       before :each do
         post api_endpoint, params: {email: "new@tsks.api", password: "x"}
       end
@@ -95,7 +95,7 @@ RSpec.describe "Signin", type: :request do
       end
     end
 
-    context "cannot with invalid email" do
+    context "cannot without valid email" do
       before :each do
         post api_endpoint, params: {email: "invalid string", password: "x"}
       end
@@ -115,6 +115,7 @@ RSpec.describe "Signin", type: :request do
       end
     end
 
+    # TODO: review the purpose of this test
     context "cannot without existent authentication token on db" do
       before :all do
         Rails.application.load_seed

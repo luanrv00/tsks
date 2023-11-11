@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+# TODO: implement PUT test cases (plan from gist)# TODO: 
 RSpec.describe "Tsks", type: :request do
   let(:auth_token) {
     "Bearer eyJhbGciOiJub25lIn0.eyJlbWFpbCI6InJlZ2lzdGVyZWRAYXBpLmNvbSJ9."
@@ -98,6 +99,7 @@ RSpec.describe "Tsks", type: :request do
     end
   end
 
+  # TODO: implement all test cases (plan from gist)
   describe "POST /tsks" do
     # TODO: verify if need pass params
     context "cannot without authentication token" do
@@ -216,6 +218,7 @@ RSpec.describe "Tsks", type: :request do
     #end
   end
 
+  # TODO: implement all test cases (plan from gist)
   describe "DELETE /tsks/:id" do
     context "cannot without authentication token" do
       before :each do
