@@ -109,7 +109,7 @@ describe('SignIn', () => {
     })
   })
 
-  describe('cannot with wrong password', () => {
+  describe('cannot without correct password', () => {
     const testApiPostRequest = {
       method: 'POST',
       endpoint: '**/v1/signin',
@@ -141,7 +141,7 @@ describe('SignIn', () => {
     })
   })
 
-  describe('cannot with not registered email', () => {
+  describe('cannot without registered email', () => {
     const testApiPostRequest = {
       method: 'POST',
       endpoint: '**/v1/signin',
@@ -173,7 +173,7 @@ describe('SignIn', () => {
     })
   })
 
-  describe('cannot with invalid email', () => {
+  describe('cannot without valid email', () => {
     const testApiPostRequest = {
       method: 'POST',
       endpoint: '**/v1/signin',

@@ -110,7 +110,7 @@ describe('SignUp', () => {
     })
   })
 
-  context('cannot with invalid email', () => {
+  context('cannot without valid email', () => {
     beforeEach(() => {
       const testApiPostRequest = {
         method: 'POST',
