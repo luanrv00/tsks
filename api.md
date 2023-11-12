@@ -51,3 +51,262 @@
 - 404
 - 422
 - 500
+
+---
+
+## ENDPOINTS
+
+### `tsks`
+
+**Headers:** (_Required for all requests_)
+
+```json
+{
+  "authorization": "Bearer <token>",
+  "content-type": "application/json"
+}
+```
+
+#### `GET /tsks`
+
+**Responses:**
+
+##### Errors `401` `403`
+
+##### Success `200`
+
+```json
+{
+  "ok": true,
+  "tsks": [
+    {
+      "id": 0,
+      "tsk": "<t>",
+      "context": "<ctx>",
+      "status": "todo|doing|done",
+      "created_at": "<date>",
+      "updated_at": "<date>"
+    }
+  ]
+}
+```
+
+#### `POST /tsks`
+
+**Body:**
+
+```json
+{
+  "tsk": {
+    "tsk": "<t>",
+    "context": "<ctx>",
+    "status": "todo|doing|done"
+  }
+}
+```
+
+**Responses:**
+
+##### Errors `400` `401` `403` `422`
+
+##### Success `201`
+
+```json
+{
+  "ok": true,
+  "tsk": {
+    "id": 0,
+    "tsk": "<t>",
+    "context": "<ctx>",
+    "status": "todo|doing|done",
+    "created_at": "<date>",
+    "updated_at": "<date>"
+  }
+}
+```
+
+#### `PUT /tsks`
+
+**Body:**
+
+```json
+{
+  "tsk": {
+    "tsk": "<t>",
+    "context": "<ctx>",
+    "status": "todo|doing|done"
+  }
+}
+```
+
+**Responses:**
+
+##### Errors `400` `401` `403` `422`
+
+##### Success `200`
+
+```json
+{
+  "ok": true,
+  "tsk": {
+    "id": 0,
+    "tsk": "<t>",
+    "context": "<ctx>",
+    "status": "todo|doing|done",
+    "created_at": "<date>",
+    "updated_at": "<date>"
+  }
+}
+```
+
+#### `DELETE /tsks/:id`
+
+**Responses:**
+
+##### Errors `401` `403` `404`
+
+##### Success `204`
+
+<hr/>
+
+### `user` (Signup/Signin)
+
+**Headers:** (_Required for all requests._)
+
+```json
+{
+  "content-type": "application/json"
+}
+```
+
+#### `POST /signup`
+
+**Body:**
+
+```json
+{
+  "email": "<email>",
+  "password": "<pass>"
+}
+```
+
+**Responses:**
+
+##### Errors `400` `409` `422`
+
+##### Success `201`
+
+```json
+{
+  "ok": true,
+  "user": {
+    "id": 0,
+    "email": "<email>",
+    "auth_token": "<token>",
+    "created_at": "<date>",
+    "updated_at": "<date>"
+  }
+}
+```
+
+#### `POST /signin`
+
+**Body:**
+
+```json
+{
+  "email": "<email>",
+  "password": "<pass>"
+}
+```
+
+**Responses:**
+
+##### Errors `400` `404` `403` `422`
+
+##### Success `200`
+
+```json
+{
+  "ok": true,
+  "user": {
+    "id": 0,
+    "email": "<email>",
+    "auth_token": "<token>",
+    "created_at": "<date>",
+    "updated_at": "<date>"
+  }
+}
+```
+
+### Errors Responses
+
+##### `400 Bad Request`
+
+```json
+{
+  "ok": false,
+  "message": "400 Bad Request",
+  "status_code": 400
+}
+```
+
+##### `401 Unauthorized`
+
+```json
+{
+  "ok": false,
+  "message": "401 Unauthorized",
+  "status_code": 401
+}
+```
+
+##### `403 Forbidden`
+
+```json
+{
+  "ok": false,
+  "message": "403 Forbidden",
+  "status_code": 403
+}
+```
+
+##### `404 Not Found`
+
+```json
+{
+  "ok": false,
+  "message": "404 Not Found",
+  "status_code": 404
+}
+```
+
+##### `409 Conflict`
+
+```json
+{
+  "ok": false,
+  "message": "409 Conflict",
+  "status_code": 409
+}
+```
+
+##### `422 Unprocessable Entity`
+
+```json
+{
+  "ok": false,
+  "message": "422 Unprocessable Entity",
+  "status_code": 422
+}
+```
+
+##### `500 Server Error`
+
+```json
+{
+  "ok": false,
+  "message": "500 Server Error",
+  "status_code": 500
+}
+```
