@@ -150,7 +150,35 @@ RSpec.describe "Tsks", type: :request do
       end
     end
 
-    context "cannot without valid params" do
+    context "cannot without tsk" do
+      before :all do
+        Rails.application.load_seed
+      end
+
+      after :all do
+        DatabaseCleaner.clean
+      end
+
+      before :each do
+        post api_endpoint, headers: api_headers, params: {}
+      end
+
+      it "returns status code 400" do
+        expect(response.status).to eq 400
+      end
+
+      it "returns not ok" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["ok"]).to eq false
+      end
+
+      it "returns error message" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["message"]).to eq "400 Bad Request"
+      end
+    end
+
+    context "cannot without valid tsk" do
       before :all do
         Rails.application.load_seed
       end
@@ -160,12 +188,7 @@ RSpec.describe "Tsks", type: :request do
       end
 
       let(:invalid_tsk) {
-        {id: 1,
-          t: "t",
-          ctx: "Inbox",
-          stats: 'todo',
-          created_at: nil,
-          updated_at: nil}
+        {id: 1}
       }
 
       before :each do
@@ -268,7 +291,7 @@ RSpec.describe "Tsks", type: :request do
       end
     end
 
-    context "cannot unexistent tsk" do
+    context "cannot without valid id" do
       before :all do
         Rails.application.load_seed
       end

@@ -66,7 +66,7 @@ RSpec.describe "Signup", type: :request do
       end
     end
 
-    context "cannot with already registered email" do
+    context "cannot without unregistered email" do
       let(:registered_email) {"registered@api.com"}
 
       before :all do
