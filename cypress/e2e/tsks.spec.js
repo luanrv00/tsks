@@ -18,7 +18,7 @@ describe('Tsks', () => {
 
   // TODO: verify if saving user as session is better than localStorage
   describe('when has session', () => {
-    describe('list tsks', () => {
+    describe('get tsks', () => {
       const testApiGetRequest = {
         method: 'GET',
         endpoint: '**/v1/tsks',
