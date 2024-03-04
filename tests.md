@@ -31,6 +31,7 @@
 - returns user
 
 ### signin
+
 **cannot without email**
 - returns status_code=400
 - returns message="400 Bad Request"
@@ -62,7 +63,7 @@
 - returns ok=true
 - returns user
 
-### `GET` tsks
+### GET tsks
 
 **cannot without authentication token**
 - returns status_code=401
@@ -81,6 +82,7 @@
 - returns tsks
 
 ### POST tsk
+
 **cannot without authentication token**
 - returns status_code=401
 - returns message="401 Unauthorized"
@@ -108,6 +110,7 @@
 - returns tsks
 
 ### PUT tsk
+
 **cannot without authentication token**
 - returns status_code=401
 - returns message="401 Unauthorized"
@@ -172,41 +175,43 @@
 ### signup
 
 **cannot without email**
-- renders "cannot without email"
+- renders "email required"
 
 **cannot without password**
-- renders "cannot without password"
+- renders "password required"
 
 **cannot without valid email**
-- renders "cannot without valid email"
+- renders "invalid email"
 
-**cannot with already registered email**
-- renders "cannot with already registered email"
+**cannot without unregistered email**
+- renders "email already registered"
 
 **signup succesfully**
-- renders "signup succesfully"
 - redirects to /tsks
+- saves user on localStorage
+- renders "signup succesfully"
 
 ### signin
 
 **cannot without email**
-- renders "cannot without email"
+- renders "email required"
 
 **cannot without valid email**
-- renders "cannot without valid email"
+- renders "invalid email"
 
 **cannot without registered email**
-- renders "cannot without registered email"
+- renders "email not registered"
 
 **cannot without password**
-- renders "cannot without password"
+- renders "password required"
 
 **cannot without correct password**
-- renders "cannot without correct password"
+- renders "incorrect password"
 
 **signin succesfully**
-- renders "signin succesfully"
 - redirects to /tsks
+- saves user on localStorage
+- renders "signin succesfully"
 
 ### GET tsks
 

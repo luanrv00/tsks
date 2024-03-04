@@ -6,7 +6,7 @@
 - cannot without email
 - cannot without password
 - cannot without valid email
-- cannot with already registered email
+- cannot without unregistered email
 - signup succesfully
 
 ### signin
@@ -41,7 +41,6 @@
 - cannot without authentication token
 - cannot without valid authentication token
 - cannot without valid id
-- cannot unexistent tsk
 - delete succesfully
 
 ### errors possibilities

@@ -6,7 +6,7 @@
 - cannot without email
 - cannot without password
 - cannot without valid email
-- cannot with already registered email
+- cannot without unregistered email
 - signup succesfully
 
 ### signin
