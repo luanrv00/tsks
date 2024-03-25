@@ -3,6 +3,7 @@
 ## FEATURES
 
 ### signup
+
 - cannot without email
 - cannot without password
 - cannot without valid email
@@ -10,6 +11,7 @@
 - signup succesfully
 
 ### signin
+
 - cannot without email
 - cannot without valid email
 - cannot without registered email
@@ -18,11 +20,13 @@
 - signin succesfully
 
 ### GET tsks
+
 - cannot without authentication token
 - cannot without valid authentication token
 - get succesfully
 
 ### POST tsk
+
 - cannot without authentication token
 - cannot without valid authentication token
 - cannot without tsk
@@ -30,6 +34,7 @@
 - post succesfully
 
 ### PUT tsk
+
 - cannot without authentication token
 - cannot without valid authentication token
 - cannot without tsk
@@ -38,6 +43,7 @@
 - put succesfully
 
 ### DELETE tsk
+
 - cannot without authentication token
 - cannot without valid authentication token
 - cannot without valid id
@@ -45,6 +51,7 @@
 - delete succesfully
 
 ### errors possibilities
+
 - 400
 - 401
 - 403
