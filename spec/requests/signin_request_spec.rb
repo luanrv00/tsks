@@ -16,14 +16,54 @@ RSpec.describe "Signin", type: :request do
         expect(response.status).to eq 400
       end
 
+      it "returns error message" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["message"]).to eq "400 Bad Request"
+      end
+
       it "returns not ok" do
         parsed_body = JSON.parse response.body
         expect(parsed_body["ok"]).to eq false
+      end
+    end
+
+    context "cannot without valid email" do
+      before :each do
+        post api_endpoint, params: {email: "invalid string", password: "x"}
+      end
+
+      it "returns status code 400" do
+        expect(response.status).to eq 400
       end
 
       it "returns error message" do
         parsed_body = JSON.parse response.body
         expect(parsed_body["message"]).to eq "400 Bad Request"
+      end
+
+      it "returns not ok" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["ok"]).to eq false
+      end
+    end
+
+    context "cannot without registered email" do
+      before :each do
+        post api_endpoint, params: {email: "new@tsks.api", password: "x"}
+      end
+
+      it "returns status code 404" do
+        expect(response.status).to eq 404
+      end
+
+      it "returns error message" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["message"]).to eq "404 Not Found"
+      end
+
+      it "returns not ok" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["ok"]).to eq false
       end
     end
 
@@ -36,14 +76,14 @@ RSpec.describe "Signin", type: :request do
         expect(response.status).to eq 400
       end
 
-      it "returns not ok" do
-        parsed_body = JSON.parse response.body
-        expect(parsed_body["ok"]).to eq false
-      end
-
       it "returns error message" do
         parsed_body = JSON.parse response.body
         expect(parsed_body["message"]).to eq "400 Bad Request"
+      end
+
+      it "returns not ok" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["ok"]).to eq false
       end
     end
 
@@ -64,59 +104,18 @@ RSpec.describe "Signin", type: :request do
         expect(response.status).to eq 401
       end
 
-      it "returns not ok" do
-        parsed_body = JSON.parse response.body
-        expect(parsed_body["ok"]).to eq false
-      end
-
       it "returns error message" do
         parsed_body = JSON.parse response.body
         expect(parsed_body["message"]).to eq "401 Unauthorized"
       end
-    end
-
-    context "cannot without registered email" do
-      before :each do
-        post api_endpoint, params: {email: "new@tsks.api", password: "x"}
-      end
-
-      it "returns status code 404" do
-        expect(response.status).to eq 404
-      end
 
       it "returns not ok" do
         parsed_body = JSON.parse response.body
         expect(parsed_body["ok"]).to eq false
       end
-
-      it "returns error message" do
-        parsed_body = JSON.parse response.body
-        expect(parsed_body["message"]).to eq "404 Not Found"
-      end
     end
 
-    context "cannot without valid email" do
-      before :each do
-        post api_endpoint, params: {email: "invalid string", password: "x"}
-      end
-
-      it "returns status code 400" do
-        expect(response.status).to eq 400
-      end
-
-      it "returns not ok" do
-        parsed_body = JSON.parse response.body
-        expect(parsed_body["ok"]).to eq false
-      end
-
-      it "returns error message" do
-        parsed_body = JSON.parse response.body
-        expect(parsed_body["message"]).to eq "400 Bad Request"
-      end
-    end
-
-    # TODO: review the purpose of this test
-    context "cannot without existent authentication token on db" do
+    context "cannot without saved authentication token" do
       before :all do
         Rails.application.load_seed
       end
@@ -133,14 +132,14 @@ RSpec.describe "Signin", type: :request do
         expect(response.status).to eq 500
       end
 
-      it "returns not ok" do
-        parsed_body = JSON.parse response.body
-        expect(parsed_body["ok"]).to eq false
-      end
-
       it "returns error message" do
         parsed_body = JSON.parse response.body
         expect(parsed_body["message"]).to eq "500 Internal Server Error"
+      end
+
+      it "returns not ok" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["ok"]).to eq false
       end
     end
 
@@ -161,20 +160,25 @@ RSpec.describe "Signin", type: :request do
         expect(response.status).to eq 200
       end
 
+      it "returns message" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["200 Success"]).to eq true
+      end
+
       it "returns ok" do
         parsed_body = JSON.parse response.body
         expect(parsed_body["ok"]).to eq true
       end
 
-      it "returns user" do
-        parsed_body = JSON.parse response.body
-        expect(parsed_body).to include "user"
-        # TODO: expect(parsed_body["user"]).to eq user data structure
-      end
-
       it "returns authentication token" do
         parsed_body = JSON.parse response.body
         expect(parsed_body["user"]).to include "auth_token"
+      end
+
+      # TODO: expect(parsed_body["user"]).to eq user data structure
+      it "returns user" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body).to include "user"
       end
     end
   end
