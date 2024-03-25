@@ -29,6 +29,7 @@ module V1
           end
 
           return render json: {ok: true,
+                               message: "200 Success",
                                user: user},
                                status: :ok
         else

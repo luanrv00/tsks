@@ -162,7 +162,7 @@ RSpec.describe "Signin", type: :request do
 
       it "returns message" do
         parsed_body = JSON.parse response.body
-        expect(parsed_body["200 Success"]).to eq true
+        expect(parsed_body["message"]).to eq "200 Success"
       end
 
       it "returns ok" do

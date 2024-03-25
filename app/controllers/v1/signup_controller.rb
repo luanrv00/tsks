@@ -23,6 +23,7 @@ module V1
       begin
         if user.save!
           render json: {ok: true,
+                        message: "201 Created",
                         user: user},
                         status: :created
         else
