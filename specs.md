@@ -28,6 +28,7 @@
 - returns status_code=201
 - returns message="201 Created"
 - returns ok=true
+- saves authentication token
 - returns user
 
 ### signin
@@ -55,6 +56,11 @@
 **cannot without correct password**
 - returns status_code=401
 - returns message="401 Unauthorized"
+- returns ok=false
+
+**cannot without saved authentication token**
+- returns status_code=500
+- returns message="500 Internal Server Error"
 - returns ok=false
 
 **signin succesfully**

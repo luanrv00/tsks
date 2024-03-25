@@ -15,6 +15,7 @@
 - cannot without registered email
 - cannot without password
 - cannot without correct password
+- cannot without saved authentication token
 - signin succesfully
 
 ### GET tsks
@@ -53,6 +54,76 @@
 ---
 
 ## ENDPOINTS
+
+### `user` (Signup/Signin)
+
+**Headers:** (_Required for all requests._)
+
+```json
+{
+  "content-type": "application/json"
+}
+```
+
+#### `POST /signup`
+
+**Body:**
+
+```json
+{
+  "email": "<email>",
+  "password": "<pass>"
+}
+```
+
+**Responses:**
+
+##### Errors `400` `409` `422`
+
+##### Success `201`
+
+```json
+{
+  "ok": true,
+  "user": {
+    "id": 0,
+    "email": "<email>",
+    "auth_token": "<token>",
+    "created_at": "<date>",
+    "updated_at": "<date>"
+  }
+}
+```
+
+#### `POST /signin`
+
+**Body:**
+
+```json
+{
+  "email": "<email>",
+  "password": "<pass>"
+}
+```
+
+**Responses:**
+
+##### Errors `400` `404` `403` `422`
+
+##### Success `200`
+
+```json
+{
+  "ok": true,
+  "user": {
+    "id": 0,
+    "email": "<email>",
+    "auth_token": "<token>",
+    "created_at": "<date>",
+    "updated_at": "<date>"
+  }
+}
+```
 
 ### `tsks`
 
@@ -166,76 +237,6 @@
 ##### Success `204`
 
 <hr/>
-
-### `user` (Signup/Signin)
-
-**Headers:** (_Required for all requests._)
-
-```json
-{
-  "content-type": "application/json"
-}
-```
-
-#### `POST /signup`
-
-**Body:**
-
-```json
-{
-  "email": "<email>",
-  "password": "<pass>"
-}
-```
-
-**Responses:**
-
-##### Errors `400` `409` `422`
-
-##### Success `201`
-
-```json
-{
-  "ok": true,
-  "user": {
-    "id": 0,
-    "email": "<email>",
-    "auth_token": "<token>",
-    "created_at": "<date>",
-    "updated_at": "<date>"
-  }
-}
-```
-
-#### `POST /signin`
-
-**Body:**
-
-```json
-{
-  "email": "<email>",
-  "password": "<pass>"
-}
-```
-
-**Responses:**
-
-##### Errors `400` `404` `403` `422`
-
-##### Success `200`
-
-```json
-{
-  "ok": true,
-  "user": {
-    "id": 0,
-    "email": "<email>",
-    "auth_token": "<token>",
-    "created_at": "<date>",
-    "updated_at": "<date>"
-  }
-}
-```
 
 ### Errors Responses
 
