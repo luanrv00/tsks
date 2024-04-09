@@ -15,7 +15,10 @@ module V1
 
       if user
         tsks = user.tsks.all
-        render json: {ok: true, tsks: tsks}, status: :ok
+        render json: {ok: true,
+                      tsks: tsks,
+                      message: "200 Success"},
+                      status: :ok
       else
         render json: {ok: false, message: "403 Forbidden"}, status: :forbidden
       end
