@@ -172,7 +172,6 @@
 
 **delete succesfully**
 - returns status_code=204
-- returns ok=true
 
 ---
 
