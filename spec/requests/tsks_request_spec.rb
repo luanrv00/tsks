@@ -261,14 +261,14 @@ RSpec.describe "Tsks", type: :request do
         expect(response.status).to eq 401
       end
 
-      it "returns not ok" do
-        parsed_body = JSON.parse response.body
-        expect(parsed_body["ok"]).to eq false
-      end
-
       it "returns error message" do
         parsed_body = JSON.parse response.body
         expect(parsed_body["message"]).to eq "401 Unauthorized"
+      end
+
+      it "returns not ok" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["ok"]).to eq false
       end
     end
 
@@ -289,14 +289,14 @@ RSpec.describe "Tsks", type: :request do
         expect(response.status).to eq 403
       end
 
-      it "returns not ok" do
-        parsed_body = JSON.parse response.body
-        expect(parsed_body["ok"]).to eq false
-      end
-
       it "returns error message" do
         parsed_body = JSON.parse response.body
         expect(parsed_body["message"]).to eq "403 Forbidden"
+      end
+
+      it "returns not ok" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["ok"]).to eq false
       end
     end
 
@@ -317,14 +317,14 @@ RSpec.describe "Tsks", type: :request do
         expect(response.status).to eq 404
       end
 
-      it "returns not ok" do
-        parsed_body = JSON.parse response.body
-        expect(parsed_body["ok"]).to eq false
-      end
-
       it "returns error message" do
         parsed_body = JSON.parse response.body
         expect(parsed_body["message"]).to eq "404 Not Found"
+      end
+
+      it "returns not ok" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["ok"]).to eq false
       end
     end
 
