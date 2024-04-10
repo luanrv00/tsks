@@ -14,7 +14,9 @@ RSpec.describe "Tsks", type: :request do
   let(:tsk) {
     {tsk: "t",
      context: "inbox",
-     status: "todo"}
+     status: "todo",
+     created_at: "2024-04-09 22:06:52.454969000 +0000",
+     updated_at: "2024-04-09 22:06:52.454969000 +0000"}
   }
   let(:tsks) {
     [tsk]
@@ -214,34 +216,34 @@ RSpec.describe "Tsks", type: :request do
     end
 
     # TODO: fix 400 error - invalid tsk when sent data structure is correct
-    #context "create succesfully" do
-    #  before :all do
-    #    Rails.application.load_seed
-    #  end
+    context "create succesfully" do
+      before :all do
+        Rails.application.load_seed
+      end
 
-    #  after :all do
-    #    DatabaseCleaner.clean
-    #  end
+      after :all do
+        DatabaseCleaner.clean
+      end
 
-    #  before :each do
-    #    post api_endpoint, headers: api_headers, params: {tsk: tsk}
-    #  end
+      before :each do
+        post api_endpoint, headers: api_headers, params: {tsk: tsk}
+      end
 
-    #  it "returns status code 201" do
-    #    expect(response.status).to eq 201
-    #  end
+      it "returns status code 201" do
+        expect(response.status).to eq 201
+      end
 
-    #  it "returns ok" do
-    #    parsed_body = JSON.parse response.body
-    #    expect(parsed_body["ok"]).to eq true
-    #  end
+      it "returns ok" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["ok"]).to eq true
+      end
 
-    #  it "returns tsk" do
-    #    parsed_body = JSON.parse response.body
-    #    expect(parsed_body).to include "tsk"
-    #    # TODO: expect(parsed_body["tsks"]).to eq tsks data structure
-    #  end
-    #end
+      it "returns tsk" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body).to include "tsk"
+        # TODO: expect(parsed_body["tsks"]).to eq tsks data structure
+      end
+    end
   end
 
   describe "DELETE /tsks/:id" do

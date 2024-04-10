@@ -45,10 +45,10 @@ module V1
 
       if user
         tsk = user.tsks.build tsk_params
-        # TODO: fix "password can't be blank" 422 error
+        # TODO: (review if still need this fix) fix "password can't be blank" 422 error
         begin
-          if tsk.save
-            return render json: {ok: true, tsk: @user.tsks.last}, status: :created
+          if tsk.save!
+            return render json: {ok: true, tsk: user.tsks.last}, status: :created
           else
             return render json: {ok: false,
                                 message: "400 Bad Request"},
@@ -56,7 +56,7 @@ module V1
           end
         rescue ActiveRecord::RecordInvalid => e
           return render json: {ok: false,
-                               message: "400 Bad Request (2nd)"},
+                               message: "400 Bad Request"},
                                status: :bad_request
         end
       else
