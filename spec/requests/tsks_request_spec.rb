@@ -233,6 +233,11 @@ RSpec.describe "Tsks", type: :request do
         expect(response.status).to eq 201
       end
 
+      it "returns message" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["message"]).to eq "201 Created"
+      end
+
       it "returns ok" do
         parsed_body = JSON.parse response.body
         expect(parsed_body["ok"]).to eq true

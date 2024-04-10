@@ -48,7 +48,10 @@ module V1
         # TODO: (review if still need this fix) fix "password can't be blank" 422 error
         begin
           if tsk.save!
-            return render json: {ok: true, tsk: user.tsks.last}, status: :created
+            return render json: {ok: true, 
+                                 tsk: user.tsks.last,
+                                 message: "201 Created"}, 
+                                 status: :created
           else
             return render json: {ok: false,
                                 message: "400 Bad Request"},
