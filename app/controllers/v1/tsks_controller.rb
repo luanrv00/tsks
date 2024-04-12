@@ -92,7 +92,10 @@ module V1
           if tsk
             begin
               if tsk.update tsk_params
-                return render json: {ok: true, tsk: tsk}, status: :ok
+                return render json: {ok: true,
+                                     tsk: tsk,
+                                     message: "200 Success"},
+                                     status: :ok
               end
             rescue
               return render json: {ok: false,

@@ -483,6 +483,39 @@ RSpec.describe "Tsks", type: :request do
     end
 
     context "put succesfully " do
+      before :all do
+        Rails.application.load_seed
+      end
+      
+      after :all do
+        DatabaseCleaner.clean
+      end
+
+      before :each do
+        put "#{api_endpoint}/#{valid_tsk_id}", headers: api_headers,
+                                               params: {tsk: tsk}
+      end
+
+      it "returns status code 200" do
+        expect(response.status).to eq 200
+      end
+
+      it "returns success message" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["message"]).to eq "200 Success"
+      end
+
+      it "returns ok" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["ok"]).to eq true
+      end
+
+      # TODO: change test to check deep tsk properties
+      # (e.g. tsk.to eq tsk)
+      it "returns tsk" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["tsk"]).to be_truthy
+      end
     end
   end
 end
