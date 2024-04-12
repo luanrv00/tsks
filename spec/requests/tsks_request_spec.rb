@@ -21,6 +21,8 @@ RSpec.describe "Tsks", type: :request do
   let(:tsks) {
     [tsk]
   }
+  let(:invalid_tsk) { nil }
+  let(:valid_tsk_id) { 13 }
 
   describe "GET /tsks" do
     context "cannot without authentication token" do
@@ -193,10 +195,6 @@ RSpec.describe "Tsks", type: :request do
       after :all do
         DatabaseCleaner.clean
       end
-
-      let(:invalid_tsk) {
-        {id: 1}
-      }
 
       before :each do
         post api_endpoint, headers: api_headers, params: {tsk: invalid_tsk}
@@ -427,6 +425,32 @@ RSpec.describe "Tsks", type: :request do
     end
 
     context "cannot without valid tsk" do
+      before :all do
+        Rails.application.load_seed
+      end
+
+      after :all do
+        DatabaseCleaner.clean
+      end
+
+      before :each do
+        put "#{api_endpoint}/#{valid_tsk_id}", headers: api_headers,
+                                               params: {tsk: invalid_tsk}
+      end
+
+      it "returns status code 400" do
+        expect(response.status).to eq 400
+      end
+
+      it "returns error message" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["message"]).to eq "400 Bad Request"
+      end
+
+      it "returns not ok" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["ok"]).to eq false
+      end
     end
 
     context "cannot unexistent tsk" do
