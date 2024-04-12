@@ -84,9 +84,10 @@ module V1
       token = request.headers[:authorization].split(" ").last
       decoded = JWT.decode token, nil, false
       user = User.find_by_email(decoded[0]["email"])
-      tsk = user.tsks.find params[:id]
 
       if user
+        tsk = user.tsks.find params[:id]
+
         if tsk
           begin
             if tsk.update tsk_params
@@ -98,6 +99,10 @@ module V1
                                 status: :internal_server_error
           end
         end
+      else
+        return render json: {ok: false,
+                             message: "403 Forbidden"},
+                             status: :forbidden
       end
     end
 

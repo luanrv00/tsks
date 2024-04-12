@@ -127,6 +127,7 @@ RSpec.describe "Tsks", type: :request do
       end
     end
 
+    # TODO: fix api calling with POST instead of GET
     context "cannot without valid authentication token" do
       before :all do
         Rails.application.load_seed
@@ -136,6 +137,7 @@ RSpec.describe "Tsks", type: :request do
         DatabaseCleaner.clean
       end
 
+      # TODO: fix api calling with POST instead of GET
       before :each do
         get api_endpoint, headers: invalid_api_headers
       end
@@ -352,7 +354,7 @@ RSpec.describe "Tsks", type: :request do
         put "#{api_endpoint}/fake-id", params: {tsk: tsk}
       end
 
-      it "returns status_code 401" do
+      it "returns status code 401" do
         expect(response.status).to eq 401
       end
 
@@ -368,6 +370,32 @@ RSpec.describe "Tsks", type: :request do
     end
 
     context "cannot without valid authentication token" do
+      before :all do
+        Rails.application.load_seed
+      end
+
+      after :all do
+        DatabaseCleaner.clean
+      end
+
+      before :each do
+        put "#{api_endpoint}/fake-id", params: {tsk: tsk},
+                                       headers: invalid_api_headers
+      end
+
+      it "returns status code 403" do
+        expect(response.status).to eq 403
+      end
+
+      it "returns error message" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["message"]).to eq "403 Forbidden"
+      end
+
+      it "returns not ok" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["ok"]).to eq false
+      end
     end
 
     context "cannot without tsk" do
