@@ -345,4 +345,41 @@ RSpec.describe "Tsks", type: :request do
       end
     end
   end
+
+  describe "PUT /tsks/:id" do
+    context "cannot without authentication token" do
+      before :each do
+        put "#{api_endpoint}/fake-id", params: {tsk: tsk}
+      end
+
+      it "returns status_code 401" do
+        expect(response.status).to eq 401
+      end
+
+      it "returns error message" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["message"]).to eq "401 Unauthorized"
+      end
+
+      it "returns not ok" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["ok"]).to eq false
+      end
+    end
+
+    context "cannot without valid authentication token" do
+    end
+
+    context "cannot without tsk" do
+    end
+
+    context "cannot without valid tsk" do
+    end
+
+    context "cannot unexistent tsk" do
+    end
+
+    context "put succesfully " do
+    end
+  end
 end
