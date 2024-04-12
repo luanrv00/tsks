@@ -399,6 +399,31 @@ RSpec.describe "Tsks", type: :request do
     end
 
     context "cannot without tsk" do
+      before :all do
+        Rails.application.load_seed
+      end
+
+      after :all do
+        DatabaseCleaner.clean
+      end
+
+      before :each do
+        put "#{api_endpoint}/fake-id", headers: api_headers
+      end
+
+      it "returns status code 400" do
+        expect(response.status).to eq 400
+      end
+
+      it "returns error message" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["message"]).to eq "400 Bad Request"
+      end
+
+      it "returns not ok" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["ok"]).to eq false
+      end
     end
 
     context "cannot without valid tsk" do
