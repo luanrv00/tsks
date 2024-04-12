@@ -86,18 +86,24 @@ module V1
       user = User.find_by_email(decoded[0]["email"])
 
       if user
-        tsk = user.tsks.find params[:id]
+        begin
+          tsk = user.tsks.find params[:id]
 
-        if tsk
-          begin
-            if tsk.update tsk_params
-              return render json: {ok: true, tsk: tsk}, status: :ok
+          if tsk
+            begin
+              if tsk.update tsk_params
+                return render json: {ok: true, tsk: tsk}, status: :ok
+              end
+            rescue
+              return render json: {ok: false,
+                                  message: "500 Internal Server Error"},
+                                  status: :internal_server_error
             end
-          rescue
-            return render json: {ok: false,
-                                message: "500 Internal Server Error"},
-                                status: :internal_server_error
           end
+        rescue ActiveRecord::RecordNotFound
+          return render json: {ok: false,
+                              message: "404 Not Found"},
+                              status: :not_found
         end
       else
         return render json: {ok: false,

@@ -454,6 +454,32 @@ RSpec.describe "Tsks", type: :request do
     end
 
     context "cannot unexistent tsk" do
+      before :all do
+        Rails.application.load_seed
+      end
+
+      after :all do
+        DatabaseCleaner.clean
+      end
+
+      before :each do
+        put "#{api_endpoint}/fake-id", headers: api_headers,
+                                       params: {tsk: tsk}
+      end
+
+      it "returns status code 404" do
+        expect(response.status).to eq 404
+      end
+
+      it "returns error message" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["message"]).to eq "404 Not Found"
+      end
+
+      it "returns not ok" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body["ok"]).to eq false
+      end
     end
 
     context "put succesfully " do
