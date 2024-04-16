@@ -5,6 +5,8 @@ const NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY =
   process.env.NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY || '@tsks-user'
 
 describe('SignUp', () => {
+  // TODO: refactor to handle email/password empty errors 
+  // through react and not call api
   context('cannot without email', () => {
     beforeEach(() => {
       const testApiPostRequest = {
@@ -32,7 +34,7 @@ describe('SignUp', () => {
     })
 
     it('renders error message', () => {
-      cy.contains('400 Bad Request').should('exist')
+      cy.contains('email required!!!!').should('exist')
     })
   })
 
@@ -63,7 +65,7 @@ describe('SignUp', () => {
     })
 
     it('renders error message', () => {
-      cy.contains('400 Bad Request').should('exist')
+      cy.contains('password required!!!!').should('exist')
     })
   })
 
@@ -94,7 +96,7 @@ describe('SignUp', () => {
     })
 
     it('renders error message', () => {
-      cy.contains('400 Bad Request').should('exist')
+      cy.contains('invalid email!!!!').should('exist')
     })
   })
 
@@ -126,7 +128,7 @@ describe('SignUp', () => {
     })
 
     it('renders error message', () => {
-      cy.contains('409 Conflict').should('exist')
+      cy.contains('email already registered!!!').should('exist')
     })
   })
 

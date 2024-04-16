@@ -1,4 +1,4 @@
-import user from '../../cypress/fixtures/user.json'
+import user from '../fixtures/user.json'
 
 // TODO: fix env var not being loaded
 const NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY =
