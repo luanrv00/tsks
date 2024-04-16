@@ -129,7 +129,6 @@ RSpec.describe "Tsks", type: :request do
       end
     end
 
-    # TODO: fix api calling with POST instead of GET
     context "cannot without valid authentication token" do
       before :all do
         Rails.application.load_seed
@@ -139,9 +138,8 @@ RSpec.describe "Tsks", type: :request do
         DatabaseCleaner.clean
       end
 
-      # TODO: fix api calling with POST instead of GET
       before :each do
-        get api_endpoint, headers: invalid_api_headers
+        post api_endpoint, headers: invalid_api_headers, params: {tsk: tsk}
       end
 
       it "returns status code 403" do
