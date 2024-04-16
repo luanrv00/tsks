@@ -9,94 +9,37 @@ describe('SignUp', () => {
   // through react and not call api
   context('cannot without email', () => {
     beforeEach(() => {
-      const testApiPostRequest = {
-        method: 'POST',
-        endpoint: '**/v1/signup',
-      }
-
-      const testApiPostResponse = {
-        statusCode: 400,
-        body: {
-          ok: false,
-          message: '400 Bad Request',
-        },
-      }
-
-      cy.intercept(
-        testApiPostRequest.method,
-        testApiPostRequest.endpoint,
-        testApiPostResponse
-      )
-
       cy.visit('/signup')
       cy.get('input[placeholder="******"]').type('123')
       cy.get('button').click()
     })
 
     it('renders error message', () => {
-      cy.contains('email required!!!!').should('exist')
+      cy.contains('Required').should('exist')
     })
   })
 
   context('cannot without password', () => {
     beforeEach(() => {
-      const testApiPostRequest = {
-        method: 'POST',
-        endpoint: '**/v1/signup',
-      }
-
-      const testApiPostResponse = {
-        statusCode: 400,
-        body: {
-          ok: false,
-          message: '400 Bad Request',
-        },
-      }
-
-      cy.intercept(
-        testApiPostRequest.method,
-        testApiPostRequest.endpoint,
-        testApiPostResponse
-      )
-
       cy.visit('/signup')
       cy.get('input[placeholder="user@tsks.app"]').type(user.email)
       cy.get('button').click()
     })
 
     it('renders error message', () => {
-      cy.contains('password required!!!!').should('exist')
+      cy.contains('Required').should('exist')
     })
   })
 
   context('cannot without valid email', () => {
     beforeEach(() => {
-      const testApiPostRequest = {
-        method: 'POST',
-        endpoint: '**/v1/signup',
-      }
-
-      const testApiPostResponse = {
-        statusCode: 400,
-        body: {
-          ok: false,
-          message: '400 Bad Request',
-        },
-      }
-
-      cy.intercept(
-        testApiPostRequest.method,
-        testApiPostRequest.endpoint,
-        testApiPostResponse
-      )
-
       cy.visit('/signup')
       cy.get('input[placeholder="user@tsks.app"]').type('invalid email')
       cy.get('button').click()
     })
 
     it('renders error message', () => {
-      cy.contains('invalid email!!!!').should('exist')
+      cy.contains('Invalid email').should('exist')
     })
   })
 
@@ -128,7 +71,7 @@ describe('SignUp', () => {
     })
 
     it('renders error message', () => {
-      cy.contains('email already registered!!!').should('exist')
+      cy.contains('email already registered').should('exist')
     })
   })
 
@@ -161,6 +104,10 @@ describe('SignUp', () => {
 
     it('redirects to tsks', () => {
       cy.location('pathname').should('eq', '/tsks')
+    })
+
+    it('renders success message', () => {
+      cy.contains('signup succesfully').should('exist')
     })
 
     it('saves user on localStorage', () => {
