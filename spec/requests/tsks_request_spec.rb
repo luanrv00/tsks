@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# TODO: implement PUT test cases (plan from gist)
 RSpec.describe "Tsks", type: :request do
   let(:auth_token) {
     "Bearer eyJhbGciOiJub25lIn0.eyJlbWFpbCI6InJlZ2lzdGVyZWRAYXBpLmNvbSJ9."
@@ -213,7 +212,6 @@ RSpec.describe "Tsks", type: :request do
       end
     end
 
-    # TODO: fix 400 error - invalid tsk when sent data structure is correct
     context "create succesfully" do
       before :all do
         Rails.application.load_seed

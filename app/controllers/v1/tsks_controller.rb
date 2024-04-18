@@ -24,8 +24,6 @@ module V1
       end
     end
 
-    # TODO: implement each Tsk required params error to respond 400
-    # when review done of current data structure
     def create
       if !params[:tsk]
         return render json: {ok: false,
@@ -45,7 +43,6 @@ module V1
 
       if user
         tsk = user.tsks.build tsk_params
-        # TODO: (review if still need this fix) fix "password can't be blank" 422 error
         begin
           if tsk.save!
             return render json: {ok: true, 
@@ -67,7 +64,6 @@ module V1
       end
     end
 
-    # TODO: write tests
     def update
       if !params[:tsk]
         return render json: {ok: false,
