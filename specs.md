@@ -180,10 +180,10 @@
 ### signup
 
 **cannot without email**
-- renders "email required"
+- renders "required"
 
 **cannot without password**
-- renders "password required"
+- renders "required"
 
 **cannot without valid email**
 - renders "invalid email"
