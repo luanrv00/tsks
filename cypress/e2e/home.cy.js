@@ -4,7 +4,7 @@ import user from '../fixtures/user.json'
 const NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY =
   process.env.NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY || '@tsks-user'
 
-describe('Homepage', () => {
+describe('homepage', () => {
   describe('when has session', () => {
     beforeEach(() => {
       cy.window().then(window =>

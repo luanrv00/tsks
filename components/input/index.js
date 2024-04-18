@@ -11,8 +11,8 @@ export default function Input({value, placeholder, type, onChange, hasEmptyError
       placeholder={placeholder}
       onChange={onChange}
     />
-    {hasEmptyError && (<span>Required</span>)}
-    {hasInvalidEmailError && (<span>Invalid email</span>)}
+    {hasEmptyError && (<span>required</span>)}
+    {hasInvalidEmailError && (<span>invalid email</span>)}
     </>
   )
 }

@@ -4,7 +4,7 @@ import user from '../fixtures/user.json'
 const NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY =
   process.env.NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY || '@tsks-user'
 
-describe('SignIn', () => {
+describe('signin', () => {
   describe('cannot without email', () => {
     const testApiPostRequest = {
       method: 'POST',
@@ -190,10 +190,6 @@ describe('SignIn', () => {
       cy.get('button').click()
     })
 
-    it('redirects to tsks', () => {
-      cy.location('pathname').should('eq', '/tsks')
-    })
-
     it('saves user on localStorage', () => {
       cy.wait(2000)
       cy.window().then(window => {
@@ -202,6 +198,10 @@ describe('SignIn', () => {
         )
         expect(localStorageUser).to.deep.eq(user)
       })
+    })
+
+    it('redirects to tsks', () => {
+      cy.location('pathname').should('eq', '/tsks')
     })
   })
 })
