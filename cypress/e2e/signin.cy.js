@@ -6,96 +6,27 @@ const NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY =
 
 describe('signin', () => {
   describe('cannot without email', () => {
-    const testApiPostRequest = {
-      method: 'POST',
-      endpoint: '**/v1/signin',
-    }
-
-    const testApiPostResponse = {
-      statusCode: 400,
-      body: {
-        ok: false,
-        message: '400 Bad Request',
-      },
-    }
-
     beforeEach(() => {
-      cy.intercept(
-        testApiPostRequest.method,
-        testApiPostRequest.endpoint,
-        testApiPostResponse
-      )
-
       cy.visit('/signin')
       cy.get('input[placeholder="******"]').type('123')
       cy.get('button').click()
     })
 
     it('renders error message', () => {
-      cy.contains('400 Bad Request').should('exist')
+      cy.contains('required').should('exist')
     })
   })
 
-  describe('cannot without password', () => {
-    const testApiPostRequest = {
-      method: 'POST',
-      endpoint: '**/v1/signin',
-    }
-
-    const testApiPostResponse = {
-      statusCode: 400,
-      body: {
-        ok: false,
-        message: '400 Bad Request',
-      },
-    }
-
+  describe('cannot without valid email', () => {
     beforeEach(() => {
-      cy.intercept(
-        testApiPostRequest.method,
-        testApiPostRequest.endpoint,
-        testApiPostResponse
-      )
-
       cy.visit('/signin')
-      cy.get('input[placeholder="user@tsks.app"]').type(user.email)
-      cy.get('button').click()
-    })
-
-    it('renders error message', () => {
-      cy.contains('400 Bad Request').should('exist')
-    })
-  })
-
-  describe('cannot without correct password', () => {
-    const testApiPostRequest = {
-      method: 'POST',
-      endpoint: '**/v1/signin',
-    }
-
-    const testApiPostResponse = {
-      statusCode: 401,
-      body: {
-        ok: false,
-        message: '401 Unauthorized',
-      },
-    }
-
-    beforeEach(() => {
-      cy.intercept(
-        testApiPostRequest.method,
-        testApiPostRequest.endpoint,
-        testApiPostResponse
-      )
-
-      cy.visit('/signin')
-      cy.get('input[placeholder="user@tsks.app"]').type(user.email)
+      cy.get('input[placeholder="user@tsks.app"]').type('invalid email')
       cy.get('input[placeholder="******"]').type('123')
       cy.get('button').click()
     })
 
     it('renders error message', () => {
-      cy.contains('401 Unauthorized').should('exist')
+      cy.contains('invalid email').should('exist')
     })
   })
 
@@ -131,17 +62,29 @@ describe('signin', () => {
     })
   })
 
-  describe('cannot without valid email', () => {
+  describe('cannot without password', () => {
+    beforeEach(() => {
+      cy.visit('/signin')
+      cy.get('input[placeholder="user@tsks.app"]').type(user.email)
+      cy.get('button').click()
+    })
+
+    it('renders error message', () => {
+      cy.contains('required').should('exist')
+    })
+  })
+
+  describe('cannot without correct password', () => {
     const testApiPostRequest = {
       method: 'POST',
       endpoint: '**/v1/signin',
     }
 
     const testApiPostResponse = {
-      statusCode: 400,
+      statusCode: 401,
       body: {
         ok: false,
-        message: '400 Bad Request',
+        message: '401 Unauthorized',
       },
     }
 
@@ -159,7 +102,7 @@ describe('signin', () => {
     })
 
     it('renders error message', () => {
-      cy.contains('400 Bad Request').should('exist')
+      cy.contains('401 Unauthorized').should('exist')
     })
   })
 
