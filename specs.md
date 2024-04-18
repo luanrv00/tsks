@@ -206,7 +206,7 @@
 ### signin
 
 **cannot without email**
-- renders "email required"
+- renders "required"
 
 **cannot without valid email**
 - renders "invalid email"
@@ -215,7 +215,7 @@
 - renders "email not registered"
 
 **cannot without password**
-- renders "password required"
+- renders "required"
 
 **cannot without correct password**
 - renders "incorrect password"
