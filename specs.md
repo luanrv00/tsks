@@ -177,6 +177,11 @@
 
 ## WEB
 
+### home
+
+- when has session redirects to tsks
+- when has not session redirects to signin
+
 ### signup
 
 **cannot without email**
