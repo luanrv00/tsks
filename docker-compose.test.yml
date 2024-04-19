@@ -1,6 +1,7 @@
 version: '3.3'
+name: tsks-web
 services:
-  web:
+  app:
     build: 
       context: .
       dockerfile: Dockerfile.dev
@@ -11,8 +12,6 @@ services:
       - /app/node_modules
     env_file:
       - .env.dev
-    networks:
-      default:
   test:
     build: 
       context: .
@@ -22,10 +21,5 @@ services:
       - /test/node_modules
     env_file:
       - .env.dev
-    networks:
-      default:
     depends_on:
-      - web
-networks:
-  default:
-
+      - app
