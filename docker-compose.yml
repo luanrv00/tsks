@@ -1,4 +1,5 @@
 version: '3.8'
+name: tsks-api
 services:
   db:
     image: postgres
@@ -15,7 +16,7 @@ services:
       - db
     volumes:
       - .:/app
-  svc:
+  app:
     build: .
     environment:
       RAILS_ENV: development
