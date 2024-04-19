@@ -5,6 +5,11 @@ const NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY =
   process.env.NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY || '@tsks-user'
 
 describe('signin', () => {
+  const testApiPostRequest = {
+    method: 'POST',
+    endpoint: '**/v1/signin',
+  }
+
   describe('cannot without email', () => {
     beforeEach(() => {
       cy.visit('/signin')
@@ -31,11 +36,6 @@ describe('signin', () => {
   })
 
   describe('cannot without registered email', () => {
-    const testApiPostRequest = {
-      method: 'POST',
-      endpoint: '**/v1/signin',
-    }
-
     const testApiPostResponse = {
       statusCode: 404,
       body: {
@@ -75,11 +75,6 @@ describe('signin', () => {
   })
 
   describe('cannot without correct password', () => {
-    const testApiPostRequest = {
-      method: 'POST',
-      endpoint: '**/v1/signin',
-    }
-
     const testApiPostResponse = {
       statusCode: 401,
       body: {
@@ -107,11 +102,6 @@ describe('signin', () => {
   })
 
   describe('signin succesfully', () => {
-    const testApiPostRequest = {
-      method: 'POST',
-      endpoint: '**/v1/signin',
-    }
-
     const testApiPostResponse = {
       statusCode: 201,
       body: {

@@ -8,7 +8,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL
 export default function Tsks() {
   const router = useRouter()
   const [tsks, setTsks] = useState({})
-  const [fallbackMsg, setFallbackMsg] = useState('No tsks found')
+  const [fallbackMsg, setFallbackMsg] = useState('tsks not found')
   const [reqError, setReqError] = useState('')
 
   useEffect(() => {
@@ -23,7 +23,6 @@ export default function Tsks() {
 
       try {
         // TODO: move fetching data to a separate service
-        //await fetch('https://tsks-api.onrender.com/v1/tsks', {
         await fetch(`${API_URL}/tsks`, {
           headers: {
             authorization: `Bearer ${apiToken}`,
@@ -33,8 +32,12 @@ export default function Tsks() {
           .then(res => res.json())
           .then(res => {
             if (!res.ok) {
-              return setFallbackMsg(res.msg)
-            } else if (res.tsks.length && !res.error) {
+              if (res.message === '401 Unauthorized') {
+                return router.push('/signin')
+              }
+
+              return setFallbackMsg(res.message)
+            } else if (res.tsks.length) {
               return setTsks(res.tsks)
             }
           })
