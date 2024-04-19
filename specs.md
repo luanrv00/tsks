@@ -228,24 +228,25 @@
 
 **cannot without authentication token**
 - redirects to /signin
-- renders "cannot without authentication token"
 
 **cannot without valid authentication token**
 - redirects to /signin
-- renders "cannot without valid authentication token"
 
 **get succesfully**
+
+*when has tsks*
 - renders tsks
+
+*when has not tsks*
+- renders "tsks not found"
 
 ### POST tsk
 
 **cannot without authentication token**
 - redirects to /signin
-- renders "cannot without authentication token"
 
 **cannot without valid authentication token**
 - redirects to /signin
-- renders "cannot without valid authentication token"
 
 **cannot without tsk**
 - renders "cannot without tsk"
@@ -261,11 +262,9 @@
 
 **cannot without authentication token**
 - redirects to /signin
-- renders "cannot without authentication token"
 
 **cannot without valid authentication token**
 - redirects to /signin
-- renders "cannot without valid authentication token"
 
 **cannot without tsk**
 - renders "cannot without tsk"
@@ -284,11 +283,9 @@
 
 **cannot without authentication token**
 - redirects to /signin
-- renders "cannot without authentication token"
 
 **cannot without valid authentication token**
 - redirects to /signin
-- renders "cannot without valid authentication token"
 
 **cannot without valid id**
 - renders "cannot without valid id"
