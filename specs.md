@@ -179,8 +179,11 @@
 
 ### home
 
-- when has session redirects to tsks
-- when has not session redirects to signin
+**when has session**
+- redirects to tsks
+
+**when has not session**
+- redirects to signin
 
 ### signup
 
@@ -197,9 +200,8 @@
 - renders "email already registered"
 
 **signup succesfully**
-- redirects to /tsks
 - saves user on localStorage
-- renders "signup succesfully"
+- redirects to /tsks
 
 ### signin
 
@@ -219,9 +221,8 @@
 - renders "incorrect password"
 
 **signin succesfully**
-- redirects to /tsks
 - saves user on localStorage
-- renders "signin succesfully"
+- redirects to /tsks
 
 ### GET tsks
 
