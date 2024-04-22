@@ -73,7 +73,7 @@ export default function Tsks() {
       .catch(e => e)
 
     if (res.ok) {
-      return router.reload()
+      fetchTsks()
     } else {
       setReqError(res.message)
     }

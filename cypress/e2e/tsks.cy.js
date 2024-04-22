@@ -1,6 +1,7 @@
 import user from '../fixtures/user.json'
 import invalidUser from '../fixtures/invalid-user.json'
 import tsks from '../fixtures/tsks.json'
+import tsk from '../fixtures/tsk.json'
 
 // TODO: fix env var not being loaded
 const NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY =
@@ -10,6 +11,14 @@ describe('tsks', () => {
   const testApiGetRequest = {
     method: 'GET',
     endpoint: '**/v1/tsks',
+  }
+
+  const testApiGetResponse = {
+    statusCode: 200,
+    body: {
+      ok: true,
+      tsks,
+    },
   }
 
   describe('cannot access without authentication token', () => {
@@ -65,14 +74,6 @@ describe('tsks', () => {
     // TODO: verify if saving user as session is better than localStorage
     describe('get succesfully', () => {
       describe('when has tsks', () => {
-        const testApiGetResponse = {
-          statusCode: 200,
-          body: {
-            ok: true,
-            tsks,
-          },
-        }
-
         before(() => {
           cy.window().then(window => {
             window.localStorage.setItem(
@@ -135,22 +136,35 @@ describe('tsks', () => {
   })
 
   describe('POST tsks', () => {
-    describe('cannot without tsk', () => {
-      before(() => {
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
-            JSON.stringify(user)
-          )
-        })
-      })
+    const testApiPostRequest = {
+      method: 'POST',
+      endpoint: '**/v1/tsks',
+    }
 
-      after(() => {
-        cy.window().then(window =>
-          window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+    const testApiPostResponse = {
+      statusCode: 201,
+      body: {
+        ok: true,
+        tsk,
+      },
+    }
+
+    before(() => {
+      cy.window().then(window => {
+        window.localStorage.setItem(
+          NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+          JSON.stringify(user)
         )
       })
+    })
 
+    after(() => {
+      cy.window().then(window =>
+        window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+      )
+    })
+
+    describe('cannot without tsk', () => {
       beforeEach(() => {
         cy.visit('/tsks')
         cy.get('button').click()
@@ -160,12 +174,29 @@ describe('tsks', () => {
         cy.contains('cannot without tsk').should('exist')
       })
     })
-     
-    // **cannot without valid tsk**
-    // - renders "cannot without valid tsk"
       
-    // **post succesfully**
-    // - renders "post succesfully"
-    // - renders tsk 
+    describe('post succesfully', () => {
+      beforeEach(() => {
+        cy.intercept(
+          testApiPostRequest.method,
+          testApiPostRequest.endpoint,
+          testApiPostResponse
+        )
+
+        cy.intercept(
+          testApiGetRequest.method,
+          testApiGetRequest.endpoint,
+          testApiGetResponse
+        )
+
+        cy.visit('/tsks')
+        cy.get('input[placeholder="enter tsk"]').type(tsks[0].tsk)
+        cy.get('button').click()
+      })
+
+      it('renders tsk ', () => {
+        cy.contains(tsks[0].tsk).should('exist')
+      })
+    })
   })
 })
