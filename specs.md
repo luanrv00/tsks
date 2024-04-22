@@ -224,13 +224,15 @@
 - saves user on localStorage
 - redirects to /tsks
 
-### GET tsks
+### tsks
 
 **cannot without authentication token**
 - redirects to /signin
 
 **cannot without valid authentication token**
 - redirects to /signin
+
+#### GET tsks
 
 **get succesfully**
 
@@ -240,13 +242,7 @@
 *when has not tsks*
 - renders "tsks not found"
 
-### POST tsk
-
-**cannot without authentication token**
-- redirects to /signin
-
-**cannot without valid authentication token**
-- redirects to /signin
+#### POST tsk
 
 **cannot without tsk**
 - renders "cannot without tsk"
@@ -258,13 +254,7 @@
 - renders "post succesfully"
 - renders tsk
 
-### PUT tsk
-
-**cannot without authentication token**
-- redirects to /signin
-
-**cannot without valid authentication token**
-- redirects to /signin
+#### PUT tsk
 
 **cannot without tsk**
 - renders "cannot without tsk"
@@ -279,13 +269,7 @@
 - renders "put succesfully"
 - renders tsk
 
-### DELETE tsk
-
-**cannot without authentication token**
-- redirects to /signin
-
-**cannot without valid authentication token**
-- redirects to /signin
+#### DELETE tsk
 
 **cannot without valid id**
 - renders "cannot without valid id"

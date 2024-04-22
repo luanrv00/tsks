@@ -24,33 +24,30 @@
 - cannot without correct password
 - signin succesfully
 
-### GET tsks
+### tsks
 
-- cannot without authentication token
-- cannot without valid authentication token
+- cannot access without authentication token
+- cannot access without valid authentication token
+
+#### GET tsks
+
 - get succesfully
 
-### POST tsk
+#### POST tsk
 
-- cannot without authentication token
-- cannot without valid authentication token
 - cannot without tsk
 - cannot without valid tsk
 - post succesfully
 
-### PUT tsk
+#### PUT tsk
 
-- cannot without authentication token
-- cannot without valid authentication token
 - cannot without tsk
 - cannot without valid tsk
 - cannot unexistent tsk
 - put succesfully
 
-### DELETE tsk
+#### DELETE tsk
 
-- cannot without authentication token
-- cannot without valid authentication token
 - cannot without valid id
 - cannot unexistent tsk
 - delete succesfully
