@@ -4,9 +4,15 @@ import styles from './index.module.css'
 
 export default function UserTsk({handleSubmit}) {
   const [formValues, setFormValues] = useState({tsk: ''})
+  const [emptyTskError, setEmptyTskError] = useState(false)
 
   const onSubmit = e => {
     e.preventDefault()
+
+    if (!formValues.tsk) {
+      return setEmptyTskError(true)
+    }
+
     handleSubmit(formValues)
   }
 
@@ -24,6 +30,7 @@ export default function UserTsk({handleSubmit}) {
           placeholder='context'
         />
       </div>
+      {emptyTskError && (<span>cannot without tsk</span>)}
       <Button value='Add' />
     </form>
   )

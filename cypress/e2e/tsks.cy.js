@@ -107,6 +107,7 @@ describe('tsks', () => {
         })
       })
 
+      // TODO: verify why this suites works even without localStorage preset
       describe('when has not tsks', () => {
         const testApiGetEmptyResponse = {
           statusCode: 200,
@@ -134,5 +135,37 @@ describe('tsks', () => {
   })
 
   describe('POST tsks', () => {
+    describe('cannot without tsk', () => {
+      before(() => {
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+            JSON.stringify(user)
+          )
+        })
+      })
+
+      after(() => {
+        cy.window().then(window =>
+          window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+        )
+      })
+
+      beforeEach(() => {
+        cy.visit('/tsks')
+        cy.get('button').click()
+      })
+
+      it('renders error message', () => {
+        cy.contains('cannot without tsk').should('exist')
+      })
+    })
+     
+    // **cannot without valid tsk**
+    // - renders "cannot without valid tsk"
+      
+    // **post succesfully**
+    // - renders "post succesfully"
+    // - renders tsk 
   })
 })
