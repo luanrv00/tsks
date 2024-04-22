@@ -7,23 +7,22 @@ const NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY =
   process.env.NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY || '@tsks-user'
 
 describe('tsks', () => {
-  describe('GET tsks', () => {
-    const testApiGetRequest = {
-      method: 'GET',
-      endpoint: '**/v1/tsks',
-    }
+  const testApiGetRequest = {
+    method: 'GET',
+    endpoint: '**/v1/tsks',
+  }
 
-    describe('cannot without authentication token', () => {
-      beforeEach(() => {
-        cy.visit('/tsks')
-      })
-
-      it('redirects to signin', () => {
-        cy.location('pathname').should('eq', '/signin')
-      })
+  describe('cannot access without authentication token', () => {
+    beforeEach(() => {
+      cy.visit('/tsks')
     })
 
-    describe('cannot without valid authentication token', () => {
+    it('redirects to signin', () => {
+      cy.location('pathname').should('eq', '/signin')
+    })
+  })
+
+  describe('cannot access without valid authentication token', () => {
       const testApiGetResponse = {
         statusCode: 401,
         body: {
@@ -60,8 +59,9 @@ describe('tsks', () => {
       it('redirects to signin', () => {
         cy.location('pathname').should('eq', '/signin')
       })
-    })
+  })
 
+  describe('GET tsks', () => {
     // TODO: verify if saving user as session is better than localStorage
     describe('get succesfully', () => {
       describe('when has tsks', () => {
@@ -131,5 +131,8 @@ describe('tsks', () => {
         })
       })
     })
+  })
+
+  describe('POST tsks', () => {
   })
 })
