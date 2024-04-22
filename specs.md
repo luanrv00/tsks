@@ -247,11 +247,7 @@
 **cannot without tsk**
 - renders "cannot without tsk"
 
-**cannot without valid tsk**
-- renders "cannot without valid tsk"
-
 **post succesfully**
-- renders "post succesfully"
 - renders tsk
 
 #### PUT tsk

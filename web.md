@@ -36,7 +36,6 @@
 #### POST tsk
 
 - cannot without tsk
-- cannot without valid tsk
 - post succesfully
 
 #### PUT tsk
