@@ -199,4 +199,63 @@ describe('tsks', () => {
       })
     })
   })
+
+  describe('PUT tsk', () => {
+    const testApiPutRequest = {
+      method: 'PUT',
+      endpoint: '**/v1/tsks/*',
+    }
+
+    before(() => {
+      cy.window().then(window => {
+        window.localStorage.setItem(
+          NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+          JSON.stringify(user)
+        )
+      })
+    })
+
+    after(() => {
+      cy.window().then(window =>
+        window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+      )
+    })
+
+    describe('cannot unexistent tsk', () => {
+      const testApiPutResponse = {
+        statusCode: 404,
+        body: {
+          ok: false,
+          message: '404 Not Found',
+        },
+      }
+
+      beforeEach(() => {
+        cy.intercept(
+          testApiGetRequest.method,
+          testApiGetRequest.endpoint,
+          testApiGetResponse
+        )
+
+        cy.intercept(
+          testApiPutRequest.method,
+          testApiPutRequest.endpoint,
+          testApiPutResponse
+        )
+
+        cy.visit('/tsks')
+        cy.get('[data-testid="tsk"').first().click()
+      })
+
+      it('renders error message', () => {
+        cy.contains('404 Not Found').should('exist')
+      })
+    })
+
+    describe('put succesfully', () => {
+      it('renders tsk', () => {
+
+      })
+    })
+  })
 })

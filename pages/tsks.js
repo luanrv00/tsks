@@ -101,7 +101,8 @@ export default function Tsks() {
       .catch(e => e)
 
     if (res.ok) {
-      return router.reload()
+      //return router.reload()
+      fetchTsks()
     } else {
       setReqError(res.message)
     }
@@ -109,7 +110,7 @@ export default function Tsks() {
 
   return (
     <Layout>
-      <FlashMessage type='error' message={reqError} />
+      {reqError && (<FlashMessage type='error' message={reqError} />)}
       {Boolean(Object.keys(tsks).length) ? (
         <TsksList tsks={tsks} handleDoing={handleDoing} />
       ) : (
