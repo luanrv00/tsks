@@ -252,23 +252,13 @@
 
 #### PUT tsk
 
-**cannot without tsk**
-- renders "cannot without tsk"
-
-**cannot without valid tsk**
-- renders "cannot without valid tsk"
-
 **cannot unexistent tsk**
 - renders "cannot unexistent tsk"
 
 **put succesfully**
-- renders "put succesfully"
 - renders tsk
 
 #### DELETE tsk
-
-**cannot without valid id**
-- renders "cannot without valid id"
 
 **cannot unexistent tsk**
 - renders "cannot unexistent tsk"

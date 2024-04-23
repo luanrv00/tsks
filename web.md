@@ -40,14 +40,11 @@
 
 #### PUT tsk
 
-- cannot without tsk
-- cannot without valid tsk
 - cannot unexistent tsk
 - put succesfully
 
 #### DELETE tsk
 
-- cannot without valid id
 - cannot unexistent tsk
 - delete succesfully
 
