@@ -255,7 +255,14 @@
 **cannot unexistent tsk**
 - renders "cannot unexistent tsk"
 
-**put succesfully**
+##### put succesfully
+**put doing tsk**
+- renders tsk
+
+**put done tsk**
+- renders tsk
+
+**put tsk content**
 - renders tsk
 
 #### DELETE tsk

@@ -41,7 +41,11 @@
 #### PUT tsk
 
 - cannot unexistent tsk
-- put succesfully
+
+**put succesfully**
+- put doing tsk
+- put done tsk
+- put tsk content
 
 #### DELETE tsk
 
