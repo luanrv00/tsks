@@ -11,42 +11,42 @@ export default function Tsks() {
   const [fallbackMsg, setFallbackMsg] = useState('tsks not found')
   const [reqError, setReqError] = useState('')
 
-  useEffect(() => {
-    async function fetchTsks() {
-      const user = getCurrentUserAtBrowser()
+  async function fetchTsks() {
+    const user = getCurrentUserAtBrowser()
 
-      if (!user) {
-        return router.push('/signin')
-      }
-
-      const apiToken = user.auth_token
-
-      try {
-        // TODO: move fetching data to a separate service
-        await fetch(`${API_URL}/tsks`, {
-          headers: {
-            authorization: `Bearer ${apiToken}`,
-            'Access-Control-Allow-Origin': '*',
-          },
-        })
-          .then(res => res.json())
-          .then(res => {
-            if (!res.ok) {
-              if (res.message === '401 Unauthorized') {
-                return router.push('/signin')
-              }
-
-              return setFallbackMsg(res.message)
-            } else if (res.tsks.length) {
-              return setTsks(res.tsks)
-            }
-          })
-          .catch(e => setFallbackMsg(e.toString()))
-      } catch (e) {
-        setReqError(e.message)
-      }
+    if (!user) {
+      return router.push('/signin')
     }
 
+    const apiToken = user.auth_token
+
+    try {
+      // TODO: move fetching data to a separate service
+      await fetch(`${API_URL}/tsks`, {
+        headers: {
+          authorization: `Bearer ${apiToken}`,
+          'Access-Control-Allow-Origin': '*',
+        },
+      })
+        .then(res => res.json())
+        .then(res => {
+          if (!res.ok) {
+            if (res.message === '401 Unauthorized') {
+              return router.push('/signin')
+            }
+
+            return setFallbackMsg(res.message)
+          } else if (res.tsks.length) {
+            return setTsks(res.tsks)
+          }
+        })
+        .catch(e => setFallbackMsg(e.toString()))
+    } catch (e) {
+      setReqError(e.message)
+    }
+  }
+
+  useEffect(() => {
     fetchTsks()
   }, [])
 
@@ -79,7 +79,6 @@ export default function Tsks() {
     }
   }
 
-  // TODO: write tests
   async function handleDoing(tskId) {
     const now = new Date().toISOString()
     const tsk = {
@@ -101,7 +100,6 @@ export default function Tsks() {
       .catch(e => e)
 
     if (res.ok) {
-      //return router.reload()
       fetchTsks()
     } else {
       setReqError(res.message)

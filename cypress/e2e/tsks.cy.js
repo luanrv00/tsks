@@ -253,8 +253,81 @@ describe('tsks', () => {
     })
 
     describe('put succesfully', () => {
-      it('renders tsk', () => {
+      before(() => {
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+            JSON.stringify(user)
+          )
+        })
+      })
 
+      after(() => {
+        cy.window().then(window =>
+          window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+        )
+      })
+
+      describe('put doing tsk', () => {
+        const testApiGetResponse = {
+          statusCode: 200,
+          body: {
+            ok: true,
+            tsks: [tsk]
+          }
+        }
+
+        const updatedTsk = {...tsk, status: 'doing'}
+
+        const testApiPutResponse = {
+          statusCode: 200,
+          body: {
+            ok: true,
+            tsk: updatedTsk
+          }
+        }
+
+        const testApiGetUpdatedResponse = {
+          statusCode: 200,
+          body: {
+            ok: true,
+            tsks: [updatedTsk]
+          }
+        }
+
+        beforeEach(() => {
+          cy.intercept(
+            testApiGetRequest.method,
+            testApiGetRequest.endpoint,
+            testApiGetResponse
+          )
+
+          cy.intercept(
+            testApiPutRequest.method,
+            testApiPutRequest.endpoint,
+            testApiPutResponse
+          )
+          
+          cy.intercept(
+            testApiGetRequest.method,
+            testApiGetRequest.endpoint,
+            testApiGetUpdatedResponse
+          )
+
+          cy.visit('/tsks')
+          cy.get('[data-testid="tsk"]').click()
+        })
+
+        it('renders tsk', () => {
+          cy.contains('+').should('exist')
+        })
+      })
+
+      describe('put done tsk', () => {
+
+      })
+
+      describe('put tsk content', () => {
       })
     })
   })
