@@ -2,7 +2,7 @@
   "id": 1,
   "tsk": "t",
   "context": "Inbox",
-  "done": 0,
+  "status": "todo",
   "created_at": "000",
   "updated_at": "000"
 }
