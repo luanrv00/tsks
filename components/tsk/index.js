@@ -4,9 +4,15 @@ import {TskStatus} from '../'
 
 // NOTE: for handling tsk status:
 // one tap to doing. one tap do done.
-export default function Tsk({id, tsk, context, status, handleDoing}) {
+export default function Tsk({id, tsk, context, status, handleDoing, handleDone}) {
   function onClick() {
-    return handleDoing(id)
+    if (status === 'todo') {
+      return handleDoing(id)
+    }
+
+    if (status === 'doing') {
+      return handleDone(id)
+    }
   }
 
   return (

@@ -106,11 +106,38 @@ export default function Tsks() {
     }
   }
 
+  async function handleDone(tskId) {
+    const now = new Date().toISOString()
+    const tsk = {
+      status: 'done',
+      updated_at: now,
+    }
+    const user = getCurrentUserAtBrowser()
+    const apiToken = user.auth_token
+    const res = await fetch(`${API_URL}/tsks/${tskId}`, {
+      method: 'PUT',
+      headers: {
+        authorization: `Bearer ${apiToken}`,
+        'Access-Control-Allow-Origin': '*',
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({tsk: tsk}),
+    })
+      .then(r => r.json())
+      .catch(e => e)
+
+    if (res.ok) {
+      fetchTsks()
+    } else {
+      setReqError(res.message)
+    }
+  }
+
   return (
     <Layout>
       {reqError && (<FlashMessage type='error' message={reqError} />)}
       {Boolean(Object.keys(tsks).length) ? (
-        <TsksList tsks={tsks} handleDoing={handleDoing} />
+        <TsksList tsks={tsks} handleDoing={handleDoing} handleDone={handleDone} />
       ) : (
         <p>{fallbackMsg}</p>
       )}

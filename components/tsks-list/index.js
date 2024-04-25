@@ -2,7 +2,7 @@ import React from 'react'
 import Tsk from '../tsk'
 import styles from './index.module.css'
 
-export default function TsksList({tsks, handleDoing}) {
+export default function TsksList({tsks, handleDoing, handleDone}) {
   return (
     <ul className={styles.tsksList}>
       {tsks.map(({id, tsk, context, status}) => (
@@ -13,6 +13,7 @@ export default function TsksList({tsks, handleDoing}) {
           context={context}
           status={status}
           handleDoing={handleDoing}
+          handleDone={handleDone}
         />
       ))}
     </ul>
