@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
 echo "starting container"
+bin/download-docker-imgs
 docker-compose -f docker-compose.test.yml up --build --force-recreate

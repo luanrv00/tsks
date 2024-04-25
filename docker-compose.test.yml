@@ -2,6 +2,7 @@ version: '3.3'
 name: tsks-web
 services:
   app:
+    container_name: tsks-web-app
     build: 
       context: .
       dockerfile: Dockerfile.dev
@@ -13,6 +14,7 @@ services:
     env_file:
       - .env.dev
   test:
+    container_name: tsks-web-test
     build: 
       context: .
       dockerfile: Dockerfile.test

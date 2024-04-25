@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+docker pull node:lts-alpine3.18
+docker pull cypress/included:12.8.1
