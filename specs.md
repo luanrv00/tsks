@@ -236,10 +236,11 @@
 
 **get succesfully**
 
-*when has tsks*
-- renders tsks
+*when has tsk*
+- renders tsk
+- renders context
 
-*when has not tsks*
+*when has not tsk*
 - renders "tsks not found"
 
 #### POST tsk
@@ -255,14 +256,15 @@
 **cannot unexistent tsk**
 - renders "cannot unexistent tsk"
 
-##### put succesfully
-**put doing tsk**
+**put succesfully**
+
+*put doing tsk*
 - renders tsk
 
-**put done tsk**
+*put done tsk*
 - renders tsk
 
-**put tsk content**
+*put tsk content*
 - renders tsk
 
 #### DELETE tsk
