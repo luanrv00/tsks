@@ -321,6 +321,7 @@ describe('tsks', () => {
 
         it('renders tsk', () => {
           cy.contains('+').should('exist')
+          cy.contains(updatedTsk.tsk).should('exist')
         })
       })
 
@@ -394,6 +395,7 @@ describe('tsks', () => {
 
         it('renders tsk', () => {
           cy.contains('*').should('exist')
+          cy.contains(updatedTsk.tsk).should('exist')
         })
       })
 
