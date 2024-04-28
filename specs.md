@@ -236,11 +236,10 @@
 
 **get succesfully**
 
-*when has tsk*
-- renders tsk
-- renders context
+*when has tsks*
+- renders tsks
 
-*when has not tsk*
+*when has not tsks*
 - renders "tsks not found"
 
 #### POST tsk

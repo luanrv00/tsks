@@ -32,8 +32,8 @@
 #### GET tsks
 
 **get succesfully**
-- when has tsk
-- when has not tsk
+- when has tsks
+- when has not tsks
 
 #### POST tsk
 
