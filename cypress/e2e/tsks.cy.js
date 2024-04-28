@@ -399,7 +399,145 @@ describe('tsks', () => {
         })
       })
 
+      // TODO: write tests and implementation
       describe('put tsk content', () => {
+      })
+    })
+  })
+
+  describe('renders tsk', () => {
+    beforeEach(() => {
+      cy.window().then(window => {
+        window.localStorage.setItem(
+          NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+          JSON.stringify(user)
+        )
+      })
+
+      cy.intercept(
+        testApiGetRequest.method,
+        testApiGetRequest.endpoint,
+        testApiGetResponse
+      )
+
+      cy.visit('/tsks')
+    })
+
+    afterEach(() => {
+      cy.window().then(window => 
+        window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+      )
+    })
+
+    it('renders tsk', () => {
+      cy.contains(testApiGetResponse.body.tsks[0].tsk).should('exist')
+    })
+
+    it('renders context', () => {
+      cy.contains(`@${testApiGetResponse.body.tsks[0].context}`).should('exist')
+    })
+
+    describe('renders status', () => {
+      describe('when todo', () => {
+        beforeEach(() => {
+          cy.window().then(window => {
+            window.localStorage.setItem(
+              NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+              JSON.stringify(user)
+            )
+          })
+
+          cy.intercept(
+            testApiGetRequest.method,
+            testApiGetRequest.endpoint,
+            testApiGetResponse
+          )
+
+          cy.visit('/tsks')
+        })
+
+        afterEach(() => {
+          cy.window().then(window => 
+            window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+          )
+        })
+
+        it('renders "-"', () => {
+          cy.contains('-').should('exist')
+        })
+      })
+
+      describe('when doing', () => {
+        const testApiGetResponse = {
+          statusCode: 200,
+          body: {
+            ok: true,
+            tsks: [{...tsk, status: 'doing'}]
+          }
+        }
+
+        beforeEach(() => {
+          cy.window().then(window => {
+            window.localStorage.setItem(
+              NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+              JSON.stringify(user)
+            )
+          })
+
+          cy.intercept(
+            testApiGetRequest.method,
+            testApiGetRequest.endpoint,
+            testApiGetResponse
+          )
+
+          cy.visit('/tsks')
+        })
+
+        afterEach(() => {
+          cy.window().then(window => 
+            window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+          )
+        })
+
+        it('renders "+"', () => {
+          cy.contains('+').should('exist')
+        })
+      })
+
+      describe('when done', () => {
+        const testApiGetResponse = {
+          statusCode: 200,
+          body: {
+            ok: true,
+            tsks: [{...tsk, status: 'done'}]
+          }
+        }
+
+        beforeEach(() => {
+          cy.window().then(window => {
+            window.localStorage.setItem(
+              NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+              JSON.stringify(user)
+            )
+          })
+
+          cy.intercept(
+            testApiGetRequest.method,
+            testApiGetRequest.endpoint,
+            testApiGetResponse
+          )
+
+          cy.visit('/tsks')
+        })
+
+        afterEach(() => {
+          cy.window().then(window => 
+            window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+          )
+        })
+        it('renders "*"', () => {
+          cy.contains('*').should('exist')
+        })
       })
     })
   })
