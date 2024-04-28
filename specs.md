@@ -274,3 +274,19 @@
 **delete succesfully**
 - renders "deleted succesfully"
 - remove tsk from render
+
+#### renders tsk
+
+- renders tsk
+- renders context
+
+**renders status**
+
+*when todo*
+- renders "-"
+
+*when doing*
+- renders "+"
+
+*when done*
+- renders "*"

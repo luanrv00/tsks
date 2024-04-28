@@ -54,6 +54,12 @@
 - cannot unexistent tsk
 - delete succesfully
 
+#### renders tsk
+
+- renders tsk
+- renders context
+- renders status
+
 ### errors possibilities
 
 - 400
