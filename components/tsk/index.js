@@ -17,13 +17,15 @@ export default function Tsk({id, tsk, context, status, handleDoing, handleDone})
 
   return (
     <li className={styles.wrapper} onClick={onClick}>
-      <div className={styles.status}>
-        <TskStatus status={status} />
-        <p className={styles.tsk} data-testid='tsk'>
-          {tsk}
-        </p>
+      <div>
+        <span className={styles.context}>@{context}</span>
+        <div className={styles.status}>
+          <TskStatus status={status} />
+          <p className={styles.tsk} data-testid='tsk'>
+            {tsk}
+          </p>
+        </div>
       </div>
-      <span className={styles.context}>@{context}</span>
     </li>
   )
 }
