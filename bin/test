@@ -10,5 +10,5 @@ end
 
 FileUtils.chdir APP_ROOT do
   puts "== Running end to end tests =="
-  system! "docker-compose run svc rake spec"
+  system! "docker-compose run app rake spec"
 end

@@ -27,4 +27,3 @@ services:
      - .:/app
     ports:
       - 5000:5000
-    container_name: svc

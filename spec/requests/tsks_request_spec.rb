@@ -104,6 +104,13 @@ RSpec.describe "Tsks", type: :request do
         expect(parsed_body).to include "tsks"
         # TODO: expect(parsed_body["tsks"]).to eq tsks data structure
       end
+
+      # TODO: write test after implemented data structure verification
+      # currently we only verify if "tsks" is included as response 
+      # and should verify for complete data structure returned
+      # as mentioned as others todos notes
+      it "returns only not deleted tsks" do
+      end
     end
   end
 

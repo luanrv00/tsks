@@ -15,8 +15,9 @@ module V1
 
       if user
         tsks = user.tsks.all
+        available_tsks = tsks.select {|tsk| tsk.deleted_at == nil}
         render json: {ok: true,
-                      tsks: tsks,
+                      tsks: available_tsks,
                       message: "200 Success"},
                       status: :ok
       else
