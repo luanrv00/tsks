@@ -51,7 +51,6 @@
 
 #### DELETE tsk
 
-- cannot unexistent tsk
 - delete succesfully
 
 #### renders tsk

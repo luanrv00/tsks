@@ -268,9 +268,6 @@
 
 #### DELETE tsk
 
-**cannot unexistent tsk**
-- renders "cannot unexistent tsk"
-
 **delete succesfully**
 - renders "deleted succesfully"
 - remove tsk from render

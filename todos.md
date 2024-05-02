@@ -6,8 +6,12 @@
 * review tsks specs and implementation for signup/signin (webapp)
 * review tsks specs and implementation for tsks GET/POST (webapp)
 * write tests for tsks PUT implementation (webapp)
-- write implementation for tsks DELETE (webapp)
+* verify why containers are created each time it is started (for api)
+* verify why containers are duplicated each time it is started (for web tests)
++ write implementation for tsks DELETE (webapp)
+    - add column deleted_at (tsks-api)
+    - make a PUT request when deleting a tsk with deleted_at as the current time
 - implements tsk edit (webapp)
-- verify why containers are created each time it is started (for api)
-- verify why containers are duplicated each time it is started (for web tests)
 - write specs for cli implementation
+- when accessing /tsks after rebuilding api/web, 403 is not redirecting to /signin
+    - remove localstorage info when 403
