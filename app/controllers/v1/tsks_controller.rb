@@ -144,7 +144,7 @@ module V1
     private
 
     def tsk_params
-      params.require(:tsk).permit(:tsk, :context, :status, :created_at, :updated_at)
+      params.require(:tsk).permit(:tsk, :context, :status, :created_at, :updated_at, :deleted_at)
     end
   end
 end
