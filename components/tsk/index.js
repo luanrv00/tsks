@@ -2,8 +2,12 @@ import React from 'react'
 import styles from './index.module.css'
 import {TskStatus} from '../'
 
-export default function Tsk({id, tsk, context, status, handleDoing, handleDone}) {
-  function onClick() {
+export default function Tsk({id, tsk, context, status, handleDoing, handleDone, handleDelete}) {
+  function onClick(e) {
+    if (e.target.textContent === 'delete') {
+      return handleDelete(id)
+    }
+
     if (status === 'todo') {
       return handleDoing(id)
     }
@@ -22,6 +26,7 @@ export default function Tsk({id, tsk, context, status, handleDoing, handleDone})
           <p className={styles.tsk} data-testid='tsk'>
             {tsk}
           </p>
+          <button onClick={onClick}>delete</button>
         </div>
       </div>
     </li>

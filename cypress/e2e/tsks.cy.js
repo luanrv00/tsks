@@ -21,6 +21,14 @@ describe('tsks', () => {
     },
   }
 
+  const testApiGetEmptyResponse = {
+    statusCode: 200,
+    body: {
+      ok: true,
+      tsks: [],
+    },
+  }
+
   describe('cannot access without authentication token', () => {
     beforeEach(() => {
       cy.visit('/tsks')
@@ -110,14 +118,6 @@ describe('tsks', () => {
 
       // TODO: verify why this suites works even without localStorage preset
       describe('when has not tsks', () => {
-        const testApiGetEmptyResponse = {
-          statusCode: 200,
-          body: {
-            ok: true,
-            tsks: [],
-          },
-        }
-
         beforeEach(() => {
           cy.intercept(
             testApiGetRequest.method,
@@ -401,6 +401,69 @@ describe('tsks', () => {
 
       // TODO: write tests and implementation
       describe('put tsk content', () => {
+      })
+    })
+  })
+  
+  describe('DELETE tsk', () => {
+    const testApiGetResponse = {
+      statusCode: 200,
+      body: {
+        ok: true,
+        tsks: [tsk]
+      }
+    }
+
+    const testApiDeleteRequest = {
+      method: 'DELETE',
+      endpoint: '**/v1/tsks/*',
+    }
+
+    const testApiDeleteResponse = {
+      statusCode: 204
+    }
+
+    describe('delete succesfully', () => {
+      beforeEach(() => {
+        cy.window().then(window => {
+          window.localStorage.setItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY, JSON.stringify(user))
+        })
+
+        cy.intercept(
+          testApiGetRequest.method,
+          testApiGetRequest.endpoint,
+          testApiGetResponse
+        )
+
+        cy.intercept(
+          testApiDeleteRequest.method,
+          testApiDeleteRequest.endpoint,
+          testApiDeleteResponse
+        )
+
+        cy.intercept(
+          testApiGetRequest.method,
+          testApiGetRequest.endpoint,
+          testApiGetEmptyResponse
+        )
+
+        cy.visit('/tsks')
+        cy.wait(2000)
+        cy.contains('delete').click()
+      })
+
+      afterEach(() => {
+        cy.window(window => {
+          window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+        })
+      })
+
+      it('renders "deleted succesfully"', () => {
+        cy.contains('deleted succesfully').should('exist')
+      })
+
+      it('remove tsk from render', () => {
+        cy.get('[data-testid="tsk"').should('have.length', 0)
       })
     })
   })
