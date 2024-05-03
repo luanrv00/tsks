@@ -10,6 +10,7 @@ export default function Tsks() {
   const [tsks, setTsks] = useState({})
   const [fallbackMsg, setFallbackMsg] = useState('tsks not found')
   const [reqError, setReqError] = useState('')
+  const [reqSuccess, setReqSuccess] = useState('')
 
   async function fetchTsks() {
     const user = getCurrentUserAtBrowser()
@@ -153,6 +154,7 @@ export default function Tsks() {
       .catch(e => e)
 
     if (res.ok) {
+      setReqSuccess('deleted succesfully')
       fetchTsks()
     } else {
       setReqError(res.message)
@@ -162,6 +164,7 @@ export default function Tsks() {
   return (
     <Layout>
       {reqError && (<FlashMessage type='error' message={reqError} />)}
+      {reqSuccess && (<FlashMessage type='success' message={reqSuccess} />)}
       {Boolean(Object.keys(tsks).length) ? (
         <TsksList 
           tsks={tsks} 

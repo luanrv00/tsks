@@ -406,14 +406,6 @@ describe('tsks', () => {
   })
   
   describe('DELETE tsk', () => {
-    const testApiGetResponse = {
-      statusCode: 200,
-      body: {
-        ok: true,
-        tsks: [tsk]
-      }
-    }
-
     const testApiDeleteRequest = {
       method: 'DELETE',
       endpoint: '**/v1/tsks/*',
@@ -424,9 +416,20 @@ describe('tsks', () => {
     }
 
     describe('delete succesfully', () => {
+      const testApiGetResponse = {
+        statusCode: 200,
+        body: {
+          ok: true,
+          tsks: [tsk]
+        }
+      }
+
       beforeEach(() => {
         cy.window().then(window => {
-          window.localStorage.setItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY, JSON.stringify(user))
+          window.localStorage.setItem(
+            NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY, 
+            JSON.stringify(user)
+          )
         })
 
         cy.intercept(
@@ -447,9 +450,9 @@ describe('tsks', () => {
           testApiGetEmptyResponse
         )
 
-        cy.visit('/tsks')
-        cy.wait(2000)
-        cy.contains('delete').click()
+        cy.get('[data-testid="tsk"]').within(() => {
+          cy.contains('delete').click()
+        })
       })
 
       afterEach(() => {
