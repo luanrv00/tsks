@@ -86,6 +86,7 @@
 - returns message="200 Success"
 - returns ok=true
 - returns tsks
+- returns only not deleted tsks
 
 ### POST tsk
 
