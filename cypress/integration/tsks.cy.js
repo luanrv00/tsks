@@ -407,13 +407,32 @@ describe('tsks', () => {
   
   describe('DELETE tsk', () => {
     const testApiDeleteRequest = {
-      method: 'DELETE',
+      method: 'PUT',
       endpoint: '**/v1/tsks/*',
     }
 
     const testApiDeleteResponse = {
-      statusCode: 204
+      statusCode: 200,
+      body: {
+        ok: true,
+        tsk
+      }
     }
+
+    before(() => {
+      cy.window().then(window => {
+        window.localStorage.setItem(
+          NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY, 
+          JSON.stringify(user)
+        )
+      })
+    })
+
+    after(() => {
+      cy.window(window => {
+        window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+      })
+    })
 
     describe('delete succesfully', () => {
       const testApiGetResponse = {
@@ -425,18 +444,19 @@ describe('tsks', () => {
       }
 
       beforeEach(() => {
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY, 
-            JSON.stringify(user)
-          )
-        })
-
-        cy.intercept(
-          testApiGetRequest.method,
-          testApiGetRequest.endpoint,
+        cy.intercept({
+          method: testApiGetRequest.method,
+          url: testApiGetRequest.endpoint,
+          times: 1
+        },
           testApiGetResponse
-        )
+        ).as('fetchTsks')
+
+        // cy.intercept(
+        //   testApiGetRequest.method,
+        //   testApiGetRequest.endpoint,
+        //   testApiGetResponse
+        // )
 
         cy.intercept(
           testApiDeleteRequest.method,
@@ -448,17 +468,8 @@ describe('tsks', () => {
           testApiGetRequest.method,
           testApiGetRequest.endpoint,
           testApiGetEmptyResponse
-        )
-
-        cy.get('[data-testid="tsk"]').within(() => {
-          cy.contains('delete').click()
-        })
-      })
-
-      afterEach(() => {
-        cy.window(window => {
-          window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
-        })
+        ).as('fetchEmptyTsks')
+        cy.contains('delete').click()
       })
 
       it('renders "deleted succesfully"', () => {
@@ -466,6 +477,7 @@ describe('tsks', () => {
       })
 
       it('remove tsk from render', () => {
+        cy.wait('@fetchEmptyTsks')
         cy.get('[data-testid="tsk"').should('have.length', 0)
       })
     })
