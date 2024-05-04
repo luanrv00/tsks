@@ -12,6 +12,7 @@
     * add column deleted_at (tsks-api)
     * make a PUT request when deleting a tsk with deleted_at as the current time
     - fix not fetching tsks after deleting where there is only one
+    - verify why when deleting a tsk it is making PUT twice
 - clear input after entering new tsk
 - when accessing /tsks after rebuilding api/web, 403 is not redirecting to /signin
     - remove localstorage info when 403
