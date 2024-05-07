@@ -419,23 +419,32 @@ describe('tsks', () => {
       }
     }
 
-    before(() => {
-      cy.window().then(window => {
-        window.localStorage.setItem(
-          NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY, 
-          JSON.stringify(user)
-        )
-      })
-    })
+    // before(() => {
+    //   cy.window().then(window => {
+    //     window.localStorage.setItem(
+    //       NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY, 
+    //       JSON.stringify(user)
+    //     )
+    //   })
+    // })
 
-    after(() => {
-      cy.window(window => {
-        window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
-      })
-    })
+    // after(() => {
+    //   cy.window(window => {
+    //     window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+    //   })
+    // })
 
     describe('delete succesfully', () => {
-      const testApiGetResponse = {
+      const tskToBeDeleted =  'this must be deleted'
+      const testApiGetTwoTsksResponse = {
+        statusCode: 200,
+        body: {
+          ok: true,
+          tsks: [tsk, {...tsk, tsk: tskToBeDeleted}]
+        }
+      }
+
+      const testApiGetOneTskResponse = {
         statusCode: 200,
         body: {
           ok: true,
@@ -444,19 +453,20 @@ describe('tsks', () => {
       }
 
       beforeEach(() => {
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY, 
+            JSON.stringify(user)
+          )
+        })
+
         cy.intercept({
           method: testApiGetRequest.method,
           url: testApiGetRequest.endpoint,
           times: 1
         },
-          testApiGetResponse
+          testApiGetTwoTsksResponse
         ).as('fetchTsks')
-
-        // cy.intercept(
-        //   testApiGetRequest.method,
-        //   testApiGetRequest.endpoint,
-        //   testApiGetResponse
-        // )
 
         cy.intercept(
           testApiDeleteRequest.method,
@@ -467,18 +477,31 @@ describe('tsks', () => {
         cy.intercept(
           testApiGetRequest.method,
           testApiGetRequest.endpoint,
-          testApiGetEmptyResponse
-        ).as('fetchEmptyTsks')
-        cy.contains('delete').click()
+          testApiGetOneTskResponse
+        ).as('fetchTsksAfterDeletion')
+
+        cy.visit('/tsks')
+        cy.wait('@fetchTsks')
+        cy.get('[data-testid="tsk"]').contains(tskToBeDeleted).within(() => {
+          cy.contains('delete').click()
+        })
+      })
+
+      afterEach(() => {
+        cy.window(window => {
+          window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+        })
       })
 
       it('renders "deleted succesfully"', () => {
+        cy.wait('@fetchTsksAfterDeletion')
         cy.contains('deleted succesfully').should('exist')
       })
 
       it('remove tsk from render', () => {
-        cy.wait('@fetchEmptyTsks')
-        cy.get('[data-testid="tsk"').should('have.length', 0)
+        cy.wait('@fetchTsksAfterDeletion')
+        cy.get('[data-testid="tsk"]').should('have.length', 1)
+        cy.contains(tskToBeDeleted).should('not.exist')
       })
     })
   })
