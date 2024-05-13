@@ -177,24 +177,29 @@ describe('tsks', () => {
       
     describe('post succesfully', () => {
       beforeEach(() => {
-        cy.intercept(
-          testApiPostRequest.method,
-          testApiPostRequest.endpoint,
-          testApiPostResponse
-        )
+        const replies = [testApiGetEmptyResponse, testApiGetResponse]
 
         cy.intercept(
           testApiGetRequest.method,
           testApiGetRequest.endpoint,
-          testApiGetResponse
-        )
+          req => req.reply(replies.shift())
+        ).as('fetchTsks')
 
-        cy.visit('/tsks')
-        cy.get('input[placeholder="enter tsk"]').type(tsks[0].tsk)
-        cy.get('button').click()
+        cy.intercept(
+          testApiPostRequest.method,
+          testApiPostRequest.endpoint,
+          testApiPostResponse
+        ).as('postTsks')
       })
 
       it('renders tsk ', () => {
+        cy.visit('/tsks')
+        cy.wait('@fetchTsks')
+        cy.contains(tsks[0].tsk).should('not.exist')
+        cy.get('input[placeholder="enter tsk"]').type(tsks[0].tsk)
+        cy.get('button').click()
+        cy.wait('@postTsks')
+        cy.wait('@fetchTsks')
         cy.contains(tsks[0].tsk).should('exist')
       })
     })
@@ -436,6 +441,7 @@ describe('tsks', () => {
 
     describe('delete succesfully', () => {
       const tskToBeDeleted =  'this must be deleted'
+
       const testApiGetTwoTsksResponse = {
         statusCode: 200,
         body: {
