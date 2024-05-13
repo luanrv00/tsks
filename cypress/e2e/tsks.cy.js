@@ -452,23 +452,8 @@ describe('tsks', () => {
       }
     }
 
-    // before(() => {
-    //   cy.window().then(window => {
-    //     window.localStorage.setItem(
-    //       NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY, 
-    //       JSON.stringify(user)
-    //     )
-    //   })
-    // })
-
-    // after(() => {
-    //   cy.window(window => {
-    //     window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
-    //   })
-    // })
-
     describe('delete succesfully', () => {
-      const tskToBeDeleted =  'this tsk must be deleted'
+      const tskToBeDeleted =  'this tsk must be removed'
 
       const testApiGetTwoTsksResponse = {
         statusCode: 200,
@@ -522,7 +507,7 @@ describe('tsks', () => {
           testApiGetRequest.endpoint,
           testApiGetOneTskResponse
         ).as('fetchTsksAfterDeletion')
-        cy.get('[data-testid="tsk"]').contains(tskToBeDeleted).within(() => {
+        cy.get('[data-testid="tsk"]').contains(tskToBeDeleted).parent().within(() => {
           cy.contains('delete').click()
         })
         cy.wait('@deleteTsk')
@@ -537,7 +522,7 @@ describe('tsks', () => {
           testApiGetRequest.endpoint,
           testApiGetOneTskResponse
         ).as('fetchTsksAfterDeletion')
-        cy.get('[data-testid="tsk"]').contains(tskToBeDeleted).within(() => {
+        cy.get('[data-testid="tsk"]').contains(tskToBeDeleted).parent().within(() => {
           cy.contains('delete').click()
         })
         cy.wait('@deleteTsk')
