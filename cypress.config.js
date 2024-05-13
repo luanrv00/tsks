@@ -2,8 +2,9 @@ const {defineConfig} = require('cypress')
 
 module.exports = defineConfig({
   "e2e": {
-    "baseUrl": "http://app:3000",
-    "spectPattern": "cypress/e2e/**/*.spec.js",
+    // "baseUrl": "http://app:3000",
+    "baseUrl": "http://localhost:3000",
+    "specPattern": "cypress/e2e/**/*.cy.js",
     "supportFile": false
   },
   "screenshotOnRunFailure": false,
