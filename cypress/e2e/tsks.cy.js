@@ -176,14 +176,37 @@ describe('tsks', () => {
     })
       
     describe('post succesfully', () => {
-      beforeEach(() => {
-        const replies = [testApiGetEmptyResponse, testApiGetResponse]
+      const tskToBeInserted = 'this is a new tsk'
 
+      const testApiGetUpdatedResponse = {
+        statusCode: 200,
+        body: {
+          ok: true,
+          tsks: [{...tsk, tsk: tskToBeInserted}]
+        }
+      }
+
+      before(() => {
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+            JSON.stringify(user)
+          )
+        })
+      })
+
+      after(() => {
+        cy.window().then(window =>
+          window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+        )
+      })
+
+      beforeEach(() => {
         cy.intercept(
           testApiGetRequest.method,
           testApiGetRequest.endpoint,
-          req => req.reply(replies.shift())
-        ).as('fetchTsks')
+          testApiGetEmptyResponse
+        ).as('fetchEmptyTsks')
 
         cy.intercept(
           testApiPostRequest.method,
@@ -194,13 +217,18 @@ describe('tsks', () => {
 
       it('renders tsk ', () => {
         cy.visit('/tsks')
-        cy.wait('@fetchTsks')
-        cy.contains(tsks[0].tsk).should('not.exist')
-        cy.get('input[placeholder="enter tsk"]').type(tsks[0].tsk)
+        cy.wait('@fetchEmptyTsks')
+        cy.contains(tskToBeInserted).should('not.exist')
+        cy.get('input[placeholder="enter tsk"]').type(tskToBeInserted)
         cy.get('button').click()
         cy.wait('@postTsks')
-        cy.wait('@fetchTsks')
-        cy.contains(tsks[0].tsk).should('exist')
+        cy.intercept(
+          testApiGetRequest.method,
+          testApiGetRequest.endpoint,
+          testApiGetUpdatedResponse
+        ).as('fetchUpdatedTsks')
+        cy.wait('@fetchUpdatedTsks')
+        cy.contains(tskToBeInserted).should('exist')
       })
     })
   })
