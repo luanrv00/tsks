@@ -468,7 +468,7 @@ describe('tsks', () => {
     // })
 
     describe('delete succesfully', () => {
-      const tskToBeDeleted =  'this must be deleted'
+      const tskToBeDeleted =  'this tsk must be deleted'
 
       const testApiGetTwoTsksResponse = {
         statusCode: 200,
@@ -494,11 +494,9 @@ describe('tsks', () => {
           )
         })
 
-        cy.intercept({
-          method: testApiGetRequest.method,
-          url: testApiGetRequest.endpoint,
-          times: 1
-        },
+        cy.intercept(
+          testApiGetRequest.method,
+          testApiGetRequest.endpoint,
           testApiGetTwoTsksResponse
         ).as('fetchTsks')
 
@@ -506,19 +504,10 @@ describe('tsks', () => {
           testApiDeleteRequest.method,
           testApiDeleteRequest.endpoint,
           testApiDeleteResponse
-        )
-
-        cy.intercept(
-          testApiGetRequest.method,
-          testApiGetRequest.endpoint,
-          testApiGetOneTskResponse
-        ).as('fetchTsksAfterDeletion')
+        ).as('deleteTsk')
 
         cy.visit('/tsks')
         cy.wait('@fetchTsks')
-        cy.get('[data-testid="tsk"]').contains(tskToBeDeleted).within(() => {
-          cy.contains('delete').click()
-        })
       })
 
       afterEach(() => {
@@ -528,13 +517,31 @@ describe('tsks', () => {
       })
 
       it('renders "deleted succesfully"', () => {
+        cy.intercept(
+          testApiGetRequest.method,
+          testApiGetRequest.endpoint,
+          testApiGetOneTskResponse
+        ).as('fetchTsksAfterDeletion')
+        cy.get('[data-testid="tsk"]').contains(tskToBeDeleted).within(() => {
+          cy.contains('delete').click()
+        })
+        cy.wait('@deleteTsk')
         cy.wait('@fetchTsksAfterDeletion')
         cy.contains('deleted succesfully').should('exist')
       })
 
       it('remove tsk from render', () => {
+        cy.contains(tskToBeDeleted).should('exist')
+        cy.intercept(
+          testApiGetRequest.method,
+          testApiGetRequest.endpoint,
+          testApiGetOneTskResponse
+        ).as('fetchTsksAfterDeletion')
+        cy.get('[data-testid="tsk"]').contains(tskToBeDeleted).within(() => {
+          cy.contains('delete').click()
+        })
+        cy.wait('@deleteTsk')
         cy.wait('@fetchTsksAfterDeletion')
-        cy.get('[data-testid="tsk"]').should('have.length', 1)
         cy.contains(tskToBeDeleted).should('not.exist')
       })
     })
