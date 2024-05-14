@@ -115,6 +115,7 @@
 - returns message="201 Created"
 - returns ok=true
 - returns tsks
+- clears tsk input
 
 ### PUT tsk
 
@@ -231,6 +232,13 @@
 - redirects to /signin
 
 **cannot without valid authentication token**
+
+*when token is unauthorized*
+- removes user from localStorage
+- redirects to /signin
+
+*when token is forbidden*
+- removes user from localStorage
 - redirects to /signin
 
 #### GET tsks

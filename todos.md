@@ -14,8 +14,10 @@
     * fix not fetching tsks after deleting where there is only one
     * verify why when deleting a tsk it is making PUT twice
 * fix POST succesfully test
-- clear input after entering new tsk
-- when accessing /tsks after rebuilding api/web, 403 is not redirecting to /signin
-    - remove localstorage info when 403
+* clear input after entering new tsk
+* when accessing /tsks after rebuilding api/web, 403 is not redirecting to /signin
+    * remove localstorage info when 403
+- write scripts for lint and unit testing using docker compose
 - implements tsk edit (webapp)
+    - create issue describing this
 - write specs for cli implementation

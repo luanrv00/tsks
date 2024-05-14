@@ -27,7 +27,10 @@
 ### tsks
 
 - cannot access without authentication token
-- cannot access without valid authentication token
+
+**cannot access without valid authentication token**
+- when unauthorized
+- when forbidden
 
 #### GET tsks
 
