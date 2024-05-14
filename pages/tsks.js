@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import {Layout, FlashMessage, TsksList, TskForm} from '../components'
-import {getCurrentUserAtBrowser} from '../utils'
+import {getCurrentUserAtBrowser, deleteCurrentUserAtBrowser} from '../utils'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -32,7 +32,10 @@ export default function Tsks() {
         .then(res => res.json())
         .then(res => {
           if (!res.ok) {
-            if (res.message === '401 Unauthorized') {
+            const isInvalidAuthToken = res.message === '401 Unauthorized' || res.message === '403 Forbidden'
+
+            if (isInvalidAuthToken) {
+              deleteCurrentUserAtBrowser()
               return router.push('/signin')
             }
 
