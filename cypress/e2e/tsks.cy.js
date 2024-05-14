@@ -186,22 +186,14 @@ describe('tsks', () => {
         }
       }
 
-      before(() => {
+      beforeEach(() => {
         cy.window().then(window => {
           window.localStorage.setItem(
             NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
             JSON.stringify(user)
           )
         })
-      })
 
-      after(() => {
-        cy.window().then(window =>
-          window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
-        )
-      })
-
-      beforeEach(() => {
         cy.intercept(
           testApiGetRequest.method,
           testApiGetRequest.endpoint,
@@ -213,6 +205,12 @@ describe('tsks', () => {
           testApiPostRequest.endpoint,
           testApiPostResponse
         ).as('postTsks')
+      })
+
+      afterEach(() => {
+        cy.window().then(window =>
+          window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+        )
       })
 
       it('renders tsk ', () => {
@@ -229,6 +227,13 @@ describe('tsks', () => {
         ).as('fetchUpdatedTsks')
         cy.wait('@fetchUpdatedTsks')
         cy.contains(tskToBeInserted).should('exist')
+      })
+
+      it('clears input', () => {
+        cy.visit('/tsks')
+        cy.get('input[placeholder="enter tsk"]').type(tskToBeInserted)
+        cy.get('button').click()
+        cy.get('input[placeholder="enter tsk"]').should('have.value', '')
       })
     })
   })

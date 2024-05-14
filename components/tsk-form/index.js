@@ -13,6 +13,7 @@ export default function UserTsk({handleSubmit}) {
       return setEmptyTskError(true)
     }
 
+    setFormValues({tsk: ''})
     handleSubmit(formValues)
   }
 
