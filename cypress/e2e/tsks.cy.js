@@ -348,11 +348,11 @@ describe('tsks', () => {
           )
 
           cy.visit('/tsks')
-          cy.wait(2000)
-          cy.get('[data-testid="tsk"]').click()
         })
 
         it('renders tsk', () => {
+          cy.contains('+').should('not.exist')
+          cy.get('[data-testid="tsk"]').click()
           cy.contains('+').should('exist')
           cy.contains(updatedTsk.tsk).should('exist')
         })
@@ -422,11 +422,11 @@ describe('tsks', () => {
           )
 
           cy.visit('/tsks')
-          cy.wait(2000)
-          cy.get('[data-testid="tsk"]').click()
         })
 
         it('renders tsk', () => {
+          cy.contains('*').should('not.exist')
+          cy.get('[data-testid="tsk"]').click()
           cy.contains('*').should('exist')
           cy.contains(updatedTsk.tsk).should('exist')
         })
