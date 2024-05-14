@@ -40,11 +40,60 @@ describe('tsks', () => {
   })
 
   describe('cannot access without valid authentication token', () => {
+    describe('when token is unauthorized', () => {
       const testApiGetResponse = {
         statusCode: 401,
         body: {
           ok: false,
           message: '401 Unauthorized',
+        },
+      }
+
+      beforeEach(() => {
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+            JSON.stringify(invalidUser)
+          )
+        })
+
+        cy.intercept(
+          testApiGetRequest.method,
+          testApiGetRequest.endpoint,
+          testApiGetResponse
+        )
+      })
+
+      afterEach(() => {
+        cy.window().then(window => {
+          window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+        })
+      })
+
+      it('redirects to signin', () => {
+        cy.visit('/tsks')
+        cy.location('pathname').should('eq', '/signin')
+      })
+
+      it('removes user from localStorage', () => {
+        cy.visit('/tsks')
+        cy.wait(5000)
+        cy.window().then(window => {
+          const localStorageState = JSON.parse(
+            window.localStorage.getItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+          )
+
+          expect(localStorageState).to.eq(null)
+        })
+      })
+    })
+
+    describe('when token is forbidden', () => {
+      const testApiGetResponse = {
+        statusCode: 403,
+        body: {
+          ok: false,
+          message: '403 Forbidden',
         },
       }
 
@@ -76,6 +125,19 @@ describe('tsks', () => {
       it('redirects to signin', () => {
         cy.location('pathname').should('eq', '/signin')
       })
+
+      it('removes user from localStorage', () => {
+        cy.visit('/tsks')
+        cy.wait(5000)
+        cy.window().then(window => {
+          const localStorageState = JSON.parse(
+            window.localStorage.getItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+          )
+
+          expect(localStorageState).to.eq(null)
+        })
+      })
+    })
   })
 
   describe('GET tsks', () => {
