@@ -111,4 +111,20 @@ describe('signup', () => {
       cy.location('pathname').should('eq', '/tsks')
     })
   })
+
+  describe('renders a link to signin', () => {
+    beforeEach(() => {
+      cy.visit('/signup')
+    })
+
+    it('renders a link to signin', () => {
+      cy.contains('or signin to your account').should('exist')
+    })
+
+    it('redirects to signin when clicking', () => {
+      cy.location('pathname').should('eq', '/signup')
+      cy.contains('or signin to your account').click()
+      cy.location('pathname').should('eq', '/signin')
+    })
+  })
 })
