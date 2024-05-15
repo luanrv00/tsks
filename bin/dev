@@ -10,5 +10,6 @@ end
 
 FileUtils.chdir APP_ROOT do
   puts "== Starting container =="
+  system! "bin/download-docker-images"
   system! "docker-compose up"
 end
