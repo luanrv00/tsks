@@ -3,6 +3,7 @@ echo "starting container"
 bin/download-docker-images
 docker-compose -f docker-compose.test.yml up --build --force-recreate --abort-on-container-exit
 docker stop $(docker ps -a -q)
+docker rm -f tsks-web-app
 docker rm -f tsks-web-test
 docker rmi -f tsks-web-app
 docker rmi -f tsks-web-test
