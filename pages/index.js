@@ -19,7 +19,7 @@ export default function Index() {
     }
 
     redirect()
-  }, [])
+  })
 
   return (
     <Layout>
