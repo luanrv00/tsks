@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
 echo "starting container"
+bin/download-docker-images
 docker-compose up
