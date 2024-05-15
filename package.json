@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "format": "yarn prettier -w **/*.js",
-    "test:e2e": "cypress run",
-    "test:unit": "jest"
+    "test_e2e": "cypress run",
+    "test_unit": "jest"
   },
   "dependencies": {
     "@babel/core": "^7.21.8",
