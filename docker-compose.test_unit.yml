@@ -1,0 +1,15 @@
+version: '3.3'
+name: tsks-web
+services:
+  test_unit:
+    container_name: tsks-web-test_unit
+    build:
+      context: .
+      dockerfile: Dockerfile.test_unit
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app/
+      - /app/node_modules
+    env_file:
+      - .env.dev

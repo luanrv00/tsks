@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+echo "running unit tests"
+bin/download-node-image
+docker-compose -f docker-compose.test_unit.yml up --build --force-recreate --abort-on-container-exit
+docker stop $(docker ps -a -q)
+docker rm -f tsks-web-test_unit
+docker rmi -f tsks-web-test_unit
