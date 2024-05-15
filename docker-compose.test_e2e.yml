@@ -13,11 +13,11 @@ services:
       - /app/node_modules
     env_file:
       - .env.dev
-  test:
-    container_name: tsks-web-test
+  test_e2e:
+    container_name: tsks-web-test_e2e
     build: 
       context: .
-      dockerfile: Dockerfile.test
+      dockerfile: Dockerfile.test_e2e
     volumes:
       - ./:/test/
       - /test/node_modules
