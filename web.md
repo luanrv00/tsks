@@ -14,6 +14,7 @@
 - cannot without valid email
 - cannot without unregistered email
 - signup succesfully
+- renders a link to signin
 
 ### signin
 
@@ -23,6 +24,7 @@
 - cannot without password
 - cannot without correct password
 - signin succesfully
+- renders a link to signup
 
 ### tsks
 

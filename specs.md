@@ -205,6 +205,10 @@
 - saves user on localStorage
 - redirects to /tsks
 
+**renders a link to signin**
+- renders a link to signin
+- redirects to signin when clicking
+
 ### signin
 
 **cannot without email**
@@ -225,6 +229,10 @@
 **signin succesfully**
 - saves user on localStorage
 - redirects to /tsks
+
+**renders a link to signup**
+- renders a link to signup
+- redirects to signup when clicking
 
 ### tsks
 
