@@ -574,7 +574,7 @@ describe('tsks', () => {
           testApiGetRequest.endpoint,
           testApiGetOneTskResponse
         ).as('fetchTsksAfterDeletion')
-        cy.get('[data-testid="tsk"]').contains(tskToBeDeleted).parent().within(() => {
+        cy.get('[data-testid="tsk"]').contains(tskToBeDeleted).parents('li').within(() => {
           cy.contains('delete').click()
         })
         cy.wait('@deleteTsk')
@@ -589,7 +589,7 @@ describe('tsks', () => {
           testApiGetRequest.endpoint,
           testApiGetOneTskResponse
         ).as('fetchTsksAfterDeletion')
-        cy.get('[data-testid="tsk"]').contains(tskToBeDeleted).parent().within(() => {
+        cy.get('[data-testid="tsk"]').contains(tskToBeDeleted).parents('li').within(() => {
           cy.contains('delete').click()
         })
         cy.wait('@deleteTsk')
