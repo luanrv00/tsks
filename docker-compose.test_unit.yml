@@ -1,5 +1,4 @@
 version: '3.3'
-name: tsks-web
 services:
   test_unit:
     container_name: tsks-web-test_unit
