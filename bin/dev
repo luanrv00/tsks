@@ -1,15 +1,2 @@
-#!/usr/bin/env ruby
-require "fileutils"
-
-# path to your application root.
-APP_ROOT = File.expand_path("..", __dir__)
-
-def system!(*args)
-  system(*args) || abort("\n== Command #{args} failed ==")
-end
-
-FileUtils.chdir APP_ROOT do
-  puts "== Starting container =="
-  system! "bin/download-docker-images"
-  system! "docker-compose up"
-end
+bin/download-ruby-image
+docker-compose --env-file .env.dev up
