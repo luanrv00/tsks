@@ -31,11 +31,5 @@
     "jest-localstorage-mock": "^2.4.26",
     "prettier": "^2.4.0",
     "react-test-renderer": "^17.0.2"
-  },
-  "jest": {
-    "resetMocks": false,
-    "setupFiles": [
-      "jest-localstorage-mock"
-    ]
   }
 }
