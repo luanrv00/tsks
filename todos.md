@@ -19,8 +19,8 @@
     * remove localstorage info when 403
 * add link to signin on signup page
 * write scripts for lint and unit testing using docker compose
-- fix unit test failing (styles importing/parsing error)
-- setup CI/CD environments on github for tsks repositories
+* fix unit test failing (styles importing/parsing error)
++ setup CI/CD environments on github for tsks repositories
 - implements tsk edit (webapp)
     - create issue describing this
 - write specs for cli implementation
