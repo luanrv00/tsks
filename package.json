@@ -21,7 +21,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@testing-library/react": "^12.1.0",
+    "@testing-library/react": "^15.0.7",
     "babel-jest": "^27.0.6",
     "cypress": "^8.3.0",
     "eslint": "7.32.0",
