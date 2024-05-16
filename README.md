@@ -7,10 +7,10 @@
 **Starting dev server:**
 
 ```
-./bin/up
+./bin/dev
 ```
 
-**Running rspec tests:** (_Need server started_)
+**Running rspec tests:**
 
 ```
 ./bin/test
