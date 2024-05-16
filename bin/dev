@@ -1,4 +1,3 @@
 #!/usr/bin/env sh
-echo "starting container"
 bin/download-node-image
 docker-compose up

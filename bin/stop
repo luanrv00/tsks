@@ -1,3 +1,2 @@
 #!/usr/bin/env sh
-echo "stoping container"
 docker-compose stop
