@@ -1,18 +1,18 @@
 import user from '../../cypress/fixtures/user.json'
 import {setCurrentUserAtBrowser} from '.'
 
-const TSKS_LOCALSTORAGE_KEY_NAME = process.env.TSKS_LOCALSTORAGE_KEY_NAME
+const {NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY} = process.env
 
 describe('setCurrentUserAtBrowserAtBrowser', () => {
   afterEach(() => {
-    localStorage.removeItem(TSKS_LOCALSTORAGE_KEY_NAME)
+    localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
   })
 
   it('saves received user on localStorage', () => {
     setCurrentUserAtBrowser(user)
 
     expect(
-      JSON.parse(localStorage.getItem(TSKS_LOCALSTORAGE_KEY_NAME))
+      JSON.parse(localStorage.getItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY))
     ).toStrictEqual(user)
   })
 })
