@@ -3,7 +3,7 @@ echo "runnint e2e tests"
 bin/download-node-image
 bin/download-cypress-image
 docker-compose -f docker-compose.test_e2e.yml up --build --force-recreate --abort-on-container-exit
-docker rm -f tsks-web-app
+docker rm -f tsks-web-app-test_e2e
 docker rm -f tsks-web-test_e2e
-docker rmi -f tsks-web-app
+docker rmi -f tsks-web-app-test_e2e
 docker rmi -f tsks-web-test_e2e
