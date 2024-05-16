@@ -1,25 +1,27 @@
 version: '3.8'
-name: tsks-api
 services:
   db:
+    container_name: tsks-api-db
     image: postgres
     environment:
       - POSTGRES_PASSWORD=postgres
     volumes:
       - "./tmp/db:/var/lib/postgresql/data"
   db-migration:
-    build: .
+    container_name: tsks-api-db-migration
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     command: bundle exec rake db:prepare
-    environment:
-      RAILS_ENV: development
     depends_on:
       - db
     volumes:
       - .:/app
   app:
-    build: .
-    environment:
-      RAILS_ENV: development
+    container_name: tsks-api-app
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     depends_on:
       - db
       - db-migration

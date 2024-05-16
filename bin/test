@@ -1,14 +1,9 @@
-#!/usr/bin/env ruby
-require "fileutils"
-
-# path to your application root.
-APP_ROOT = File.expand_path("..", __dir__)
-
-def system!(*args)
-  system(*args) || abort("\n== Command #{args} failed ==")
-end
-
-FileUtils.chdir APP_ROOT do
-  puts "== Running end to end tests =="
-  system! "docker-compose run app rake spec"
-end
+#!/usr/bin/env sh
+docker compose --env-file .env.test up --build --force-recreate -d
+docker compose run --name tsks-api-test app rake spec
+docker rm -f tsks-api-app
+docker rm -f tsks-api-db
+docker rm -f tsks-api-db-migration
+docker rm -f tsks-api-test
+docker rmi -f tsks-api-app
+docker rmi -f tsks-api-db-migration
