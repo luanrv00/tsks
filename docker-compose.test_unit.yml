@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.test_unit
+    environment:
+      - PORT=3001
     ports:
       - "3001:3001"
     volumes:
