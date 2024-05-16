@@ -1,7 +1,6 @@
 # tsks-web
 
-Project under development with studies purposes only. 
-Currently learning fundamentals of react ecosystem and testing and planning deployment pipelines as next steps.
+[![e2e tests](https://github.com/luanrv00/tsks-web/actions/workflows/e2e.yml/badge.svg)](https://github.com/luanrv00/tsks-web/actions/workflows/e2e.yml)
 
 ## Development
 
