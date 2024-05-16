@@ -2,6 +2,5 @@
 echo "running linter"
 bin/download-node-image
 docker-compose -f docker-compose.lint.yml up --build --force-recreate --abort-on-container-exit
-docker stop $(docker ps -a -q)
 docker rm -f tsks-web-lint
 docker rmi -f tsks-web-lint

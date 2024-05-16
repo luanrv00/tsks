@@ -52,7 +52,7 @@ export default function Tsks() {
 
   useEffect(() => {
     fetchTsks()
-  })
+  }, [])
 
   async function handleSubmit(formValues) {
     const now = new Date().toISOString()
