@@ -1,7 +1,6 @@
 # tsks-api
 
-Project under development for studies purposes only.
-Currently learning fundamentals of Rails, including modeling, testing and deployment.
+[![tests](https://github.com/luanrv00/tsks-api/actions/workflows/tests.yml/badge.svg)](https://github.com/luanrv00/tsks-api/actions/workflows/tests.yml)
 
 ## Development
 
