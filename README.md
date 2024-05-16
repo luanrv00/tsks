@@ -1,6 +1,7 @@
 # tsks-web
 
 [![e2e tests](https://github.com/luanrv00/tsks-web/actions/workflows/e2e.yml/badge.svg)](https://github.com/luanrv00/tsks-web/actions/workflows/e2e.yml)
+[![unit tests](https://github.com/luanrv00/tsks-web/actions/workflows/unit.yml/badge.svg)](https://github.com/luanrv00/tsks-web/actions/workflows/unit.yml)
 
 ## Development
 
