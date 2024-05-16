@@ -21,6 +21,8 @@
 * write scripts for lint and unit testing using docker compose
 * fix unit test failing (styles importing/parsing error)
 * setup CI/CD environments on github for tsks repositories
+* fix /tsks reloading like crazy
+* updates delete tsk button style
 - implements tsk edit (webapp)
     - create issue describing this
 - write specs for cli implementation
