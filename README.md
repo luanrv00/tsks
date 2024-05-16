@@ -7,13 +7,19 @@
 **Starting dev server:**
 
 ```
-./bin/up
+./bin/dev
 ```
 
-**Running end to end tests:** (_Need server started_)
+**Running end to end tests:**
 
 ```
-./bin/test
+./bin/test_e2e
+```
+
+**Running unit tests:** (_Need server started_)
+
+```
+./bin/test_unit
 ```
 
 **Running linter:**
