@@ -18,7 +18,7 @@
 ./bin/test_e2e
 ```
 
-**Running unit tests:** (_Need server started_)
+**Running unit tests:**
 
 ```
 ./bin/test_unit
