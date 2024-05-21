@@ -1,8 +1,8 @@
 import React from 'react'
-import Header from '../header'
+import {Header} from '..'
 import styles from './index.module.css'
 
-export default function Layout({children}) {
+export function Layout({children}) {
   return (
     <div className={styles.wrapper}>
       <Header />

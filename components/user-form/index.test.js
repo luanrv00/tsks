@@ -1,6 +1,6 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
-import UserForm from '.'
+import {UserForm} from '.'
 
 describe('UserForm', () => {
   it('renders an input to enter email', () => {

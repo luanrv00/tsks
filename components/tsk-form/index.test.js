@@ -1,6 +1,6 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
-import TskForm from '.'
+import {TskForm} from '.'
 
 describe('TskForm', () => {
   it('renders an input to enter tsk', () => {

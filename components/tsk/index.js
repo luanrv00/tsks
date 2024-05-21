@@ -1,8 +1,8 @@
 import React from 'react'
 import styles from './index.module.css'
-import {TskStatus, Button} from '../'
+import {TskStatus, Button} from '..'
 
-export default function Tsk({id, tsk, context, status, handleDoing, handleDone, handleDelete}) {
+export function Tsk({id, tsk, context, status, handleDoing, handleDone, handleDelete}) {
   function onClick(e) {
     if (e.target.textContent === 'delete') {
       return handleDelete(id)

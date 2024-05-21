@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './index.module.css'
 
-export default function Input({value, placeholder, type, onChange, hasEmptyError, hasInvalidEmailError}) {
+export function Input({value, placeholder, type, onChange, hasEmptyError, hasInvalidEmailError}) {
   return (
     <>
     <input

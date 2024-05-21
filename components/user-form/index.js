@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
-import {Input, Button} from '../'
+import {Input, Button} from '..'
 import styles from './index.module.css'
 
-export default function UserForm({handleSubmit}) {
+export function UserForm({handleSubmit}) {
   const [formValues, setFormValues] = useState({email: '', password: ''})
   const [hasEmailError, setHasEmailError] = useState(false)
   const [hasPasswordError, setHasPasswordError] = useState(false)

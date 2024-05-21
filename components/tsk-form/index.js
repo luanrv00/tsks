@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
-import {Input, Button} from '../'
+import {Input, Button} from '..'
 import styles from './index.module.css'
 
-export default function TskForm({handleSubmit}) {
+export function TskForm({handleSubmit}) {
   const [formValues, setFormValues] = useState({tsk: ''})
   const [emptyTskError, setEmptyTskError] = useState(false)
 

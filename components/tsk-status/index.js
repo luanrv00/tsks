@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function TskStatus({status}) {
+export function TskStatus({status}) {
   return <>{availableStatus[status]}</>
 }
 

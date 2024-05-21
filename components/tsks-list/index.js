@@ -1,8 +1,8 @@
 import React from 'react'
-import Tsk from '../tsk'
+import {Tsk} from '..'
 import styles from './index.module.css'
 
-export default function TsksList({tsks, handleDoing, handleDone, handleDelete}) {
+export function TsksList({tsks, handleDoing, handleDone, handleDelete}) {
   return (
     <ul className={styles.tsksList}>
       {tsks.map(({id, tsk, context, status}) => (
