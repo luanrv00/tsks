@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './index.module.css'
-import {TskStatus, Button} from '..'
+import {TskStatus, SmallButton} from '..'
 
 export function Tsk({id, tsk, context, status, handleDoing, handleDone, handleDelete}) {
   function onClick(e) {
@@ -28,7 +28,7 @@ export function Tsk({id, tsk, context, status, handleDoing, handleDone, handleDe
           </p>
         </div>
       </div>
-      <Button onClick={onClick} value='delete'/>
+      <SmallButton onClick={onClick} value='delete'/>
     </li>
   )
 }

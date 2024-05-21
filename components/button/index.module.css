@@ -1,7 +1,14 @@
-.button {
-  padding: 10px;
+.baseButton {
   border: 0;
   background-color: #333;
   color: #fff;
   cursor: pointer;
+}
+
+.button {
+  padding: 10px;
+}
+
+.smallButton {
+  padding: 5px;
 }
