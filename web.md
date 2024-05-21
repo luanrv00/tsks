@@ -1,68 +1,68 @@
-# tsks-web
+# tsks*web
 
 ## FEATURES
 
 ### home
 
-- when has session redirects to tsks
-- when has not session redirects to signin
+* when has session redirects to tsks
+* when has not session redirects to signin
 
 ### signup
 
-- cannot without email
-- cannot without password
-- cannot without valid email
-- cannot without unregistered email
-- signup succesfully
-- renders a link to signin
+* cannot without email
+* cannot without password
+* cannot without valid email
+* cannot without unregistered email
+* signup succesfully
+* renders a link to signin
 
 ### signin
 
-- cannot without email
-- cannot without valid email
-- cannot without registered email
-- cannot without password
-- cannot without correct password
-- signin succesfully
-- renders a link to signup
+* cannot without email
+* cannot without valid email
+* cannot without registered email
+* cannot without password
+* cannot without correct password
+* signin succesfully
+* renders a link to signup
 
 ### tsks
 
-- cannot access without authentication token
+* cannot access without authentication token
 
 **cannot access without valid authentication token**
-- when unauthorized
-- when forbidden
+* when unauthorized
+* when forbidden
 
 #### GET tsks
 
 **get succesfully**
-- when has tsks
-- when has not tsks
+* when has tsks
+* when has not tsks
 
 #### POST tsk
 
-- cannot without tsk
-- post succesfully
+* cannot without tsk
+* post succesfully
 
 #### PUT tsk
 
-- cannot unexistent tsk
+* cannot unexistent tsk
 
 **put succesfully**
-- put doing tsk
-- put done tsk
-- put tsk content
+* put doing tsk
+* put done tsk
+* put tsk content
 
 #### DELETE tsk
 
-- delete succesfully
+* delete succesfully
 
 #### renders tsk
 
-- renders tsk
-- renders context
-- renders status
+* renders tsk
+* renders context
+* renders status
 
 ### errors possibilities
 

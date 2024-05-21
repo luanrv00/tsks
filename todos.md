@@ -23,6 +23,16 @@
 * setup CI/CD environments on github for tsks repositories
 * fix /tsks reloading like crazy
 * updates delete tsk button style
-- implements tsk edit (webapp)
-    - create issue describing this
-- write specs for cli implementation
+- improve security against stolen tokens
+    - make the auth token expirable after some time
+    - remove auth token as a property of user
+    - returns the auth token as a property of response
+    - create a refresh token alongside with auth token for signup/signin
+    - returns the refresh token as http only cookie
+    - create refresh token endpoint for auth token renovation
+    - verify 401 errors for both scenarios:
+        - 401 without user existent on localStorage (redirects to signin)
+        - 401 with expired auth token (request refresh token endpoint)
+    - dont save auth token on db
+- implements tsk edit
+! write specs for cli implementation
