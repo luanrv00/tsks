@@ -4,6 +4,7 @@
   align-items: center;
   padding-right: 15px;
   padding-left: 15px;
+  border: 1px dashed var(--bg-color);
 }
 
 .tskWrapper {
@@ -11,11 +12,12 @@
   flex-direction: row;
   align-items: center;
   gap: 20px;
+  padding-bottom: 5px;
 }
 
 .wrapper:hover {
-  box-shadow: 0 0 6px 1px #666;
   cursor: pointer;
+  border-color: var(--hover-color);
 }
 
 .context {
@@ -25,5 +27,5 @@
 }
 
 .tsk {
-  margin-top: 5px;
+  margin: 0;
 }
