@@ -3,46 +3,45 @@
 ## FEATURES
 
 ### signup
-- cannot without email
-- cannot without password
-- cannot without valid email
-- cannot without unregistered email
-- signup succesfully
+* cannot without email
+* cannot without password
+* cannot without valid email
+* cannot without unregistered email
+* signup succesfully
 
 ### signin
-- cannot without email
-- cannot without valid email
-- cannot without registered email
-- cannot without password
-- cannot without correct password
-- cannot without saved authentication token
-- signin succesfully
+* cannot without email
+* cannot without valid email
+* cannot without registered email
+* cannot without password
+* cannot without correct password
+* signin succesfully
 
 ### GET tsks
-- cannot without authentication token
-- cannot without valid authentication token
-- get succesfully
+* cannot without authentication token
+* cannot without valid authentication token
+* get succesfully
 
 ### POST tsk
-- cannot without authentication token
-- cannot without valid authentication token
-- cannot without tsk
-- cannot without valid tsk
-- post succesfully
+* cannot without authentication token
+* cannot without valid authentication token
+* cannot without tsk
+* cannot without valid tsk
+* post succesfully
 
 ### PUT tsk
-- cannot without authentication token
-- cannot without valid authentication token
-- cannot without tsk
-- cannot without valid tsk
-- cannot unexistent tsk
-- put succesfully
+* cannot without authentication token
+* cannot without valid authentication token
+* cannot without tsk
+* cannot without valid tsk
+* cannot unexistent tsk
+* put succesfully
 
 ### DELETE tsk
-- cannot without authentication token
-- cannot without valid authentication token
-- cannot without valid id
-- delete succesfully
+* cannot without authentication token
+* cannot without valid authentication token
+* cannot without valid id
+* delete succesfully
 
 ### errors possibilities
 - 400
@@ -51,7 +50,7 @@
 - 404
 - 500
 
----
+*--
 
 ## ENDPOINTS
 

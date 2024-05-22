@@ -1,4 +1,4 @@
-# tsks*web
+# tsks-web
 
 ## FEATURES
 

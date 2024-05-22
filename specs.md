@@ -29,8 +29,10 @@
 * returns message="201 Created"
 * returns ok=true
 * returns user
-- returns authentication token
-- returns refresh token
+* returns auth token
+* returns refresh token
+* saves user on db
+* saves refresh token on db
 
 ### signin
 
@@ -59,27 +61,23 @@
 * returns message="401 Unauthorized"
 * returns ok=false
 
-**cannot without saved authentication token**
-* returns status_code=500
-* returns message="500 Internal Server Error"
-* returns ok=false
-
 **signin succesfully**
 * returns status_code=200
 * returns message="200 Success"
 * returns ok=true
 * returns user
-- returns authentication token
-- returns refresh token
+* returns auth token
+* returns refresh token
+* saves refresh token on db
 
 ### GET tsks
 
-**cannot without authentication token**
+**cannot without auth token**
 * returns status_code=401
 * returns message="401 Unauthorized"
 * returns ok=false
 
-**cannot without valid authentication token**
+**cannot without valid auth token**
 * returns status_code=403
 * returns message="403 Forbidden"
 * returns ok=false
@@ -93,12 +91,12 @@
 
 ### POST tsk
 
-**cannot without authentication token**
+**cannot without auth token**
 * returns status_code=401
 * returns message="401 Unauthorized"
 * returns ok=false
 
-**cannot without valid authentication token**
+**cannot without valid auth token**
 * returns status_code=403
 * returns message="403 Forbidden"
 * returns ok=false
@@ -118,16 +116,15 @@
 * returns message="201 Created"
 * returns ok=true
 * returns tsks
-* clears tsk input
 
 ### PUT tsk
 
-**cannot without authentication token**
+**cannot without auth token**
 * returns status_code=401
 * returns message="401 Unauthorized"
 * returns ok=false
 
-**cannot without valid authentication token**
+**cannot without valid auth token**
 * returns status_code=403
 * returns message="403 Forbidden"
 * returns ok=false
@@ -155,12 +152,12 @@
 
 ### DELETE tsk
 
-**cannot without authentication token**
+**cannot without auth token**
 * returns status_code=401
 * returns message="401 Unauthorized"
 * returns ok=false
 
-**cannot without valid authentication token**
+**cannot without valid auth token**
 * returns status_code=403
 * returns message="403 Forbidden"
 * returns ok=false
@@ -241,10 +238,10 @@
 
 ### tsks
 
-**cannot without authentication token**
+**when has not session**
 * redirects to /signin
 
-**cannot without valid authentication token**
+**cannot without valid auth token**
 
 *when auth token is unauthorized*
 
@@ -279,6 +276,7 @@
 
 **post succesfully**
 * renders tsk
+* clears tsk input
 
 #### PUT tsk
 
