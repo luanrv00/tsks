@@ -117,6 +117,23 @@ RSpec.describe "Signup", type: :request do
         expect(parsed_body["ok"]).to eq true
       end
 
+      # TODO: expect(parsed_body["user"]).to eq user data structure
+      it "returns user" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body).to include "user"
+      end
+
+      it "returns auth token" do
+        parsed_body = JSON.parse response.body
+        expect(parsed_body).to include "auth_token"
+      end
+
+      it "returns refresh token" do
+        parsed_body = JSON.parse response.body
+        parsed_user = parsed_body["user"]
+        expect(parsed_user).to include "refresh_token"
+      end
+
       it "saves user" do
         saved_user = User.find_by_email user_email
         expect(saved_user).to be_truthy
@@ -125,12 +142,6 @@ RSpec.describe "Signup", type: :request do
       it "saves refresh token" do
         saved_user = User.find_by_email user_email
         expect(saved_user.refresh_token).to be_truthy
-      end
-
-      # TODO: expect(parsed_body["user"]).to eq user data structure
-      it "returns user" do
-        parsed_body = JSON.parse response.body
-        expect(parsed_body).to include "user"
       end
     end
   end
