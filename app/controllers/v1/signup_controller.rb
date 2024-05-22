@@ -15,9 +15,9 @@ module V1
                              status: :conflict
       end
 
-      payload = {email: params[:email]}
-      auth_token = JWT.encode payload, nil, "none"
+      auth_token = create_auth_token
       user = User.new register_params
+      user.refresh_token = create_refresh_token
 
       begin
         if user.save!
@@ -42,6 +42,16 @@ module V1
 
     def register_params
       params.permit(:email, :password)
+    end
+
+    def create_auth_token
+      payload = {email: params[:email]}
+      JWT.encode payload, nil, "none"
+    end
+
+    def create_refresh_token
+      payload = {email: params[:email]}
+      JWT.encode payload, nil, "none"
     end
   end
 end

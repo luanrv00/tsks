@@ -2,8 +2,9 @@ require 'rails_helper'
 
 RSpec.describe "Signin", type: :request do
   describe "POST /signin" do
-    let(:api_endpoint) { "/v1/signin" }
+    let(:api_endpoint) {"/v1/signin"}
     let(:user_email) {"registered@api.com"}
+    let(:registered_refresh_token) {"token"}
     let(:user_wo_refresh_token_email) {"missingrefreshtoken@api.com"}
     let(:user_password) {"s"}
 
@@ -154,8 +155,8 @@ RSpec.describe "Signin", type: :request do
       end
 
       it "saves refresh token" do
-      saved_user = User.find_by_email user_email
-      expect(saved_user).to be_truthy
+        saved_user = User.find_by_email user_email
+        expect(saved_user["refresh_token"]).not_to equal(registered_refresh_token)
       end
     end
   end

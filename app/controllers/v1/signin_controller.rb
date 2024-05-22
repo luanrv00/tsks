@@ -21,7 +21,7 @@ module V1
 
       if user
         if user.authenticate(params[:password])
-          payload = {email: params[:email]}
+          user.refresh_token = create_refresh_token
           auth_token = create_auth_token
 
           return render json: {ok: true,
@@ -45,7 +45,12 @@ module V1
     
     def create_auth_token
       payload = {email: params[:email]}
-      auth_token = JWT.encode payload, nil, "none"
+      JWT.encode payload, nil, "none"
+    end
+    
+    def create_refresh_token
+      payload = {email: params[:email]}
+      JWT.encode payload, nil, "none"
     end
   end
 end
