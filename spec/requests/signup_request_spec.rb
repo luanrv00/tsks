@@ -117,9 +117,14 @@ RSpec.describe "Signup", type: :request do
         expect(parsed_body["ok"]).to eq true
       end
 
-      it "saves authentication token" do
+      it "saves user" do
         saved_user = User.find_by_email user_email
-        expect(saved_user.auth_token).to be_truthy
+        expect(saved_user).to be_truthy
+      end
+
+      it "saves refresh token" do
+        saved_user = User.find_by_email user_email
+        expect(saved_user.refresh_token).to be_truthy
       end
 
       # TODO: expect(parsed_body["user"]).to eq user data structure

@@ -22,15 +22,12 @@ module V1
       if user
         if user.authenticate(params[:password])
           payload = {email: params[:email]}
-          auth_token = user.auth_token
-
-          if !auth_token
-            return render json: {ok: false, message: "500 Internal Server Error"}, status: :internal_server_error
-          end
+          auth_token = create_auth_token
 
           return render json: {ok: true,
                                message: "200 Success",
-                               user: user},
+                               user: user,
+                               auth_token: auth_token},
                                status: :ok
         else
           return render json: {ok: false, message: "401 Unauthorized"}, status: :unauthorized
@@ -44,6 +41,11 @@ module V1
 
     def is_email_valid email
       EmailValidator.valid? email
+    end
+    
+    def create_auth_token
+      payload = {email: params[:email]}
+      auth_token = JWT.encode payload, nil, "none"
     end
   end
 end
