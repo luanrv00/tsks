@@ -1,5 +1,5 @@
-require "jwt"
 require "email_validator"
+require "#{Rails.root}/lib/jwt_util"
 
 module V1
   class SigninController < ApplicationController
@@ -21,8 +21,9 @@ module V1
 
       if user
         if user.authenticate(params[:password])
-          user.refresh_token = create_refresh_token
-          auth_token = create_auth_token
+          payload = {email: params[:email]}
+          user.refresh_token = JWTUtil.create_refresh_token payload
+          auth_token = JWTUtil.create_auth_token payload
 
           return render json: {ok: true,
                                message: "200 Success",
@@ -41,16 +42,6 @@ module V1
 
     def is_email_valid email
       EmailValidator.valid? email
-    end
-    
-    def create_auth_token
-      payload = {email: params[:email]}
-      JWT.encode payload, nil, "none"
-    end
-    
-    def create_refresh_token
-      payload = {email: params[:email]}
-      JWT.encode payload, nil, "none"
     end
   end
 end

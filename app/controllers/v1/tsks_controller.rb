@@ -1,4 +1,4 @@
-require "jwt"
+require "#{Rails.root}/lib/jwt_util"
 
 module V1
   class TsksController < ApplicationController
@@ -9,8 +9,8 @@ module V1
                              status: :unauthorized
       end
 
-      token = request.headers[:authorization].split(" ").last
-      decoded = JWT.decode token, nil, false
+      auth_token = request.headers[:authorization].split(" ").last
+      decoded = JWTUtil.decode_auth_token auth_token
       user = User.find_by_email decoded[0]["email"]
 
       if user
@@ -38,8 +38,8 @@ module V1
                              status: :unauthorized
       end
 
-      token = request.headers[:authorization].split(" ").last
-      decoded = JWT.decode token, nil, false
+      auth_token = request.headers[:authorization].split(" ").last
+      decoded = JWTUtil.decode_auth_token auth_token
       user = User.find_by_email(decoded[0]["email"])
 
       if user
@@ -78,8 +78,8 @@ module V1
                              status: :unauthorized
       end
 
-      token = request.headers[:authorization].split(" ").last
-      decoded = JWT.decode token, nil, false
+      auth_token = request.headers[:authorization].split(" ").last
+      decoded = JWTUtil.decode_auth_token auth_token
       user = User.find_by_email(decoded[0]["email"])
 
       if user
@@ -118,8 +118,8 @@ module V1
           status: :unauthorized
       end
 
-      token = request.headers[:authorization].split(" ").last
-      decoded = JWT.decode token, nil, false
+      auth_token = request.headers[:authorization].split(" ").last
+      decoded = JWTUtil.decode_auth_token auth_token
       user = User.find_by_email decoded[0]["email"] if decoded[0]["email"]
 
       # TODO: research cookies usage for checking session <> token validity

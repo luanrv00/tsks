@@ -1,4 +1,4 @@
-require "jwt"
+require "#{Rails.root}/lib/jwt_util"
 
 module V1
   class SignupController < ApplicationController
@@ -15,9 +15,10 @@ module V1
                              status: :conflict
       end
 
-      auth_token = create_auth_token
+      payload = {email: params[:email]}
+      auth_token = JWTUtil.create_auth_token payload
       user = User.new register_params
-      user.refresh_token = create_refresh_token
+      user.refresh_token = JWTUtil.create_refresh_token payload
 
       begin
         if user.save!
@@ -42,16 +43,6 @@ module V1
 
     def register_params
       params.permit(:email, :password)
-    end
-
-    def create_auth_token
-      payload = {email: params[:email]}
-      JWT.encode payload, nil, "none"
-    end
-
-    def create_refresh_token
-      payload = {email: params[:email]}
-      JWT.encode payload, nil, "none"
     end
   end
 end
