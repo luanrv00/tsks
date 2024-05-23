@@ -30,6 +30,8 @@
     * create a refresh token alongside with auth token for signup/signin
     * save refresh token on db
     * dont save auth token on db
+    + extracts JWT utils for lib
+        - write tests for JWT utils
     - returns the refresh token as http only cookie
     - create refresh token endpoint for auth token renovation
     - verify 401 errors for both scenarios:

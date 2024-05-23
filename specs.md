@@ -70,6 +70,10 @@
 * returns refresh token
 * saves refresh token on db
 
+### authentication tokens
+- create auth token with 1h expiration time
+- create refresh token with 24h expiration time
+
 ### GET tsks
 
 **cannot without auth token**

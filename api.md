@@ -17,6 +17,10 @@
 * cannot without correct password
 * signin succesfully
 
+### authentication tokens
+- create auth token with 1h expiration time
+- create refresh token with 24h expiration time
+
 ### GET tsks
 * cannot without authentication token
 * cannot without valid authentication token
