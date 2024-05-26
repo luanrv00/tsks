@@ -1,2 +1,4 @@
 bin/download-ruby-image
+sudo rm -rf tmp/db
+sudo rm -rf tmp/pids
 docker-compose --env-file .env.dev up
