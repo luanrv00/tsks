@@ -15,13 +15,15 @@ module V1
                              status: :conflict
       end
 
-      payload = {email: params[:email]}
-      auth_token = JWTUtil.create_auth_token payload
       user = User.new register_params
-      user.refresh_token = JWTUtil.create_refresh_token payload
+      auth_token_payload = {email: params[:email]}
+      auth_token = JWTUtil.create_auth_token auth_token_payload
+      refresh_token = JWTUtil.create_refresh_token auth_token_payload
+      user.refresh_token = refresh_token
 
       begin
         if user.save!
+          cookies[:refresh_token] = refresh_token
           render json: {ok: true,
                         message: "201 Created",
                         user: user,

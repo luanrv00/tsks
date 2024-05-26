@@ -21,10 +21,12 @@ module V1
 
       if user
         if user.authenticate(params[:password])
-          payload = {email: params[:email]}
-          user.refresh_token = JWTUtil.create_refresh_token payload
-          auth_token = JWTUtil.create_auth_token payload
+          auth_token_payload = {email: params[:email]}
+          auth_token = JWTUtil.create_auth_token auth_token_payload
+          refresh_token = JWTUtil.create_refresh_token auth_token_payload
+          user.refresh_token = refresh_token
 
+          cookies[:refresh_token] = refresh_token
           return render json: {ok: true,
                                message: "200 Success",
                                user: user,

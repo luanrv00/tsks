@@ -154,10 +154,8 @@ RSpec.describe "Signin", type: :request do
         expect(parsed_body).to include "auth_token"
       end
 
-      it "returns auth token" do
-        parsed_body = JSON.parse response.body
-        parsed_user = parsed_body["user"]
-        expect(parsed_user).to include "refresh_token"
+      it "returns refresh token" do
+        expect(cookies["refresh_token"].class).to eq String
       end
 
       it "saves refresh token" do

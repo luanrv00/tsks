@@ -129,9 +129,7 @@ RSpec.describe "Signup", type: :request do
       end
 
       it "returns refresh token" do
-        parsed_body = JSON.parse response.body
-        parsed_user = parsed_body["user"]
-        expect(parsed_user).to include "refresh_token"
+        expect(cookies["refresh_token"].class).to eq String
       end
 
       it "saves user" do
