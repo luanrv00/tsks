@@ -2,14 +2,14 @@
 
 ## FEATURES
 
-### signup
+### POST signup
 * cannot without email
 * cannot without password
 * cannot without valid email
 * cannot without unregistered email
 * signup succesfully
 
-### signin
+### POST signin
 * cannot without email
 * cannot without valid email
 * cannot without registered email
@@ -20,6 +20,11 @@
 ### authentication tokens
 * create auth token with expiration time
 * create refresh token with expiration time
+
+### POST refresh_token
+- cannot without refresh token
+- cannot without valid refresh token
+- refresh token succesfully
 
 ### GET tsks
 * cannot without authentication token

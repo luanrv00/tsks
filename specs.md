@@ -2,7 +2,7 @@
 
 ## API
 
-### signup
+### POST signup
 
 **cannot without email**
 * returns status_code=400
@@ -34,7 +34,7 @@
 * saves user on db
 * saves refresh token on db
 
-### signin
+### POST signin
 
 **cannot without email**
 * returns status_code=400
@@ -71,8 +71,13 @@
 * saves refresh token on db
 
 ### authentication tokens
-+ create auth token with expiration time
-+ create refresh token with expiration time
+* create auth token with expiration time
+* create refresh token with expiration time
+
+### POST refresh_token
++ cannot without refresh token
+- cannot without valid refresh token
+- refresh token succesfully
 
 ### GET tsks
 
