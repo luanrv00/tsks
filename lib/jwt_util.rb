@@ -2,7 +2,7 @@ require "jwt"
 
 module JWTUtil
 	def self.create_auth_token user_payload
-		exp = Time.now.to_i - 4 * 3600
+		exp = 1.minute.from_now.to_i
 		payload = user_payload.merge({exp: exp})
 		JWT.encode payload, ENV["AUTH_TOKEN_KEY"], "none"
 	end
@@ -12,7 +12,7 @@ module JWTUtil
 	end
 
 	def self.create_refresh_token user_payload
-		exp = Time.now.to_i - 4 * 9000
+		exp = 1.week.from_now.to_i
 		payload = user_payload.merge({exp: exp})
 		JWT.encode payload, ENV["REFRESH_TOKEN_KEY"], "none"
 	end
