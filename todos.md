@@ -33,9 +33,15 @@
     * extracts JWT utils for lib
         * write tests for JWT utils
     * returns the refresh token as http only cookie
-    - create refresh token endpoint for auth token renovation
+    + create refresh token endpoint for auth token renovation
     - verify 401 errors for both scenarios:
         - 401 without user existent on localStorage (redirects to signin)
         - 401 with expired auth token (request refresh token endpoint)
+    - send auth token through cookies
+        - remove auth_token as endpoints returns as json
+    - update all necessary webapp's requests to send cookies (update fetch with credentials: 'include')
+        - remove all Bearer tokens sent on api requests
 - implements tsk edit
+- implements forms auto focus
+    -   move to invalid input when error "email not valid" occurs for signup/signin
 ! write specs for cli implementation
