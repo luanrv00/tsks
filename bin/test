@@ -1,4 +1,6 @@
 #!/usr/bin/env sh
+sudo rm -rf tmp/db
+sudo rm -rf tmp/pids
 docker compose --env-file .env.test up --build --force-recreate -d
 docker compose run --name tsks-api-test app rake spec
 docker rm -f tsks-api-app
