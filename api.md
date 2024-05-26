@@ -54,11 +54,10 @@
 - 404
 - 500
 
-*--
 
 ## ENDPOINTS
 
-### `user` (Signup/Signin)
+### user (signup/signin)
 
 **Headers:** (_Required for all requests._)
 
@@ -67,6 +66,8 @@
   "content-type": "application/json"
 }
 ```
+
+---
 
 #### `POST /signup`
 
@@ -98,6 +99,8 @@
 }
 ```
 
+---
+
 #### `POST /signin`
 
 **Body:**
@@ -128,7 +131,7 @@
 }
 ```
 
-### `tsks`
+### tsks
 
 **Headers:** (_Required for all requests_)
 
@@ -138,6 +141,8 @@
   "content-type": "application/json"
 }
 ```
+
+---
 
 #### `GET /tsks`
 
@@ -162,6 +167,8 @@
   ]
 }
 ```
+
+---
 
 #### `POST /tsks`
 
@@ -197,6 +204,8 @@
 }
 ```
 
+---
+
 #### `PUT /tsks`
 
 **Body:**
@@ -230,6 +239,8 @@
   }
 }
 ```
+
+---
 
 #### `DELETE /tsks/:id`
 
