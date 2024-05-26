@@ -23,7 +23,11 @@ module V1
 
       begin
         if user.save!
-          cookies[:refresh_token] = refresh_token
+          cookies[:refresh_token] = {
+            value: refresh_token,
+            expires: 1.week.from_now,
+            httponly: true,
+          }
           render json: {ok: true,
                         message: "201 Created",
                         user: user,

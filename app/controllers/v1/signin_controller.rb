@@ -26,7 +26,11 @@ module V1
           refresh_token = JWTUtil.create_refresh_token auth_token_payload
           user.refresh_token = refresh_token
 
-          cookies[:refresh_token] = refresh_token
+          cookies[:refresh_token] = {
+            value: refresh_token,
+            expires: 1.week.from_now,
+            httponly: true,
+          }
           return render json: {ok: true,
                                message: "200 Success",
                                user: user,
