@@ -1,6 +1,6 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe "Signup", type: :request do
+RSpec.describe "signup", type: :request do
   describe "POST /signup" do
     let(:api_endpoint) {"/v1/signup"}
     let(:user_email) {"signup@tsks.mail"}
