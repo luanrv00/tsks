@@ -18,8 +18,8 @@
 * signin succesfully
 
 ### authentication tokens
-- create auth token with 1h expiration time
-- create refresh token with 24h expiration time
+* create auth token with expiration time
+* create refresh token with expiration time
 
 ### GET tsks
 * cannot without authentication token

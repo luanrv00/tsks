@@ -23,16 +23,16 @@
 * setup CI/CD environments on github for tsks repositories
 * fix /tsks reloading like crazy
 * updates delete tsk button style
-- improve security against stolen tokens
-    - make the auth token expirable after some time
++ improve security against stolen tokens
+    * make the auth token expirable after some time
     * remove auth token as a property of user
     * returns the auth token as a property of response
     * create a refresh token alongside with auth token for signup/signin
     * save refresh token on db
     * dont save auth token on db
-    + extracts JWT utils for lib
-        - write tests for JWT utils
-    - returns the refresh token as http only cookie
+    * extracts JWT utils for lib
+        * write tests for JWT utils
+    * returns the refresh token as http only cookie
     - create refresh token endpoint for auth token renovation
     - verify 401 errors for both scenarios:
         - 401 without user existent on localStorage (redirects to signin)
