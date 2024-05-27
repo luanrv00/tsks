@@ -22,9 +22,12 @@
 * create refresh token with expiration time
 
 ### POST refresh_token
-- cannot without refresh token
-- cannot without valid refresh token
-- refresh token succesfully
+* cannot without refresh token
+
+**cannot without valid refresh token**
+* when invalid
+* when unauthorized
+* refresh token succesfully
 
 ### GET tsks
 * cannot without authentication token

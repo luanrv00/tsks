@@ -75,9 +75,30 @@
 * create refresh token with expiration time
 
 ### POST refresh_token
-+ cannot without refresh token
-- cannot without valid refresh token
-- refresh token succesfully
+
+**cannot without refresh token**
+* returns status_code=400
+* returns message="400 Bad Request"
+* returns ok=false
+
+**cannot without valid refresh token**
+
+*when refresh token is invalid*
+* returns status_code=400
+* returns message="400 Bad Request"
+* returns ok=false
+
+*when refresh token is unauthorized*
+* returns status_code=401
+* returns message="401 Unauthorized"
+* returns ok=false
+
+**refresh token succesfully**
+* returns status_code=201
+* returns message="201 Created"
+* returns ok=true
+* returns refresh token
+* saves refresh token on db
 
 ### GET tsks
 

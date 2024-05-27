@@ -33,7 +33,8 @@
     * extracts JWT utils for lib
         * write tests for JWT utils
     * returns the refresh token as http only cookie
-    + create refresh token endpoint for auth token renovation
+        * fix error unitialized constant V1::RefreshTokenController
+    * create refresh token endpoint for auth token renovation
     - verify 401 errors for both scenarios:
         - 401 without user existent on localStorage (redirects to signin)
         - 401 with expired auth token (request refresh token endpoint)
