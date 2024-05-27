@@ -268,20 +268,26 @@
 
 ### tsks
 
-**when has not session**
+**cannot without authentication token**
 * redirects to /signin
 
 **cannot without valid auth token**
 
 *when auth token is unauthorized*
 
-*when user is not present on localStorage*
-* removes user from localStorage
-- removes auth token from localStorage
-* redirects to /signin
+*requests refresh token*
 
-*when auth token was expired*
-- requests refresh token
+_when refresh token is not valid_
+- removes user from localStorage
+- removes auth token from localStorage
+- redirects to /signin
+
+_when refresh token is unauthorized_
+- removes user from localStorage
+- removes auth token from localStorage
+- redirects to /signin
+
+_when refresh token is returned_
 - saves auth token on localStorage
 - renders "authentication renewed. please, try again"
 
@@ -301,6 +307,26 @@
 
 #### POST tsk
 
+**cannot without valid auth token**
+
+*when auth token is unauthorized*
+
+*requests refresh token*
+
+_when refresh token is not valid_
+- removes user from localStorage
+- removes auth token from localStorage
+- redirects to /signin
+
+_when refresh token is unauthorized_
+- removes user from localStorage
+- removes auth token from localStorage
+- redirects to /signin
+
+_when refresh token is returned_
+- saves auth token on localStorage
+- renders "authentication renewed. please, try again"
+
 **cannot without tsk**
 * renders "cannot without tsk"
 
@@ -309,6 +335,26 @@
 * clears tsk input
 
 #### PUT tsk
+
+**cannot without valid auth token**
+
+*when auth token is unauthorized*
+
+*requests refresh token*
+
+_when refresh token is not valid_
+- removes user from localStorage
+- removes auth token from localStorage
+- redirects to /signin
+
+_when refresh token is unauthorized_
+- removes user from localStorage
+- removes auth token from localStorage
+- redirects to /signin
+
+_when refresh token is returned_
+- saves auth token on localStorage
+- renders "authentication renewed. please, try again"
 
 **cannot unexistent tsk**
 * renders "cannot unexistent tsk"
@@ -325,6 +371,26 @@
 * renders tsk
 
 #### DELETE tsk
+
+**cannot without valid auth token**
+
+*when auth token is unauthorized*
+
+*requests refresh token*
+
+_when refresh token is not valid_
+- removes user from localStorage
+- removes auth token from localStorage
+- redirects to /signin
+
+_when refresh token is unauthorized_
+- removes user from localStorage
+- removes auth token from localStorage
+- redirects to /signin
+
+_when refresh token is returned_
+- saves auth token on localStorage
+- renders "authentication renewed. please, try again"
 
 **delete succesfully**
 * renders "deleted succesfully"
