@@ -233,7 +233,7 @@
 
 **signup succesfully**
 * saves user on localStorage
-- saves auth token on localStorage
+* saves auth token on localStorage
 * redirects to /tsks
 
 **renders a link to signin**
@@ -259,12 +259,28 @@
 
 **signin succesfully**
 * saves user on localStorage
-- saves auth token on localStorage
+* saves auth token on localStorage
 * redirects to /tsks
 
 **renders a link to signup**
 * renders a link to signup
 * redirects to signup when clicking
+
+### refresh token
+
+**when refresh token is not valid**
+- removes user from localStorage
+- removes auth token from localStorage
+- redirects to /signin
+
+**when refresh token is unauthorized**
+- removes user from localStorage
+- removes auth token from localStorage
+- redirects to /signin
+
+**refresh token succesfully**
+- saves auth token on localStorage
+- renders "authentication renewed. please, try again"
 
 ### tsks
 
@@ -274,22 +290,7 @@
 **cannot without valid auth token**
 
 *when auth token is unauthorized*
-
-*requests refresh token*
-
-_when refresh token is not valid_
-- removes user from localStorage
-- removes auth token from localStorage
-- redirects to /signin
-
-_when refresh token is unauthorized_
-- removes user from localStorage
-- removes auth token from localStorage
-- redirects to /signin
-
-_when refresh token is returned_
-- saves auth token on localStorage
-- renders "authentication renewed. please, try again"
+- requests refresh token
 
 *when auth token is forbidden*
 * removes user from localStorage
@@ -310,22 +311,7 @@ _when refresh token is returned_
 **cannot without valid auth token**
 
 *when auth token is unauthorized*
-
-*requests refresh token*
-
-_when refresh token is not valid_
-- removes user from localStorage
-- removes auth token from localStorage
-- redirects to /signin
-
-_when refresh token is unauthorized_
-- removes user from localStorage
-- removes auth token from localStorage
-- redirects to /signin
-
-_when refresh token is returned_
-- saves auth token on localStorage
-- renders "authentication renewed. please, try again"
+- requests refresh token
 
 **cannot without tsk**
 * renders "cannot without tsk"
@@ -339,22 +325,7 @@ _when refresh token is returned_
 **cannot without valid auth token**
 
 *when auth token is unauthorized*
-
-*requests refresh token*
-
-_when refresh token is not valid_
-- removes user from localStorage
-- removes auth token from localStorage
-- redirects to /signin
-
-_when refresh token is unauthorized_
-- removes user from localStorage
-- removes auth token from localStorage
-- redirects to /signin
-
-_when refresh token is returned_
-- saves auth token on localStorage
-- renders "authentication renewed. please, try again"
+- requests refresh token
 
 **cannot unexistent tsk**
 * renders "cannot unexistent tsk"
@@ -375,22 +346,7 @@ _when refresh token is returned_
 **cannot without valid auth token**
 
 *when auth token is unauthorized*
-
-*requests refresh token*
-
-_when refresh token is not valid_
-- removes user from localStorage
-- removes auth token from localStorage
-- redirects to /signin
-
-_when refresh token is unauthorized_
-- removes user from localStorage
-- removes auth token from localStorage
-- redirects to /signin
-
-_when refresh token is returned_
-- saves auth token on localStorage
-- renders "authentication renewed. please, try again"
+- requests refresh token
 
 **delete succesfully**
 * renders "deleted succesfully"
