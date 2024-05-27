@@ -1,15 +1,15 @@
 import user from '../fixtures/user.json'
 
 // TODO: fix env var not being loaded
-const NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY =
-  process.env.NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY || '@tsks-user'
+const NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY =
+  process.env.NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY || '@tsks-user'
 
 describe('homepage', () => {
   describe('when has session', () => {
     beforeEach(() => {
       cy.window().then(window =>
         window.localStorage.setItem(
-          NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+          NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
           JSON.stringify(user)
         )
       )
@@ -17,7 +17,7 @@ describe('homepage', () => {
 
     afterEach(() => {
       cy.window().then(window =>
-        window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+        window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
       )
     })
 

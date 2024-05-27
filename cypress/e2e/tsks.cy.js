@@ -4,8 +4,11 @@ import tsks from '../fixtures/tsks.json'
 import tsk from '../fixtures/tsk.json'
 
 // TODO: fix env var not being loaded
-const NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY =
-  process.env.NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY || '@tsks-user'
+const NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY =
+  process.env.NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY || '@tsks-user'
+
+const NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY =
+  process.env.NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY || '@tsks-auth-token'
 
 describe('tsks', () => {
   const testApiGetRequest = {
@@ -52,8 +55,15 @@ describe('tsks', () => {
       beforeEach(() => {
         cy.window().then(window => {
           window.localStorage.setItem(
-            NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
             JSON.stringify(invalidUser)
+          )
+        })
+
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+            'auth-token'
           )
         })
 
@@ -66,7 +76,11 @@ describe('tsks', () => {
 
       afterEach(() => {
         cy.window().then(window => {
-          window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+        })
+
+        cy.window().then(window => {
+          window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
         })
       })
 
@@ -79,11 +93,20 @@ describe('tsks', () => {
         cy.visit('/tsks')
         cy.wait(5000)
         cy.window().then(window => {
-          const localStorageState = JSON.parse(
-            window.localStorage.getItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+          const localStorageUser = JSON.parse(
+            window.localStorage.getItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
           )
 
-          expect(localStorageState).to.eq(null)
+          expect(localStorageUser).to.eq(null)
+        })
+      })
+
+      it('removes auth token from localStorage', () => {
+        cy.visit('/tsks')
+        cy.wait(5000)
+        cy.window().then(window => {
+          const localStorageAuthToken = window.localStorage.getItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+          expect(localStorageAuthToken).to.not.exist
         })
       })
     })
@@ -100,15 +123,26 @@ describe('tsks', () => {
       before(() => {
         cy.window().then(window => {
           window.localStorage.setItem(
-            NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
             JSON.stringify(invalidUser)
+          )
+        })
+
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+            'auth-token'
           )
         })
       })
 
       after(() => {
         cy.window().then(window => {
-          window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+        })
+
+        cy.window().then(window => {
+          window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
         })
       })
 
@@ -130,11 +164,20 @@ describe('tsks', () => {
         cy.visit('/tsks')
         cy.wait(5000)
         cy.window().then(window => {
-          const localStorageState = JSON.parse(
-            window.localStorage.getItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+          const localStorageUser = JSON.parse(
+            window.localStorage.getItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
           )
 
-          expect(localStorageState).to.eq(null)
+          expect(localStorageUser).to.eq(null)
+        })
+      })
+
+      it('removes auth token from localStorage', () => {
+        cy.visit('/tsks')
+        cy.wait(5000)
+        cy.window().then(window => {
+          const localStorageAuthToken = window.localStorage.getItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+          expect(localStorageAuthToken).to.not.exist
         })
       })
     })
@@ -147,15 +190,26 @@ describe('tsks', () => {
         before(() => {
           cy.window().then(window => {
             window.localStorage.setItem(
-              NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+              NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
               JSON.stringify(user)
+            )
+          })
+
+          cy.window().then(window => {
+            window.localStorage.setItem(
+              NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+              'auth-token'
             )
           })
         })
 
         after(() => {
           cy.window().then(window =>
-            window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+            window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+          )
+
+          cy.window().then(window =>
+            window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
           )
         })
 
@@ -214,15 +268,26 @@ describe('tsks', () => {
     before(() => {
       cy.window().then(window => {
         window.localStorage.setItem(
-          NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+          NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
           JSON.stringify(user)
+        )
+      })
+
+      cy.window().then(window => {
+        window.localStorage.setItem(
+          NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+          'auth-token'
         )
       })
     })
 
     after(() => {
       cy.window().then(window =>
-        window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+        window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+      )
+
+      cy.window().then(window =>
+        window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
       )
     })
 
@@ -251,8 +316,15 @@ describe('tsks', () => {
       beforeEach(() => {
         cy.window().then(window => {
           window.localStorage.setItem(
-            NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
             JSON.stringify(user)
+          )
+        })
+
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+            'auth-token'
           )
         })
 
@@ -271,7 +343,11 @@ describe('tsks', () => {
 
       afterEach(() => {
         cy.window().then(window =>
-          window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+        )
+
+        cy.window().then(window =>
+          window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
         )
       })
 
@@ -309,15 +385,26 @@ describe('tsks', () => {
     before(() => {
       cy.window().then(window => {
         window.localStorage.setItem(
-          NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+          NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
           JSON.stringify(user)
+        )
+      })
+
+      cy.window().then(window => {
+        window.localStorage.setItem(
+          NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+          'auth-token'
         )
       })
     })
 
     after(() => {
       cy.window().then(window =>
-        window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+        window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+      )
+
+      cy.window().then(window =>
+        window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
       )
     })
 
@@ -357,7 +444,7 @@ describe('tsks', () => {
         before(() => {
           cy.window().then(window => {
             window.localStorage.setItem(
-              NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+              NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
               JSON.stringify(user)
             )
           })
@@ -365,7 +452,7 @@ describe('tsks', () => {
 
         after(() => {
           cy.window().then(window =>
-            window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+            window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
           )
         })
 
@@ -429,7 +516,7 @@ describe('tsks', () => {
         before(() => {
           cy.window().then(window => {
             window.localStorage.setItem(
-              NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+              NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
               JSON.stringify(user)
             )
           })
@@ -437,7 +524,7 @@ describe('tsks', () => {
 
         after(() => {
           cy.window().then(window =>
-            window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+            window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
           )
         })
 
@@ -541,8 +628,15 @@ describe('tsks', () => {
       beforeEach(() => {
         cy.window().then(window => {
           window.localStorage.setItem(
-            NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY, 
+            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY, 
             JSON.stringify(user)
+          )
+        })
+
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY, 
+            'auth-token'
           )
         })
 
@@ -564,7 +658,11 @@ describe('tsks', () => {
 
       afterEach(() => {
         cy.window(window => {
-          window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+        })
+
+        cy.window(window => {
+          window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
         })
       })
 
@@ -603,8 +701,15 @@ describe('tsks', () => {
     beforeEach(() => {
       cy.window().then(window => {
         window.localStorage.setItem(
-          NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+          NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
           JSON.stringify(user)
+        )
+      })
+
+      cy.window().then(window => {
+        window.localStorage.setItem(
+          NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+          'auth-token'
         )
       })
 
@@ -619,7 +724,11 @@ describe('tsks', () => {
 
     afterEach(() => {
       cy.window().then(window => 
-        window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+        window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+      )
+
+      cy.window().then(window => 
+        window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
       )
     })
 
@@ -636,7 +745,7 @@ describe('tsks', () => {
         beforeEach(() => {
           cy.window().then(window => {
             window.localStorage.setItem(
-              NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+              NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
               JSON.stringify(user)
             )
           })
@@ -652,7 +761,7 @@ describe('tsks', () => {
 
         afterEach(() => {
           cy.window().then(window => 
-            window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+            window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
           )
         })
 
@@ -673,7 +782,7 @@ describe('tsks', () => {
         beforeEach(() => {
           cy.window().then(window => {
             window.localStorage.setItem(
-              NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+              NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
               JSON.stringify(user)
             )
           })
@@ -689,7 +798,7 @@ describe('tsks', () => {
 
         afterEach(() => {
           cy.window().then(window => 
-            window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+            window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
           )
         })
 
@@ -710,7 +819,7 @@ describe('tsks', () => {
         beforeEach(() => {
           cy.window().then(window => {
             window.localStorage.setItem(
-              NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY,
+              NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
               JSON.stringify(user)
             )
           })
@@ -726,7 +835,7 @@ describe('tsks', () => {
 
         afterEach(() => {
           cy.window().then(window => 
-            window.localStorage.removeItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+            window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
           )
         })
         it('renders "*"', () => {

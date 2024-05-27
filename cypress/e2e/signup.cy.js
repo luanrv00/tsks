@@ -1,8 +1,11 @@
 import user from '../fixtures/user.json'
 
 // TODO: fix env var not being loaded
-const NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY =
-  process.env.NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY || '@tsks-user'
+const NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY =
+  process.env.NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY || '@tsks-user'
+
+const NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY = 
+  process.env.NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY || '@tsks-auth-token'
 
 describe('signup', () => {
   const testApiPostRequest = {
@@ -75,11 +78,14 @@ describe('signup', () => {
   })
 
   context('signup succesfully', () => {
+    const authToken = 'auth-token'
+
     const testApiPostResponse = {
       statusCode: 201,
       body: {
         ok: true,
         user,
+        auth_token: authToken
       },
     }
 
@@ -100,10 +106,18 @@ describe('signup', () => {
       cy.wait(2000)
       cy.window().then(window => {
         const localStorageUser = JSON.parse(
-          window.localStorage.getItem(NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY)
+          window.localStorage.getItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
         )
 
         expect(localStorageUser).to.deep.eq(user)
+      })
+    })
+
+    it('saves auth token on localStorage', () => {
+      cy.wait(2000)
+      cy.window().then(window => {
+        const localStorageAuthToken = window.localStorage.getItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+        expect(localStorageAuthToken).to.exist
       })
     })
 

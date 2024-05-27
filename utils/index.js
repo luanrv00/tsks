@@ -1,3 +1,6 @@
 export * from './set-current-user-at-browser'
 export * from './get-current-user-at-browser'
 export * from './delete-current-user-at-browser'
+export * from './set-current-auth-token-at-browser'
+export * from './get-current-auth-token-at-browser'
+export * from './delete-current-auth-token-at-browser'

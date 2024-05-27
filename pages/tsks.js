@@ -1,7 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import {Layout, FlashMessage, TsksList, TskForm} from '../components'
-import {getCurrentUserAtBrowser, deleteCurrentUserAtBrowser} from '../utils'
+import {
+  getCurrentUserAtBrowser, 
+  deleteCurrentUserAtBrowser, 
+  deleteCurrentAuthTokenAtBrowser, 
+  getCurrentAuthTokenAtBrowser
+} from '../utils'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -19,7 +24,7 @@ export default function Tsks() {
       return router.push('/signin')
     }
 
-    const apiToken = user.auth_token
+    const apiToken = getCurrentAuthTokenAtBrowser()
 
     try {
       // TODO: move fetching data to a separate service
@@ -36,6 +41,7 @@ export default function Tsks() {
 
             if (isInvalidAuthToken) {
               deleteCurrentUserAtBrowser()
+              deleteCurrentAuthTokenAtBrowser()
               return router.push('/signin')
             }
 
@@ -62,8 +68,7 @@ export default function Tsks() {
       created_at: now,
       updated_at: now,
     }
-    const user = getCurrentUserAtBrowser()
-    const apiToken = user.auth_token
+    const apiToken = getCurrentAuthTokenAtBrowser()
     const res = await fetch(`${API_URL}/tsks`, {
       method: 'POST',
       headers: {
@@ -89,8 +94,7 @@ export default function Tsks() {
       status: 'doing',
       updated_at: now,
     }
-    const user = getCurrentUserAtBrowser()
-    const apiToken = user.auth_token
+    const apiToken = getCurrentAuthTokenAtBrowser()
     const res = await fetch(`${API_URL}/tsks/${tskId}`, {
       method: 'PUT',
       headers: {
@@ -116,8 +120,7 @@ export default function Tsks() {
       status: 'done',
       updated_at: now,
     }
-    const user = getCurrentUserAtBrowser()
-    const apiToken = user.auth_token
+    const apiToken = getCurrentAuthTokenAtBrowser()
     const res = await fetch(`${API_URL}/tsks/${tskId}`, {
       method: 'PUT',
       headers: {
@@ -142,8 +145,7 @@ export default function Tsks() {
     const tsk = {
       deleted_at: now
     }
-    const user = getCurrentUserAtBrowser()
-    const apiToken = user.auth_token
+    const apiToken = getCurrentAuthTokenAtBrowser()
     const res = await fetch(`${API_URL}/tsks/${tskId}`, {
       method: 'PUT',
       headers: {
