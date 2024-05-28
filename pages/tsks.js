@@ -66,13 +66,13 @@ export default function Tsks() {
               return router.push('/signin')
             }
 
-            return setFallbackMsg(res.message)
+            return setReqError(res.message)
           } else if (res.tsks.length) {
             return setTsks(res.tsks)
           }
         })
         .catch(e => setFallbackMsg(e.toString()))
-    } catch (e) {
+    } catch(e) {
       setReqError(e.message)
     }
   }
@@ -110,7 +110,7 @@ export default function Tsks() {
               return refreshToken()
             }
 
-            return setFallbackMsg(res.message)
+            return setReqError(res.message)
           } else {
             fetchTsks()
           }
@@ -148,14 +148,14 @@ export default function Tsks() {
               return refreshToken()
             }
 
-            setFallbackMsg(res.message)
+            setReqError(res.message)
           } else {
             fetchTsks()
           }
         })
         .catch(e => setFallbackMsg(e.toString()))
     } catch(e) {
-      setReqError(e.message)
+      setReqError(e.toString())
     }
   }
 
@@ -186,7 +186,7 @@ export default function Tsks() {
               return refreshToken()
             }
 
-            setFallbackMsg(res.message)
+            setReqError(res.message)
           } else {
             fetchTsks()
           }
@@ -223,7 +223,7 @@ export default function Tsks() {
               return refreshToken()
             }
 
-            setFallbackMsg(res.message)
+            setReqError(res.message)
           } else {
             setReqSuccess('deleted succesfully')
             fetchTsks()
