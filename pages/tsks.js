@@ -17,6 +17,22 @@ export default function Tsks() {
   const [reqError, setReqError] = useState('')
   const [reqSuccess, setReqSuccess] = useState('')
 
+  async function refreshToken() {
+    await fetch(`${API_URL}/refresh_token`, {
+      method: 'POST'
+    })
+      .then(res => res.json())
+      .then(res => {
+        if(!res.ok) {
+          const isInvalidRefreshToken = res.message == "400 Bad Request"
+
+          if(isInvalidRefreshToken) {
+            deleteCurrentUserAtBrowser()
+          }
+        }
+      })
+  }
+
   async function fetchTsks() {
     const user = getCurrentUserAtBrowser()
 
@@ -37,9 +53,14 @@ export default function Tsks() {
         .then(res => res.json())
         .then(res => {
           if (!res.ok) {
-            const isInvalidAuthToken = res.message === '401 Unauthorized' || res.message === '403 Forbidden'
+            const isUnauthorizedAuthToken = res.message === '401 Unauthorized'
+            const isForbiddenAuthToken = res.message === '403 Forbidden'
 
-            if (isInvalidAuthToken) {
+            if(isUnauthorizedAuthToken) {
+              return refreshToken()
+            }
+
+            if(isForbiddenAuthToken) {
               deleteCurrentUserAtBrowser()
               deleteCurrentAuthTokenAtBrowser()
               return router.push('/signin')

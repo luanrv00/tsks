@@ -43,7 +43,7 @@ describe('tsks', () => {
   })
 
   describe('cannot access without valid authentication token', () => {
-    describe('when token is unauthorized', () => {
+    describe('when auth token is unauthorized', () => {
       const testApiGetResponse = {
         statusCode: 401,
         body: {
@@ -52,7 +52,7 @@ describe('tsks', () => {
         },
       }
 
-      beforeEach(() => {
+      before(() => {
         cy.window().then(window => {
           window.localStorage.setItem(
             NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
@@ -66,15 +66,9 @@ describe('tsks', () => {
             'auth-token'
           )
         })
-
-        cy.intercept(
-          testApiGetRequest.method,
-          testApiGetRequest.endpoint,
-          testApiGetResponse
-        )
       })
 
-      afterEach(() => {
+      after(() => {
         cy.window().then(window => {
           window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
         })
@@ -84,34 +78,23 @@ describe('tsks', () => {
         })
       })
 
-      it('redirects to signin', () => {
-        cy.visit('/tsks')
-        cy.location('pathname').should('eq', '/signin')
+      beforeEach(() => {
+        cy.intercept(
+          testApiGetRequest.method,
+          testApiGetRequest.endpoint,
+          testApiGetResponse
+        )
       })
 
-      it('removes user from localStorage', () => {
+      it('requests refresh token', () => {
+        cy.intercept('POST', '**/v1/refresh_token').as('refreshToken')
         cy.visit('/tsks')
-        cy.wait(5000)
-        cy.window().then(window => {
-          const localStorageUser = JSON.parse(
-            window.localStorage.getItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-          )
-
-          expect(localStorageUser).to.eq(null)
-        })
-      })
-
-      it('removes auth token from localStorage', () => {
-        cy.visit('/tsks')
-        cy.wait(5000)
-        cy.window().then(window => {
-          const localStorageAuthToken = window.localStorage.getItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
-          expect(localStorageAuthToken).to.not.exist
-        })
+        cy.wait('@refreshToken')
+        cy.get('@refreshToken.all').should('have.length', 1)
       })
     })
 
-    describe('when token is forbidden', () => {
+    describe('when auth token is forbidden', () => {
       const testApiGetResponse = {
         statusCode: 403,
         body: {
