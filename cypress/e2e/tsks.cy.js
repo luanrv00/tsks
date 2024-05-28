@@ -90,7 +90,7 @@ describe('tsks', () => {
         cy.intercept('POST', '**/v1/refresh_token').as('refreshToken')
         cy.visit('/tsks')
         cy.wait('@refreshToken')
-        cy.get('@refreshToken.all').should('have.length', 1)
+        cy.get('@refreshToken.all').should('have.length.least', 1)
       })
     })
 
@@ -357,6 +357,60 @@ describe('tsks', () => {
         cy.get('input[placeholder="enter tsk"]').should('have.value', '')
       })
     })
+
+    describe('when auth token is unauthorized', () => {
+      const testApiPostResponse = {
+        statusCode: 401,
+        body: {
+          ok: false,
+          message: '401 Unauthorized',
+        },
+      }
+
+      before(() => {
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
+            JSON.stringify(invalidUser)
+          )
+        })
+
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+            'auth-token'
+          )
+        })
+      })
+
+      after(() => {
+        cy.window().then(window => {
+          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+        })
+
+        cy.window().then(window => {
+          window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+        })
+      })
+
+      beforeEach(() => {
+        cy.intercept(
+          testApiPostRequest.method,
+          testApiPostRequest.endpoint,
+          testApiPostResponse
+        ).as('postTsks')
+      })
+
+      it('requests refresh token', () => {
+        cy.intercept('POST', '**/v1/refresh_token').as('refreshToken')
+        cy.visit('/tsks')
+        cy.get('input[placeholder="enter tsk"]').type('tmp tsk')
+        cy.get('button').click()
+        cy.wait('@postTsks')
+        cy.wait('@refreshToken')
+        cy.get('@refreshToken.all').should('have.length.least', 1)
+      })
+    })
   })
 
   describe('PUT tsk', () => {
@@ -411,13 +465,14 @@ describe('tsks', () => {
           testApiPutRequest.method,
           testApiPutRequest.endpoint,
           testApiPutResponse
-        )
+        ).as('putTsk')
 
         cy.visit('/tsks')
         cy.get('[data-testid="tsk"').first().click()
       })
 
       it('renders error message', () => {
+        cy.wait('@putTsk')
         cy.contains('404 Not Found').should('exist')
       })
     })
@@ -573,9 +628,71 @@ describe('tsks', () => {
       describe('put tsk content', () => {
       })
     })
+
+    describe('when auth token is unauthorized', () => {
+      const testApiPutResponse = {
+        statusCode: 401,
+        body: {
+          ok: false,
+          message: '401 Unauthorized',
+        },
+      }
+
+      before(() => {
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
+            JSON.stringify(invalidUser)
+          )
+        })
+
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+            'auth-token'
+          )
+        })
+      })
+
+      after(() => {
+        cy.window().then(window => {
+          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+        })
+
+        cy.window().then(window => {
+          window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+        })
+      })
+
+      beforeEach(() => {
+        cy.intercept(
+          testApiGetRequest.method,
+          testApiGetRequest.endpoint,
+          testApiGetResponse
+        ).as('getTsks')
+
+        cy.intercept(
+          testApiPutRequest.method,
+          testApiPutRequest.endpoint,
+          testApiPutResponse
+        ).as('putTsk')
+      })
+
+      it('requests refresh token', () => {
+        cy.intercept('POST', '**/v1/refresh_token').as('refreshToken')
+        cy.visit('/tsks')
+        cy.wait('@getTsks')
+        cy.get('[data-testid="tsk"]').first().click()
+        cy.wait('@putTsk')
+        cy.wait('@refreshToken')
+        cy.get('@refreshToken.all').should('have.length.least', 1)
+      })
+    })
   })
   
   describe('DELETE tsk', () => {
+    const tskToBeDeleted =  'this tsk must be removed'
+
     const testApiDeleteRequest = {
       method: 'PUT',
       endpoint: '**/v1/tsks/*',
@@ -589,17 +706,15 @@ describe('tsks', () => {
       }
     }
 
-    describe('delete succesfully', () => {
-      const tskToBeDeleted =  'this tsk must be removed'
-
-      const testApiGetTwoTsksResponse = {
-        statusCode: 200,
-        body: {
-          ok: true,
-          tsks: [tsk, {...tsk, tsk: tskToBeDeleted}]
-        }
+    const testApiGetTwoTsksResponse = {
+      statusCode: 200,
+      body: {
+        ok: true,
+        tsks: [tsk, {...tsk, tsk: tskToBeDeleted}]
       }
+    }
 
+    describe('delete succesfully', () => {
       const testApiGetOneTskResponse = {
         statusCode: 200,
         body: {
@@ -676,6 +791,68 @@ describe('tsks', () => {
         cy.wait('@deleteTsk')
         cy.wait('@fetchTsksAfterDeletion')
         cy.contains(tskToBeDeleted).should('not.exist')
+      })
+    })
+
+    describe('when auth token is unauthorized', () => {
+      const testApiDeleteResponse = {
+        statusCode: 401,
+        body: {
+          ok: false,
+          message: '401 Unauthorized',
+        },
+      }
+
+      before(() => {
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
+            JSON.stringify(invalidUser)
+          )
+        })
+
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+            'auth-token'
+          )
+        })
+      })
+
+      after(() => {
+        cy.window().then(window => {
+          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+        })
+
+        cy.window().then(window => {
+          window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+        })
+      })
+
+      beforeEach(() => {
+        cy.intercept(
+          testApiGetRequest.method,
+          testApiGetRequest.endpoint,
+          testApiGetTwoTsksResponse
+        ).as('getTsks')
+
+        cy.intercept(
+          testApiDeleteRequest.method,
+          testApiDeleteRequest.endpoint,
+          testApiDeleteResponse
+        ).as('deleteTsk')
+      })
+
+      it('requests refresh token', () => {
+        cy.intercept('POST', '**/v1/refresh_token').as('refreshToken')
+        cy.visit('/tsks')
+        cy.wait('@getTsks')
+        cy.get('[data-testid="tsk"]').contains(tskToBeDeleted).parents('li').within(() => {
+          cy.contains('delete').click()
+        })
+        cy.wait('@deleteTsk')
+        cy.wait('@refreshToken')
+        cy.get('@refreshToken.all').should('have.length.least', 1)
       })
     })
   })

@@ -90,22 +90,34 @@ export default function Tsks() {
       updated_at: now,
     }
     const apiToken = getCurrentAuthTokenAtBrowser()
-    const res = await fetch(`${API_URL}/tsks`, {
-      method: 'POST',
-      headers: {
-        authorization: `Bearer ${apiToken}`,
-        'Access-Control-Allow-Origin': '*',
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({tsk: tsk}),
-    })
-      .then(r => r.json())
-      .catch(e => e)
 
-    if (res.ok) {
-      fetchTsks()
-    } else {
-      setReqError(res.message)
+    try {
+      await fetch(`${API_URL}/tsks`, {
+        method: 'POST',
+        headers: {
+          authorization: `Bearer ${apiToken}`,
+          'Access-Control-Allow-Origin': '*',
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({tsk: tsk}),
+      })
+        .then(res => res.json())
+        .then(res => {
+          if(!res.ok) {
+            const isUnauthorizedAuthToken = res.message === '401 Unauthorized'
+
+            if(isUnauthorizedAuthToken) {
+              return refreshToken()
+            }
+
+            return setFallbackMsg(res.message)
+          } else {
+            fetchTsks()
+          }
+        })
+        .catch(e => setFallbackMsg(e.toString()))
+    } catch(e) {
+      setReqError(e.message)
     }
   }
 
@@ -116,22 +128,34 @@ export default function Tsks() {
       updated_at: now,
     }
     const apiToken = getCurrentAuthTokenAtBrowser()
-    const res = await fetch(`${API_URL}/tsks/${tskId}`, {
-      method: 'PUT',
-      headers: {
-        authorization: `Bearer ${apiToken}`,
-        'Access-Control-Allow-Origin': '*',
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({tsk: tsk}),
-    })
-      .then(r => r.json())
-      .catch(e => e)
 
-    if (res.ok) {
-      fetchTsks()
-    } else {
-      setReqError(res.message)
+    try {
+      await fetch(`${API_URL}/tsks/${tskId}`, {
+        method: 'PUT',
+        headers: {
+          authorization: `Bearer ${apiToken}`,
+          'Access-Control-Allow-Origin': '*',
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({tsk: tsk}),
+      })
+        .then(res => res.json())
+        .then(res => {
+          if(!res.ok) {
+            const isUnauthorizedAuthToken = res.message === '401 Unauthorized'
+
+            if(isUnauthorizedAuthToken) {
+              return refreshToken()
+            }
+
+            setFallbackMsg(res.message)
+          } else {
+            fetchTsks()
+          }
+        })
+        .catch(e => setFallbackMsg(e.toString()))
+    } catch(e) {
+      setReqError(e.message)
     }
   }
 
@@ -142,21 +166,33 @@ export default function Tsks() {
       updated_at: now,
     }
     const apiToken = getCurrentAuthTokenAtBrowser()
-    const res = await fetch(`${API_URL}/tsks/${tskId}`, {
-      method: 'PUT',
-      headers: {
-        authorization: `Bearer ${apiToken}`,
-        'Access-Control-Allow-Origin': '*',
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({tsk: tsk}),
-    })
-      .then(r => r.json())
-      .catch(e => e)
 
-    if (res.ok) {
-      fetchTsks()
-    } else {
+    try {
+      await fetch(`${API_URL}/tsks/${tskId}`, {
+        method: 'PUT',
+        headers: {
+          authorization: `Bearer ${apiToken}`,
+          'Access-Control-Allow-Origin': '*',
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({tsk: tsk}),
+      })
+        .then(res => res.json())
+        .then(res => {
+          if(!res.ok) {
+            const isUnauthorizedAuthToken = res.message === '401 Unauthorized'
+
+            if(isUnauthorizedAuthToken) {
+              return refreshToken()
+            }
+
+            setFallbackMsg(res.message)
+          } else {
+            fetchTsks()
+          }
+        })
+        .catch(e => setFallbackMsg(e.toString()))
+    } catch(e) {
       setReqError(res.message)
     }
   }
@@ -167,23 +203,35 @@ export default function Tsks() {
       deleted_at: now
     }
     const apiToken = getCurrentAuthTokenAtBrowser()
-    const res = await fetch(`${API_URL}/tsks/${tskId}`, {
-      method: 'PUT',
-      headers: {
-        authorization: `Bearer ${apiToken}`,
-        'Access-Control-Allow-Origin': '*',
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({tsk: tsk})
-    })
-      .then(r => r.json())
-      .catch(e => e)
 
-    if (res.ok) {
-      setReqSuccess('deleted succesfully')
-      fetchTsks()
-    } else {
-      setReqError(res.message)
+    try {
+      await fetch(`${API_URL}/tsks/${tskId}`, {
+        method: 'PUT',
+        headers: {
+          authorization: `Bearer ${apiToken}`,
+          'Access-Control-Allow-Origin': '*',
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({tsk: tsk})
+      })
+        .then(res => res.json())
+        .then(res => {
+          if(!res.ok) {
+            const isUnauthorizedAuthToken = res.message === '401 Unauthorized'
+
+            if(isUnauthorizedAuthToken) {
+              return refreshToken()
+            }
+
+            setFallbackMsg(res.message)
+          } else {
+            setReqSuccess('deleted succesfully')
+            fetchTsks()
+          }
+        })
+        .catch(e => setFallbackMsg(e.toString()))
+    } catch(e) {
+      setReqError(e.message)
     }
   }
 
