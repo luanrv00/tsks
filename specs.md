@@ -290,7 +290,7 @@
 **cannot without valid auth token**
 
 *when auth token is unauthorized*
-- requests refresh token
+* requests refresh token
 
 *when auth token is forbidden*
 * removes user from localStorage
@@ -308,8 +308,6 @@
 
 #### POST tsk
 
-**cannot without valid auth token**
-
 *when auth token is unauthorized*
 - requests refresh token
 
@@ -321,8 +319,6 @@
 * clears tsk input
 
 #### PUT tsk
-
-**cannot without valid auth token**
 
 *when auth token is unauthorized*
 - requests refresh token
@@ -342,8 +338,6 @@
 * renders tsk
 
 #### DELETE tsk
-
-**cannot without valid auth token**
 
 *when auth token is unauthorized*
 - requests refresh token

@@ -38,7 +38,9 @@
     * updates auth token storage to outside user object
     + verify 401 errors for both scenarios:
         - 401 without user existent on localStorage (redirects to signin)
-        - 401 with expired auth token (request refresh token endpoint)
+        + 401 with expired auth token (request refresh token endpoint)
+    - write tests for refresh token behavior (already documented)
+    - fix PUT tsk cannot unexistent test failing
     - send auth token through cookies
         - remove auth_token as endpoints returns as json
     - update all necessary webapp's requests to send cookies (update fetch with credentials: 'include')
