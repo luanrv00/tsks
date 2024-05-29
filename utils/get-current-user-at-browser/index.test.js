@@ -1,16 +1,16 @@
 import user from '../../cypress/fixtures/user.json'
 import {getCurrentUserAtBrowser} from '.'
 
-const {NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY} = process.env
+const {NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY} = process.env
 
 describe('getCurrentUserAtBrowser', () => {
   describe('when has user on localStorage', () => {
     beforeEach(() => {
-      localStorage.setItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY, JSON.stringify(user))
+      localStorage.setItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY, JSON.stringify(user))
     })
 
     afterEach(() => {
-      localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+      localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
     })
 
     it('returns user', () => {
