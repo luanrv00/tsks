@@ -13,7 +13,7 @@ describe('setCurrentAuthTokenAtBrowser', () => {
     setCurrentAuthTokenAtBrowser(authToken)
 
     expect(
-      localStorage.getItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+      JSON.parse(localStorage.getItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY))
     ).toStrictEqual(authToken)
   })
 })

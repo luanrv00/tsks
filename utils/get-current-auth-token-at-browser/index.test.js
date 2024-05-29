@@ -7,7 +7,7 @@ describe('getCurrentAuthTokenAtBrowser', () => {
 
   describe('when has auth token on localStorage', () => {
     beforeEach(() => {
-      localStorage.setItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY, authToken)
+      localStorage.setItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY, JSON.stringify(authToken))
     })
 
     afterEach(() => {
