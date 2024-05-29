@@ -5,7 +5,8 @@ import {
   getCurrentUserAtBrowser, 
   deleteCurrentUserAtBrowser, 
   deleteCurrentAuthTokenAtBrowser, 
-  getCurrentAuthTokenAtBrowser
+  getCurrentAuthTokenAtBrowser,
+  setCurrentAuthTokenAtBrowser
 } from '../utils'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
@@ -19,16 +20,22 @@ export default function Tsks() {
 
   async function refreshToken() {
     await fetch(`${API_URL}/refresh_token`, {
-      method: 'POST'
+      method: 'POST',
+      // credentials: 'include'
     })
       .then(res => res.json())
       .then(res => {
         if(!res.ok) {
-          const isInvalidRefreshToken = res.message == "400 Bad Request"
+          const isInvalidRefreshToken = res.message == "400 Bad Request" || res.message == "401 Unauthorized"
 
           if(isInvalidRefreshToken) {
             deleteCurrentUserAtBrowser()
+            deleteCurrentAuthTokenAtBrowser()
+            router.push('/signin')
           }
+        } else {
+          setCurrentAuthTokenAtBrowser(res.auth_token)
+          setReqSuccess('authentication renewed. please, try again')
         }
       })
   }
