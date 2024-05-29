@@ -11,6 +11,9 @@ const NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY =
   process.env.NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY || '@tsks-auth-token'
 
 describe('tsks', () => {
+  const invalidAuthToken = 'invalid-auth-token'
+  const validAuthToken = 'valid-auth-token'
+
   const testApiGetRequest = {
     method: 'GET',
     endpoint: '**/v1/tsks',
@@ -63,7 +66,7 @@ describe('tsks', () => {
         cy.window().then(window => {
           window.localStorage.setItem(
             NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-            'auth-token'
+            JSON.stringify(invalidAuthToken)
           )
         })
       })
@@ -114,7 +117,7 @@ describe('tsks', () => {
         cy.window().then(window => {
           window.localStorage.setItem(
             NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-            'auth-token'
+            JSON.stringify(invalidAuthToken)
           )
         })
       })
@@ -181,7 +184,7 @@ describe('tsks', () => {
           cy.window().then(window => {
             window.localStorage.setItem(
               NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-              'auth-token'
+              JSON.stringify(validAuthToken)
             )
           })
         })
@@ -259,7 +262,7 @@ describe('tsks', () => {
       cy.window().then(window => {
         window.localStorage.setItem(
           NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-          'auth-token'
+          JSON.stringify(invalidAuthToken)
         )
       })
     })
@@ -307,7 +310,7 @@ describe('tsks', () => {
         cy.window().then(window => {
           window.localStorage.setItem(
             NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-            'auth-token'
+            JSON.stringify(validAuthToken)
           )
         })
 
@@ -378,7 +381,7 @@ describe('tsks', () => {
         cy.window().then(window => {
           window.localStorage.setItem(
             NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-            'auth-token'
+            JSON.stringify(invalidAuthToken)
           )
         })
       })
@@ -430,7 +433,7 @@ describe('tsks', () => {
       cy.window().then(window => {
         window.localStorage.setItem(
           NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-          'auth-token'
+          JSON.stringify(validAuthToken)
         )
       })
     })
@@ -649,7 +652,7 @@ describe('tsks', () => {
         cy.window().then(window => {
           window.localStorage.setItem(
             NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-            'auth-token'
+            JSON.stringify(invalidAuthToken)
           )
         })
       })
@@ -734,7 +737,7 @@ describe('tsks', () => {
         cy.window().then(window => {
           window.localStorage.setItem(
             NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY, 
-            'auth-token'
+            JSON.stringify(validAuthToken)
           )
         })
 
@@ -814,7 +817,7 @@ describe('tsks', () => {
         cy.window().then(window => {
           window.localStorage.setItem(
             NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-            'auth-token'
+            JSON.stringify(invalidAuthToken)
           )
         })
       })
@@ -869,7 +872,7 @@ describe('tsks', () => {
       cy.window().then(window => {
         window.localStorage.setItem(
           NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-          'auth-token'
+          JSON.stringify(validAuthToken)
         )
       })
 

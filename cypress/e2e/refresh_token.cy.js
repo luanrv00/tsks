@@ -48,7 +48,7 @@ describe('requests refresh token', () => {
       cy.window().then(window => {
         window.localStorage.setItem(
           NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-          invalidAuthToken
+          JSON.stringify(invalidAuthToken)
         )
       })
 
@@ -137,7 +137,7 @@ describe('requests refresh token', () => {
       cy.window().then(window => {
         window.localStorage.setItem(
           NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-          invalidAuthToken
+          JSON.stringify(invalidAuthToken)
         )
       })
 
@@ -229,7 +229,7 @@ describe('requests refresh token', () => {
       cy.window().then(window => {
         window.localStorage.setItem(
           NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-          validAuthToken
+          JSON.stringify(validAuthToken)
         )
       })
 
@@ -263,7 +263,9 @@ describe('requests refresh token', () => {
       cy.wait('@requestRefreshToken')
       cy.wait(5000)
       cy.window().then(window => {
-        const localStorageAuthToken = window.localStorage.getItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+        const localStorageAuthToken = JSON.parse(
+          window.localStorage.getItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+        )
         expect(localStorageAuthToken).to.eq(renewedAuthToken)
       })
     })
