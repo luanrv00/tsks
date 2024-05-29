@@ -36,14 +36,15 @@
         * fix error unitialized constant V1::RefreshTokenController
     * create refresh token endpoint for auth token renovation
     * updates auth token storage to outside user object
-    + verify 401 errors for both scenarios:
-        - 401 without user existent on localStorage (redirects to signin)
-        + 401 with expired auth token (request refresh token endpoint)
-    - write tests for refresh token behavior (already documented)
-    - fix PUT tsk cannot unexistent test failing
+    * verify 401 errors for both scenarios:
+        ! (maybe this never occurs) 401 without user existent on localStorage (redirects to signin)
+        * 401 with expired auth token (request refresh token endpoint)
+    * write tests for refresh token behavior (already documented)
+    * fix PUT tsk cannot unexistent test failing
+    - test integration of refresh token (webapp/api)
     - send auth token through cookies
         - remove auth_token as endpoints returns as json
-    - update all necessary webapp's requests to send cookies (update fetch with credentials: 'include')
+        - update all necessary webapp's requests to send cookies (update fetch with credentials: 'include')
         - remove all Bearer tokens sent on api requests
 - implements tsk edit
 - implements forms auto focus

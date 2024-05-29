@@ -49,12 +49,12 @@
 **cannot without valid authentication token**
 
 *when unauthorized*
-- requests refresh token
+* requests refresh token
 
 *when forbidden*
-- removes user from localStorage
-- removes auth token from localStorage
-- redirects to /signin
+* removes user from localStorage
+* removes auth token from localStorage
+* redirects to /signin
 
 #### GET tsks
 
@@ -67,7 +67,7 @@
 **cannot without valid authentication token**
 
 *when unauthorized*
-- requests refresh token
+* requests refresh token
 
 * cannot without tsk
 * post succesfully
@@ -77,7 +77,7 @@
 **cannot without valid authentication token**
 
 *when unauthorized*
-- requests refresh token
+* requests refresh token
 
 * cannot unexistent tsk
 
@@ -91,7 +91,7 @@
 **cannot without valid authentication token**
 
 *when unauthorized*
-- requests refresh token
+* requests refresh token
 
 * delete succesfully
 

@@ -309,7 +309,7 @@
 #### POST tsk
 
 *when auth token is unauthorized*
-- requests refresh token
+* requests refresh token
 
 **cannot without tsk**
 * renders "cannot without tsk"
@@ -321,7 +321,7 @@
 #### PUT tsk
 
 *when auth token is unauthorized*
-- requests refresh token
+* requests refresh token
 
 **cannot unexistent tsk**
 * renders "cannot unexistent tsk"
@@ -340,7 +340,7 @@
 #### DELETE tsk
 
 *when auth token is unauthorized*
-- requests refresh token
+* requests refresh token
 
 **delete succesfully**
 * renders "deleted succesfully"
