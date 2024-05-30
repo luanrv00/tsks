@@ -26,9 +26,12 @@ export default function Tsks() {
       .then(res => res.json())
       .then(res => {
         if(!res.ok) {
-          const isInvalidRefreshToken = res.message == "400 Bad Request" || res.message == "401 Unauthorized"
+          const isInvalidRefreshToken = res.message == "400 Bad Request"
+          const isUnauthorizedRefreshToken = res.message == "401 Unauthorized"
+          const isNotFoundRefreshToken = res.message == "404 Not Found"
+          const isInvalidRequest = isInvalidRefreshToken || isUnauthorizedRefreshToken || isNotFoundRefreshToken
 
-          if(isInvalidRefreshToken) {
+          if(isInvalidRequest) {
             deleteCurrentUserAtBrowser()
             deleteCurrentAuthTokenAtBrowser()
             router.push('/signin')

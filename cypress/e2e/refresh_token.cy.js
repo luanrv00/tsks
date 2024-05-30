@@ -198,6 +198,95 @@ describe('requests refresh token', () => {
     })
   })
 
+  describe('when owner is not found', () => {
+    const testApiGetResponse = {
+      statusCode: 401,
+      body: {
+        ok: false,
+        message: '401 Unauthorized',
+      },
+    }
+
+    const testApiPostRefreshTokenResponse = {
+      statusCode: 404,
+      body: {
+        ok: false,
+        message: '404 Not Found',
+      },
+    }
+
+    beforeEach(() => {
+      cy.window().then(window => {
+        window.localStorage.setItem(
+          NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
+          JSON.stringify(user)
+        )
+      })
+
+      cy.window().then(window => {
+        window.localStorage.setItem(
+          NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+          JSON.stringify(invalidAuthToken)
+        )
+      })
+
+      cy.intercept(
+        testApiGetRequest.method,
+        testApiGetRequest.endpoint,
+        testApiGetResponse
+      ).as('fetchTsks')
+
+      cy.intercept(
+        testApiPostRefreshTokenRequest.method,
+        testApiPostRefreshTokenRequest.endpoint,
+        testApiPostRefreshTokenResponse
+      ).as('requestRefreshToken')
+
+      cy.visit('/tsks')
+    })
+
+    afterEach(() => {
+      cy.window().then(window => {
+        window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+      })
+
+      cy.window().then(window => {
+        window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+      })
+    })
+
+    it('removes user from localStorage', () => {
+      cy.wait('@fetchTsks')
+      cy.wait('@requestRefreshToken')
+      cy.wait(5000)
+      cy.window().then(window => {
+        const localStorageUser = window.localStorage.getItem(
+          NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY
+        )
+        expect(localStorageUser).to.not.exist
+      })
+    })
+
+    it('removes auth token from localStorage', () => {
+      cy.wait('@fetchTsks')
+      cy.wait('@requestRefreshToken')
+      cy.wait(5000)
+      cy.window().then(window => {
+        const localStorageAuthToken = window.localStorage.getItem(
+          NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
+        )
+        expect(localStorageAuthToken).to.not.exist
+      })
+    })
+
+    it('redirects to /signin', () => {
+      cy.wait('@fetchTsks')
+      cy.wait('@requestRefreshToken')
+      cy.wait(5000)
+      cy.location('pathname').should('eq', '/signin')
+    })
+  })
+
   describe('refresh token succesfully', () => {
     const renewedAuthToken = 'renewed auth token'
 
