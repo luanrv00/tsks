@@ -21,7 +21,7 @@ export default function Tsks() {
   async function refreshToken() {
     await fetch(`${API_URL}/refresh_token`, {
       method: 'POST',
-      // credentials: 'include'
+      credentials: 'include'
     })
       .then(res => res.json())
       .then(res => {
