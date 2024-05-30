@@ -11,8 +11,13 @@ module V1
 
       auth_token = request.headers[:authorization].split(" ").last
       decoded = JWTUtil.decode_auth_token auth_token
-      user = User.find_by_email decoded[0]["email"]
+      if !decoded
+        return render json: {ok: false,
+                             message: "401 Unauthorized"},
+                             status: :unauthorized
+      end
 
+      user = User.find_by_email decoded[0]["email"]
       if user
         tsks = user.tsks.all
         available_tsks = tsks.select {|tsk| tsk.deleted_at == nil}

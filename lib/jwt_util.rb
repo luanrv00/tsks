@@ -8,7 +8,11 @@ module JWTUtil
 	end
 
 	def self.decode_auth_token token
-		JWT.decode token, ENV["AUTH_TOKEN_KEY"], false
+		begin
+      JWT.decode token, ENV["AUTH_TOKEN_KEY"], true, {algorithm: 'HS256'}
+    rescue JWT::ExpiredSignature
+      nil
+    end
 	end
 
 	def self.create_refresh_token user_payload
