@@ -41,7 +41,8 @@
         * 401 with expired auth token (request refresh token endpoint)
     * write tests for refresh token behavior (already documented)
     * fix PUT tsk cannot unexistent test failing
-    - test integration of refresh token (webapp/api)
+    * test integration of refresh token (webapp/api)
+    - verify all endpoint if refresh_token is returned together with user
     - send auth token through cookies
         - remove auth_token as endpoints returns as json
         - update all necessary webapp's requests to send cookies (update fetch with credentials: 'include')
@@ -50,5 +51,4 @@
 - implements forms auto focus
     -   move to invalid input when error "email not valid" occurs for signup/signin
 * changes all NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY to NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY
-- verify all endpoint if refresh_token is returned together with user
 ! write specs for cli implementation
