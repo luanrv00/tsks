@@ -1,14 +1,7 @@
-#!/usr/bin/env ruby
-require "fileutils"
-
-# path to your application root.
-APP_ROOT = File.expand_path("..", __dir__)
-
-def system!(*args)
-  system(*args) || abort("\n== Command #{args} failed ==")
-end
-
-FileUtils.chdir APP_ROOT do
-  puts "== Stoping container =="
-  system! "docker-compose stop"
-end
+#!/usr/bin/env sh
+docker compose stop
+docker rm -f tsks-api-app
+docker rm -f tsks-api-db-migration
+docker rm -f tsks-api-db
+docker rmi -f tsks-api-app
+docker rmi -f tsks-api-db-migration
