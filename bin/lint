@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 bin/download-node-image
-docker-compose -f docker-compose.lint.yml up --build --force-recreate --abort-on-container-exit
+docker compose -f docker-compose.lint.yml up --build --force-recreate --abort-on-container-exit
 docker rm -f tsks-web-lint
 docker rmi -f tsks-web-lint
