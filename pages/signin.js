@@ -17,6 +17,7 @@ export default function SignIn() {
         'content-type': 'application/json',
       },
       body: JSON.stringify(userCredentials),
+      credentials: 'include'
     })
       .then(r => r.json())
       .catch(e => e)
