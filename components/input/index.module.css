@@ -1,9 +1,10 @@
 .input {
-  width: 100%;
+  width: 600px;
   padding: 5px;
   border: 0;
   background-color: #555;
   color: #fff;
+  height: 25px;
 }
 
 .input::-webkit-input-placeholder {
@@ -20,4 +21,12 @@
 
 .input::placeholder {
   color: var(--subtext-color);
+}
+
+.mediumInput {
+  width: 300px;
+}
+
+.smallInput {
+  width: 150px;
 }
