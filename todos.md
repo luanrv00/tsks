@@ -23,7 +23,7 @@
 * setup CI/CD environments on github for tsks repositories
 * fix /tsks reloading like crazy
 * updates delete tsk button style
-+ improve security against stolen tokens
+* improve security against stolen tokens
     * make the auth token expirable after some time
     * remove auth token as a property of user
     * returns the auth token as a property of response
@@ -49,6 +49,8 @@
         - remove auth_token as endpoints returns as json
         - update all necessary webapp's requests to send cookies (update fetch with credentials: 'include')
         - remove all Bearer tokens sent on api requests
+- updates links to docs on api/web repositories
+- create design style
 - implements tsk edit
 - implements forms auto focus
     -   move to invalid input when error "email not valid" occurs for signup/signin
