@@ -31,9 +31,13 @@ module V1
             expires: 1.week.from_now,
             httponly: true,
           }
+
+          user_info = user.attributes
+          user_info.delete("refresh_token")
+
           return render json: {ok: true,
                                message: "200 Success",
-                               user: user,
+                               user: user_info,
                                auth_token: auth_token},
                                status: :ok
         else
