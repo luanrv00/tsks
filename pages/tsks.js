@@ -249,6 +249,7 @@ export default function Tsks() {
     <Layout>
       {reqError && (<FlashMessage type='error' message={reqError} />)}
       {reqSuccess && (<FlashMessage type='success' message={reqSuccess} />)}
+      <TskForm handleSubmit={handleSubmit} />
       {Boolean(Object.keys(tsks).length) ? (
         <TsksList 
           tsks={tsks} 
@@ -259,7 +260,6 @@ export default function Tsks() {
       ) : (
         <p>{fallbackMsg}</p>
       )}
-      <TskForm handleSubmit={handleSubmit} />
     </Layout>
   )
 }
