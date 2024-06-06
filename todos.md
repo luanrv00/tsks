@@ -42,7 +42,9 @@
     * write tests for refresh token behavior (already documented)
     * fix PUT tsk cannot unexistent test failing
     * test integration of refresh token (webapp/api)
-    - verify all endpoint if refresh_token is returned together with user
+        * stolen auth token expires after 1minute
+        * stolen refresh token returns 401 after expired
+    * verify all endpoint if refresh_token is returned together with user
     - send auth token through cookies
         - remove auth_token as endpoints returns as json
         - update all necessary webapp's requests to send cookies (update fetch with credentials: 'include')

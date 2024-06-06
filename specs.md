@@ -278,6 +278,11 @@
 - removes auth token from localStorage
 - redirects to /signin
 
+**when refresh token owner is not found**
+- removes user from localStorage
+- removes auth token from localStorage
+- redirects to /signin
+
 **refresh token succesfully**
 - saves auth token on localStorage
 - renders "authentication renewed. please, try again"
