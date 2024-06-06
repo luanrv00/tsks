@@ -47,4 +47,4 @@ sudo apt install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4
 
 ### Docs
 
-https://gist.github.com/luanrv/cd580adf5be96d9d2eecd6add1733322
+https://github.com/luanrv00/tsks-docs/blob/main/web.md
