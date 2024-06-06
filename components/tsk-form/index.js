@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Input, SmallInput, Button} from '..'
+import {Input, SmallInput, Button, Subtitle} from '..'
 import styles from './index.module.css'
 
 export function TskForm({handleSubmit}) {
@@ -18,21 +18,24 @@ export function TskForm({handleSubmit}) {
   }
 
   return (
-    <form onSubmit={onSubmit} className={styles.form}>
-      <div className={styles.inputs}>
-        <Input
-          onChange={e => setFormValues(v => ({ ...v, tsk: e.target.value }))}
-          value={formValues.tsk}
-          placeholder='enter tsk'
-        />
-        <SmallInput
-          onChange={e => setFormValues(v => ({ ...v, context: e.target.value }))}
-          value={formValues.context}
-          placeholder='context'
-        />
-      </div>
-      {emptyTskError && (<span>cannot without tsk</span>)}
-      <Button value='Add' />
-    </form>
+    <>
+      <Subtitle value='add a new tsk' />
+      <form onSubmit={onSubmit} className={styles.form}>
+        <div className={styles.inputs}>
+          <Input
+            onChange={e => setFormValues(v => ({ ...v, tsk: e.target.value }))}
+            value={formValues.tsk}
+            placeholder='enter tsk'
+          />
+          <SmallInput
+            onChange={e => setFormValues(v => ({ ...v, context: e.target.value }))}
+            value={formValues.context}
+            placeholder='context'
+          />
+        </div>
+        {emptyTskError && (<span>cannot without tsk</span>)}
+        <Button value='Add' />
+      </form>
+    </>
   )
 }

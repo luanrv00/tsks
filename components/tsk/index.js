@@ -3,6 +3,9 @@ import styles from './index.module.css'
 import {TskStatus, SmallButton} from '..'
 
 export function Tsk({id, tsk, context, status, handleDoing, handleDone, handleDelete}) {
+  const tskStatusStyle = status === 'done' ? styles.tskDone : null
+  const tskWrapperStyle = `${styles.tskWrapper} ${tskStatusStyle}`
+
   function onClick(e) {
     if (e.target.textContent === 'delete') {
       return handleDelete(id)
@@ -21,7 +24,7 @@ export function Tsk({id, tsk, context, status, handleDoing, handleDone, handleDe
     <li className={styles.wrapper} onClick={onClick}>
       <div>
         <span className={styles.context}>@{context}</span>
-        <div className={styles.tskWrapper}>
+        <div className={tskWrapperStyle}>
           <TskStatus status={status} />
           <p className={styles.tsk} data-testid='tsk'>
             {tsk}
