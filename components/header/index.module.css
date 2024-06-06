@@ -1,0 +1,7 @@
+.header {
+    border-bottom: 1px solid var(--line-color);
+}
+
+.title {
+    margin-bottom: 10px;
+}
