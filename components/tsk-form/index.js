@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Input, Button} from '..'
+import {Input, SmallInput, Button} from '..'
 import styles from './index.module.css'
 
 export function TskForm({handleSubmit}) {
@@ -25,7 +25,7 @@ export function TskForm({handleSubmit}) {
           value={formValues.tsk}
           placeholder='enter tsk'
         />
-        <Input
+        <SmallInput
           onChange={e => setFormValues(v => ({ ...v, context: e.target.value }))}
           value={formValues.context}
           placeholder='context'

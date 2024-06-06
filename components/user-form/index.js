@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Input, Button} from '..'
+import {MediumInput, Button} from '..'
 import styles from './index.module.css'
 
 export function UserForm({handleSubmit}) {
@@ -30,14 +30,14 @@ export function UserForm({handleSubmit}) {
 
   return (
     <form onSubmit={onSubmit} className={styles.form}>
-      <Input
+      <MediumInput
         onChange={e => setFormValues(v => ({...v, email: e.target.value}))}
         value={formValues.email}
         placeholder='user@tsks.app'
         hasEmptyError={hasEmailError}
         hasInvalidEmailError={hasInvalidEmailError}
       />
-      <Input
+      <MediumInput
         onChange={e => setFormValues(v => ({...v, password: e.target.value}))}
         value={formValues.password}
         type='password'
