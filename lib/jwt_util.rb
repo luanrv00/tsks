@@ -2,7 +2,7 @@ require "jwt"
 
 module JWTUtil
 	def self.create_auth_token user_payload
-		exp = 1.minute.from_now.to_i
+		exp = 42.minutes.from_now.to_i
 		payload = user_payload.merge({exp: exp})
 		JWT.encode payload, ENV["AUTH_TOKEN_KEY"], "HS256"
 	end
