@@ -45,8 +45,13 @@ module V1
 
       auth_token = request.headers[:authorization].split(" ").last
       decoded = JWTUtil.decode_auth_token auth_token
-      user = User.find_by_email(decoded[0]["email"])
+      if !decoded
+        return render json: {ok: false,
+                             message: "401 Unauthorized"},
+                             status: :unauthorized
+      end
 
+      user = User.find_by_email(decoded[0]["email"])
       if user
         tsk = user.tsks.build tsk_params
         begin
@@ -85,8 +90,13 @@ module V1
 
       auth_token = request.headers[:authorization].split(" ").last
       decoded = JWTUtil.decode_auth_token auth_token
-      user = User.find_by_email(decoded[0]["email"])
+      if !decoded
+        return render json: {ok: false,
+                             message: "401 Unauthorized"},
+                             status: :unauthorized
+      end
 
+      user = User.find_by_email(decoded[0]["email"])
       if user
         begin
           tsk = user.tsks.find params[:id]
@@ -125,9 +135,13 @@ module V1
 
       auth_token = request.headers[:authorization].split(" ").last
       decoded = JWTUtil.decode_auth_token auth_token
-      user = User.find_by_email decoded[0]["email"] if decoded[0]["email"]
+      if !decoded
+        return render json: {ok: false,
+                             message: "401 Unauthorized"},
+                             status: :unauthorized
+      end
 
-      # TODO: research cookies usage for checking session <> token validity
+      user = User.find_by_email decoded[0]["email"] if decoded[0]["email"]
       if !user
         return render json: {ok: false, message: "403 Forbidden"}, status: :forbidden
       end

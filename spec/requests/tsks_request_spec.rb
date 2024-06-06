@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe "Tsks", type: :request do
   let(:auth_token) {
-    "Bearer eyJhbGciOiJub25lIn0.eyJlbWFpbCI6InJlZ2lzdGVyZWRAYXBpLmNvbSJ9."
+    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InJlZ2lzdGVyZWRAYXBpLmNvbSIsImV4cCI6MTcxNzY0MDM3OH0.CO1jVK0DdxSXOul979-v4k1WhGRni-6b1ePbHnQ5B8Q"
   }
   let(:invalid_auth_token) {
-    "Bearer eyJhbGciOiJub25lIn0.eyJlbWFpbCI6ImJAZy5nIn0."
+    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFAYS5hYWEiLCJleHAiOjE3MTc2NDA3NTV9.C2nYuDzOe4JjF-VhcyMzvOw3h2ylMms0fS8GkqXU790"
   }
   let(:api_endpoint) { "/v1/tsks" }
   let(:api_headers) { {authorization: auth_token} }
