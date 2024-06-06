@@ -1,22 +1,34 @@
 import React from 'react'
 import styles from './index.module.css'
 
-export function Button({value, onClick}) {
+function ButtonBase({value, onClick, style}) {
+  const specificStyle = style === 'small' ? styles.smallButton : styles.button
+  const btnStyles = `${styles.baseButton} ${specificStyle}`
+
   return (
     <button 
-      className={`${styles.baseButton} ${styles.button}`} 
+      className={btnStyles}
       onClick={onClick}>
       {value}
     </button>
   )
 }
 
+export function Button({value, onClick}) {
+  return (
+    <ButtonBase
+      onClick={onClick}
+      value={value}
+    />
+  )
+}
+
 export function SmallButton({value, onClick}) {
   return (
-    <button 
-      className={`${styles.baseButton} ${styles.smallButton}`} 
-      onClick={onClick}>
-      {value}
-    </button>
+    <ButtonBase
+      onClick={onClick}
+      value={value}
+      style='small'
+    />
   )
 }
