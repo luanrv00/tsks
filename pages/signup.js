@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
-import {Layout, UserForm, FlashMessage, SpacerSmall} from '../components'
+import {Layout, UserForm, FlashMessage, SpacerSmall, Subtitle} from '../components'
 import {setCurrentUserAtBrowser, setCurrentAuthTokenAtBrowser} from '../utils'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
@@ -34,6 +34,7 @@ export default function SignUp() {
   return (
     <Layout>
       <FlashMessage type='error' message={reqError} />
+      <Subtitle value='signup' />
       <UserForm handleSubmit={handleSubmit} />
       <SpacerSmall/>
       <Link href='/signin'>or signin to your account</Link>
