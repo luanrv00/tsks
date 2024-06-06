@@ -3,12 +3,17 @@
   background-color: #333;
   color: #fff;
   cursor: pointer;
+  border: 1px solid var(--hover-color);
 }
 
 .button {
-  padding: 10px;
+  height: 25px;
+  width: 140px;
 }
 
 .smallButton {
-  padding: 5px;
+  height: 15px;
+  width: 60px;
+  font-size: 12px;
+  line-height: .5;
 }
