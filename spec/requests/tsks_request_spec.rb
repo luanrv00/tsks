@@ -6,11 +6,9 @@ RSpec.describe "Tsks", type: :request do
   invalid_auth_token = JWTUtil.create_auth_token({email: 'notregistered@api.com'})
 
   let(:auth_token) {
-    #"Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InJlZ2lzdGVyZWRAYXBpLmNvbSIsImV4cCI6MTcxNzY0MDM3OH0.CO1jVK0DdxSXOul979-v4k1WhGRni-6b1ePbHnQ5B8Q"
     "Bearer #{valid_auth_token}"
   }
   let(:invalid_auth_token) {
-    #"Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFAYS5hYWEiLCJleHAiOjE3MTc2NDA3NTV9.C2nYuDzOe4JjF-VhcyMzvOw3h2ylMms0fS8GkqXU790"
     "Bearer #{invalid_auth_token}"
   }
   let(:api_endpoint) { "/v1/tsks" }
@@ -112,7 +110,7 @@ RSpec.describe "Tsks", type: :request do
       end
 
       # TODO: write test after implemented data structure verification
-      # currently we only verify if "tsks" is included as response 
+      # currently we only verify if "tsks" is included as response
       # and should verify for complete data structure returned
       # as mentioned as others todos notes
       it "returns only not deleted tsks" do
@@ -495,7 +493,7 @@ RSpec.describe "Tsks", type: :request do
       before :all do
         Rails.application.load_seed
       end
-      
+
       after :all do
         DatabaseCleaner.clean
       end
