@@ -49,8 +49,8 @@
         - remove auth_token as endpoints returns as json
         - update all necessary webapp's requests to send cookies (update fetch with credentials: 'include')
         - remove all Bearer tokens sent on api requests
-- updates links to docs on api/web repositories
-- create design style
+* updates links to docs on api/web repositories
+* create design style
 - implements tsk edit
 - implements forms auto focus
     -   move to invalid input when error "email not valid" occurs for signup/signin

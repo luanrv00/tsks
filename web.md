@@ -29,23 +29,23 @@
 ### refresh token
 
 **when refresh token is not valid**
-- removes user from localStorage
-- removes auth token from localStorage
-- redirects to /signin
+* removes user from localStorage
+* removes auth token from localStorage
+* redirects to /signin
 
 **when refresh token is unauthorized**
-- removes user from localStorage
-- removes auth token from localStorage
-- redirects to /signin
+* removes user from localStorage
+* removes auth token from localStorage
+* redirects to /signin
 
 **when refresh token owner is not found**
-- removes user from localStorage
-- removes auth token from localStorage
-- redirects to /signin
+* removes user from localStorage
+* removes auth token from localStorage
+* redirects to /signin
 
 **refresh token succesfully**
-- saves auth token on localStorage
-- renders "authentication renewed. please, try again"
+* saves auth token on localStorage
+* renders "authentication renewed. please, try again"
 
 ### tsks
 
