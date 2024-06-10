@@ -51,8 +51,12 @@
         - remove all Bearer tokens sent on api requests
 * updates links to docs on api/web repositories
 * create design style
-- implements tsk edit
 - implements forms auto focus
     -   move to invalid input when error "email not valid" occurs for signup/signin
++ refactor current implementation
+    + move signup api call to a separate module
+    - move signin api call to a separate module
+    - move tsks api calls to a separate module
+- implements tsk edit
 * changes all NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY to NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY
 ! write specs for cli implementation

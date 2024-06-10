@@ -106,6 +106,30 @@
 * renders context
 * renders status
 
+
+### services
+
+#### signUpUser
+- calls signin api
+
+#### signInUser
+- calls signup api
+
+#### getTsks
+- calls get tsks api
+
+#### postTsk
+- calls post tsk api
+
+#### putTskToDoing
+- calls put tsk api
+
+#### putTskToDone
+- calls put tsk api
+
+#### deleteTsk
+- calls delete tsk api
+
 ### errors possibilities
 
 - 400

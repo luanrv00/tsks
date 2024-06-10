@@ -366,3 +366,109 @@
 
 *when done*
 * renders "*"
+
+### services
+
+#### signUpUser
+
+**calls signin api**
+- calls POST /v1/signup endpoint
+- sends received email
+- sends received password
+
+**when request is succesfull**
+- returns ok
+- returns data containing user
+- returns data containing auth_token
+
+**when request is failed**
+- returns not ok
+- returns error containing message
+
+#### signInUser
+
+**calls signup api**
+- calls POST /v1/signin endpoint
+- sends received email
+- sends received password
+
+**when request is succesfull**
+- returns ok
+- returns data containing user
+- returns data containing auth_token
+
+**when request is failed**
+- returns not ok
+- returns error containing message
+
+#### getTsks
+
+**calls get tsks api**
+- calls GET /v1/tsks endpoint
+- sends auth_token
+
+**when request is succesfull**
+- returns ok
+- returns data containing tsks
+
+**when request is failed**
+- returns not ok
+- returns error containing message
+
+#### postTsk
+
+**calls post tsk api**
+- calls POST /v1/tsks endpoint
+- sends auth_token
+- sends tsk
+
+**when request is succesfull**
+- returns ok
+- returns data containing tsk
+
+**when request is failed**
+- returns not ok
+- returns error containing message
+
+#### putTskToDoing
+
+**calls put tsk api**
+- calls PUT /v1/tsks/:id endpoint
+- sends auth_token
+- sends tsk status
+
+**when request is succesfull**
+- returns ok
+- returns data containing tsk
+
+**when request is failed**
+- returns not ok
+- returns error containing message
+
+#### putTskToDone
+
+**calls put tsk api**
+- calls PUT /v1/tsks/:id endpoint
+- sends auth_token
+- sends tsk status
+
+**when request is succesfull**
+- returns ok
+- returns data containing tsk
+
+**when request is failed**
+- returns not ok
+- returns error containing message
+
+#### deleteTsk
+
+**calls delete tsk api**
+- calls DELETE /v1/tsks/:id endpoint
+- sends auth_token
+
+**when request is succesfull**
+- returns ok
+
+**when request is failed**
+- returns not ok
+- returns error containing message
