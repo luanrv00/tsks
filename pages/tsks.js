@@ -5,7 +5,6 @@ import {
   getCurrentUserAtBrowser, 
   deleteCurrentUserAtBrowser, 
   deleteCurrentAuthTokenAtBrowser, 
-  getCurrentAuthTokenAtBrowser,
   setCurrentAuthTokenAtBrowser
 } from '../utils'
 import { getTsks, postTsk, putTsk } from '../services'
@@ -151,36 +150,20 @@ export default function Tsks() {
     const tsk = {
       deleted_at: now
     }
-    const apiToken = getCurrentAuthTokenAtBrowser()
+    
+    const {ok, error} = await putTsk({tskId, tsk})
 
-    try {
-      await fetch(`${API_URL}/tsks/${tskId}`, {
-        method: 'PUT',
-        headers: {
-          authorization: `Bearer ${apiToken}`,
-          'Access-Control-Allow-Origin': '*',
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({tsk: tsk})
-      })
-        .then(res => res.json())
-        .then(res => {
-          if(!res.ok) {
-            const isUnauthorizedAuthToken = res.message === '401 Unauthorized'
+    if(!ok) {
+      const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
 
-            if(isUnauthorizedAuthToken) {
-              return refreshToken()
-            }
+      if(isUnauthorizedAuthToken) {
+        return refreshToken()
+      }
 
-            setReqError(res.message)
-          } else {
-            setReqSuccess('deleted succesfully')
-            fetchTsks()
-          }
-        })
-        .catch(e => setFallbackMsg(e.toString()))
-    } catch(e) {
-      setReqError(e.message)
+      setReqError(error.message)
+    } else {
+      setReqSuccess('deleted succesfully')
+      fetchTsks()
     }
   }
 
