@@ -3,6 +3,7 @@ import {useRouter} from 'next/router'
 import Link from 'next/link'
 import {Layout, UserForm, FlashMessage, SpacerSmall, Subtitle} from '../components'
 import {setCurrentUserAtBrowser, setCurrentAuthTokenAtBrowser} from '../utils'
+import { signInUser } from '../services'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -10,24 +11,15 @@ export default function SignIn() {
   const router = useRouter()
   const [reqError, setReqError] = useState('')
 
-  async function handleSubmit(userCredentials) {
-    const res = await fetch(`${API_URL}/signin`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify(userCredentials),
-      credentials: 'include'
-    })
-      .then(r => r.json())
-      .catch(e => e)
+  async function handleSubmit({email, password}) {
+    const {ok, data, error} = await signInUser({email, password})
 
-    if (res.ok) {
-      setCurrentUserAtBrowser(res.user)
-      setCurrentAuthTokenAtBrowser(res.auth_token)
+    if (ok) {
+      setCurrentUserAtBrowser(data.user)
+      setCurrentAuthTokenAtBrowser(data.auth_token)
       return router.push('/tsks')
     } else {
-      setReqError(res.message)
+      setReqError(error.message)
     }
   }
 
