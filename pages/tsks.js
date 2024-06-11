@@ -8,7 +8,7 @@ import {
   getCurrentAuthTokenAtBrowser,
   setCurrentAuthTokenAtBrowser
 } from '../utils'
-import { getTsks, postTsk } from '../services'
+import { getTsks, postTsk, putTsk } from '../services'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -102,41 +102,25 @@ export default function Tsks() {
     }
   }
 
+  // TODO: update tsk params (only tsk is necessary)
   async function handleDoing(tskId) {
     const now = new Date().toISOString()
     const tsk = {
       status: 'doing',
       updated_at: now,
     }
-    const apiToken = getCurrentAuthTokenAtBrowser()
+    const {ok, error} = await putTsk({tskId, tsk})
 
-    try {
-      await fetch(`${API_URL}/tsks/${tskId}`, {
-        method: 'PUT',
-        headers: {
-          authorization: `Bearer ${apiToken}`,
-          'Access-Control-Allow-Origin': '*',
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({tsk: tsk}),
-      })
-        .then(res => res.json())
-        .then(res => {
-          if(!res.ok) {
-            const isUnauthorizedAuthToken = res.message === '401 Unauthorized'
+    if(!ok) {
+      const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
 
-            if(isUnauthorizedAuthToken) {
-              return refreshToken()
-            }
+      if(isUnauthorizedAuthToken) {
+        return refreshToken()
+      }
 
-            setReqError(res.message)
-          } else {
-            fetchTsks()
-          }
-        })
-        .catch(e => setFallbackMsg(e.toString()))
-    } catch(e) {
-      setReqError(e.toString())
+      setReqError(error.message)
+    } else {
+      fetchTsks()
     }
   }
 
@@ -146,35 +130,19 @@ export default function Tsks() {
       status: 'done',
       updated_at: now,
     }
-    const apiToken = getCurrentAuthTokenAtBrowser()
+    
+    const {ok, error} = await putTsk({tskId, tsk})
 
-    try {
-      await fetch(`${API_URL}/tsks/${tskId}`, {
-        method: 'PUT',
-        headers: {
-          authorization: `Bearer ${apiToken}`,
-          'Access-Control-Allow-Origin': '*',
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({tsk: tsk}),
-      })
-        .then(res => res.json())
-        .then(res => {
-          if(!res.ok) {
-            const isUnauthorizedAuthToken = res.message === '401 Unauthorized'
+    if(!ok) {
+      const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
 
-            if(isUnauthorizedAuthToken) {
-              return refreshToken()
-            }
+      if(isUnauthorizedAuthToken) {
+        return refreshToken()
+      }
 
-            setReqError(res.message)
-          } else {
-            fetchTsks()
-          }
-        })
-        .catch(e => setFallbackMsg(e.toString()))
-    } catch(e) {
-      setReqError(res.message)
+      setReqError(error.message)
+    } else {
+      fetchTsks()
     }
   }
 
