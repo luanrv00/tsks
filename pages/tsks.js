@@ -8,7 +8,7 @@ import {
   getCurrentAuthTokenAtBrowser,
   setCurrentAuthTokenAtBrowser
 } from '../utils'
-import { getTsks } from '../services'
+import { getTsks, postTsk } from '../services'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -77,6 +77,7 @@ export default function Tsks() {
     fetchTsks()
   }, [])
 
+  // TODO: update tsk params (only tsk is necessary)
   async function handleSubmit(formValues) {
     const now = new Date().toISOString()
     const tsk = {
@@ -85,35 +86,19 @@ export default function Tsks() {
       created_at: now,
       updated_at: now,
     }
-    const apiToken = getCurrentAuthTokenAtBrowser()
 
-    try {
-      await fetch(`${API_URL}/tsks`, {
-        method: 'POST',
-        headers: {
-          authorization: `Bearer ${apiToken}`,
-          'Access-Control-Allow-Origin': '*',
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({tsk: tsk}),
-      })
-        .then(res => res.json())
-        .then(res => {
-          if(!res.ok) {
-            const isUnauthorizedAuthToken = res.message === '401 Unauthorized'
+    const {ok, error} = await postTsk(tsk)
 
-            if(isUnauthorizedAuthToken) {
-              return refreshToken()
-            }
+    if(!ok) {
+      const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
 
-            return setReqError(res.message)
-          } else {
-            fetchTsks()
-          }
-        })
-        .catch(e => setFallbackMsg(e.toString()))
-    } catch(e) {
-      setReqError(e.message)
+      if(isUnauthorizedAuthToken) {
+        return refreshToken()
+      }
+
+      return setReqError(error.message)
+    } else {
+      fetchTsks()
     }
   }
 
