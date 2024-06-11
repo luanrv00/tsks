@@ -8,6 +8,7 @@ import {
   getCurrentAuthTokenAtBrowser,
   setCurrentAuthTokenAtBrowser
 } from '../utils'
+import { getTsks } from '../services'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
 
@@ -40,7 +41,7 @@ export default function Tsks() {
           setCurrentAuthTokenAtBrowser(res.auth_token)
           setReqSuccess('authentication renewed. please, try again')
         }
-      })
+      }).catch(e => setReqError(e.toString()))
   }
 
   async function fetchTsks() {
@@ -50,40 +51,25 @@ export default function Tsks() {
       return router.push('/signin')
     }
 
-    const apiToken = getCurrentAuthTokenAtBrowser()
+    const {ok, data, error} = await getTsks()
 
-    try {
-      // TODO: move fetching data to a separate service
-      await fetch(`${API_URL}/tsks`, {
-        headers: {
-          authorization: `Bearer ${apiToken}`,
-          'Access-Control-Allow-Origin': '*',
-        },
-      })
-        .then(res => res.json())
-        .then(res => {
-          if (!res.ok) {
-            const isUnauthorizedAuthToken = res.message === '401 Unauthorized'
-            const isForbiddenAuthToken = res.message === '403 Forbidden'
+    if (!ok) {
+      const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
+      const isForbiddenAuthToken = error.message === '403 Forbidden'
 
-            if(isUnauthorizedAuthToken) {
-              return refreshToken()
-            }
+      if(isUnauthorizedAuthToken) {
+        return refreshToken()
+      }
 
-            if(isForbiddenAuthToken) {
-              deleteCurrentUserAtBrowser()
-              deleteCurrentAuthTokenAtBrowser()
-              return router.push('/signin')
-            }
+      if(isForbiddenAuthToken) {
+        deleteCurrentUserAtBrowser()
+        deleteCurrentAuthTokenAtBrowser()
+        return router.push('/signin')
+      }
 
-            return setReqError(res.message)
-          } else if (res.tsks.length) {
-            return setTsks(res.tsks)
-          }
-        })
-        .catch(e => setFallbackMsg(e.toString()))
-    } catch(e) {
-      setReqError(e.message)
+      return setReqError(error.message)
+    } else if (data.tsks.length) {
+      return setTsks(data.tsks)
     }
   }
 
