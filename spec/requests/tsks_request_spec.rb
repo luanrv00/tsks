@@ -14,6 +14,10 @@ RSpec.describe "Tsks", type: :request do
   let(:api_endpoint) { "/v1/tsks" }
   let(:api_headers) { {authorization: auth_token} }
   let(:invalid_api_headers) { {authorization: invalid_auth_token} }
+  let(:new_tsk) {
+    {tsk: "t",
+     context: "inbox"}
+  }
   let(:tsk) {
     {tsk: "t",
      context: "inbox",
@@ -121,7 +125,7 @@ RSpec.describe "Tsks", type: :request do
   describe "POST /tsks" do
     context "cannot without authentication token" do
       before :each do
-        post api_endpoint, params: {tsk: tsk}
+        post api_endpoint, params: {tsk: new_tsk}
       end
 
       it "returns status code 401" do
@@ -149,7 +153,7 @@ RSpec.describe "Tsks", type: :request do
       end
 
       before :each do
-        post api_endpoint, headers: invalid_api_headers, params: {tsk: tsk}
+        post api_endpoint, headers: invalid_api_headers, params: {tsk: new_tsk}
       end
 
       it "returns status code 403" do
@@ -233,7 +237,7 @@ RSpec.describe "Tsks", type: :request do
       end
 
       before :each do
-        post api_endpoint, headers: api_headers, params: {tsk: tsk}
+        post api_endpoint, headers: api_headers, params: {tsk: new_tsk}
       end
 
       it "returns status code 201" do
