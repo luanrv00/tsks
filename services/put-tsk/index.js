@@ -20,7 +20,7 @@ export async function putTsk({tskId, tsk}) {
 
   if(!res.ok) {
     const {ok, message} = res
-    return {ok, error: {message: message}, data: null}
+    return {ok, error: {message}, data: null}
   }
 
   const {ok, tsk: updatedTsk} = res
