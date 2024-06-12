@@ -7,40 +7,33 @@ import {
   deleteCurrentAuthTokenAtBrowser, 
   setCurrentAuthTokenAtBrowser
 } from '../utils'
-import { getTsks, postTsk, putTsk } from '../services'
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL
+import { getTsks, postTsk, putTsk, getRefreshToken } from '../services'
 
 export default function Tsks() {
   const router = useRouter()
   const [tsks, setTsks] = useState({})
-  const [fallbackMsg, setFallbackMsg] = useState('tsks not found')
   const [reqError, setReqError] = useState('')
   const [reqSuccess, setReqSuccess] = useState('')
+  const fallbackMsg = 'tsks not found'
 
   async function refreshToken() {
-    await fetch(`${API_URL}/refresh_token`, {
-      method: 'POST',
-      credentials: 'include'
-    })
-      .then(res => res.json())
-      .then(res => {
-        if(!res.ok) {
-          const isInvalidRefreshToken = res.message == "400 Bad Request"
-          const isUnauthorizedRefreshToken = res.message == "401 Unauthorized"
-          const isNotFoundRefreshToken = res.message == "404 Not Found"
-          const isInvalidRequest = isInvalidRefreshToken || isUnauthorizedRefreshToken || isNotFoundRefreshToken
+    const {ok, data, error} = await getRefreshToken()
 
-          if(isInvalidRequest) {
-            deleteCurrentUserAtBrowser()
-            deleteCurrentAuthTokenAtBrowser()
-            router.push('/signin')
-          }
-        } else {
-          setCurrentAuthTokenAtBrowser(res.auth_token)
-          setReqSuccess('authentication renewed. please, try again')
-        }
-      }).catch(e => setReqError(e.toString()))
+    if(!ok) {
+      const isInvalidRefreshToken = error.message == '400 Bad Request'
+      const isUnauthorizedRefreshToken = error.message == '401 Unauthorized'
+      const isNotFoundRefreshToken = error.message == '404 Not Found'
+      const isInvalidRequest = isInvalidRefreshToken || isUnauthorizedRefreshToken || isNotFoundRefreshToken
+
+      if(isInvalidRequest) {
+        deleteCurrentUserAtBrowser()
+        deleteCurrentAuthTokenAtBrowser()
+        router.push('/signin')
+      }
+    } else {
+      setCurrentAuthTokenAtBrowser(data.auth_token)
+      setReqSuccess('authentication renewed. please, try again')
+    }
   }
 
   async function fetchTsks() {
