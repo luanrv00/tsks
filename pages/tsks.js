@@ -2,12 +2,12 @@ import React, {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import {Layout, FlashMessage, TsksList, TskForm} from '../components'
 import {
-  getCurrentUserAtBrowser, 
-  deleteCurrentUserAtBrowser, 
-  deleteCurrentAuthTokenAtBrowser, 
-  setCurrentAuthTokenAtBrowser
+  getCurrentUserAtBrowser,
+  deleteCurrentUserAtBrowser,
+  deleteCurrentAuthTokenAtBrowser,
+  setCurrentAuthTokenAtBrowser,
 } from '../utils'
-import { getTsks, postTsk, putTsk, getRefreshToken } from '../services'
+import {getTsks, postTsk, putTsk, deleteTsk, getRefreshToken} from '../services'
 
 export default function Tsks() {
   const router = useRouter()
@@ -19,13 +19,16 @@ export default function Tsks() {
   async function refreshToken() {
     const {ok, data, error} = await getRefreshToken()
 
-    if(!ok) {
+    if (!ok) {
       const isInvalidRefreshToken = error.message == '400 Bad Request'
       const isUnauthorizedRefreshToken = error.message == '401 Unauthorized'
       const isNotFoundRefreshToken = error.message == '404 Not Found'
-      const isInvalidRequest = isInvalidRefreshToken || isUnauthorizedRefreshToken || isNotFoundRefreshToken
+      const isInvalidRequest =
+        isInvalidRefreshToken ||
+        isUnauthorizedRefreshToken ||
+        isNotFoundRefreshToken
 
-      if(isInvalidRequest) {
+      if (isInvalidRequest) {
         deleteCurrentUserAtBrowser()
         deleteCurrentAuthTokenAtBrowser()
         router.push('/signin')
@@ -49,11 +52,11 @@ export default function Tsks() {
       const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
       const isForbiddenAuthToken = error.message === '403 Forbidden'
 
-      if(isUnauthorizedAuthToken) {
+      if (isUnauthorizedAuthToken) {
         return refreshToken()
       }
 
-      if(isForbiddenAuthToken) {
+      if (isForbiddenAuthToken) {
         deleteCurrentUserAtBrowser()
         deleteCurrentAuthTokenAtBrowser()
         return router.push('/signin')
@@ -67,16 +70,17 @@ export default function Tsks() {
 
   useEffect(() => {
     fetchTsks()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // TODO: update tsk params (only tsk is necessary)
   async function handleSubmit(tsk) {
     const {ok, error} = await postTsk(tsk)
 
-    if(!ok) {
+    if (!ok) {
       const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
 
-      if(isUnauthorizedAuthToken) {
+      if (isUnauthorizedAuthToken) {
         return refreshToken()
       }
 
@@ -95,10 +99,10 @@ export default function Tsks() {
     }
     const {ok, error} = await putTsk({tskId, tsk})
 
-    if(!ok) {
+    if (!ok) {
       const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
 
-      if(isUnauthorizedAuthToken) {
+      if (isUnauthorizedAuthToken) {
         return refreshToken()
       }
 
@@ -114,13 +118,13 @@ export default function Tsks() {
       status: 'done',
       updated_at: now,
     }
-    
+
     const {ok, error} = await putTsk({tskId, tsk})
 
-    if(!ok) {
+    if (!ok) {
       const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
 
-      if(isUnauthorizedAuthToken) {
+      if (isUnauthorizedAuthToken) {
         return refreshToken()
       }
 
@@ -131,17 +135,12 @@ export default function Tsks() {
   }
 
   async function handleDelete(tskId) {
-    const now = new Date().toISOString()
-    const tsk = {
-      deleted_at: now
-    }
-    
-    const {ok, error} = await putTsk({tskId, tsk})
+    const {ok, error} = await deleteTsk({tskId})
 
-    if(!ok) {
+    if (!ok) {
       const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
 
-      if(isUnauthorizedAuthToken) {
+      if (isUnauthorizedAuthToken) {
         return refreshToken()
       }
 
@@ -154,16 +153,16 @@ export default function Tsks() {
 
   return (
     <Layout>
-      {reqError && (<FlashMessage type='error' message={reqError} />)}
-      {reqSuccess && (<FlashMessage type='success' message={reqSuccess} />)}
+      {reqError && <FlashMessage type='error' message={reqError} />}
+      {reqSuccess && <FlashMessage type='success' message={reqSuccess} />}
       <TskForm handleSubmit={handleSubmit} />
       {Boolean(Object.keys(tsks).length) ? (
-        <TsksList 
-          tsks={tsks} 
-          handleDoing={handleDoing} 
-          handleDone={handleDone} 
-          handleDelete={handleDelete} 
-          />
+        <TsksList
+          tsks={tsks}
+          handleDoing={handleDoing}
+          handleDone={handleDone}
+          handleDelete={handleDelete}
+        />
       ) : (
         <p>{fallbackMsg}</p>
       )}

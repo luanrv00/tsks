@@ -77,7 +77,9 @@ describe('tsks', () => {
         })
 
         cy.window().then(window => {
-          window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+          window.localStorage.removeItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
+          )
         })
       })
 
@@ -128,7 +130,9 @@ describe('tsks', () => {
         })
 
         cy.window().then(window => {
-          window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+          window.localStorage.removeItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
+          )
         })
       })
 
@@ -162,7 +166,9 @@ describe('tsks', () => {
         cy.visit('/tsks')
         cy.wait(5000)
         cy.window().then(window => {
-          const localStorageAuthToken = window.localStorage.getItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+          const localStorageAuthToken = window.localStorage.getItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
+          )
           expect(localStorageAuthToken).to.not.exist
         })
       })
@@ -195,7 +201,9 @@ describe('tsks', () => {
           )
 
           cy.window().then(window =>
-            window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+            window.localStorage.removeItem(
+              NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
+            )
           )
         })
 
@@ -287,7 +295,7 @@ describe('tsks', () => {
         cy.contains('cannot without tsk').should('exist')
       })
     })
-      
+
     describe('post succesfully', () => {
       const tskToBeInserted = 'this is a new tsk'
 
@@ -295,8 +303,8 @@ describe('tsks', () => {
         statusCode: 200,
         body: {
           ok: true,
-          tsks: [{...tsk, tsk: tskToBeInserted}]
-        }
+          tsks: [{...tsk, tsk: tskToBeInserted}],
+        },
       }
 
       beforeEach(() => {
@@ -333,7 +341,9 @@ describe('tsks', () => {
         )
 
         cy.window().then(window =>
-          window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+          window.localStorage.removeItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
+          )
         )
       })
 
@@ -392,7 +402,9 @@ describe('tsks', () => {
         })
 
         cy.window().then(window => {
-          window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+          window.localStorage.removeItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
+          )
         })
       })
 
@@ -501,8 +513,8 @@ describe('tsks', () => {
           statusCode: 200,
           body: {
             ok: true,
-            tsks: [tsk]
-          }
+            tsks: [tsk],
+          },
         }
 
         const updatedTsk = {...tsk, status: 'doing'}
@@ -511,16 +523,16 @@ describe('tsks', () => {
           statusCode: 200,
           body: {
             ok: true,
-            tsk: updatedTsk
-          }
+            tsk: updatedTsk,
+          },
         }
 
         const testApiGetUpdatedResponse = {
           statusCode: 200,
           body: {
             ok: true,
-            tsks: [updatedTsk]
-          }
+            tsks: [updatedTsk],
+          },
         }
 
         beforeEach(() => {
@@ -535,7 +547,7 @@ describe('tsks', () => {
             testApiPutRequest.endpoint,
             testApiPutResponse
           )
-          
+
           cy.intercept(
             testApiGetRequest.method,
             testApiGetRequest.endpoint,
@@ -575,8 +587,8 @@ describe('tsks', () => {
           statusCode: 200,
           body: {
             ok: true,
-            tsks: [tskDoing]
-          }
+            tsks: [tskDoing],
+          },
         }
 
         const updatedTsk = {...tsk, status: 'done'}
@@ -585,16 +597,16 @@ describe('tsks', () => {
           statusCode: 200,
           body: {
             ok: true,
-            tsk: updatedTsk
-          }
+            tsk: updatedTsk,
+          },
         }
 
         const testApiGetUpdatedResponse = {
           statusCode: 200,
           body: {
             ok: true,
-            tsks: [updatedTsk]
-          }
+            tsks: [updatedTsk],
+          },
         }
 
         beforeEach(() => {
@@ -609,7 +621,7 @@ describe('tsks', () => {
             testApiPutRequest.endpoint,
             testApiPutResponse
           )
-          
+
           cy.intercept(
             testApiGetRequest.method,
             testApiGetRequest.endpoint,
@@ -628,8 +640,7 @@ describe('tsks', () => {
       })
 
       // TODO: write tests and implementation
-      describe('put tsk content', () => {
-      })
+      describe('put tsk content', () => {})
     })
 
     describe('when auth token is unauthorized', () => {
@@ -663,7 +674,9 @@ describe('tsks', () => {
         })
 
         cy.window().then(window => {
-          window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+          window.localStorage.removeItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
+          )
         })
       })
 
@@ -692,12 +705,12 @@ describe('tsks', () => {
       })
     })
   })
-  
+
   describe('DELETE tsk', () => {
-    const tskToBeDeleted =  'this tsk must be removed'
+    const tskToBeDeleted = 'this tsk must be removed'
 
     const testApiDeleteRequest = {
-      method: 'PUT',
+      method: 'DELETE',
       endpoint: '**/v1/tsks/*',
     }
 
@@ -705,16 +718,15 @@ describe('tsks', () => {
       statusCode: 200,
       body: {
         ok: true,
-        tsk
-      }
+      },
     }
 
     const testApiGetTwoTsksResponse = {
       statusCode: 200,
       body: {
         ok: true,
-        tsks: [tsk, {...tsk, tsk: tskToBeDeleted}]
-      }
+        tsks: [tsk, {...tsk, tsk: tskToBeDeleted}],
+      },
     }
 
     describe('delete succesfully', () => {
@@ -722,21 +734,21 @@ describe('tsks', () => {
         statusCode: 200,
         body: {
           ok: true,
-          tsks: [tsk]
-        }
+          tsks: [tsk],
+        },
       }
 
       beforeEach(() => {
         cy.window().then(window => {
           window.localStorage.setItem(
-            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY, 
+            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
             JSON.stringify(user)
           )
         })
 
         cy.window().then(window => {
           window.localStorage.setItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY, 
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
             JSON.stringify(validAuthToken)
           )
         })
@@ -763,7 +775,9 @@ describe('tsks', () => {
         })
 
         cy.window(window => {
-          window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+          window.localStorage.removeItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
+          )
         })
       })
 
@@ -773,9 +787,12 @@ describe('tsks', () => {
           testApiGetRequest.endpoint,
           testApiGetOneTskResponse
         ).as('fetchTsksAfterDeletion')
-        cy.get('[data-testid="tsk"]').contains(tskToBeDeleted).parents('li').within(() => {
-          cy.contains('delete').click()
-        })
+        cy.get('[data-testid="tsk"]')
+          .contains(tskToBeDeleted)
+          .parents('li')
+          .within(() => {
+            cy.contains('delete').click()
+          })
         cy.wait('@deleteTsk')
         cy.wait('@fetchTsksAfterDeletion')
         cy.contains('deleted succesfully').should('exist')
@@ -788,9 +805,12 @@ describe('tsks', () => {
           testApiGetRequest.endpoint,
           testApiGetOneTskResponse
         ).as('fetchTsksAfterDeletion')
-        cy.get('[data-testid="tsk"]').contains(tskToBeDeleted).parents('li').within(() => {
-          cy.contains('delete').click()
-        })
+        cy.get('[data-testid="tsk"]')
+          .contains(tskToBeDeleted)
+          .parents('li')
+          .within(() => {
+            cy.contains('delete').click()
+          })
         cy.wait('@deleteTsk')
         cy.wait('@fetchTsksAfterDeletion')
         cy.contains(tskToBeDeleted).should('not.exist')
@@ -828,7 +848,9 @@ describe('tsks', () => {
         })
 
         cy.window().then(window => {
-          window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+          window.localStorage.removeItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
+          )
         })
       })
 
@@ -850,9 +872,12 @@ describe('tsks', () => {
         cy.intercept('POST', '**/v1/refresh_token').as('refreshToken')
         cy.visit('/tsks')
         cy.wait('@getTsks')
-        cy.get('[data-testid="tsk"]').contains(tskToBeDeleted).parents('li').within(() => {
-          cy.contains('delete').click()
-        })
+        cy.get('[data-testid="tsk"]')
+          .contains(tskToBeDeleted)
+          .parents('li')
+          .within(() => {
+            cy.contains('delete').click()
+          })
         cy.wait('@deleteTsk')
         cy.wait('@refreshToken')
         cy.get('@refreshToken.all').should('have.length.least', 1)
@@ -886,11 +911,11 @@ describe('tsks', () => {
     })
 
     afterEach(() => {
-      cy.window().then(window => 
+      cy.window().then(window =>
         window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
       )
 
-      cy.window().then(window => 
+      cy.window().then(window =>
         window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
       )
     })
@@ -923,7 +948,7 @@ describe('tsks', () => {
         })
 
         afterEach(() => {
-          cy.window().then(window => 
+          cy.window().then(window =>
             window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
           )
         })
@@ -938,8 +963,8 @@ describe('tsks', () => {
           statusCode: 200,
           body: {
             ok: true,
-            tsks: [{...tsk, status: 'doing'}]
-          }
+            tsks: [{...tsk, status: 'doing'}],
+          },
         }
 
         beforeEach(() => {
@@ -960,7 +985,7 @@ describe('tsks', () => {
         })
 
         afterEach(() => {
-          cy.window().then(window => 
+          cy.window().then(window =>
             window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
           )
         })
@@ -975,8 +1000,8 @@ describe('tsks', () => {
           statusCode: 200,
           body: {
             ok: true,
-            tsks: [{...tsk, status: 'done'}]
-          }
+            tsks: [{...tsk, status: 'done'}],
+          },
         }
 
         beforeEach(() => {
@@ -997,7 +1022,7 @@ describe('tsks', () => {
         })
 
         afterEach(() => {
-          cy.window().then(window => 
+          cy.window().then(window =>
             window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
           )
         })
