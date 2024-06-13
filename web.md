@@ -56,17 +56,11 @@
 
 #### POST tsk
 
-**cannot without valid authentication token**
-* when unauthorized
-
 - when posting
 * cannot without tsk
 * post succesfully
 
 #### PUT tsk
-
-**cannot without valid authentication token**
-* when unauthorized
 
 * cannot unexistent tsk
 - when puting

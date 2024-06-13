@@ -345,11 +345,6 @@
 
 #### POST tsk
 
-**cannot without valid authentication token**
-
-*when auth token is unauthorized*
-* requests refresh token
-
 **cannot without tsk**
 * renders "cannot without tsk"
 
@@ -362,11 +357,6 @@
 * clears tsk input
 
 #### PUT tsk
-
-**cannot without valid authentication token**
-
-*when auth token is unauthorized*
-* requests refresh token
 
 **cannot unexistent tsk**
 * renders "cannot unexistent tsk"
@@ -387,11 +377,6 @@
 - renders tsk
 
 #### DELETE tsk
-
-**cannot without valid authentication token**
-
-*when auth token is unauthorized*
-* requests refresh token
 
 **when deleting**
 - calls DELETE tsk api
