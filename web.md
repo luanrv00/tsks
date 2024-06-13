@@ -13,6 +13,8 @@
 * cannot without password
 * cannot without valid email
 * cannot without unregistered email
+- when signing up
+- when signing up fails
 * signup succesfully
 * renders a link to signin
 
@@ -23,81 +25,62 @@
 * cannot without registered email
 * cannot without password
 * cannot without correct password
+- when signing in
+- when signing in fails
 * signin succesfully
 * renders a link to signup
 
 ### refresh token
 
-**when refresh token is not valid**
-* removes user from localStorage
-* removes auth token from localStorage
-* redirects to /signin
-
-**when refresh token is unauthorized**
-* removes user from localStorage
-* removes auth token from localStorage
-* redirects to /signin
-
-**when refresh token owner is not found**
-* removes user from localStorage
-* removes auth token from localStorage
-* redirects to /signin
-
-**refresh token succesfully**
-* saves auth token on localStorage
-* renders "authentication renewed. please, try again"
+* when refresh token is not valid
+* when refresh token is unauthorized
+* when refresh token owner is not found
+- when refreshing token
+- when refreshing token fails
+* refresh token succesfully
 
 ### tsks
 
 * cannot without authentication token
 
 **cannot without valid authentication token**
+* when unauthorized
+* when forbidden
 
-*when unauthorized*
-* requests refresh token
-
-*when forbidden*
-* removes user from localStorage
-* removes auth token from localStorage
-* redirects to /signin
+- access succesfully
 
 #### GET tsks
 
-**get succesfully**
-* when has tsks
-* when has not tsks
+- when getting
+* get succesfully
 
 #### POST tsk
 
 **cannot without valid authentication token**
+* when unauthorized
 
-*when unauthorized*
-* requests refresh token
-
+- when posting
 * cannot without tsk
 * post succesfully
 
 #### PUT tsk
 
 **cannot without valid authentication token**
-
-*when unauthorized*
-* requests refresh token
+* when unauthorized
 
 * cannot unexistent tsk
-
-**put succesfully**
+- when puting
+* put succesfully
 * put doing tsk
 * put done tsk
-* put tsk content
+- put tsk content
 
 #### DELETE tsk
 
 **cannot without valid authentication token**
+* when unauthorized
 
-*when unauthorized*
-* requests refresh token
-
+- when deleting
 * delete succesfully
 
 #### renders tsk

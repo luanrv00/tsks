@@ -233,6 +233,13 @@
 **cannot without unregistered email**
 * renders "email already registered"
 
+**when signing up**
+- calls signup api
+- renders loading button
+
+**when signing up fails**
+- renders error message
+
 **signup succesfully**
 * saves user on localStorage
 * saves auth token on localStorage
@@ -258,6 +265,13 @@
 
 **cannot without correct password**
 * renders "incorrect password"
+
+**when signing in**
+- calls signin api
+- renders loading button
+
+**when signing in fails**
+- renders error message
 
 **signin succesfully**
 * saves user on localStorage
@@ -285,6 +299,12 @@
 * removes auth token from localStorage
 * redirects to /signin
 
+**when refreshing token**
+- calls refresh token api
+
+**when refresh token fails**
+- renders error message
+
 **refresh token succesfully**
 * saves auth token on localStorage
 * renders "authentication renewed. please, try again"
@@ -294,16 +314,26 @@
 **cannot without authentication token**
 * redirects to /signin
 
-**cannot without valid auth token**
+**cannot without valid authentication token**
 
 *when auth token is unauthorized*
 * requests refresh token
 
 *when auth token is forbidden*
 * removes user from localStorage
+* removes auth token from localStorage
 * redirects to /signin
 
+**access succesfully**
+- calls user api
+- renders user email
+- renders user avatar
+
 #### GET tsks
+
+**when getting**
+- calls GET tsks api
+- renders loading
 
 **get succesfully**
 
@@ -315,11 +345,17 @@
 
 #### POST tsk
 
+**cannot without valid authentication token**
+
 *when auth token is unauthorized*
 * requests refresh token
 
 **cannot without tsk**
 * renders "cannot without tsk"
+
+**when posting**
+- calls POST tsk api
+- renders loading
 
 **post succesfully**
 * renders tsk
@@ -327,11 +363,17 @@
 
 #### PUT tsk
 
+**cannot without valid authentication token**
+
 *when auth token is unauthorized*
 * requests refresh token
 
 **cannot unexistent tsk**
 * renders "cannot unexistent tsk"
+
+**when puting**
+- calls PUT tsk api
+- renders loading
 
 **put succesfully**
 
@@ -342,12 +384,18 @@
 * renders tsk
 
 *put tsk content*
-* renders tsk
+- renders tsk
 
 #### DELETE tsk
 
+**cannot without valid authentication token**
+
 *when auth token is unauthorized*
 * requests refresh token
+
+**when deleting**
+- calls DELETE tsk api
+- renders loading
 
 **delete succesfully**
 * renders "deleted succesfully"
