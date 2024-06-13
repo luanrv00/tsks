@@ -154,12 +154,12 @@ module V1
         if tsk
           begin
             if tsk.update(deleted_at: Time.now)
-              return render json: {ok: true}, status: :no_content
+              return render json: {ok: true}, status: :ok
             end
-          rescue e
+          rescue
             return render json: {ok: false,
-                                message: "500 Internal Server Error"},
-                                status: :internal_server_error
+                                 message: "500 Internal Server Error"},
+                                 status: :internal_server_error
           end
         end
       rescue ActiveRecord::RecordNotFound
