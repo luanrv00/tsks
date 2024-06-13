@@ -150,13 +150,21 @@ module V1
         # NOTE: breaks with invalid token. should implement a better way of
         # getting/passing testing data or return 403 before this
         tsk = user.tsks.find params[:id]
+
+        if tsk
+          begin
+            if tsk.update(deleted_at: Time.now)
+              return render json: {ok: true}, status: :no_content
+            end
+          rescue e
+            return render json: {ok: false,
+                                message: "500 Internal Server Error"},
+                                status: :internal_server_error
+          end
+        end
       rescue ActiveRecord::RecordNotFound
           return render json: {ok: false, message: "404 Not Found"},
                                status: :not_found
-      end
-
-      if tsk && tsk.destroy
-        return render json: {ok: true}, status: :no_content
       end
     end
 

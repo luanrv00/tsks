@@ -350,8 +350,11 @@ RSpec.describe "Tsks", type: :request do
 
       it "returns status code 204" do
         tsk = Tsk.find_by({id: valid_tsk_id})
+        expect(tsk.deleted_at).to be_falsy
         delete "#{api_endpoint}/#{tsk.id}", headers: api_headers
 
+        tsk = Tsk.find_by({id: valid_tsk_id})
+        expect(tsk.deleted_at).to be_truthy
         expect(response.status).to eq 204
       end
     end
