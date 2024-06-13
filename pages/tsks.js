@@ -71,7 +71,7 @@ export default function Tsks() {
 
   // TODO: update tsk params (only tsk is necessary)
   async function handleSubmit(tsk) {
-    const {ok, error} = await postTsk({tsk})
+    const {ok, error} = await postTsk(tsk)
 
     if(!ok) {
       const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
