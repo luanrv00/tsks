@@ -53,10 +53,14 @@
 * create design style
 - implements forms auto focus
     -   move to invalid input when error "email not valid" occurs for signup/signin
-+ refactor current implementation
-    + move signup api call to a separate module
-    - move signin api call to a separate module
-    - move tsks api calls to a separate module
+* refactor current implementation
+    * move signup api call to a separate module
+    * move signin api call to a separate module
+    * move tsks api calls to a separate module
+* refactor tsk params when creating/updating (only tsk and context are necessary)
+    + test integration
+        * use DELETE /tsks/:id endpoint for deleting tsks
+* clear ctx input after submiting a tsk
 - implements tsk edit
 * changes all NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY to NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY
 ! write specs for cli implementation

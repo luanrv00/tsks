@@ -146,6 +146,8 @@
 * returns message="201 Created"
 * returns ok=true
 * returns tsks
+* clears tsk input
+* clears context input
 
 ### PUT tsk
 
@@ -372,9 +374,7 @@
 #### signUpUser
 
 **calls signin api**
-- calls POST /v1/signup endpoint
-- sends received email
-- sends received password
+- calls POST /v1/signup endpoint with received credentials
 
 **when request is succesfull**
 - returns ok
@@ -388,9 +388,7 @@
 #### signInUser
 
 **calls signup api**
-- calls POST /v1/signin endpoint
-- sends received email
-- sends received password
+- calls POST /v1/signin endpoint with received credentials
 
 **when request is succesfull**
 - returns ok
@@ -404,8 +402,7 @@
 #### getTsks
 
 **calls get tsks api**
-- calls GET /v1/tsks endpoint
-- sends auth_token
+- calls GET /v1/tsks endpoint with auth token
 
 **when request is succesfull**
 - returns ok
@@ -418,9 +415,7 @@
 #### postTsk
 
 **calls post tsk api**
-- calls POST /v1/tsks endpoint
-- sends auth_token
-- sends tsk
+- calls POST /v1/tsks endpoint with auth token and tsk
 
 **when request is succesfull**
 - returns ok
@@ -433,9 +428,7 @@
 #### putTskToDoing
 
 **calls put tsk api**
-- calls PUT /v1/tsks/:id endpoint
-- sends auth_token
-- sends tsk status
+- calls PUT /v1/tsks/:id endpoint with auth token and tsk status
 
 **when request is succesfull**
 - returns ok
@@ -448,9 +441,7 @@
 #### putTskToDone
 
 **calls put tsk api**
-- calls PUT /v1/tsks/:id endpoint
-- sends auth_token
-- sends tsk status
+- calls PUT /v1/tsks/:id endpoint with auth token and tsk status
 
 **when request is succesfull**
 - returns ok
@@ -463,8 +454,7 @@
 #### deleteTsk
 
 **calls delete tsk api**
-- calls DELETE /v1/tsks/:id endpoint
-- sends auth_token
+- calls DELETE /v1/tsks/:id endpoint with auth token
 
 **when request is succesfull**
 - returns ok

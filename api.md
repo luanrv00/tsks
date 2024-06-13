@@ -186,8 +186,7 @@
 {
   "tsk": {
     "tsk": "<t>",
-    "context": "<ctx>",
-    "status": "todo|doing|done"
+    "context": "<ctx>"
   }
 }
 ```
