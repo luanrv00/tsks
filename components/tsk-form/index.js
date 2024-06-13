@@ -3,7 +3,7 @@ import {Input, SmallInput, Button, Subtitle} from '..'
 import styles from './index.module.css'
 
 export function TskForm({handleSubmit}) {
-  const [formValues, setFormValues] = useState({tsk: ''})
+  const [formValues, setFormValues] = useState({tsk: '', context: ''})
   const [emptyTskError, setEmptyTskError] = useState(false)
 
   const onSubmit = e => {
@@ -13,7 +13,7 @@ export function TskForm({handleSubmit}) {
       return setEmptyTskError(true)
     }
 
-    setFormValues({tsk: ''})
+    setFormValues({tsk: '', context: ''})
     handleSubmit(formValues)
   }
 
@@ -23,17 +23,19 @@ export function TskForm({handleSubmit}) {
       <form onSubmit={onSubmit} className={styles.form}>
         <div className={styles.inputs}>
           <Input
-            onChange={e => setFormValues(v => ({ ...v, tsk: e.target.value }))}
+            onChange={e => setFormValues(v => ({...v, tsk: e.target.value}))}
             value={formValues.tsk}
             placeholder='enter tsk'
           />
           <SmallInput
-            onChange={e => setFormValues(v => ({ ...v, context: e.target.value }))}
+            onChange={e =>
+              setFormValues(v => ({...v, context: e.target.value}))
+            }
             value={formValues.context}
             placeholder='context'
           />
         </div>
-        {emptyTskError && (<span>cannot without tsk</span>)}
+        {emptyTskError && <span>cannot without tsk</span>}
         <Button value='Add' />
       </form>
     </>

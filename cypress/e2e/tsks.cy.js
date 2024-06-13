@@ -298,6 +298,7 @@ describe('tsks', () => {
 
     describe('post succesfully', () => {
       const tskToBeInserted = 'this is a new tsk'
+      const ctxToBeInserted = 'this is a context'
 
       const testApiGetUpdatedResponse = {
         statusCode: 200,
@@ -363,11 +364,19 @@ describe('tsks', () => {
         cy.contains(tskToBeInserted).should('exist')
       })
 
-      it('clears input', () => {
+      it('clears tsk input', () => {
         cy.visit('/tsks')
         cy.get('input[placeholder="enter tsk"]').type(tskToBeInserted)
         cy.get('button').click()
         cy.get('input[placeholder="enter tsk"]').should('have.value', '')
+      })
+
+      it('clears context input', () => {
+        cy.visit('/tsks')
+        cy.get('input[placeholder="enter tsk"]').type(tskToBeInserted)
+        cy.get('input[placeholder="context"]').type(ctxToBeInserted)
+        cy.get('button').click()
+        cy.get('input[placeholder="context"]').should('have.value', '')
       })
     })
 
