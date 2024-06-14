@@ -18,8 +18,10 @@ export function UserForm({handleSubmit}) {
     if (!formValues.password) {
       return setHasPasswordError(true)
     }
-    
-    const isValidEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(formValues.email)
+
+    const isValidEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
+      formValues.email
+    )
 
     if (!isValidEmail) {
       return setHasInvalidEmailError(true)

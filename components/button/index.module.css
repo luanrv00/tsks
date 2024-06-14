@@ -1,4 +1,7 @@
 .baseButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: 0;
   background-color: #333;
   color: #fff;
@@ -15,5 +18,5 @@
   height: 15px;
   min-width: 60px;
   font-size: 12px;
-  line-height: .5;
+  line-height: 0.5;
 }
