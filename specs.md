@@ -235,7 +235,7 @@
 
 **when signing up**
 - calls signup api
-- renders loading button
+* renders loading button
 
 **when signing up fails**
 - renders error message
