@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
-import {MediumInput, Button} from '..'
+import {MediumInput, Button, LoadingButton} from '..'
 import styles from './index.module.css'
 
-export function UserForm({handleSubmit}) {
+export function UserForm({handleSubmit, isLoading}) {
   const [formValues, setFormValues] = useState({email: '', password: ''})
   const [hasEmailError, setHasEmailError] = useState(false)
   const [hasPasswordError, setHasPasswordError] = useState(false)
@@ -46,7 +46,7 @@ export function UserForm({handleSubmit}) {
         placeholder='******'
         hasEmptyError={hasPasswordError}
       />
-      <Button value='Send' />
+      {isLoading ? <LoadingButton /> : <Button value='Send' />}
     </form>
   )
 }

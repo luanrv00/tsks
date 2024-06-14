@@ -18,6 +18,13 @@ describe('UserForm', () => {
     expect(screen.getByRole('button')).toBeTruthy()
   })
 
+  it('renders a loading button when isLoading', () => {
+    render(<UserForm isLoading={true} />)
+    expect(
+      screen.getByRole('button').classList.contains('loading')
+    ).toBeTruthy()
+  })
+
   // it('renders an error for invalid e-mail format', async () => {
   //   render(<UserForm/>)
   //   fireEvent.click(screen.getByRole('button'))
