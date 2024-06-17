@@ -4,7 +4,7 @@ import user from '../fixtures/user.json'
 const NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY =
   process.env.NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY || '@tsks-user'
 
-const NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY = 
+const NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY =
   process.env.NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY || '@tsks-auth-token'
 
 describe('signup', () => {
@@ -77,6 +77,23 @@ describe('signup', () => {
     })
   })
 
+  context('when signing up', () => {
+    beforeEach(() => {
+      cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, () =>
+        Promise.resolve({json: () => ({})})
+      )
+
+      cy.visit('/signup')
+      cy.get('input[placeholder="user@tsks.app"]').type(user.email)
+      cy.get('input[placeholder="******"]').type('123')
+      cy.get('button').click()
+    })
+
+    it('renders loading button', () => {
+      cy.get('button').should('have.class', 'loading')
+    })
+  })
+
   context('signup succesfully', () => {
     const authToken = 'auth-token'
 
@@ -85,7 +102,7 @@ describe('signup', () => {
       body: {
         ok: true,
         user,
-        auth_token: authToken
+        auth_token: authToken,
       },
     }
 
@@ -116,7 +133,9 @@ describe('signup', () => {
     it('saves auth token on localStorage', () => {
       cy.wait(2000)
       cy.window().then(window => {
-        const localStorageAuthToken = window.localStorage.getItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+        const localStorageAuthToken = window.localStorage.getItem(
+          NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
+        )
         expect(localStorageAuthToken).to.exist
       })
     })

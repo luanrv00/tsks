@@ -1,16 +1,25 @@
 import React, {useState} from 'react'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
-import {Layout, UserForm, FlashMessage, SpacerSmall, Subtitle} from '../components'
+import {
+  Layout,
+  UserForm,
+  FlashMessage,
+  SpacerSmall,
+  Subtitle,
+} from '../components'
 import {setCurrentUserAtBrowser, setCurrentAuthTokenAtBrowser} from '../utils'
 import {signUpUser} from '../services'
 
 export default function SignUp() {
   const router = useRouter()
   const [reqError, setReqError] = useState('')
+  const [isLoading, setIsLoading] = useState(null)
 
   async function handleSubmit({email, password}) {
+    setIsLoading(true)
     const {ok, data, error} = await signUpUser({email, password})
+    setIsLoading(false)
 
     if (ok) {
       setCurrentUserAtBrowser(data.user)
@@ -25,8 +34,8 @@ export default function SignUp() {
     <Layout>
       <FlashMessage type='error' message={reqError} />
       <Subtitle value='signup' />
-      <UserForm handleSubmit={handleSubmit} />
-      <SpacerSmall/>
+      <UserForm handleSubmit={handleSubmit} isLoading={isLoading} />
+      <SpacerSmall />
       <Link href='/signin'>or signin to your account</Link>
     </Layout>
   )
