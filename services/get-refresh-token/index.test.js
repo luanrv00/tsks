@@ -8,15 +8,16 @@ describe('getRefreshToken', () => {
     headers: {
       'content-type': 'application/json',
     },
-    credentials: 'include'
+    credentials: 'include',
   }
-
 
   describe('calls refresh token api', () => {
     beforeAll(() => {
-      global.fetch = jest.fn(() => Promise.resolve({
-        json: () => Promise.resolve(successResponseBody)
-      }))
+      global.fetch = jest.fn(() =>
+        Promise.resolve({
+          json: () => Promise.resolve(successResponseBody),
+        })
+      )
     })
 
     beforeEach(async () => {
@@ -39,9 +40,11 @@ describe('getRefreshToken', () => {
     let response = null
 
     beforeAll(() => {
-      global.fetch = jest.fn(() => Promise.resolve({
-        json: () => Promise.resolve(successResponseBody)
-      }))
+      global.fetch = jest.fn(() =>
+        Promise.resolve({
+          json: () => Promise.resolve(successResponseBody),
+        })
+      )
     })
 
     beforeEach(async () => {
@@ -54,7 +57,10 @@ describe('getRefreshToken', () => {
     })
 
     it('returns data containing auth token', () => {
-      expect(response).toHaveProperty('data.auth_token', successResponseBody.auth_token)
+      expect(response).toHaveProperty(
+        'data.auth_token',
+        successResponseBody.auth_token
+      )
     })
   })
 
@@ -63,9 +69,11 @@ describe('getRefreshToken', () => {
     let response = null
 
     beforeAll(() => {
-      global.fetch = jest.fn(() => Promise.resolve({
-        json: () => Promise.resolve(failedResponseBody)
-      }))
+      global.fetch = jest.fn(() =>
+        Promise.resolve({
+          json: () => Promise.resolve(failedResponseBody),
+        })
+      )
     })
 
     beforeEach(async () => {
@@ -78,7 +86,10 @@ describe('getRefreshToken', () => {
     })
 
     it('returns error containing message', () => {
-      expect(response).toHaveProperty('error.message', failedResponseBody.message)
+      expect(response).toHaveProperty(
+        'error.message',
+        failedResponseBody.message
+      )
     })
   })
 })

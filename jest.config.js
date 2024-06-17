@@ -82,7 +82,7 @@ module.exports = {
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
-    "\\.(css|less|scss|sss|styl)$": "<rootDir>/node_modules/jest-css-modules"
+    '\\.(css|less|scss|sss|styl)$': '<rootDir>/node_modules/jest-css-modules',
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
@@ -127,7 +127,7 @@ module.exports = {
   // runner: "jest-runner",
 
   // The paths to modules that run some code to configure or set up the testing environment before each test
-  setupFiles: ["jest-localstorage-mock"],
+  setupFiles: ['jest-localstorage-mock'],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
   // setupFilesAfterEnv: [],
@@ -139,7 +139,7 @@ module.exports = {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  testEnvironment: "jsdom",
+  testEnvironment: 'jsdom',
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
@@ -154,9 +154,7 @@ module.exports = {
   // ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  testPathIgnorePatterns: [
-    "/cypress/"
-  ],
+  testPathIgnorePatterns: ['/cypress/'],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],
@@ -193,4 +191,4 @@ module.exports = {
 
   // Whether to use watchman for file crawling
   // watchman: true,
-};
+}

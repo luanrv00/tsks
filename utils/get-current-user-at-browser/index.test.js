@@ -6,7 +6,10 @@ const {NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY} = process.env
 describe('getCurrentUserAtBrowser', () => {
   describe('when has user on localStorage', () => {
     beforeEach(() => {
-      localStorage.setItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY, JSON.stringify(user))
+      localStorage.setItem(
+        NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
+        JSON.stringify(user)
+      )
     })
 
     afterEach(() => {

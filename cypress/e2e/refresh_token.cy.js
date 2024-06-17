@@ -303,7 +303,7 @@ describe('requests refresh token', () => {
       body: {
         ok: true,
         message: '201 Created',
-        auth_token: renewedAuthToken
+        auth_token: renewedAuthToken,
       },
     }
 

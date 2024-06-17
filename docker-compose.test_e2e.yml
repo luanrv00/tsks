@@ -2,13 +2,13 @@ version: '3.3'
 services:
   app_test_e2e:
     container_name: tsks-web-app-test_e2e
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile.dev
     environment:
       - PORT=3002
     ports:
-      - "3002:3002"
+      - '3002:3002'
     volumes:
       - ./:/app/
       - /app/node_modules
@@ -16,7 +16,7 @@ services:
       - .env.dev
   test_e2e:
     container_name: tsks-web-test_e2e
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile.test_e2e
     volumes:

@@ -1,10 +1,21 @@
 import React from 'react'
 import styles from './index.module.css'
 
-function InputBase({value, placeholder, type, onChange, hasEmptyError, hasInvalidEmailError, style}) {
-  const specificStyle = style === 'small' ? styles.smallInput :
-                        style === 'medium' ? styles.mediumInput :
-                        null
+function InputBase({
+  value,
+  placeholder,
+  type,
+  onChange,
+  hasEmptyError,
+  hasInvalidEmailError,
+  style,
+}) {
+  const specificStyle =
+    style === 'small'
+      ? styles.smallInput
+      : style === 'medium'
+      ? styles.mediumInput
+      : null
 
   const inputStyles = `${styles.input} ${specificStyle}`
 
@@ -17,13 +28,20 @@ function InputBase({value, placeholder, type, onChange, hasEmptyError, hasInvali
         placeholder={placeholder}
         onChange={onChange}
       />
-      {hasEmptyError && (<span>required</span>)}
-      {hasInvalidEmailError && (<span>invalid email</span>)}
+      {hasEmptyError && <span>required</span>}
+      {hasInvalidEmailError && <span>invalid email</span>}
     </>
   )
 }
 
-export function Input({value, placeholder, type, onChange, hasEmptyError, hasInvalidEmailError}) {
+export function Input({
+  value,
+  placeholder,
+  type,
+  onChange,
+  hasEmptyError,
+  hasInvalidEmailError,
+}) {
   return (
     <InputBase
       value={value}
@@ -36,7 +54,14 @@ export function Input({value, placeholder, type, onChange, hasEmptyError, hasInv
   )
 }
 
-export function MediumInput({value, placeholder, type, onChange, hasEmptyError, hasInvalidEmailError}) {
+export function MediumInput({
+  value,
+  placeholder,
+  type,
+  onChange,
+  hasEmptyError,
+  hasInvalidEmailError,
+}) {
   return (
     <InputBase
       value={value}
@@ -50,7 +75,14 @@ export function MediumInput({value, placeholder, type, onChange, hasEmptyError, 
   )
 }
 
-export function SmallInput({value, placeholder, type, onChange, hasEmptyError, hasInvalidEmailError}) {
+export function SmallInput({
+  value,
+  placeholder,
+  type,
+  onChange,
+  hasEmptyError,
+  hasInvalidEmailError,
+}) {
   return (
     <InputBase
       value={value}

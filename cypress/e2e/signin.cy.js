@@ -112,7 +112,7 @@ describe('signin', () => {
       body: {
         ok: true,
         user,
-        auth_token: authToken
+        auth_token: authToken,
       },
     }
 
@@ -142,7 +142,9 @@ describe('signin', () => {
     it('saves auth token on localStorage', () => {
       cy.wait(2000)
       cy.window().then(window => {
-        const localStorageAuthToken = window.localStorage.getItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+        const localStorageAuthToken = window.localStorage.getItem(
+          NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
+        )
         expect(localStorageAuthToken).to.exist
       })
     })

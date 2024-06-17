@@ -1,4 +1,4 @@
-import { getCurrentAuthTokenAtBrowser } from "../../utils"
+import {getCurrentAuthTokenAtBrowser} from '../../utils'
 
 const {NEXT_PUBLIC_API_URL} = process.env
 
@@ -13,12 +13,12 @@ export async function putTsk({tskId, tsk}) {
       authorization: `Bearer ${apiToken}`,
     },
     method: 'PUT',
-    body: JSON.stringify({tsk})
+    body: JSON.stringify({tsk}),
   })
     .then(r => r.json())
     .catch(e => e)
 
-  if(!res.ok) {
+  if (!res.ok) {
     const {ok, message} = res
     return {ok, error: {message}, data: null}
   }

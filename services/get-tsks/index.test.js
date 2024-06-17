@@ -8,16 +8,17 @@ describe('getTsks', () => {
     headers: {
       'content-type': 'application/json',
       'Access-Control-Allow-Origin': '*',
-      authorization: 'Bearer null'
+      authorization: 'Bearer null',
     },
   }
 
-
   describe('calls get tsks api', () => {
     beforeAll(() => {
-      global.fetch = jest.fn(() => Promise.resolve({
-        json: () => Promise.resolve(successResponseBody)
-      }))
+      global.fetch = jest.fn(() =>
+        Promise.resolve({
+          json: () => Promise.resolve(successResponseBody),
+        })
+      )
     })
 
     beforeEach(async () => {
@@ -38,9 +39,11 @@ describe('getTsks', () => {
     let response = null
 
     beforeAll(() => {
-      global.fetch = jest.fn(() => Promise.resolve({
-        json: () => Promise.resolve(successResponseBody)
-      }))
+      global.fetch = jest.fn(() =>
+        Promise.resolve({
+          json: () => Promise.resolve(successResponseBody),
+        })
+      )
     })
 
     beforeEach(async () => {
@@ -62,9 +65,11 @@ describe('getTsks', () => {
     let response = null
 
     beforeAll(() => {
-      global.fetch = jest.fn(() => Promise.resolve({
-        json: () => Promise.resolve(failedResponseBody)
-      }))
+      global.fetch = jest.fn(() =>
+        Promise.resolve({
+          json: () => Promise.resolve(failedResponseBody),
+        })
+      )
     })
 
     beforeEach(async () => {
@@ -77,7 +82,10 @@ describe('getTsks', () => {
     })
 
     it('returns error containing message', () => {
-      expect(response).toHaveProperty('error.message', failedResponseBody.message)
+      expect(response).toHaveProperty(
+        'error.message',
+        failedResponseBody.message
+      )
     })
   })
 })

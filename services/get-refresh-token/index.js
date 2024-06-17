@@ -7,12 +7,12 @@ export async function getRefreshToken() {
       'content-type': 'application/json',
     },
     method: 'POST',
-    credentials: 'include'
+    credentials: 'include',
   })
     .then(r => r.json())
     .catch(e => e)
 
-  if(!res.ok) {
+  if (!res.ok) {
     const {ok, message} = res
     return {ok, error: {message}, data: null}
   }

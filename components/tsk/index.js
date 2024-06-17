@@ -2,7 +2,15 @@ import React from 'react'
 import styles from './index.module.css'
 import {TskStatus, SmallButton} from '..'
 
-export function Tsk({id, tsk, context, status, handleDoing, handleDone, handleDelete}) {
+export function Tsk({
+  id,
+  tsk,
+  context,
+  status,
+  handleDoing,
+  handleDone,
+  handleDelete,
+}) {
   const tskStatusStyle = status === 'done' ? styles.tskDone : null
   const tskWrapperStyle = `${styles.tskWrapper} ${tskStatusStyle}`
 
@@ -31,7 +39,7 @@ export function Tsk({id, tsk, context, status, handleDoing, handleDone, handleDe
           </p>
         </div>
       </div>
-      <SmallButton onClick={onClick} value='delete'/>
+      <SmallButton onClick={onClick} value='delete' />
     </li>
   )
 }

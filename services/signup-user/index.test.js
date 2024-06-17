@@ -13,12 +13,13 @@ describe('signUpUser', () => {
     credentials: 'include',
   }
 
-
   describe('calls signup api', () => {
     beforeAll(() => {
-      global.fetch = jest.fn(() => Promise.resolve({
-        json: () => Promise.resolve(successResponseBody)
-      }))
+      global.fetch = jest.fn(() =>
+        Promise.resolve({
+          json: () => Promise.resolve(successResponseBody),
+        })
+      )
     })
 
     beforeEach(async () => {
@@ -29,12 +30,15 @@ describe('signUpUser', () => {
     it('calls POST /v1/signup endpoint with received credentials', () => {
       const expectedMethod = 'POST'
       const expectedEndpoint = `${NEXT_PUBLIC_API_URL}/signup`
-      const expectedBody = JSON.stringify({email: userEmail, password: userPassword})
+      const expectedBody = JSON.stringify({
+        email: userEmail,
+        password: userPassword,
+      })
 
       expect(fetch).toHaveBeenCalledWith(expectedEndpoint, {
         ...apiHeaders,
         method: expectedMethod,
-        body: expectedBody
+        body: expectedBody,
       })
     })
   })
@@ -43,9 +47,11 @@ describe('signUpUser', () => {
     let response = null
 
     beforeAll(() => {
-      global.fetch = jest.fn(() => Promise.resolve({
-        json: () => Promise.resolve(successResponseBody)
-      }))
+      global.fetch = jest.fn(() =>
+        Promise.resolve({
+          json: () => Promise.resolve(successResponseBody),
+        })
+      )
     })
 
     beforeEach(async () => {
@@ -62,7 +68,10 @@ describe('signUpUser', () => {
     })
 
     it('returns data containing auth token', () => {
-      expect(response).toHaveProperty('data.auth_token', successResponseBody.auth_token)
+      expect(response).toHaveProperty(
+        'data.auth_token',
+        successResponseBody.auth_token
+      )
     })
   })
 
@@ -71,9 +80,11 @@ describe('signUpUser', () => {
     let response = null
 
     beforeAll(() => {
-      global.fetch = jest.fn(() => Promise.resolve({
-        json: () => Promise.resolve(failedResponseBody)
-      }))
+      global.fetch = jest.fn(() =>
+        Promise.resolve({
+          json: () => Promise.resolve(failedResponseBody),
+        })
+      )
     })
 
     beforeEach(async () => {
@@ -86,7 +97,10 @@ describe('signUpUser', () => {
     })
 
     it('returns error containing message', () => {
-      expect(response).toHaveProperty('error.message', failedResponseBody.message)
+      expect(response).toHaveProperty(
+        'error.message',
+        failedResponseBody.message
+      )
     })
   })
 })

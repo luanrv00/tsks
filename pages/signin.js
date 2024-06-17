@@ -1,9 +1,15 @@
 import React, {useState} from 'react'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
-import {Layout, UserForm, FlashMessage, SpacerSmall, Subtitle} from '../components'
+import {
+  Layout,
+  UserForm,
+  FlashMessage,
+  SpacerSmall,
+  Subtitle,
+} from '../components'
 import {setCurrentUserAtBrowser, setCurrentAuthTokenAtBrowser} from '../utils'
-import { signInUser } from '../services'
+import {signInUser} from '../services'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL
 

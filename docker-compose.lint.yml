@@ -2,13 +2,13 @@ version: '3.3'
 services:
   lint:
     container_name: tsks-web-lint
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile.lint
     environment:
       - PORT=3003
     ports:
-      - "3003:3003"
+      - '3003:3003'
     volumes:
       - ./:/app/
       - /app/node_modules
