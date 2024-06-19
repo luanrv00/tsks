@@ -62,10 +62,13 @@
     * use DELETE /tsks/:id endpoint for deleting tsks
 * clear ctx input after submiting a tsk
 + implements loading button
-+ implements user header
-    * research apollo client/server possibility
     * research loading icon for button
     * create LoadingButton
+    + renders loading button for signup/signin
+    - renders loading button for tsks
++ implements tests for api calls
++ implements user header
+    * research apollo client/server possibility
 - implements tsk edit
 - changes all NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY to NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY
   ! write specs for cli implementation
