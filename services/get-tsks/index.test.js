@@ -88,4 +88,26 @@ describe('getTsks', () => {
       )
     })
   })
+
+  describe('when request breaks', () => {
+    let response = null
+
+    beforeAll(() => {
+      global.fetch = jest.fn(() =>
+        Promise.reject(new Error('500 Internal Server Error'))
+      )
+    })
+
+    beforeEach(async () => {
+      fetch.mockClear()
+      response = await getTsks()
+    })
+
+    it('returns error containing message', () => {
+      expect(response).toHaveProperty(
+        'error.message',
+        '500 Internal Server Error'
+      )
+    })
+  })
 })
