@@ -234,11 +234,11 @@
 * renders "email already registered"
 
 **when signing up**
-- calls signup api
 * renders loading button
+- calls signup api
 
 **when signing up fails**
-- renders error message
+* renders error message
 
 **signup succesfully**
 * saves user on localStorage
@@ -267,11 +267,11 @@
 * renders "incorrect password"
 
 **when signing in**
+* renders loading button
 - calls signin api
-- renders loading button
 
 **when signing in fails**
-- renders error message
+* renders error message
 
 **signin succesfully**
 * saves user on localStorage
@@ -410,13 +410,17 @@
 - calls POST /v1/signup endpoint with received credentials
 
 **when request is succesfull**
-- returns ok
-- returns data containing user
-- returns data containing auth_token
+* returns ok
+* returns data containing user
+* returns data containing auth_token
 
 **when request is failed**
-- returns not ok
-- returns error containing message
+* returns not ok
+* returns error containing message
+
+**when request breaks**
+* returns not ok
+* returns error containing message
 
 #### signInUser
 
@@ -424,37 +428,49 @@
 - calls POST /v1/signin endpoint with received credentials
 
 **when request is succesfull**
-- returns ok
-- returns data containing user
-- returns data containing auth_token
+* returns ok
+* returns data containing user
+* returns data containing auth_token
 
 **when request is failed**
-- returns not ok
-- returns error containing message
+* returns not ok
+* returns error containing message
+
+**when request breaks**
+* returns not ok
+* returns error containing message
 
 #### getTsks
 
 **calls get tsks api**
-- calls GET /v1/tsks endpoint with auth token
+* calls GET /v1/tsks endpoint with auth token
 
 **when request is succesfull**
-- returns ok
-- returns data containing tsks
+* returns ok
+* returns data containing tsks
 
 **when request is failed**
+* returns not ok
+* returns error containing message
+
+**when request breaks**
 - returns not ok
 - returns error containing message
 
 #### postTsk
 
 **calls post tsk api**
-- calls POST /v1/tsks endpoint with auth token and tsk
+* calls POST /v1/tsks endpoint with auth token and tsk
 
 **when request is succesfull**
-- returns ok
-- returns data containing tsk
+* returns ok
+* returns data containing tsk
 
 **when request is failed**
+* returns not ok
+* returns error containing message
+
+**when request breaks**
 - returns not ok
 - returns error containing message
 
@@ -471,6 +487,10 @@
 - returns not ok
 - returns error containing message
 
+**when request breaks**
+- returns not ok
+- returns error containing message
+
 #### putTskToDone
 
 **calls put tsk api**
@@ -484,14 +504,22 @@
 - returns not ok
 - returns error containing message
 
+**when request breaks**
+- returns not ok
+- returns error containing message
+
 #### deleteTsk
 
 **calls delete tsk api**
-- calls DELETE /v1/tsks/:id endpoint with auth token
+* calls DELETE /v1/tsks/:id endpoint with auth token
 
 **when request is succesfull**
-- returns ok
+* returns ok
 
 **when request is failed**
-- returns not ok
-- returns error containing message
+* returns not ok
+* returns error containing message
+
+**when request breaks**
+* returns not ok
+* returns error containing message
