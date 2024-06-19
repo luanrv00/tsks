@@ -119,6 +119,23 @@ describe('signin', () => {
     it('renders loading button', () => {
       cy.get('button').should('have.class', 'loading')
     })
+
+    context('when signing in fails', () => {
+      beforeEach(() => {
+        cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, {
+          forceNetworkError: true,
+        })
+
+        cy.visit('/signup')
+        cy.get('input[placeholder="user@tsks.app"]').type(user.email)
+        cy.get('input[placeholder="******"]').type('123')
+        cy.get('button').click()
+      })
+
+      it('renders error messag', () => {
+        cy.contains('Failed to fetch').should('exist')
+      })
+    })
   })
 
   describe('signin succesfully', () => {
