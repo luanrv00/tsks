@@ -104,6 +104,23 @@ describe('signin', () => {
     })
   })
 
+  context('when signing in', () => {
+    beforeEach(() => {
+      cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, () =>
+        Promise.resolve({json: () => ({})})
+      )
+
+      cy.visit('/signin')
+      cy.get('input[placeholder="user@tsks.app"]').type(user.email)
+      cy.get('input[placeholder="******"]').type('123')
+      cy.get('button').click()
+    })
+
+    it('renders loading button', () => {
+      cy.get('button').should('have.class', 'loading')
+    })
+  })
+
   describe('signin succesfully', () => {
     const authToken = 'auth-token'
 

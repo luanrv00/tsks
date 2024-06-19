@@ -16,9 +16,12 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL
 export default function SignIn() {
   const router = useRouter()
   const [reqError, setReqError] = useState('')
+  const [isLoading, setIsLoading] = useState(null)
 
   async function handleSubmit({email, password}) {
+    setIsLoading(true)
     const {ok, data, error} = await signInUser({email, password})
+    setIsLoading(false)
 
     if (ok) {
       setCurrentUserAtBrowser(data.user)
@@ -33,7 +36,7 @@ export default function SignIn() {
     <Layout>
       <FlashMessage type='error' message={reqError} />
       <Subtitle value='signin' />
-      <UserForm handleSubmit={handleSubmit} />
+      <UserForm handleSubmit={handleSubmit} isLoading={isLoading} />
       <SpacerSmall />
       <Link href='/signup'>or signup a new account</Link>
     </Layout>
