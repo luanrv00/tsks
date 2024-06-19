@@ -243,6 +243,48 @@ describe('tsks', () => {
         })
       })
     })
+
+    context('when getting tsks fails', () => {
+      before(() => {
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
+            JSON.stringify(user)
+          )
+        })
+
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+            JSON.stringify(validAuthToken)
+          )
+        })
+      })
+
+      after(() => {
+        cy.window().then(window =>
+          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+        )
+
+        cy.window().then(window =>
+          window.localStorage.removeItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
+          )
+        )
+      })
+
+      beforeEach(() => {
+        cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+          forceNetworkError: true,
+        })
+
+        cy.visit('/tsks')
+      })
+
+      it('renders error messag', () => {
+        cy.contains('Failed to fetch').should('exist')
+      })
+    })
   })
 
   describe('POST tsks', () => {
@@ -433,6 +475,57 @@ describe('tsks', () => {
         cy.wait('@postTsks')
         cy.wait('@refreshToken')
         cy.get('@refreshToken.all').should('have.length.least', 1)
+      })
+    })
+
+    context('when posting tsk fails', () => {
+      before(() => {
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
+            JSON.stringify(user)
+          )
+        })
+
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+            JSON.stringify(validAuthToken)
+          )
+        })
+      })
+
+      after(() => {
+        cy.window().then(window =>
+          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+        )
+
+        cy.window().then(window =>
+          window.localStorage.removeItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
+          )
+        )
+      })
+
+      beforeEach(() => {
+        cy.intercept(
+          testApiGetRequest.method,
+          testApiGetRequest.endpoint,
+          testApiGetEmptyResponse
+        ).as('fetchEmptyTsks')
+
+        cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, {
+          forceNetworkError: true,
+        })
+
+        cy.visit('/tsks')
+        cy.wait('@fetchEmptyTsks')
+        cy.get('input[placeholder="enter tsk"]').type('t')
+        cy.get('button').click()
+      })
+
+      it('renders error messag', () => {
+        cy.contains('Failed to fetch').should('exist')
       })
     })
   })
