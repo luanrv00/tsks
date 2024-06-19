@@ -985,6 +985,65 @@ describe('tsks', () => {
         cy.get('@refreshToken.all').should('have.length.least', 1)
       })
     })
+
+    context('when deleting tsk fails', () => {
+      before(() => {
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
+            JSON.stringify(user)
+          )
+        })
+
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+            JSON.stringify(validAuthToken)
+          )
+        })
+      })
+
+      after(() => {
+        cy.window().then(window =>
+          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+        )
+
+        cy.window().then(window =>
+          window.localStorage.removeItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
+          )
+        )
+      })
+
+      beforeEach(() => {
+        cy.intercept(
+          testApiGetRequest.method,
+          testApiGetRequest.endpoint,
+          testApiGetTwoTsksResponse
+        ).as('fetchTsks')
+
+        cy.intercept(
+          testApiDeleteRequest.method,
+          testApiDeleteRequest.endpoint,
+          {
+            forceNetworkError: true,
+          }
+        )
+
+        cy.visit('/tsks')
+        cy.wait('@fetchTsks')
+        cy.get('[data-testid="tsk"]')
+          .contains(tskToBeDeleted)
+          .parents('li')
+          .within(() => {
+            cy.contains('delete').click()
+          })
+      })
+
+      it('renders error message', () => {
+        cy.contains('Failed to fetch').should('exist')
+      })
+    })
   })
 
   describe('renders tsk', () => {
