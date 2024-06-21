@@ -235,7 +235,7 @@
 
 **when signing up**
 * renders loading button
-- calls signup api
+* calls signup api
 
 **when signing up fails**
 * renders error message
@@ -268,7 +268,7 @@
 
 **when signing in**
 * renders loading button
-- calls signin api
+* calls signin api
 
 **when signing in fails**
 * renders error message
@@ -300,7 +300,7 @@
 * redirects to /signin
 
 **when refreshing token**
-- calls refresh token api
+* calls refresh token api
 
 **when refresh token fails**
 - renders error message
@@ -333,7 +333,7 @@
 
 **when getting**
 - renders loading
-- calls GET tsks api
+* calls GET tsks api
 
 **when getting fails**
 * renders error message
@@ -353,7 +353,7 @@
 
 **when posting**
 * renders loading
-- calls POST tsk api
+* calls POST tsk api
 
 **when posting fails**
 * renders error message
@@ -386,7 +386,7 @@
 
 **when deleting**
 * renders loading
-- calls DELETE tsk api
+* calls DELETE tsk api
 
 **when deleting fails**
 * renders error message

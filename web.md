@@ -35,7 +35,7 @@
 * when refresh token is not valid
 * when refresh token is unauthorized
 * when refresh token owner is not found
-- when refreshing token
+* when refreshing token
 - when refreshing token fails
 * refresh token succesfully
 
@@ -51,13 +51,13 @@
 
 #### GET tsks
 
-- when getting
+* when getting
 * when getting fails
 * get succesfully
 
 #### POST tsk
 
-- when posting
+* when posting
 * when posting fails
 * cannot without tsk
 * post succesfully
@@ -76,7 +76,7 @@
 **cannot without valid authentication token**
 * when unauthorized
 
-- when deleting
+* when deleting
 * when deleting fails
 * delete succesfully
 
