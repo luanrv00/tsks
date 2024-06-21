@@ -471,8 +471,8 @@
 * returns error containing message
 
 **when request breaks**
-- returns not ok
-- returns error containing message
+* returns not ok
+* returns error containing message
 
 #### postTsk
 
@@ -489,8 +489,8 @@
 * returns error containing message
 
 **when request breaks**
-- returns not ok
-- returns error containing message
+* returns not ok
+* returns error containing message
 
 **when request is loading**
 * returns not ready

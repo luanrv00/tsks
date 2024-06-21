@@ -13,8 +13,8 @@
 * cannot without password
 * cannot without valid email
 * cannot without unregistered email
-- when signing up
-- when signing up fails
+* when signing up
+* when signing up fails
 * signup succesfully
 * renders a link to signin
 
@@ -25,8 +25,8 @@
 * cannot without registered email
 * cannot without password
 * cannot without correct password
-- when signing in
-- when signing in fails
+* when signing in
+* when signing in fails
 * signin succesfully
 * renders a link to signup
 
@@ -90,23 +90,31 @@
 ### services
 
 #### signUpUser
-- calls signin api
+* calls signin api
+* when request is succesfull
+* when request is failed
+* when request breaks
+* when request is loading
 
 #### signInUser
-- calls signup api
+* calls signup api
+* when request is succesfull
+* when request is failed
+* when request breaks
+* when request is loading
 
 #### getTsks
-- calls get tsks api
-- when request is succesfull
-- when request is failed
-- when request breaks
+* calls get tsks api
+* when request is succesfull
+* when request is failed
+* when request breaks
 
 #### postTsk
-- calls post tsk api
-- when request is succesfull
-- when request is failed
-- when request breaks
-- when request is loading
+* calls post tsk api
+* when request is succesfull
+* when request is failed
+* when request breaks
+* when request is loading
 
 #### putTskToDoing
 - calls put tsk api
@@ -115,11 +123,11 @@
 - calls put tsk api
 
 #### deleteTsk
-- calls delete tsk api
-- when request is succesfull
-- when request is failed
-- when request breaks
-- when request is loading
+* calls delete tsk api
+* when request is succesfull
+* when request is failed
+* when request breaks
+* when request is loading
 
 ### errors possibilities
 
