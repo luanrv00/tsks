@@ -1044,6 +1044,86 @@ describe('tsks', () => {
         cy.contains('Failed to fetch').should('exist')
       })
     })
+
+    describe('when deleting', () => {
+      const testApiPutRequest = {
+        method: 'PUT',
+        endpoint: '**/v1/tsks/*',
+      }
+
+      const testApiPutResponse = {
+        statusCode: 200,
+        body: {
+          ok: true,
+          body: tsk,
+        },
+      }
+
+      beforeEach(() => {
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
+            JSON.stringify(user)
+          )
+        })
+
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+            JSON.stringify(validAuthToken)
+          )
+        })
+
+        cy.intercept(
+          testApiGetRequest.method,
+          testApiGetRequest.endpoint,
+          testApiGetTwoTsksResponse
+        ).as('fetchTsks')
+
+        cy.intercept(
+          testApiDeleteRequest.method,
+          testApiDeleteRequest.endpoint,
+          {delay: 5000}
+        ).as('deleteTsk')
+
+        cy.intercept(
+          testApiPutRequest.method,
+          testApiPutRequest.endpoint,
+          testApiPutResponse
+        )
+
+        cy.visit('/tsks')
+        cy.wait('@fetchTsks')
+      })
+
+      afterEach(() => {
+        cy.window(window => {
+          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+        })
+
+        cy.window(window => {
+          window.localStorage.removeItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
+          )
+        })
+      })
+
+      it('renders loading', () => {
+        cy.get('[data-testid="tsk"]')
+          .contains(tskToBeDeleted)
+          .parents('li')
+          .within(() => {
+            cy.contains('delete').click()
+          })
+
+        cy.get('[data-testid="tsk"]')
+          .contains(tskToBeDeleted)
+          .parents('li')
+          .within(() => {
+            cy.get('button').should('have.class', 'loading')
+          })
+      })
+    })
   })
 
   describe('renders tsk', () => {
@@ -1187,6 +1267,7 @@ describe('tsks', () => {
             window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
           )
         })
+
         it('renders "*"', () => {
           cy.contains('*').should('exist')
         })

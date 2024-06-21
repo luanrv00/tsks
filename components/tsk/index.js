@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styles from './index.module.css'
-import {TskStatus, SmallButton} from '..'
+import {TskStatus, SmallButton, SmallLoadingButton} from '..'
 
 export function Tsk({
   id,
@@ -11,12 +11,14 @@ export function Tsk({
   handleDone,
   handleDelete,
 }) {
+  const [isLoading, setIsLoading] = useState(null)
   const tskStatusStyle = status === 'done' ? styles.tskDone : null
   const tskWrapperStyle = `${styles.tskWrapper} ${tskStatusStyle}`
 
   function onClick(e) {
     if (e.target.textContent === 'delete') {
-      return handleDelete(id)
+      setIsLoading(true)
+      handleDelete(id)
     }
 
     if (status === 'todo') {
@@ -39,7 +41,11 @@ export function Tsk({
           </p>
         </div>
       </div>
-      <SmallButton onClick={onClick} value='delete' />
+      {isLoading ? (
+        <SmallLoadingButton value='delete' />
+      ) : (
+        <SmallButton onClick={onClick} value='delete' />
+      )}
     </li>
   )
 }
