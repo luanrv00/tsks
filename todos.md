@@ -66,6 +66,7 @@
     * create LoadingButton
     * renders loading button for signup/signin
     + renders loading button for tsks
+* implements when request fails
 + implements tests for api calls
 + implements user header
     * research apollo client/server possibility

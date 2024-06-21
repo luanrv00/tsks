@@ -94,9 +94,16 @@
 
 #### getTsks
 - calls get tsks api
+- when request is succesfull
+- when request is failed
+- when request breaks
 
 #### postTsk
 - calls post tsk api
+- when request is succesfull
+- when request is failed
+- when request breaks
+- when request is loading
 
 #### putTskToDoing
 - calls put tsk api
@@ -106,6 +113,10 @@
 
 #### deleteTsk
 - calls delete tsk api
+- when request is succesfull
+- when request is failed
+- when request breaks
+- when request is loading
 
 ### errors possibilities
 
