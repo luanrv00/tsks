@@ -20,9 +20,9 @@ export async function postTsk(tskParams) {
 
   if (!res.ok) {
     const {ok, message} = res
-    return {ok, error: {message}, data: null}
+    return {ok, error: {message}}
   }
 
   const {ok, tsk} = res
-  return {ok, data: {tsk}, error: null}
+  return {ok, data: {tsk}}
 }

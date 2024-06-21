@@ -15,9 +15,9 @@ export async function signUpUser({email, password}) {
 
   if (!res.ok) {
     const {ok, message} = res
-    return {ok, error: {message}, data: null}
+    return {ok, error: {message}}
   }
 
   const {ok, user, auth_token} = res
-  return {ok, data: {user, auth_token}, error: null}
+  return {ok, data: {user, auth_token}}
 }
