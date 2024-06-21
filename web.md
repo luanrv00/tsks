@@ -52,11 +52,13 @@
 #### GET tsks
 
 - when getting
+* when getting fails
 * get succesfully
 
 #### POST tsk
 
 - when posting
+* when posting fails
 * cannot without tsk
 * post succesfully
 
@@ -75,6 +77,7 @@
 * when unauthorized
 
 - when deleting
+* when deleting fails
 * delete succesfully
 
 #### renders tsk
@@ -103,6 +106,7 @@
 - when request is succesfull
 - when request is failed
 - when request breaks
+- when request is loading
 
 #### putTskToDoing
 - calls put tsk api
@@ -115,6 +119,7 @@
 - when request is succesfull
 - when request is failed
 - when request breaks
+- when request is loading
 
 ### errors possibilities
 

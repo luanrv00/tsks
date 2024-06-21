@@ -332,8 +332,11 @@
 #### GET tsks
 
 **when getting**
-- calls GET tsks api
 - renders loading
+- calls GET tsks api
+
+**when getting fails**
+* renders error message
 
 **get succesfully**
 
@@ -349,8 +352,11 @@
 * renders "cannot without tsk"
 
 **when posting**
+* renders loading
 - calls POST tsk api
-- renders loading
+
+**when posting fails**
+* renders error message
 
 **post succesfully**
 * renders tsk
@@ -379,8 +385,11 @@
 #### DELETE tsk
 
 **when deleting**
+* renders loading
 - calls DELETE tsk api
-- renders loading
+
+**when deleting fails**
+* renders error message
 
 **delete succesfully**
 * renders "deleted succesfully"
@@ -413,6 +422,7 @@
 * returns ok
 * returns data containing user
 * returns data containing auth_token
+* returns is ready
 
 **when request is failed**
 * returns not ok
@@ -421,6 +431,9 @@
 **when request breaks**
 * returns not ok
 * returns error containing message
+
+**when request is loading**
+* returns is not ready
 
 #### signInUser
 
@@ -431,6 +444,7 @@
 * returns ok
 * returns data containing user
 * returns data containing auth_token
+* returns is ready
 
 **when request is failed**
 * returns not ok
@@ -439,6 +453,9 @@
 **when request breaks**
 * returns not ok
 * returns error containing message
+
+**when request is loading**
+* returns is not ready
 
 #### getTsks
 
@@ -465,6 +482,7 @@
 **when request is succesfull**
 * returns ok
 * returns data containing tsk
+* returns is ready
 
 **when request is failed**
 * returns not ok
@@ -473,7 +491,9 @@
 **when request breaks**
 - returns not ok
 - returns error containing message
+
 **when request is loading**
+* returns not ready
 
 #### putTskToDoing
 
