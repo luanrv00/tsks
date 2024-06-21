@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
-import {Input, SmallInput, Button, Subtitle} from '..'
+import {Input, SmallInput, Button, Subtitle, LoadingButton} from '..'
 import styles from './index.module.css'
 
-export function TskForm({handleSubmit}) {
+export function TskForm({handleSubmit, isLoading}) {
   const [formValues, setFormValues] = useState({tsk: '', context: ''})
   const [emptyTskError, setEmptyTskError] = useState(false)
 
@@ -36,7 +36,7 @@ export function TskForm({handleSubmit}) {
           />
         </div>
         {emptyTskError && <span>cannot without tsk</span>}
-        <Button value='Add' />
+        {isLoading ? <LoadingButton /> : <Button value='Add' />}
       </form>
     </>
   )

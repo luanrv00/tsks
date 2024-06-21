@@ -14,6 +14,7 @@ export default function Tsks() {
   const [tsks, setTsks] = useState({})
   const [reqError, setReqError] = useState('')
   const [reqSuccess, setReqSuccess] = useState('')
+  const [isTskFormLoading, setIsTskFormLoading] = useState(null)
   const fallbackMsg = 'tsks not found'
 
   async function refreshToken() {
@@ -75,12 +76,14 @@ export default function Tsks() {
 
   // TODO: update tsk params (only tsk is necessary)
   async function handleSubmit(tsk) {
+    setIsTskFormLoading(true)
     const {ok, error} = await postTsk(tsk)
 
     if (!ok) {
       const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
 
       if (isUnauthorizedAuthToken) {
+        setIsTskFormLoading(false)
         return refreshToken()
       }
 
@@ -88,6 +91,8 @@ export default function Tsks() {
     } else {
       fetchTsks()
     }
+
+    setIsTskFormLoading(false)
   }
 
   // TODO: update tsk params (only tsk is necessary)
@@ -155,7 +160,7 @@ export default function Tsks() {
     <Layout>
       {reqError && <FlashMessage type='error' message={reqError} />}
       {reqSuccess && <FlashMessage type='success' message={reqSuccess} />}
-      <TskForm handleSubmit={handleSubmit} />
+      <TskForm handleSubmit={handleSubmit} isLoading={isTskFormLoading} />
       {Boolean(Object.keys(tsks).length) ? (
         <TsksList
           tsks={tsks}

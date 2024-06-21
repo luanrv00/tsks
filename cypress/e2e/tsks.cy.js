@@ -528,6 +528,55 @@ describe('tsks', () => {
         cy.contains('Failed to fetch').should('exist')
       })
     })
+
+    describe('when posting', () => {
+      beforeEach(() => {
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
+            JSON.stringify(user)
+          )
+        })
+
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+            JSON.stringify(validAuthToken)
+          )
+        })
+
+        cy.intercept(
+          testApiGetRequest.method,
+          testApiGetRequest.endpoint,
+          testApiGetEmptyResponse
+        ).as('fetchEmptyTsks')
+
+        cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, {
+          delay: 5000,
+        }).as('postTsks')
+
+        cy.visit('/tsks')
+        cy.wait('@fetchEmptyTsks')
+      })
+
+      afterEach(() => {
+        cy.window().then(window =>
+          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+        )
+
+        cy.window().then(window =>
+          window.localStorage.removeItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
+          )
+        )
+      })
+
+      it('renders loading', () => {
+        cy.get('input[placeholder="enter tsk"]').type('t')
+        cy.get('button').click()
+        cy.get('button').should('have.class', 'loading')
+      })
+    })
   })
 
   describe('PUT tsk', () => {
