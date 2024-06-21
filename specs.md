@@ -473,10 +473,7 @@
 **when request breaks**
 - returns not ok
 - returns error containing message
-
 **when request is loading**
-- returns not ok
-- returns isLoading
 
 #### putTskToDoing
 
@@ -528,6 +525,3 @@
 * returns not ok
 * returns error containing message
 
-**when request is loading**
-- returns not ok
-- returns isLoading
