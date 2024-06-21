@@ -1,14 +1,13 @@
 import React from 'react'
-import {RotatingLines, TailSpin, ThreeDots} from 'react-loader-spinner'
+import {ThreeDots} from 'react-loader-spinner'
 import styles from './index.module.css'
 
 function ButtonBase({value, onClick, style}) {
-  const specificStyle =
-    style === 'small'
-      ? styles.smallButton
-      : style === 'loading'
-      ? 'loading'
-      : styles.button
+  const specificStyle = !styles
+    ? styles.button
+    : style?.includes('small')
+    ? styles.smallButton
+    : style
   const btnStyles = `${styles.baseButton} ${specificStyle}`
 
   return (
@@ -29,4 +28,11 @@ export function SmallButton({value, onClick}) {
 export function LoadingButton({onClick}) {
   const LoadingIcon = <ThreeDots height='25' width='25' color='#666' />
   return <ButtonBase onClick={onClick} value={LoadingIcon} style='loading' />
+}
+
+export function SmallLoadingButton({onClick}) {
+  const LoadingIcon = <ThreeDots height='25' width='25' color='#666' />
+  return (
+    <ButtonBase onClick={onClick} value={LoadingIcon} style='small loading' />
+  )
 }
