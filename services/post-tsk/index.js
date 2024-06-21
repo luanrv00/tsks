@@ -24,5 +24,5 @@ export async function postTsk(tskParams) {
   }
 
   const {ok, tsk} = res
-  return {ok, data: {tsk}}
+  return {ok, data: {tsk}, isReady: true}
 }
