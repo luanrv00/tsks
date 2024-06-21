@@ -73,6 +73,10 @@ describe('signInUser', () => {
         successResponseBody.auth_token
       )
     })
+
+    it('returns is ready', () => {
+      expect(response).toHaveProperty('isReady', true)
+    })
   })
 
   describe('when request is failed', () => {
@@ -123,6 +127,23 @@ describe('signInUser', () => {
         'error.message',
         '500 Internal Server Error'
       )
+    })
+  })
+
+  describe('when request is loading', () => {
+    let response = null
+
+    beforeAll(() => {
+      global.fetch = jest.fn(() => Promise.resolve())
+    })
+
+    beforeEach(async () => {
+      fetch.mockClear()
+      response = await signInUser({email: userEmail, password: userPassword})
+    })
+
+    it('returns is not ready', () => {
+      expect(response).not.toHaveProperty('isReady')
     })
   })
 })

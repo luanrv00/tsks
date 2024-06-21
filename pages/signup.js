@@ -17,9 +17,8 @@ export default function SignUp() {
   const [isLoading, setIsLoading] = useState(null)
 
   async function handleSubmit({email, password}) {
-    setIsLoading(true)
-    const {ok, data, error} = await signUpUser({email, password})
-    setIsLoading(false)
+    const {ok, data, error, isReady} = await signUpUser({email, password})
+    setIsLoading(!isReady)
 
     if (ok) {
       setCurrentUserAtBrowser(data.user)
