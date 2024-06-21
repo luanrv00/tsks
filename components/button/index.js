@@ -3,11 +3,12 @@ import {ThreeDots} from 'react-loader-spinner'
 import styles from './index.module.css'
 
 function ButtonBase({value, onClick, style}) {
-  const specificStyle = !styles
-    ? styles.button
-    : style?.includes('small')
-    ? styles.smallButton
-    : style
+  const specificStyle =
+    style === 'small'
+      ? styles.smallButton
+      : style === 'small loading'
+      ? `${styles.smallButton} loading`
+      : style
   const btnStyles = `${styles.baseButton} ${specificStyle}`
 
   return (
