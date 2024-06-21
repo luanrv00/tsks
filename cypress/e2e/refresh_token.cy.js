@@ -287,6 +287,71 @@ describe('requests refresh token', () => {
     })
   })
 
+  describe('when refreshing token', () => {
+    const renewedAuthToken = 'renewed auth token'
+
+    const testApiGetResponse = {
+      statusCode: 401,
+      body: {
+        ok: false,
+        message: '401 Unauthorized',
+      },
+    }
+
+    const testApiPostRefreshTokenResponse = {
+      statusCode: 201,
+      body: {
+        ok: true,
+        message: '201 Created',
+        auth_token: renewedAuthToken,
+      },
+    }
+
+    beforeEach(() => {
+      cy.window().then(window => {
+        window.localStorage.setItem(
+          NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
+          JSON.stringify(user)
+        )
+      })
+
+      cy.window().then(window => {
+        window.localStorage.setItem(
+          NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+          JSON.stringify(validAuthToken)
+        )
+      })
+
+      cy.intercept(
+        testApiGetRequest.method,
+        testApiGetRequest.endpoint,
+        testApiGetResponse
+      ).as('fetchTsks')
+
+      cy.intercept(
+        testApiPostRefreshTokenRequest.method,
+        testApiPostRefreshTokenRequest.endpoint,
+        testApiPostRefreshTokenResponse
+      ).as('requestRefreshToken')
+
+      cy.visit('/tsks')
+    })
+
+    afterEach(() => {
+      cy.window().then(window => {
+        window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+      })
+
+      cy.window().then(window => {
+        window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+      })
+    })
+
+    it('calls refresh token api', () => {
+      cy.wait('@requestRefreshToken')
+    })
+  })
+
   describe('refresh token succesfully', () => {
     const renewedAuthToken = 'renewed auth token'
 

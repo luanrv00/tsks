@@ -244,7 +244,51 @@ describe('tsks', () => {
       })
     })
 
-    context('when getting tsks fails', () => {
+    describe('when getting', () => {
+      before(() => {
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
+            JSON.stringify(user)
+          )
+        })
+
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+            JSON.stringify(validAuthToken)
+          )
+        })
+      })
+
+      after(() => {
+        cy.window().then(window =>
+          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+        )
+
+        cy.window().then(window =>
+          window.localStorage.removeItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
+          )
+        )
+      })
+
+      beforeEach(() => {
+        cy.intercept(
+          testApiGetRequest.method,
+          testApiGetRequest.endpoint,
+          testApiGetResponse
+        ).as('getTsks')
+
+        cy.visit('/tsks')
+      })
+
+      it('calls get api', () => {
+        cy.wait('@getTsks')
+      })
+    })
+
+    context('when getting fails', () => {
       before(() => {
         cy.window().then(window => {
           window.localStorage.setItem(
@@ -281,7 +325,7 @@ describe('tsks', () => {
         cy.visit('/tsks')
       })
 
-      it('renders error messag', () => {
+      it('renders error message', () => {
         cy.contains('Failed to fetch').should('exist')
       })
     })
@@ -478,7 +522,60 @@ describe('tsks', () => {
       })
     })
 
-    context('when posting tsk fails', () => {
+    describe('when posting', () => {
+      beforeEach(() => {
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
+            JSON.stringify(user)
+          )
+        })
+
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+            JSON.stringify(validAuthToken)
+          )
+        })
+
+        cy.intercept(
+          testApiGetRequest.method,
+          testApiGetRequest.endpoint,
+          testApiGetEmptyResponse
+        ).as('fetchEmptyTsks')
+
+        cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, {
+          delay: 5000,
+        }).as('postTsk')
+
+        cy.visit('/tsks')
+        cy.wait('@fetchEmptyTsks')
+        cy.get('input[placeholder="enter tsk"]').type('t')
+        cy.get('button').click()
+      })
+
+      afterEach(() => {
+        cy.window().then(window =>
+          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+        )
+
+        cy.window().then(window =>
+          window.localStorage.removeItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
+          )
+        )
+      })
+
+      it('renders loading', () => {
+        cy.get('button').should('have.class', 'loading')
+      })
+
+      it('calls post api', () => {
+        cy.wait('@postTsk')
+      })
+    })
+
+    context('when posting fails', () => {
       before(() => {
         cy.window().then(window => {
           window.localStorage.setItem(
@@ -524,57 +621,8 @@ describe('tsks', () => {
         cy.get('button').click()
       })
 
-      it('renders error messag', () => {
+      it('renders error message', () => {
         cy.contains('Failed to fetch').should('exist')
-      })
-    })
-
-    describe('when posting', () => {
-      beforeEach(() => {
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-            JSON.stringify(user)
-          )
-        })
-
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-            JSON.stringify(validAuthToken)
-          )
-        })
-
-        cy.intercept(
-          testApiGetRequest.method,
-          testApiGetRequest.endpoint,
-          testApiGetEmptyResponse
-        ).as('fetchEmptyTsks')
-
-        cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, {
-          delay: 5000,
-        }).as('postTsks')
-
-        cy.visit('/tsks')
-        cy.wait('@fetchEmptyTsks')
-      })
-
-      afterEach(() => {
-        cy.window().then(window =>
-          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-        )
-
-        cy.window().then(window =>
-          window.localStorage.removeItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
-          )
-        )
-      })
-
-      it('renders loading', () => {
-        cy.get('input[placeholder="enter tsk"]').type('t')
-        cy.get('button').click()
-        cy.get('button').should('have.class', 'loading')
       })
     })
   })
@@ -1035,7 +1083,90 @@ describe('tsks', () => {
       })
     })
 
-    context('when deleting tsk fails', () => {
+    describe('when deleting', () => {
+      const testApiPutRequest = {
+        method: 'PUT',
+        endpoint: '**/v1/tsks/*',
+      }
+
+      const testApiPutResponse = {
+        statusCode: 200,
+        body: {
+          ok: true,
+          body: tsk,
+        },
+      }
+
+      beforeEach(() => {
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
+            JSON.stringify(user)
+          )
+        })
+
+        cy.window().then(window => {
+          window.localStorage.setItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+            JSON.stringify(validAuthToken)
+          )
+        })
+
+        cy.intercept(
+          testApiGetRequest.method,
+          testApiGetRequest.endpoint,
+          testApiGetTwoTsksResponse
+        ).as('fetchTsks')
+
+        cy.intercept(
+          testApiDeleteRequest.method,
+          testApiDeleteRequest.endpoint,
+          {delay: 5000}
+        ).as('deleteTsk')
+
+        cy.intercept(
+          testApiPutRequest.method,
+          testApiPutRequest.endpoint,
+          testApiPutResponse
+        )
+
+        cy.visit('/tsks')
+        cy.wait('@fetchTsks')
+        cy.get('[data-testid="tsk"]')
+          .contains(tskToBeDeleted)
+          .parents('li')
+          .within(() => {
+            cy.contains('delete').click()
+          })
+      })
+
+      afterEach(() => {
+        cy.window(window => {
+          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+        })
+
+        cy.window(window => {
+          window.localStorage.removeItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
+          )
+        })
+      })
+
+      it('renders loading', () => {
+        cy.get('[data-testid="tsk"]')
+          .contains(tskToBeDeleted)
+          .parents('li')
+          .within(() => {
+            cy.get('button').should('have.class', 'loading')
+          })
+      })
+
+      it('calls delete api', () => {
+        cy.wait('@deleteTsk')
+      })
+    })
+
+    context('when deleting fails', () => {
       before(() => {
         cy.window().then(window => {
           window.localStorage.setItem(
@@ -1091,86 +1222,6 @@ describe('tsks', () => {
 
       it('renders error message', () => {
         cy.contains('Failed to fetch').should('exist')
-      })
-    })
-
-    describe('when deleting', () => {
-      const testApiPutRequest = {
-        method: 'PUT',
-        endpoint: '**/v1/tsks/*',
-      }
-
-      const testApiPutResponse = {
-        statusCode: 200,
-        body: {
-          ok: true,
-          body: tsk,
-        },
-      }
-
-      beforeEach(() => {
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-            JSON.stringify(user)
-          )
-        })
-
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-            JSON.stringify(validAuthToken)
-          )
-        })
-
-        cy.intercept(
-          testApiGetRequest.method,
-          testApiGetRequest.endpoint,
-          testApiGetTwoTsksResponse
-        ).as('fetchTsks')
-
-        cy.intercept(
-          testApiDeleteRequest.method,
-          testApiDeleteRequest.endpoint,
-          {delay: 5000}
-        ).as('deleteTsk')
-
-        cy.intercept(
-          testApiPutRequest.method,
-          testApiPutRequest.endpoint,
-          testApiPutResponse
-        )
-
-        cy.visit('/tsks')
-        cy.wait('@fetchTsks')
-      })
-
-      afterEach(() => {
-        cy.window(window => {
-          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-        })
-
-        cy.window(window => {
-          window.localStorage.removeItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
-          )
-        })
-      })
-
-      it('renders loading', () => {
-        cy.get('[data-testid="tsk"]')
-          .contains(tskToBeDeleted)
-          .parents('li')
-          .within(() => {
-            cy.contains('delete').click()
-          })
-
-        cy.get('[data-testid="tsk"]')
-          .contains(tskToBeDeleted)
-          .parents('li')
-          .within(() => {
-            cy.get('button').should('have.class', 'loading')
-          })
       })
     })
   })

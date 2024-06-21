@@ -108,7 +108,7 @@ describe('signin', () => {
     beforeEach(() => {
       cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, () =>
         Promise.resolve({json: () => ({})})
-      )
+      ).as('signin')
 
       cy.visit('/signin')
       cy.get('input[placeholder="user@tsks.app"]').type(user.email)
@@ -120,21 +120,25 @@ describe('signin', () => {
       cy.get('button').should('have.class', 'loading')
     })
 
-    context('when signing in fails', () => {
-      beforeEach(() => {
-        cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, {
-          forceNetworkError: true,
-        })
+    it('calls signin api', () => {
+      cy.wait('@signin')
+    })
+  })
 
-        cy.visit('/signup')
-        cy.get('input[placeholder="user@tsks.app"]').type(user.email)
-        cy.get('input[placeholder="******"]').type('123')
-        cy.get('button').click()
+  context('when signing in fails', () => {
+    beforeEach(() => {
+      cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, {
+        forceNetworkError: true,
       })
 
-      it('renders error messag', () => {
-        cy.contains('Failed to fetch').should('exist')
-      })
+      cy.visit('/signup')
+      cy.get('input[placeholder="user@tsks.app"]').type(user.email)
+      cy.get('input[placeholder="******"]').type('123')
+      cy.get('button').click()
+    })
+
+    it('renders error message', () => {
+      cy.contains('Failed to fetch').should('exist')
     })
   })
 
