@@ -415,8 +415,8 @@
 
 #### signUpUser
 
-**calls signin api**
-- calls POST /v1/signup endpoint with received credentials
+**calls signup api**
+* calls POST /v1/signup endpoint with received credentials
 
 **when request is succesfull**
 * returns ok
@@ -438,7 +438,7 @@
 #### signInUser
 
 **calls signup api**
-- calls POST /v1/signin endpoint with received credentials
+* calls POST /v1/signin endpoint with received credentials
 
 **when request is succesfull**
 * returns ok
