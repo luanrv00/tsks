@@ -113,6 +113,10 @@ describe('signup', () => {
     it('renders error message', () => {
       cy.contains('Failed to fetch').should('exist')
     })
+
+    it('not renders loading button', () => {
+      cy.get('button').should('not.have.class', 'loading')
+    })
   })
 
   context('signup succesfully', () => {

@@ -106,6 +106,10 @@ describe('signUpUser', () => {
         failedResponseBody.message
       )
     })
+
+    it('returns is ready', () => {
+      expect(response).toHaveProperty('isReady', true)
+    })
   })
 
   describe('when request breaks', () => {
@@ -128,6 +132,10 @@ describe('signUpUser', () => {
         '500 Internal Server Error'
       )
     })
+
+    it('returns is ready', () => {
+      expect(response).toHaveProperty('isReady', true)
+    })
   })
 
   describe('when request is loading', () => {
@@ -143,7 +151,7 @@ describe('signUpUser', () => {
     })
 
     it('returns is not ready', () => {
-      expect(response).not.toHaveProperty('isReady')
+      expect(response).toHaveProperty('isReady', false)
     })
   })
 })

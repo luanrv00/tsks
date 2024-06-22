@@ -358,6 +358,10 @@ describe('tsks', () => {
       it('renders error message', () => {
         cy.contains('Failed to fetch').should('exist')
       })
+
+      it('not renders loading', () => {
+        cy.get('.loading-icon').should('not.exist')
+      })
     })
   })
 
@@ -653,6 +657,10 @@ describe('tsks', () => {
 
       it('renders error message', () => {
         cy.contains('Failed to fetch').should('exist')
+      })
+
+      it('not renders loading button', () => {
+        cy.get('button').should('not.have.class', 'loading')
       })
     })
   })
@@ -1252,6 +1260,15 @@ describe('tsks', () => {
 
       it('renders error message', () => {
         cy.contains('Failed to fetch').should('exist')
+      })
+
+      it('not renders loading', () => {
+        cy.get('[data-testid="tsk"]')
+          .contains(tskToBeDeleted)
+          .parents('li')
+          .within(() => {
+            cy.get('button').should('not.have.class', 'loading')
+          })
       })
     })
   })
