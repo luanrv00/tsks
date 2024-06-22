@@ -66,6 +66,8 @@
     * create LoadingButton
     * renders loading button for signup/signin
     * renders loading button for tsks
+- fix still loading after error occurs
+    - refactor services to be custom hooks (exporting dispatch)
 * implements when request fails
 + implements tests for api calls
 + implements user header

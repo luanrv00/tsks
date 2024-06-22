@@ -332,7 +332,7 @@
 #### GET tsks
 
 **when getting**
-- renders loading
+* renders loading
 * calls GET tsks api
 
 **when getting fails**
