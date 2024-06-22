@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
-import {Layout, FlashMessage, TsksList, TskForm} from '../components'
+import {Layout, FlashMessage, TsksList, TskForm, Subtitle} from '../components'
 import {
   getCurrentUserAtBrowser,
   deleteCurrentUserAtBrowser,
@@ -11,10 +11,10 @@ import {getTsks, postTsk, putTsk, deleteTsk, getRefreshToken} from '../services'
 
 export default function Tsks() {
   const router = useRouter()
-  const [tsks, setTsks] = useState({})
+  const [tsks, setTsks] = useState(null)
   const [reqError, setReqError] = useState('')
   const [reqSuccess, setReqSuccess] = useState('')
-  const [isTskFormReady, setIsTskFormReady] = useState(null)
+  const [isTskFormLoading, setIsTskFormLoading] = useState(null)
   const fallbackMsg = 'tsks not found'
 
   async function refreshToken() {
@@ -64,7 +64,7 @@ export default function Tsks() {
       }
 
       return setReqError(error.message)
-    } else if (data.tsks.length) {
+    } else {
       return setTsks(data.tsks)
     }
   }
@@ -76,8 +76,9 @@ export default function Tsks() {
 
   // TODO: update tsk params (only tsk is necessary)
   async function handleSubmit(tsk) {
+    setIsTskFormLoading(true)
     const {ok, error, isReady} = await postTsk(tsk)
-    setIsTskFormReady(!isReady)
+    setIsTskFormLoading(!isReady)
 
     if (!ok) {
       const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
@@ -88,7 +89,7 @@ export default function Tsks() {
 
       return setReqError(error.message)
     } else {
-      fetchTsks()
+      return fetchTsks()
     }
   }
 
@@ -157,17 +158,15 @@ export default function Tsks() {
     <Layout>
       {reqError && <FlashMessage type='error' message={reqError} />}
       {reqSuccess && <FlashMessage type='success' message={reqSuccess} />}
-      <TskForm handleSubmit={handleSubmit} isLoading={!isTskFormReady} />
-      {Boolean(Object.keys(tsks).length) ? (
-        <TsksList
-          tsks={tsks}
-          handleDoing={handleDoing}
-          handleDone={handleDone}
-          handleDelete={handleDelete}
-        />
-      ) : (
-        <p>{fallbackMsg}</p>
-      )}
+      <TskForm handleSubmit={handleSubmit} isLoading={isTskFormLoading} />
+      <Subtitle value='all tsks' />
+      <TsksList
+        tsks={tsks}
+        handleDoing={handleDoing}
+        handleDone={handleDone}
+        handleDelete={handleDelete}
+        fallbackMsg={fallbackMsg}
+      />
     </Layout>
   )
 }

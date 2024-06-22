@@ -1,5 +1,5 @@
 import React from 'react'
-import {ThreeDots} from 'react-loader-spinner'
+import {LoadingIcon} from '../'
 import styles from './index.module.css'
 
 function ButtonBase({value, onClick, style}) {
@@ -27,13 +27,17 @@ export function SmallButton({value, onClick}) {
 }
 
 export function LoadingButton({onClick}) {
-  const LoadingIcon = <ThreeDots height='25' width='25' color='#666' />
-  return <ButtonBase onClick={onClick} value={LoadingIcon} style='loading' />
+  return (
+    <ButtonBase onClick={onClick} value={<LoadingIcon />} style='loading' />
+  )
 }
 
 export function SmallLoadingButton({onClick}) {
-  const LoadingIcon = <ThreeDots height='25' width='25' color='#666' />
   return (
-    <ButtonBase onClick={onClick} value={LoadingIcon} style='small loading' />
+    <ButtonBase
+      onClick={onClick}
+      value={<LoadingIcon />}
+      style='small loading'
+    />
   )
 }

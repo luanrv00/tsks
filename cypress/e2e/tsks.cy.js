@@ -228,6 +228,34 @@ describe('tsks', () => {
 
       // TODO: verify why this suites works even without localStorage preset
       describe('when has not tsks', () => {
+        before(() => {
+          cy.window().then(window => {
+            window.localStorage.setItem(
+              NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
+              JSON.stringify(user)
+            )
+          })
+
+          cy.window().then(window => {
+            window.localStorage.setItem(
+              NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+              JSON.stringify(validAuthToken)
+            )
+          })
+        })
+
+        after(() => {
+          cy.window().then(window =>
+            window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+          )
+
+          cy.window().then(window =>
+            window.localStorage.removeItem(
+              NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
+            )
+          )
+        })
+
         beforeEach(() => {
           cy.intercept(
             testApiGetRequest.method,
@@ -245,7 +273,7 @@ describe('tsks', () => {
     })
 
     describe('when getting', () => {
-      before(() => {
+      beforeEach(() => {
         cy.window().then(window => {
           window.localStorage.setItem(
             NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
@@ -259,6 +287,14 @@ describe('tsks', () => {
             JSON.stringify(validAuthToken)
           )
         })
+
+        cy.intercept(
+          testApiGetRequest.method,
+          testApiGetRequest.endpoint,
+          testApiGetResponse
+        ).as('getTsks')
+
+        cy.visit('/tsks')
       })
 
       after(() => {
@@ -273,14 +309,8 @@ describe('tsks', () => {
         )
       })
 
-      beforeEach(() => {
-        cy.intercept(
-          testApiGetRequest.method,
-          testApiGetRequest.endpoint,
-          testApiGetResponse
-        ).as('getTsks')
-
-        cy.visit('/tsks')
+      it('renders loading', () => {
+        cy.get('.loading-icon').should('exist')
       })
 
       it('calls get api', () => {
@@ -437,15 +467,15 @@ describe('tsks', () => {
       it('renders tsk ', () => {
         cy.visit('/tsks')
         cy.wait('@fetchEmptyTsks')
-        cy.contains(tskToBeInserted).should('not.exist')
-        cy.get('input[placeholder="enter tsk"]').type(tskToBeInserted)
-        cy.get('button').click()
-        cy.wait('@postTsks')
         cy.intercept(
           testApiGetRequest.method,
           testApiGetRequest.endpoint,
           testApiGetUpdatedResponse
         ).as('fetchUpdatedTsks')
+        cy.contains(tskToBeInserted).should('not.exist')
+        cy.get('input[placeholder="enter tsk"]').type(tskToBeInserted)
+        cy.get('button').click()
+        cy.wait('@postTsks')
         cy.wait('@fetchUpdatedTsks')
         cy.contains(tskToBeInserted).should('exist')
       })
