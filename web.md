@@ -94,14 +94,14 @@
 * when request is succesfull
 * when request is failed
 * when request breaks
-* when request is loading
+! when request is loading
 
 #### signInUser
 * calls signup api
 * when request is succesfull
 * when request is failed
 * when request breaks
-* when request is loading
+! when request is loading
 
 #### getTsks
 * calls get tsks api

@@ -66,10 +66,10 @@
     * create LoadingButton
     * renders loading button for signup/signin
     * renders loading button for tsks
-- fix still loading after error occurs
-    - refactor services to be custom hooks (exporting dispatch)
++ fix still loading after error occurs
+    ! refactor services to be custom hooks (exporting dispatch)
 * implements when request fails
-+ implements tests for api calls
+* implements tests for api calls
 + implements user header
     * research apollo client/server possibility
 - review all docs and organize

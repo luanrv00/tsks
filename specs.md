@@ -239,6 +239,7 @@
 
 **when signing up fails**
 * renders error message
+- not renders loading button
 
 **signup succesfully**
 * saves user on localStorage
@@ -413,6 +414,34 @@
 
 ### services
 
+#### useSignUp
+
+##### calls signup api
+
+##### returned params
+- returns ok
+- returns data
+- returns error
+- returns isLoading
+- returns dispatch
+
+##### when request is loading
+- returns not ok
+- returns is loading
+
+##### when request is failed
+- returns not ok
+- returns error containing message
+
+##### when request breaks
+- returns not ok
+- returns error containing message
+
+##### when request is succesfull
+- returns ok
+- returns data containing user
+- returns data containing auth_token
+
 #### signUpUser
 
 **calls signup api**
@@ -427,13 +456,12 @@
 **when request is failed**
 * returns not ok
 * returns error containing message
+* returns is ready
 
 **when request breaks**
 * returns not ok
 * returns error containing message
-
-**when request is loading**
-* returns is not ready
+* returns is ready
 
 #### signInUser
 
@@ -449,13 +477,12 @@
 **when request is failed**
 * returns not ok
 * returns error containing message
+* returns is ready
 
 **when request breaks**
 * returns not ok
 * returns error containing message
-
-**when request is loading**
-* returns is not ready
+* returns is ready
 
 #### getTsks
 
@@ -465,14 +492,17 @@
 **when request is succesfull**
 * returns ok
 * returns data containing tsks
+* returns is ready
 
 **when request is failed**
 * returns not ok
 * returns error containing message
+* returns is ready
 
 **when request breaks**
 * returns not ok
 * returns error containing message
+* returns is ready
 
 #### postTsk
 
@@ -487,10 +517,12 @@
 **when request is failed**
 * returns not ok
 * returns error containing message
+* returns is ready
 
 **when request breaks**
 * returns not ok
 * returns error containing message
+* returns is ready
 
 **when request is loading**
 * returns not ready
