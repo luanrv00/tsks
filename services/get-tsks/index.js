@@ -18,9 +18,9 @@ export async function getTsks() {
 
   if (!res.ok) {
     const {ok, message} = res
-    return {ok, error: {message}}
+    return {ok, error: {message}, isReady: true}
   }
 
   const {ok, tsks} = res
-  return {ok, data: {tsks}}
+  return {ok, data: {tsks}, isReady: true}
 }

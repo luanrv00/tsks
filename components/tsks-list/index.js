@@ -8,12 +8,13 @@ export function TsksList({
   handleDone,
   handleDelete,
   fallbackMsg,
+  isLoading,
 }) {
-  if (!tsks) {
+  if (isLoading) {
     return <LoadingIcon />
   }
 
-  if (!tsks.length) {
+  if (!tsks?.length) {
     return <p>{fallbackMsg}</p>
   }
 

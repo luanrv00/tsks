@@ -58,6 +58,10 @@ describe('getTsks', () => {
     it('returns data containing tsks', () => {
       expect(response).toHaveProperty('data.tsks', successResponseBody.tsks)
     })
+
+    it('returns is ready', () => {
+      expect(response).toHaveProperty('isReady', true)
+    })
   })
 
   describe('when request is failed', () => {
@@ -87,6 +91,10 @@ describe('getTsks', () => {
         failedResponseBody.message
       )
     })
+
+    it('returns is ready', () => {
+      expect(response).toHaveProperty('isReady', true)
+    })
   })
 
   describe('when request breaks', () => {
@@ -108,6 +116,10 @@ describe('getTsks', () => {
         'error.message',
         '500 Internal Server Error'
       )
+    })
+
+    it('returns is ready', () => {
+      expect(response).toHaveProperty('isReady', true)
     })
   })
 })

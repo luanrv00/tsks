@@ -15,6 +15,7 @@ export default function Tsks() {
   const [reqError, setReqError] = useState('')
   const [reqSuccess, setReqSuccess] = useState('')
   const [isTskFormLoading, setIsTskFormLoading] = useState(null)
+  const [isTsksLoading, setIsTsksLoading] = useState(null)
   const fallbackMsg = 'tsks not found'
 
   async function refreshToken() {
@@ -47,7 +48,9 @@ export default function Tsks() {
       return router.push('/signin')
     }
 
-    const {ok, data, error} = await getTsks()
+    setIsTsksLoading(true)
+    const {ok, data, error, isReady} = await getTsks()
+    setIsTsksLoading(!isReady)
 
     if (!ok) {
       const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
@@ -166,6 +169,7 @@ export default function Tsks() {
         handleDone={handleDone}
         handleDelete={handleDelete}
         fallbackMsg={fallbackMsg}
+        isLoading={isTsksLoading}
       />
     </Layout>
   )
