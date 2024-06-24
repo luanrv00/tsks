@@ -17,6 +17,7 @@ export default function SignIn() {
   const [isLoading, setIsLoading] = useState(null)
 
   async function handleSubmit({email, password}) {
+    setIsLoading(true)
     const {ok, data, error, isReady} = await signInUser({email, password})
     setIsLoading(!isReady)
 

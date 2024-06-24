@@ -128,6 +128,10 @@ describe('signInUser', () => {
         '500 Internal Server Error'
       )
     })
+
+    it('returns is ready', () => {
+      expect(response).toHaveProperty('isReady', true)
+    })
   })
 
   describe('when request is loading', () => {
