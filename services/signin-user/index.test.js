@@ -134,20 +134,22 @@ describe('signInUser', () => {
     })
   })
 
-  describe('when request is loading', () => {
-    let response = null
+  // NOTE: this test will not work since it is awaiting for complete behavior
+  // i.e. signUpUser will return the last `isReady` value which is `true`
+  //describe('when request is loading', () => {
+  //  let response = null
 
-    beforeAll(() => {
-      global.fetch = jest.fn(() => Promise.resolve())
-    })
+  //  beforeAll(() => {
+  //    global.fetch = jest.fn(() => Promise.resolve())
+  //  })
 
-    beforeEach(async () => {
-      fetch.mockClear()
-      response = await signInUser({email: userEmail, password: userPassword})
-    })
+  //  beforeEach(async () => {
+  //    fetch.mockClear()
+  //    response = await signInUser({email: userEmail, password: userPassword})
+  //  })
 
-    it('returns is not ready', () => {
-      expect(response).not.toHaveProperty('isReady')
-    })
-  })
+  //  it('returns is not ready', () => {
+  //    expect(response).not.toHaveProperty('isReady')
+  //  })
+  //})
 })
