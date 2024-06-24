@@ -106,6 +106,10 @@ describe('signInUser', () => {
         failedResponseBody.message
       )
     })
+
+    it('returns is ready', () => {
+      expect(response).toHaveProperty('isReady', true)
+    })
   })
 
   describe('when request breaks', () => {
