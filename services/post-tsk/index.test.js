@@ -96,6 +96,10 @@ describe('postTsk', () => {
         failedResponseBody.message
       )
     })
+
+    it('returns is ready', () => {
+      expect(response).toHaveProperty('isReady', true)
+    })
   })
 
   describe('when request breaks', () => {
@@ -117,6 +121,10 @@ describe('postTsk', () => {
         'error.message',
         '500 Internal Server Error'
       )
+    })
+
+    it('returns is ready', () => {
+      expect(response).toHaveProperty('isReady', true)
     })
   })
 
