@@ -33,8 +33,9 @@ export default function Tsks() {
       if (isInvalidRequest) {
         deleteCurrentUserAtBrowser()
         deleteCurrentAuthTokenAtBrowser()
-        router.push('/signin')
       }
+
+      router.push('/signin')
     } else {
       setCurrentAuthTokenAtBrowser(data.auth_token)
       setReqSuccess('authentication renewed. please, try again')

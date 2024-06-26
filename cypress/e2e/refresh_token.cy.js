@@ -352,6 +352,60 @@ describe('requests refresh token', () => {
     })
   })
 
+  describe('when refreshing token fails', () => {
+    const testApiGetResponse = {
+      statusCode: 401,
+      body: {
+        ok: false,
+        message: '401 Unauthorized',
+      },
+    }
+
+    beforeEach(() => {
+      cy.window().then(window => {
+        window.localStorage.setItem(
+          NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
+          JSON.stringify(user)
+        )
+      })
+
+      cy.window().then(window => {
+        window.localStorage.setItem(
+          NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+          JSON.stringify(validAuthToken)
+        )
+      })
+
+      cy.intercept(
+        testApiGetRequest.method,
+        testApiGetRequest.endpoint,
+        testApiGetResponse
+      ).as('fetchTsks')
+
+      cy.intercept(
+        testApiPostRefreshTokenRequest.method,
+        testApiPostRefreshTokenRequest.endpoint,
+        {forceNetworkError: true}
+      ).as('requestRefreshToken')
+
+      cy.visit('/tsks')
+    })
+
+    afterEach(() => {
+      cy.window().then(window => {
+        window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+      })
+
+      cy.window().then(window => {
+        window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+      })
+    })
+
+    it('redirects to signin', () => {
+      cy.location('pathname').should('eq', '/signin')
+    })
+  })
+
   describe('refresh token succesfully', () => {
     const renewedAuthToken = 'renewed auth token'
 
