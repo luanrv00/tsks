@@ -80,7 +80,7 @@ describe('signup', () => {
   context('when signing up', () => {
     beforeEach(() => {
       cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, () =>
-        Promise.resolve({json: () => ({})})
+        Promise.resolve({json: () => setTimeout(() => ({}), 3000)})
       ).as('signup')
 
       cy.visit('/signup')
@@ -90,7 +90,6 @@ describe('signup', () => {
     })
 
     it('renders loading button', () => {
-      cy.wait(1000)
       cy.get('button').should('have.class', 'loading')
     })
 
