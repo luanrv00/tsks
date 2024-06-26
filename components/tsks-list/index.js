@@ -9,6 +9,7 @@ export function TsksList({
   handleDelete,
   fallbackMsg,
   isLoading,
+  isTskLoading,
 }) {
   if (isLoading) {
     return <LoadingIcon />
@@ -30,6 +31,7 @@ export function TsksList({
           handleDoing={handleDoing}
           handleDone={handleDone}
           handleDelete={handleDelete}
+          isLoading={isTskLoading}
         />
       ))}
     </ul>

@@ -1203,7 +1203,7 @@ describe('tsks', () => {
         endpoint: '**/v1/tsks/*',
       }
 
-      before(() => {
+      beforeEach(() => {
         cy.window().then(window => {
           window.localStorage.setItem(
             NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
@@ -1217,21 +1217,7 @@ describe('tsks', () => {
             JSON.stringify(validAuthToken)
           )
         })
-      })
 
-      after(() => {
-        cy.window().then(window =>
-          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-        )
-
-        cy.window().then(window =>
-          window.localStorage.removeItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
-          )
-        )
-      })
-
-      beforeEach(() => {
         cy.intercept(
           testApiGetRequest.method,
           testApiGetRequest.endpoint,
@@ -1265,19 +1251,31 @@ describe('tsks', () => {
           })
       })
 
+      after(() => {
+        cy.window().then(window =>
+          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+        )
+
+        cy.window().then(window =>
+          window.localStorage.removeItem(
+            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
+          )
+        )
+      })
+
       it('renders error message', () => {
         cy.contains('Failed to fetch').should('exist')
       })
 
       // TODO: not working
-      //it('not renders loading', () => {
-      //  cy.get('[data-testid="tsk"]')
-      //    .contains(tskToBeDeleted)
-      //    .parents('li')
-      //    .within(() => {
-      //      cy.get('button').should('not.have.class', 'loading')
-      //    })
-      //})
+      it('not renders loading', () => {
+        cy.get('[data-testid="tsk"]')
+          .contains(tskToBeDeleted)
+          .parents('li')
+          .within(() => {
+            cy.get('button').should('not.have.class', 'loading')
+          })
+      })
     })
   })
 

@@ -10,14 +10,13 @@ export function Tsk({
   handleDoing,
   handleDone,
   handleDelete,
+  isLoading,
 }) {
-  const [isLoading, setIsLoading] = useState(null)
   const tskStatusStyle = status === 'done' ? styles.tskDone : null
   const tskWrapperStyle = `${styles.tskWrapper} ${tskStatusStyle}`
 
   function onClick(e) {
     if (e.target.textContent === 'delete') {
-      setIsLoading(true)
       handleDelete(id)
     }
 

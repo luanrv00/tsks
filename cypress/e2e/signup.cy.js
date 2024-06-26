@@ -90,6 +90,7 @@ describe('signup', () => {
     })
 
     it('renders loading button', () => {
+      cy.wait(1000)
       cy.get('button').should('have.class', 'loading')
     })
 

@@ -16,6 +16,7 @@ export default function Tsks() {
   const [reqSuccess, setReqSuccess] = useState('')
   const [isTskFormLoading, setIsTskFormLoading] = useState(null)
   const [isTsksLoading, setIsTsksLoading] = useState(null)
+  const [isTskLoading, setIsTskLoading] = useState(null)
   const fallbackMsg = 'tsks not found'
 
   async function refreshToken() {
@@ -142,7 +143,9 @@ export default function Tsks() {
   }
 
   async function handleDelete(tskId) {
-    const {ok, error} = await deleteTsk({tskId})
+    setIsTskLoading(true)
+    const {ok, error, isReady} = await deleteTsk({tskId})
+    setIsTskLoading(!isReady)
 
     if (!ok) {
       const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
@@ -171,6 +174,7 @@ export default function Tsks() {
         handleDelete={handleDelete}
         fallbackMsg={fallbackMsg}
         isLoading={isTsksLoading}
+        isTskLoading={isTskLoading}
       />
     </Layout>
   )
