@@ -239,7 +239,7 @@
 
 **when signing up fails**
 * renders error message
-- not renders loading button
+* not renders loading button
 
 **signup succesfully**
 * saves user on localStorage
@@ -273,6 +273,7 @@
 
 **when signing in fails**
 * renders error message
+* not renders loading button
 
 **signin succesfully**
 * saves user on localStorage
@@ -304,7 +305,7 @@
 * calls refresh token api
 
 **when refresh token fails**
-- renders error message
+* redirects to signin
 
 **refresh token succesfully**
 * saves auth token on localStorage
@@ -338,6 +339,7 @@
 
 **when getting fails**
 * renders error message
+* not renders loading
 
 **get succesfully**
 
@@ -358,6 +360,7 @@
 
 **when posting fails**
 * renders error message
+* not renders loading button
 
 **post succesfully**
 * renders tsk
@@ -391,6 +394,7 @@
 
 **when deleting fails**
 * renders error message
++ not renders loading
 
 **delete succesfully**
 * renders "deleted succesfully"
@@ -413,34 +417,6 @@
 * renders "*"
 
 ### services
-
-#### useSignUp
-
-##### calls signup api
-
-##### returned params
-- returns ok
-- returns data
-- returns error
-- returns isLoading
-- returns dispatch
-
-##### when request is loading
-- returns not ok
-- returns is loading
-
-##### when request is failed
-- returns not ok
-- returns error containing message
-
-##### when request breaks
-- returns not ok
-- returns error containing message
-
-##### when request is succesfull
-- returns ok
-- returns data containing user
-- returns data containing auth_token
 
 #### signUpUser
 
@@ -535,14 +511,17 @@
 **when request is succesfull**
 - returns ok
 - returns data containing tsk
+- returns is ready
 
 **when request is failed**
 - returns not ok
 - returns error containing message
+- returns is ready
 
 **when request breaks**
 - returns not ok
 - returns error containing message
+- returns is ready
 
 #### putTskToDone
 
@@ -552,14 +531,17 @@
 **when request is succesfull**
 - returns ok
 - returns data containing tsk
+- returns is ready
 
 **when request is failed**
 - returns not ok
 - returns error containing message
+- returns is ready
 
 **when request breaks**
 - returns not ok
 - returns error containing message
+- returns is ready
 
 #### deleteTsk
 
@@ -568,12 +550,15 @@
 
 **when request is succesfull**
 * returns ok
+* returns is ready
 
 **when request is failed**
 * returns not ok
 * returns error containing message
+* returns is ready
 
 **when request breaks**
 * returns not ok
 * returns error containing message
+* returns is ready
 

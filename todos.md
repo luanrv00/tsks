@@ -61,12 +61,13 @@
   * test integration
     * use DELETE /tsks/:id endpoint for deleting tsks
 * clear ctx input after submiting a tsk
-* implements loading button
++ implements loadings
     * research loading icon for button
     * create LoadingButton
     * renders loading button for signup/signin
     * renders loading button for tsks
-+ fix still loading after error occurs
+    + review changes and merge
+* fix still loading after error occurs
     ! refactor services to be custom hooks (exporting dispatch)
 * implements when request fails
 * implements tests for api calls
