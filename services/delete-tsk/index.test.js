@@ -57,6 +57,10 @@ describe('deleteTsk', () => {
     it('returns ok', () => {
       expect(response).toHaveProperty('ok', successResponseBody.ok)
     })
+
+    it('returns is Ready', () => {
+      expect(response).toHaveProperty('isReady', true)
+    })
   })
 
   describe('when request is failed', () => {
@@ -86,6 +90,10 @@ describe('deleteTsk', () => {
         failedResponseBody.message
       )
     })
+
+    it('returns is Ready', () => {
+      expect(response).toHaveProperty('isReady', true)
+    })
   })
 
   describe('when request breaks', () => {
@@ -107,6 +115,10 @@ describe('deleteTsk', () => {
         'error.message',
         '500 Internal Server Error'
       )
+    })
+
+    it('returns is Ready', () => {
+      expect(response).toHaveProperty('isReady', true)
     })
   })
 })

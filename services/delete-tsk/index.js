@@ -19,9 +19,9 @@ export async function deleteTsk({tskId}) {
 
   if (!res.ok) {
     const {ok, message} = res
-    return {ok, error: {message}}
+    return {ok, error: {message}, isReady: true}
   }
 
   const {ok} = res
-  return {ok}
+  return {ok, isReady: true}
 }
