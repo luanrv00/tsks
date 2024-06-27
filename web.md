@@ -47,7 +47,7 @@
 * when unauthorized
 * when forbidden
 
-- access succesfully
++ access succesfully
 
 #### GET tsks
 
