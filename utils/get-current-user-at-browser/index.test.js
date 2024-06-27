@@ -17,13 +17,13 @@ describe('getCurrentUserAtBrowser', () => {
     })
 
     it('returns user', () => {
-      expect(getCurrentUserAtBrowser(user)).toStrictEqual(user)
+      expect(getCurrentUserAtBrowser()).toStrictEqual(user)
     })
   })
 
   describe('when has not user on localStorage', () => {
     it('returns null', () => {
-      expect(getCurrentUserAtBrowser(user)).toBeNull()
+      expect(getCurrentUserAtBrowser()).toBeNull()
     })
   })
 })

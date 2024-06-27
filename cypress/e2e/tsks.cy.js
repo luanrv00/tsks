@@ -175,6 +175,46 @@ describe('tsks', () => {
     })
   })
 
+  describe('access succesfully', () => {
+    before(() => {
+      cy.window().then(window => {
+        window.localStorage.setItem(
+          NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
+          JSON.stringify(user)
+        )
+      })
+
+      cy.window().then(window => {
+        window.localStorage.setItem(
+          NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
+          JSON.stringify(validAuthToken)
+        )
+      })
+    })
+
+    after(() => {
+      cy.window().then(window => {
+        window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
+      })
+
+      cy.window().then(window => {
+        window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
+      })
+    })
+
+    beforeEach(() => {
+      cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, () =>
+        Promise.resolve({json: () => testApiGetResponse})
+      )
+
+      cy.visit('/tsks')
+    })
+
+    it('renders user email', () => {
+      cy.contains(user.email).should('exist')
+    })
+  })
+
   describe('GET tsks', () => {
     // TODO: verify if saving user as session is better than localStorage
     describe('get succesfully', () => {
