@@ -12,7 +12,9 @@ export function Header() {
   return (
     <header className={styles.header}>
       <h1 className={styles.title}>tsks</h1>
-      {currentUser && <span>{currentUser.email}</span>}
+      {currentUser && (
+        <span className={styles.signed}>signed as {currentUser.email}</span>
+      )}
     </header>
   )
 }

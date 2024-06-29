@@ -1,7 +1,16 @@
 .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   border-bottom: 1px solid var(--line-color);
 }
 
 .title {
   margin-bottom: 10px;
+}
+
+.signed {
+  margin-top: 18px;
+  font-size: 14px;
+  color: var(--subtext-color);
 }
