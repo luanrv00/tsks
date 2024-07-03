@@ -1,4 +1,4 @@
-import user from '../fixtures/user.json'
+import user from '../fixtures/user.js'
 
 // TODO: fix env var not being loaded
 const NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY =
@@ -51,20 +51,10 @@ describe('signup', () => {
   })
 
   context('cannot without unregistered email', () => {
-    const testApiPostResponse = {
-      statusCode: 409,
-      body: {
-        ok: false,
-        message: '409 Conflict',
-      },
-    }
-
     beforeEach(() => {
-      cy.intercept(
-        testApiPostRequest.method,
-        testApiPostRequest.endpoint,
-        testApiPostResponse
-      )
+      cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, {
+        fixture: 'api-response-user-409',
+      })
 
       cy.visit('/signup')
       cy.get('input[placeholder="user@tsks.app"]').type(user.email)
@@ -120,23 +110,10 @@ describe('signup', () => {
   })
 
   context('signup succesfully', () => {
-    const authToken = 'auth-token'
-
-    const testApiPostResponse = {
-      statusCode: 201,
-      body: {
-        ok: true,
-        user,
-        auth_token: authToken,
-      },
-    }
-
     beforeEach(() => {
-      cy.intercept(
-        testApiPostRequest.method,
-        testApiPostRequest.endpoint,
-        testApiPostResponse
-      )
+      cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, {
+        fixture: 'api-response-user-201',
+      })
 
       cy.visit('/signup')
       cy.get('input[placeholder="user@tsks.app"]').type(user.email)

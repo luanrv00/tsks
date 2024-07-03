@@ -1,4 +1,4 @@
-import user from '../fixtures/user.json'
+import user from '../fixtures/user.js'
 
 // TODO: fix env var not being loaded
 const NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY =

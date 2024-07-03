@@ -1,4 +1,4 @@
-import user from '../fixtures/user.json'
+import user from '../fixtures/user.js'
 import tsks from '../fixtures/tsks.json'
 import tsk from '../fixtures/tsk.json'
 
