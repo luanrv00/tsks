@@ -4,28 +4,21 @@ import styles from './index.module.css'
 
 export function UserForm({handleSubmit, isLoading}) {
   const [formValues, setFormValues] = useState({email: '', password: ''})
-  const [hasEmailError, setHasEmailError] = useState(false)
-  const [hasPasswordError, setHasPasswordError] = useState(false)
-  const [hasInvalidEmailError, setHasInvalidEmailError] = useState(false)
+  const [hasEmailError, setHasEmailError] = useState(null)
+  const [hasPasswordError, setHasPasswordError] = useState(null)
+  const [hasInvalidEmailError, setHasInvalidEmailError] = useState(null)
 
   const onSubmit = e => {
     e.preventDefault()
 
-    if (!formValues.email) {
-      return setHasEmailError(true)
-    }
-
-    if (!formValues.password) {
-      return setHasPasswordError(true)
-    }
+    if (!formValues.email) return setHasEmailError(true)
+    if (!formValues.password) return setHasPasswordError(true)
 
     const isValidEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
       formValues.email
     )
 
-    if (!isValidEmail) {
-      return setHasInvalidEmailError(true)
-    }
+    if (!isValidEmail) return setHasInvalidEmailError(true)
 
     handleSubmit(formValues)
   }

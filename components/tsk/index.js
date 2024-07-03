@@ -17,7 +17,7 @@ export function Tsk({
 
   function onClick(e) {
     if (e.target.textContent === 'delete') {
-      handleDelete(id)
+      return handleDelete(id)
     }
 
     if (status === 'todo') {

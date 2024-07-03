@@ -4,14 +4,11 @@ import styles from './index.module.css'
 
 export function TskForm({handleSubmit, isLoading}) {
   const [formValues, setFormValues] = useState({tsk: '', context: ''})
-  const [emptyTskError, setEmptyTskError] = useState(false)
+  const [emptyTskError, setEmptyTskError] = useState(null)
 
   const onSubmit = e => {
     e.preventDefault()
-
-    if (!formValues.tsk) {
-      return setEmptyTskError(true)
-    }
+    if (!formValues.tsk) return setEmptyTskError(true)
 
     setFormValues({tsk: '', context: ''})
     handleSubmit(formValues)

@@ -11,13 +11,8 @@ export function TsksList({
   isLoading,
   isTskLoading,
 }) {
-  if (isLoading) {
-    return <LoadingIcon />
-  }
-
-  if (!tsks?.length) {
-    return <p>{fallbackMsg}</p>
-  }
+  if (isLoading) return <LoadingIcon />
+  if (!tsks?.length) return <p>{fallbackMsg}</p>
 
   return (
     <ul className={styles.tsksList}>
