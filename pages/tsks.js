@@ -12,43 +12,29 @@ import {getTsks, postTsk, putTsk, deleteTsk, getRefreshToken} from '../services'
 export default function Tsks() {
   const router = useRouter()
   const [tsks, setTsks] = useState(null)
-  const [reqError, setReqError] = useState('')
-  const [reqSuccess, setReqSuccess] = useState('')
+  const [reqError, setReqError] = useState(null)
+  const [reqSuccess, setReqSuccess] = useState(null)
   const [isTskFormLoading, setIsTskFormLoading] = useState(null)
   const [isTsksLoading, setIsTsksLoading] = useState(null)
   const [isTskLoading, setIsTskLoading] = useState(null)
   const fallbackMsg = 'tsks not found'
 
   async function refreshToken() {
-    const {ok, data, error} = await getRefreshToken()
+    const {ok, data} = await getRefreshToken()
 
     if (!ok) {
-      const isInvalidRefreshToken = error.message == '400 Bad Request'
-      const isUnauthorizedRefreshToken = error.message == '401 Unauthorized'
-      const isNotFoundRefreshToken = error.message == '404 Not Found'
-      const isInvalidRequest =
-        isInvalidRefreshToken ||
-        isUnauthorizedRefreshToken ||
-        isNotFoundRefreshToken
-
-      if (isInvalidRequest) {
-        deleteCurrentUserAtBrowser()
-        deleteCurrentAuthTokenAtBrowser()
-      }
-
-      router.push('/signin')
-    } else {
-      setCurrentAuthTokenAtBrowser(data.auth_token)
-      setReqSuccess('authentication renewed. please, try again')
+      deleteCurrentUserAtBrowser()
+      deleteCurrentAuthTokenAtBrowser()
+      return router.push('/signin')
     }
+
+    setCurrentAuthTokenAtBrowser(data.auth_token)
+    setReqSuccess('authentication renewed. please, try again')
   }
 
   async function fetchTsks() {
     const user = getCurrentUserAtBrowser()
-
-    if (!user) {
-      return router.push('/signin')
-    }
+    if (!user) return router.push('/signin')
 
     setIsTsksLoading(true)
     const {ok, data, error, isReady} = await getTsks()
@@ -58,9 +44,7 @@ export default function Tsks() {
       const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
       const isForbiddenAuthToken = error.message === '403 Forbidden'
 
-      if (isUnauthorizedAuthToken) {
-        return refreshToken()
-      }
+      if (isUnauthorizedAuthToken) return refreshToken()
 
       if (isForbiddenAuthToken) {
         deleteCurrentUserAtBrowser()
@@ -69,9 +53,9 @@ export default function Tsks() {
       }
 
       return setReqError(error.message)
-    } else {
-      return setTsks(data.tsks)
     }
+
+    return setTsks(data.tsks)
   }
 
   useEffect(() => {
@@ -87,15 +71,11 @@ export default function Tsks() {
 
     if (!ok) {
       const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
-
-      if (isUnauthorizedAuthToken) {
-        return refreshToken()
-      }
-
+      if (isUnauthorizedAuthToken) return refreshToken()
       return setReqError(error.message)
-    } else {
-      return fetchTsks()
     }
+
+    return fetchTsks()
   }
 
   // TODO: update tsk params (only tsk is necessary)
@@ -109,15 +89,11 @@ export default function Tsks() {
 
     if (!ok) {
       const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
-
-      if (isUnauthorizedAuthToken) {
-        return refreshToken()
-      }
-
-      setReqError(error.message)
-    } else {
-      fetchTsks()
+      if (isUnauthorizedAuthToken) return refreshToken()
+      return setReqError(error.message)
     }
+
+    return fetchTsks()
   }
 
   async function handleDone(tskId) {
@@ -131,15 +107,11 @@ export default function Tsks() {
 
     if (!ok) {
       const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
-
-      if (isUnauthorizedAuthToken) {
-        return refreshToken()
-      }
-
-      setReqError(error.message)
-    } else {
-      fetchTsks()
+      if (isUnauthorizedAuthToken) return refreshToken()
+      return setReqError(error.message)
     }
+
+    return fetchTsks()
   }
 
   async function handleDelete(tskId) {
@@ -149,16 +121,12 @@ export default function Tsks() {
 
     if (!ok) {
       const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
-
-      if (isUnauthorizedAuthToken) {
-        return refreshToken()
-      }
-
-      setReqError(error.message)
-    } else {
-      setReqSuccess('deleted succesfully')
-      fetchTsks()
+      if (isUnauthorizedAuthToken) return refreshToken()
+      return setReqError(error.message)
     }
+
+    setReqSuccess('deleted succesfully')
+    return fetchTsks()
   }
 
   return (

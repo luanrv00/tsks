@@ -13,7 +13,7 @@ import {signUpUser} from '../services'
 
 export default function SignUp() {
   const router = useRouter()
-  const [reqError, setReqError] = useState('')
+  const [reqError, setReqError] = useState(null)
   const [isLoading, setIsLoading] = useState(null)
 
   async function handleSubmit({email, password}) {
@@ -25,9 +25,9 @@ export default function SignUp() {
       setCurrentUserAtBrowser(data.user)
       setCurrentAuthTokenAtBrowser(data.auth_token)
       return router.push('/tsks')
-    } else {
-      setReqError(error.message)
     }
+
+    setReqError(error.message)
   }
 
   return (

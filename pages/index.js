@@ -8,18 +8,11 @@ export default function Index() {
   const router = useRouter()
 
   useEffect(() => {
-    function redirect() {
-      const user = getCurrentUserAtBrowser()
-
-      if (!user) {
-        return router.push('/signin')
-      } else {
-        return router.push('/tsks')
-      }
-    }
-
-    redirect()
-  })
+    const user = getCurrentUserAtBrowser()
+    if (!user) return router.push('/signin')
+    return router.push('/tsks')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Layout>
