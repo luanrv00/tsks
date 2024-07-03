@@ -80,7 +80,7 @@ describe('signup', () => {
   context('when signing up', () => {
     beforeEach(() => {
       cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, () =>
-        Promise.resolve({json: () => setTimeout(() => ({}), 3000)})
+        Promise.resolve({json: () => ({})})
       ).as('signup')
 
       cy.visit('/signup')
