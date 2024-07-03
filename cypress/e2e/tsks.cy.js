@@ -1,5 +1,4 @@
 import user from '../fixtures/user.json'
-import invalidUser from '../fixtures/invalid-user.json'
 import tsks from '../fixtures/tsks.json'
 import tsk from '../fixtures/tsk.json'
 
@@ -11,9 +10,6 @@ const NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY =
   process.env.NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY || '@tsks-auth-token'
 
 describe('tsks', () => {
-  const invalidAuthToken = 'invalid-auth-token'
-  const validAuthToken = 'valid-auth-token'
-
   const testApiGetRequest = {
     method: 'GET',
     endpoint: '**/v1/tsks',
@@ -56,31 +52,13 @@ describe('tsks', () => {
       }
 
       before(() => {
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-            JSON.stringify(invalidUser)
-          )
-        })
-
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-            JSON.stringify(invalidAuthToken)
-          )
-        })
+        cy.setLocalStorageInvalidUser()
+        cy.setLocalStorageAuthToken()
       })
 
       after(() => {
-        cy.window().then(window => {
-          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-        })
-
-        cy.window().then(window => {
-          window.localStorage.removeItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
-          )
-        })
+        cy.removeLocalStorageUser()
+        cy.removeLocalStorageAuthToken()
       })
 
       beforeEach(() => {
@@ -109,31 +87,13 @@ describe('tsks', () => {
       }
 
       before(() => {
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-            JSON.stringify(invalidUser)
-          )
-        })
-
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-            JSON.stringify(invalidAuthToken)
-          )
-        })
+        cy.setLocalStorageUser()
+        cy.setLocalStorageAuthToken()
       })
 
       after(() => {
-        cy.window().then(window => {
-          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-        })
-
-        cy.window().then(window => {
-          window.localStorage.removeItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
-          )
-        })
+        cy.removeLocalStorageUser()
+        cy.removeLocalStorageAuthToken()
       })
 
       beforeEach(() => {
@@ -177,29 +137,13 @@ describe('tsks', () => {
 
   describe('access succesfully', () => {
     before(() => {
-      cy.window().then(window => {
-        window.localStorage.setItem(
-          NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-          JSON.stringify(user)
-        )
-      })
-
-      cy.window().then(window => {
-        window.localStorage.setItem(
-          NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-          JSON.stringify(validAuthToken)
-        )
-      })
+      cy.setLocalStorageUser()
+      cy.setLocalStorageAuthToken()
     })
 
     after(() => {
-      cy.window().then(window => {
-        window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-      })
-
-      cy.window().then(window => {
-        window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
-      })
+      cy.removeLocalStorageUser()
+      cy.removeLocalStorageAuthToken()
     })
 
     beforeEach(() => {
@@ -216,35 +160,16 @@ describe('tsks', () => {
   })
 
   describe('GET tsks', () => {
-    // TODO: verify if saving user as session is better than localStorage
     describe('get succesfully', () => {
       describe('when has tsks', () => {
         before(() => {
-          cy.window().then(window => {
-            window.localStorage.setItem(
-              NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-              JSON.stringify(user)
-            )
-          })
-
-          cy.window().then(window => {
-            window.localStorage.setItem(
-              NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-              JSON.stringify(validAuthToken)
-            )
-          })
+          cy.setLocalStorageUser()
+          cy.setLocalStorageAuthToken()
         })
 
         after(() => {
-          cy.window().then(window =>
-            window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-          )
-
-          cy.window().then(window =>
-            window.localStorage.removeItem(
-              NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
-            )
-          )
+          cy.removeLocalStorageUser()
+          cy.removeLocalStorageAuthToken()
         })
 
         beforeEach(() => {
@@ -269,31 +194,13 @@ describe('tsks', () => {
       // TODO: verify why this suites works even without localStorage preset
       describe('when has not tsks', () => {
         before(() => {
-          cy.window().then(window => {
-            window.localStorage.setItem(
-              NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-              JSON.stringify(user)
-            )
-          })
-
-          cy.window().then(window => {
-            window.localStorage.setItem(
-              NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-              JSON.stringify(validAuthToken)
-            )
-          })
+          cy.setLocalStorageUser()
+          cy.setLocalStorageAuthToken()
         })
 
         after(() => {
-          cy.window().then(window =>
-            window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-          )
-
-          cy.window().then(window =>
-            window.localStorage.removeItem(
-              NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
-            )
-          )
+          cy.removeLocalStorageUser()
+          cy.removeLocalStorageAuthToken()
         })
 
         beforeEach(() => {
@@ -314,19 +221,8 @@ describe('tsks', () => {
 
     describe('when getting', () => {
       beforeEach(() => {
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-            JSON.stringify(user)
-          )
-        })
-
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-            JSON.stringify(validAuthToken)
-          )
-        })
+        cy.setLocalStorageUser()
+        cy.setLocalStorageAuthToken()
 
         cy.intercept(
           testApiGetRequest.method,
@@ -338,15 +234,8 @@ describe('tsks', () => {
       })
 
       after(() => {
-        cy.window().then(window =>
-          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-        )
-
-        cy.window().then(window =>
-          window.localStorage.removeItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
-          )
-        )
+        cy.removeLocalStorageUser()
+        cy.removeLocalStorageAuthToken()
       })
 
       it('renders loading', () => {
@@ -360,31 +249,13 @@ describe('tsks', () => {
 
     context('when getting fails', () => {
       before(() => {
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-            JSON.stringify(user)
-          )
-        })
-
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-            JSON.stringify(validAuthToken)
-          )
-        })
+        cy.setLocalStorageUser()
+        cy.setLocalStorageAuthToken()
       })
 
       after(() => {
-        cy.window().then(window =>
-          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-        )
-
-        cy.window().then(window =>
-          window.localStorage.removeItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
-          )
-        )
+        cy.removeLocalStorageUser()
+        cy.removeLocalStorageAuthToken()
       })
 
       beforeEach(() => {
@@ -419,33 +290,17 @@ describe('tsks', () => {
       },
     }
 
-    before(() => {
-      cy.window().then(window => {
-        window.localStorage.setItem(
-          NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-          JSON.stringify(user)
-        )
-      })
-
-      cy.window().then(window => {
-        window.localStorage.setItem(
-          NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-          JSON.stringify(invalidAuthToken)
-        )
-      })
-    })
-
-    after(() => {
-      cy.window().then(window =>
-        window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-      )
-
-      cy.window().then(window =>
-        window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
-      )
-    })
-
     describe('cannot without tsk', () => {
+      before(() => {
+        cy.setLocalStorageUser()
+        cy.setLocalStorageAuthToken()
+      })
+
+      after(() => {
+        cy.removeLocalStorageUser()
+        cy.removeLocalStorageAuthToken()
+      })
+
       beforeEach(() => {
         cy.visit('/tsks')
         cy.get('button').click()
@@ -469,19 +324,8 @@ describe('tsks', () => {
       }
 
       beforeEach(() => {
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-            JSON.stringify(user)
-          )
-        })
-
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-            JSON.stringify(validAuthToken)
-          )
-        })
+        cy.setLocalStorageUser()
+        cy.setLocalStorageAuthToken()
 
         cy.intercept(
           testApiGetRequest.method,
@@ -496,16 +340,9 @@ describe('tsks', () => {
         ).as('postTsks')
       })
 
-      afterEach(() => {
-        cy.window().then(window =>
-          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-        )
-
-        cy.window().then(window =>
-          window.localStorage.removeItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
-          )
-        )
+      after(() => {
+        cy.removeLocalStorageUser()
+        cy.removeLocalStorageAuthToken()
       })
 
       it('renders tsk ', () => {
@@ -550,31 +387,13 @@ describe('tsks', () => {
       }
 
       before(() => {
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-            JSON.stringify(invalidUser)
-          )
-        })
-
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-            JSON.stringify(invalidAuthToken)
-          )
-        })
+        cy.setLocalStorageUser()
+        cy.setLocalStorageAuthToken()
       })
 
       after(() => {
-        cy.window().then(window => {
-          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-        })
-
-        cy.window().then(window => {
-          window.localStorage.removeItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
-          )
-        })
+        cy.removeLocalStorageUser()
+        cy.removeLocalStorageAuthToken()
       })
 
       beforeEach(() => {
@@ -598,19 +417,8 @@ describe('tsks', () => {
 
     describe('when posting', () => {
       beforeEach(() => {
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-            JSON.stringify(user)
-          )
-        })
-
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-            JSON.stringify(validAuthToken)
-          )
-        })
+        cy.setLocalStorageUser()
+        cy.setLocalStorageAuthToken()
 
         cy.intercept(
           testApiGetRequest.method,
@@ -628,16 +436,9 @@ describe('tsks', () => {
         cy.get('button').click()
       })
 
-      afterEach(() => {
-        cy.window().then(window =>
-          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-        )
-
-        cy.window().then(window =>
-          window.localStorage.removeItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
-          )
-        )
+      after(() => {
+        cy.removeLocalStorageUser()
+        cy.removeLocalStorageAuthToken()
       })
 
       it('renders loading', () => {
@@ -651,31 +452,13 @@ describe('tsks', () => {
 
     context('when posting fails', () => {
       before(() => {
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-            JSON.stringify(user)
-          )
-        })
-
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-            JSON.stringify(validAuthToken)
-          )
-        })
+        cy.setLocalStorageUser()
+        cy.setLocalStorageAuthToken()
       })
 
       after(() => {
-        cy.window().then(window =>
-          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-        )
-
-        cy.window().then(window =>
-          window.localStorage.removeItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
-          )
-        )
+        cy.removeLocalStorageUser()
+        cy.removeLocalStorageAuthToken()
       })
 
       beforeEach(() => {
@@ -704,32 +487,6 @@ describe('tsks', () => {
       endpoint: '**/v1/tsks/*',
     }
 
-    before(() => {
-      cy.window().then(window => {
-        window.localStorage.setItem(
-          NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-          JSON.stringify(user)
-        )
-      })
-
-      cy.window().then(window => {
-        window.localStorage.setItem(
-          NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-          JSON.stringify(validAuthToken)
-        )
-      })
-    })
-
-    after(() => {
-      cy.window().then(window =>
-        window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-      )
-
-      cy.window().then(window =>
-        window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
-      )
-    })
-
     describe('cannot unexistent tsk', () => {
       const testApiPutResponse = {
         statusCode: 404,
@@ -738,6 +495,16 @@ describe('tsks', () => {
           message: '404 Not Found',
         },
       }
+
+      before(() => {
+        cy.setLocalStorageUser()
+        cy.setLocalStorageAuthToken()
+      })
+
+      after(() => {
+        cy.removeLocalStorageUser()
+        cy.removeLocalStorageAuthToken()
+      })
 
       beforeEach(() => {
         cy.intercept(
@@ -764,21 +531,6 @@ describe('tsks', () => {
 
     describe('put succesfully', () => {
       describe('put doing tsk', () => {
-        before(() => {
-          cy.window().then(window => {
-            window.localStorage.setItem(
-              NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-              JSON.stringify(user)
-            )
-          })
-        })
-
-        after(() => {
-          cy.window().then(window =>
-            window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-          )
-        })
-
         const testApiGetResponse = {
           statusCode: 200,
           body: {
@@ -804,6 +556,16 @@ describe('tsks', () => {
             tsks: [updatedTsk],
           },
         }
+
+        before(() => {
+          cy.setLocalStorageUser()
+          cy.setLocalStorageAuthToken()
+        })
+
+        after(() => {
+          cy.removeLocalStorageUser()
+          cy.removeLocalStorageAuthToken()
+        })
 
         beforeEach(() => {
           cy.intercept(
@@ -836,21 +598,6 @@ describe('tsks', () => {
       })
 
       describe('put done tsk', () => {
-        before(() => {
-          cy.window().then(window => {
-            window.localStorage.setItem(
-              NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-              JSON.stringify(user)
-            )
-          })
-        })
-
-        after(() => {
-          cy.window().then(window =>
-            window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-          )
-        })
-
         const tskDoing = {...tsk, status: 'doing'}
 
         const testApiGetResponse = {
@@ -878,6 +625,16 @@ describe('tsks', () => {
             tsks: [updatedTsk],
           },
         }
+
+        before(() => {
+          cy.setLocalStorageUser()
+          cy.setLocalStorageAuthToken()
+        })
+
+        after(() => {
+          cy.removeLocalStorageUser()
+          cy.removeLocalStorageAuthToken()
+        })
 
         beforeEach(() => {
           cy.intercept(
@@ -923,31 +680,13 @@ describe('tsks', () => {
       }
 
       before(() => {
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-            JSON.stringify(invalidUser)
-          )
-        })
-
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-            JSON.stringify(invalidAuthToken)
-          )
-        })
+        cy.setLocalStorageUser()
+        cy.setLocalStorageAuthToken()
       })
 
       after(() => {
-        cy.window().then(window => {
-          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-        })
-
-        cy.window().then(window => {
-          window.localStorage.removeItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
-          )
-        })
+        cy.removeLocalStorageUser()
+        cy.removeLocalStorageAuthToken()
       })
 
       beforeEach(() => {
@@ -1009,19 +748,8 @@ describe('tsks', () => {
       }
 
       beforeEach(() => {
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-            JSON.stringify(user)
-          )
-        })
-
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-            JSON.stringify(validAuthToken)
-          )
-        })
+        cy.setLocalStorageUser()
+        cy.setLocalStorageAuthToken()
 
         cy.intercept(
           testApiGetRequest.method,
@@ -1039,16 +767,9 @@ describe('tsks', () => {
         cy.wait('@fetchTsks')
       })
 
-      afterEach(() => {
-        cy.window(window => {
-          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-        })
-
-        cy.window(window => {
-          window.localStorage.removeItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
-          )
-        })
+      after(() => {
+        cy.removeLocalStorageUser()
+        cy.removeLocalStorageAuthToken()
       })
 
       it('renders "deleted succesfully"', () => {
@@ -1097,31 +818,13 @@ describe('tsks', () => {
       }
 
       before(() => {
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-            JSON.stringify(invalidUser)
-          )
-        })
-
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-            JSON.stringify(invalidAuthToken)
-          )
-        })
+        cy.setLocalStorageUser()
+        cy.setLocalStorageAuthToken()
       })
 
       after(() => {
-        cy.window().then(window => {
-          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-        })
-
-        cy.window().then(window => {
-          window.localStorage.removeItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
-          )
-        })
+        cy.removeLocalStorageUser()
+        cy.removeLocalStorageAuthToken()
       })
 
       beforeEach(() => {
@@ -1169,19 +872,8 @@ describe('tsks', () => {
       }
 
       beforeEach(() => {
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-            JSON.stringify(user)
-          )
-        })
-
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-            JSON.stringify(validAuthToken)
-          )
-        })
+        cy.setLocalStorageUser()
+        cy.setLocalStorageAuthToken()
 
         cy.intercept(
           testApiGetRequest.method,
@@ -1211,16 +903,9 @@ describe('tsks', () => {
           })
       })
 
-      afterEach(() => {
-        cy.window(window => {
-          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-        })
-
-        cy.window(window => {
-          window.localStorage.removeItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
-          )
-        })
+      after(() => {
+        cy.removeLocalStorageUser()
+        cy.removeLocalStorageAuthToken()
       })
 
       it('renders loading', () => {
@@ -1244,19 +929,8 @@ describe('tsks', () => {
       }
 
       beforeEach(() => {
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-            JSON.stringify(user)
-          )
-        })
-
-        cy.window().then(window => {
-          window.localStorage.setItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-            JSON.stringify(validAuthToken)
-          )
-        })
+        cy.setLocalStorageUser()
+        cy.setLocalStorageAuthToken()
 
         cy.intercept(
           testApiGetRequest.method,
@@ -1292,15 +966,8 @@ describe('tsks', () => {
       })
 
       after(() => {
-        cy.window().then(window =>
-          window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-        )
-
-        cy.window().then(window =>
-          window.localStorage.removeItem(
-            NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY
-          )
-        )
+        cy.removeLocalStorageUser()
+        cy.removeLocalStorageAuthToken()
       })
 
       it('renders error message', () => {
@@ -1321,19 +988,8 @@ describe('tsks', () => {
 
   describe('renders tsk', () => {
     beforeEach(() => {
-      cy.window().then(window => {
-        window.localStorage.setItem(
-          NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-          JSON.stringify(user)
-        )
-      })
-
-      cy.window().then(window => {
-        window.localStorage.setItem(
-          NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-          JSON.stringify(validAuthToken)
-        )
-      })
+      cy.setLocalStorageUser()
+      cy.setLocalStorageAuthToken()
 
       cy.intercept(
         testApiGetRequest.method,
@@ -1344,14 +1000,9 @@ describe('tsks', () => {
       cy.visit('/tsks')
     })
 
-    afterEach(() => {
-      cy.window().then(window =>
-        window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-      )
-
-      cy.window().then(window =>
-        window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
-      )
+    after(() => {
+      cy.removeLocalStorageUser()
+      cy.removeLocalStorageAuthToken()
     })
 
     it('renders tsk', () => {
@@ -1364,14 +1015,17 @@ describe('tsks', () => {
 
     describe('renders status', () => {
       describe('when todo', () => {
-        beforeEach(() => {
-          cy.window().then(window => {
-            window.localStorage.setItem(
-              NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-              JSON.stringify(user)
-            )
-          })
+        before(() => {
+          cy.setLocalStorageUser()
+          cy.setLocalStorageAuthToken()
+        })
 
+        after(() => {
+          cy.removeLocalStorageUser()
+          cy.removeLocalStorageAuthToken()
+        })
+
+        beforeEach(() => {
           cy.intercept(
             testApiGetRequest.method,
             testApiGetRequest.endpoint,
@@ -1379,12 +1033,6 @@ describe('tsks', () => {
           )
 
           cy.visit('/tsks')
-        })
-
-        afterEach(() => {
-          cy.window().then(window =>
-            window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-          )
         })
 
         it('renders "-"', () => {
@@ -1401,14 +1049,17 @@ describe('tsks', () => {
           },
         }
 
-        beforeEach(() => {
-          cy.window().then(window => {
-            window.localStorage.setItem(
-              NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-              JSON.stringify(user)
-            )
-          })
+        before(() => {
+          cy.setLocalStorageUser()
+          cy.setLocalStorageAuthToken()
+        })
 
+        after(() => {
+          cy.removeLocalStorageUser()
+          cy.removeLocalStorageAuthToken()
+        })
+
+        beforeEach(() => {
           cy.intercept(
             testApiGetRequest.method,
             testApiGetRequest.endpoint,
@@ -1416,12 +1067,6 @@ describe('tsks', () => {
           )
 
           cy.visit('/tsks')
-        })
-
-        afterEach(() => {
-          cy.window().then(window =>
-            window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-          )
         })
 
         it('renders "+"', () => {
@@ -1438,14 +1083,17 @@ describe('tsks', () => {
           },
         }
 
-        beforeEach(() => {
-          cy.window().then(window => {
-            window.localStorage.setItem(
-              NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-              JSON.stringify(user)
-            )
-          })
+        before(() => {
+          cy.setLocalStorageUser()
+          cy.setLocalStorageAuthToken()
+        })
 
+        after(() => {
+          cy.removeLocalStorageUser()
+          cy.removeLocalStorageAuthToken()
+        })
+
+        beforeEach(() => {
           cy.intercept(
             testApiGetRequest.method,
             testApiGetRequest.endpoint,
@@ -1453,12 +1101,6 @@ describe('tsks', () => {
           )
 
           cy.visit('/tsks')
-        })
-
-        afterEach(() => {
-          cy.window().then(window =>
-            window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-          )
         })
 
         it('renders "*"', () => {

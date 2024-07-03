@@ -171,6 +171,11 @@ describe('signin', () => {
       cy.get('button').click()
     })
 
+    afterEach(() => {
+      cy.removeLocalStorageUser()
+      cy.removeLocalStorageAuthToken()
+    })
+
     it('saves user on localStorage', () => {
       cy.wait(2000)
       cy.window().then(window => {
