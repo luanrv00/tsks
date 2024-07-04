@@ -1,5 +1,3 @@
-import user from '../fixtures/user.json'
-
 const NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY =
   process.env.NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY || '@tsks-user'
 
@@ -7,9 +5,6 @@ const NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY =
   process.env.NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY || '@tsks-auth-token'
 
 describe('requests refresh token', () => {
-  const invalidAuthToken = 'invalid-auth-token'
-  const validAuthToken = 'valid-auth-token'
-
   const testApiGetRequest = {
     method: 'GET',
     endpoint: '**/v1/tsks',
@@ -21,60 +16,26 @@ describe('requests refresh token', () => {
   }
 
   describe('when is not valid', () => {
-    const testApiGetResponse = {
-      statusCode: 401,
-      body: {
-        ok: false,
-        message: '401 Unauthorized',
-      },
-    }
-
-    const testApiPostRefreshTokenResponse = {
-      statusCode: 400,
-      body: {
-        ok: false,
-        message: '400 Bad Request',
-      },
-    }
-
     beforeEach(() => {
-      cy.window().then(window => {
-        window.localStorage.setItem(
-          NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-          JSON.stringify(user)
-        )
-      })
+      cy.setLocalStorageUser()
+      cy.setLocalStorageAuthToken()
 
-      cy.window().then(window => {
-        window.localStorage.setItem(
-          NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-          JSON.stringify(invalidAuthToken)
-        )
-      })
-
-      cy.intercept(
-        testApiGetRequest.method,
-        testApiGetRequest.endpoint,
-        testApiGetResponse
-      ).as('fetchTsks')
+      cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+        fixture: 'api-response-401',
+      }).as('fetchTsks')
 
       cy.intercept(
         testApiPostRefreshTokenRequest.method,
         testApiPostRefreshTokenRequest.endpoint,
-        testApiPostRefreshTokenResponse
+        {fixture: 'api-response-400'}
       ).as('requestRefreshToken')
 
       cy.visit('/tsks')
     })
 
-    afterEach(() => {
-      cy.window().then(window => {
-        window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-      })
-
-      cy.window().then(window => {
-        window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
-      })
+    after(() => {
+      cy.removeLocalStorageUser()
+      cy.removeLocalStorageAuthToken()
     })
 
     it('removes user from localStorage', () => {
@@ -110,60 +71,26 @@ describe('requests refresh token', () => {
   })
 
   describe('when is unauthorized', () => {
-    const testApiGetResponse = {
-      statusCode: 401,
-      body: {
-        ok: false,
-        message: '401 Unauthorized',
-      },
-    }
-
-    const testApiPostRefreshTokenResponse = {
-      statusCode: 401,
-      body: {
-        ok: false,
-        message: '401 Unauthorized',
-      },
-    }
-
     beforeEach(() => {
-      cy.window().then(window => {
-        window.localStorage.setItem(
-          NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-          JSON.stringify(user)
-        )
-      })
+      cy.setLocalStorageUser()
+      cy.setLocalStorageAuthToken()
 
-      cy.window().then(window => {
-        window.localStorage.setItem(
-          NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-          JSON.stringify(invalidAuthToken)
-        )
-      })
-
-      cy.intercept(
-        testApiGetRequest.method,
-        testApiGetRequest.endpoint,
-        testApiGetResponse
-      ).as('fetchTsks')
+      cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+        fixture: 'api-response-401',
+      }).as('fetchTsks')
 
       cy.intercept(
         testApiPostRefreshTokenRequest.method,
         testApiPostRefreshTokenRequest.endpoint,
-        testApiPostRefreshTokenResponse
+        {fixture: 'api-response-401'}
       ).as('requestRefreshToken')
 
       cy.visit('/tsks')
     })
 
     afterEach(() => {
-      cy.window().then(window => {
-        window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-      })
-
-      cy.window().then(window => {
-        window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
-      })
+      cy.removeLocalStorageUser()
+      cy.removeLocalStorageAuthToken()
     })
 
     it('removes user from localStorage', () => {
@@ -199,60 +126,26 @@ describe('requests refresh token', () => {
   })
 
   describe('when owner is not found', () => {
-    const testApiGetResponse = {
-      statusCode: 401,
-      body: {
-        ok: false,
-        message: '401 Unauthorized',
-      },
-    }
-
-    const testApiPostRefreshTokenResponse = {
-      statusCode: 404,
-      body: {
-        ok: false,
-        message: '404 Not Found',
-      },
-    }
-
     beforeEach(() => {
-      cy.window().then(window => {
-        window.localStorage.setItem(
-          NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-          JSON.stringify(user)
-        )
-      })
+      cy.setLocalStorageUser()
+      cy.setLocalStorageAuthToken()
 
-      cy.window().then(window => {
-        window.localStorage.setItem(
-          NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-          JSON.stringify(invalidAuthToken)
-        )
-      })
-
-      cy.intercept(
-        testApiGetRequest.method,
-        testApiGetRequest.endpoint,
-        testApiGetResponse
-      ).as('fetchTsks')
+      cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+        fixture: 'api-response-401',
+      }).as('fetchTsks')
 
       cy.intercept(
         testApiPostRefreshTokenRequest.method,
         testApiPostRefreshTokenRequest.endpoint,
-        testApiPostRefreshTokenResponse
+        {fixture: 'api-response-404'}
       ).as('requestRefreshToken')
 
       cy.visit('/tsks')
     })
 
     afterEach(() => {
-      cy.window().then(window => {
-        window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-      })
-
-      cy.window().then(window => {
-        window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
-      })
+      cy.removeLocalStorageUser()
+      cy.removeLocalStorageAuthToken()
     })
 
     it('removes user from localStorage', () => {
@@ -288,63 +181,26 @@ describe('requests refresh token', () => {
   })
 
   describe('when refreshing token', () => {
-    const renewedAuthToken = 'renewed auth token'
-
-    const testApiGetResponse = {
-      statusCode: 401,
-      body: {
-        ok: false,
-        message: '401 Unauthorized',
-      },
-    }
-
-    const testApiPostRefreshTokenResponse = {
-      statusCode: 201,
-      body: {
-        ok: true,
-        message: '201 Created',
-        auth_token: renewedAuthToken,
-      },
-    }
-
     beforeEach(() => {
-      cy.window().then(window => {
-        window.localStorage.setItem(
-          NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-          JSON.stringify(user)
-        )
-      })
+      cy.setLocalStorageUser()
+      cy.setLocalStorageAuthToken()
 
-      cy.window().then(window => {
-        window.localStorage.setItem(
-          NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-          JSON.stringify(validAuthToken)
-        )
-      })
-
-      cy.intercept(
-        testApiGetRequest.method,
-        testApiGetRequest.endpoint,
-        testApiGetResponse
-      ).as('fetchTsks')
+      cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+        fixture: 'api-response-401',
+      }).as('fetchTsks')
 
       cy.intercept(
         testApiPostRefreshTokenRequest.method,
         testApiPostRefreshTokenRequest.endpoint,
-        testApiPostRefreshTokenResponse
+        {fixture: 'api-response-refresh-token-201'}
       ).as('requestRefreshToken')
 
       cy.visit('/tsks')
     })
 
     afterEach(() => {
-      cy.window().then(window => {
-        window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-      })
-
-      cy.window().then(window => {
-        window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
-      })
+      cy.removeLocalStorageUser()
+      cy.removeLocalStorageAuthToken()
     })
 
     it('calls refresh token api', () => {
@@ -353,34 +209,13 @@ describe('requests refresh token', () => {
   })
 
   describe('when refreshing token fails', () => {
-    const testApiGetResponse = {
-      statusCode: 401,
-      body: {
-        ok: false,
-        message: '401 Unauthorized',
-      },
-    }
-
     beforeEach(() => {
-      cy.window().then(window => {
-        window.localStorage.setItem(
-          NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-          JSON.stringify(user)
-        )
-      })
+      cy.setLocalStorageUser()
+      cy.setLocalStorageAuthToken()
 
-      cy.window().then(window => {
-        window.localStorage.setItem(
-          NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-          JSON.stringify(validAuthToken)
-        )
-      })
-
-      cy.intercept(
-        testApiGetRequest.method,
-        testApiGetRequest.endpoint,
-        testApiGetResponse
-      ).as('fetchTsks')
+      cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+        fixture: 'api-response-401',
+      }).as('fetchTsks')
 
       cy.intercept(
         testApiPostRefreshTokenRequest.method,
@@ -392,13 +227,8 @@ describe('requests refresh token', () => {
     })
 
     afterEach(() => {
-      cy.window().then(window => {
-        window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-      })
-
-      cy.window().then(window => {
-        window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
-      })
+      cy.removeLocalStorageUser()
+      cy.removeLocalStorageAuthToken()
     })
 
     it('redirects to signin', () => {
@@ -409,61 +239,26 @@ describe('requests refresh token', () => {
   describe('refresh token succesfully', () => {
     const renewedAuthToken = 'renewed auth token'
 
-    const testApiGetResponse = {
-      statusCode: 401,
-      body: {
-        ok: false,
-        message: '401 Unauthorized',
-      },
-    }
-
-    const testApiPostRefreshTokenResponse = {
-      statusCode: 201,
-      body: {
-        ok: true,
-        message: '201 Created',
-        auth_token: renewedAuthToken,
-      },
-    }
-
     beforeEach(() => {
-      cy.window().then(window => {
-        window.localStorage.setItem(
-          NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY,
-          JSON.stringify(user)
-        )
-      })
+      cy.setLocalStorageUser()
+      cy.setLocalStorageAuthToken()
 
-      cy.window().then(window => {
-        window.localStorage.setItem(
-          NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY,
-          JSON.stringify(validAuthToken)
-        )
-      })
-
-      cy.intercept(
-        testApiGetRequest.method,
-        testApiGetRequest.endpoint,
-        testApiGetResponse
-      ).as('fetchTsks')
+      cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+        fixture: 'api-response-401',
+      }).as('fetchTsks')
 
       cy.intercept(
         testApiPostRefreshTokenRequest.method,
         testApiPostRefreshTokenRequest.endpoint,
-        testApiPostRefreshTokenResponse
+        {fixture: 'api-response-refresh-token-201'}
       ).as('requestRefreshToken')
 
       cy.visit('/tsks')
     })
 
     afterEach(() => {
-      cy.window().then(window => {
-        window.localStorage.removeItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
-      })
-
-      cy.window().then(window => {
-        window.localStorage.removeItem(NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY)
-      })
+      cy.removeLocalStorageUser()
+      cy.removeLocalStorageAuthToken()
     })
 
     it('saves auth token on localStorage', () => {

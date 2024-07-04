@@ -1,0 +1,5 @@
+{
+  "ok": true,
+  "message": "201 Created",
+  "auth_token": "renewed auth token"
+}
