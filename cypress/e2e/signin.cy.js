@@ -39,20 +39,10 @@ describe('signin', () => {
   })
 
   describe('cannot without registered email', () => {
-    const testApiPostResponse = {
-      statusCode: 404,
-      body: {
-        ok: false,
-        message: '404 Not Found',
-      },
-    }
-
     beforeEach(() => {
-      cy.intercept(
-        testApiPostRequest.method,
-        testApiPostRequest.endpoint,
-        testApiPostResponse
-      )
+      cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, {
+        fixture: 'api-response-404',
+      })
 
       cy.visit('/signin')
       cy.get('input[placeholder="user@tsks.app"]').type(user.email)
@@ -78,20 +68,10 @@ describe('signin', () => {
   })
 
   describe('cannot without correct password', () => {
-    const testApiPostResponse = {
-      statusCode: 401,
-      body: {
-        ok: false,
-        message: '401 Unauthorized',
-      },
-    }
-
     beforeEach(() => {
-      cy.intercept(
-        testApiPostRequest.method,
-        testApiPostRequest.endpoint,
-        testApiPostResponse
-      )
+      cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, {
+        fixture: 'api-response-401',
+      })
 
       cy.visit('/signin')
       cy.get('input[placeholder="user@tsks.app"]').type(user.email)
@@ -147,23 +127,10 @@ describe('signin', () => {
   })
 
   describe('signin succesfully', () => {
-    const authToken = 'auth-token'
-
-    const testApiPostResponse = {
-      statusCode: 201,
-      body: {
-        ok: true,
-        user,
-        auth_token: authToken,
-      },
-    }
-
     beforeEach(() => {
-      cy.intercept(
-        testApiPostRequest.method,
-        testApiPostRequest.endpoint,
-        testApiPostResponse
-      )
+      cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, {
+        fixture: 'api-response-user-201',
+      })
 
       cy.visit('/signin')
       cy.get('input[placeholder="user@tsks.app"]').type(user.email)

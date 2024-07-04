@@ -1,6 +1,7 @@
 import user from '../fixtures/user.js'
-import tsks from '../fixtures/tsks.json'
-import tsk from '../fixtures/tsk.json'
+import tsks from '../fixtures/tsks.js'
+import tsk from '../fixtures/tsk.js'
+import tskDone from '../fixtures/tsk-done.js'
 
 // TODO: fix env var not being loaded
 const NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY =
@@ -15,22 +16,6 @@ describe('tsks', () => {
     endpoint: '**/v1/tsks',
   }
 
-  const testApiGetResponse = {
-    statusCode: 200,
-    body: {
-      ok: true,
-      tsks,
-    },
-  }
-
-  const testApiGetEmptyResponse = {
-    statusCode: 200,
-    body: {
-      ok: true,
-      tsks: [],
-    },
-  }
-
   describe('cannot access without authentication token', () => {
     beforeEach(() => {
       cy.visit('/tsks')
@@ -43,14 +28,6 @@ describe('tsks', () => {
 
   describe('cannot access without valid authentication token', () => {
     describe('when auth token is unauthorized', () => {
-      const testApiGetResponse = {
-        statusCode: 401,
-        body: {
-          ok: false,
-          message: '401 Unauthorized',
-        },
-      }
-
       before(() => {
         cy.setLocalStorageInvalidUser()
         cy.setLocalStorageAuthToken()
@@ -62,11 +39,9 @@ describe('tsks', () => {
       })
 
       beforeEach(() => {
-        cy.intercept(
-          testApiGetRequest.method,
-          testApiGetRequest.endpoint,
-          testApiGetResponse
-        )
+        cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+          fixture: 'api-response-401',
+        })
       })
 
       it('requests refresh token', () => {
@@ -78,14 +53,6 @@ describe('tsks', () => {
     })
 
     describe('when auth token is forbidden', () => {
-      const testApiGetResponse = {
-        statusCode: 403,
-        body: {
-          ok: false,
-          message: '403 Forbidden',
-        },
-      }
-
       before(() => {
         cy.setLocalStorageUser()
         cy.setLocalStorageAuthToken()
@@ -97,11 +64,9 @@ describe('tsks', () => {
       })
 
       beforeEach(() => {
-        cy.intercept(
-          testApiGetRequest.method,
-          testApiGetRequest.endpoint,
-          testApiGetResponse
-        )
+        cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+          fixture: 'api-response-403',
+        })
 
         cy.visit('/tsks')
       })
@@ -173,21 +138,17 @@ describe('tsks', () => {
         })
 
         beforeEach(() => {
-          cy.intercept(
-            testApiGetRequest.method,
-            testApiGetRequest.endpoint,
-            testApiGetResponse
-          )
+          cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+            fixture: 'api-response-tsks-200',
+          })
 
           cy.visit('/tsks')
         })
 
         it('renders each tsk succesfully', () => {
           cy.wait(2000)
-          cy.get('[data-testid="tsk"]').should(
-            'have.length',
-            testApiGetResponse.body.tsks.length
-          )
+          cy.fixture('api-response-tsks-200').as('tsks')
+          cy.get('[data-testid="tsk"]').should('have.length', tsks.tsks.length)
         })
       })
 
@@ -204,11 +165,9 @@ describe('tsks', () => {
         })
 
         beforeEach(() => {
-          cy.intercept(
-            testApiGetRequest.method,
-            testApiGetRequest.endpoint,
-            testApiGetEmptyResponse
-          )
+          cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+            fixture: 'api-response-tsks-200-empty',
+          })
 
           cy.visit('/tsks')
         })
@@ -224,11 +183,9 @@ describe('tsks', () => {
         cy.setLocalStorageUser()
         cy.setLocalStorageAuthToken()
 
-        cy.intercept(
-          testApiGetRequest.method,
-          testApiGetRequest.endpoint,
-          testApiGetResponse
-        ).as('getTsks')
+        cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+          fixture: 'api-response-tsks-200',
+        }).as('getTsks')
 
         cy.visit('/tsks')
       })
@@ -282,14 +239,6 @@ describe('tsks', () => {
       endpoint: '**/v1/tsks',
     }
 
-    const testApiPostResponse = {
-      statusCode: 201,
-      body: {
-        ok: true,
-        tsk,
-      },
-    }
-
     describe('cannot without tsk', () => {
       before(() => {
         cy.setLocalStorageUser()
@@ -319,7 +268,7 @@ describe('tsks', () => {
         statusCode: 200,
         body: {
           ok: true,
-          tsks: [{...tsk, tsk: tskToBeInserted}],
+          tsks: [...tsks, {tsk: tskToBeInserted, context: ctxToBeInserted}],
         },
       }
 
@@ -327,17 +276,13 @@ describe('tsks', () => {
         cy.setLocalStorageUser()
         cy.setLocalStorageAuthToken()
 
-        cy.intercept(
-          testApiGetRequest.method,
-          testApiGetRequest.endpoint,
-          testApiGetEmptyResponse
-        ).as('fetchEmptyTsks')
+        cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+          fixture: 'api-response-tsks-200-empty',
+        }).as('fetchEmptyTsks')
 
-        cy.intercept(
-          testApiPostRequest.method,
-          testApiPostRequest.endpoint,
-          testApiPostResponse
-        ).as('postTsks')
+        cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, {
+          fixture: 'api-response-tsks-201',
+        }).as('postTsks')
       })
 
       after(() => {
@@ -378,14 +323,6 @@ describe('tsks', () => {
     })
 
     describe('when auth token is unauthorized', () => {
-      const testApiPostResponse = {
-        statusCode: 401,
-        body: {
-          ok: false,
-          message: '401 Unauthorized',
-        },
-      }
-
       before(() => {
         cy.setLocalStorageUser()
         cy.setLocalStorageAuthToken()
@@ -397,11 +334,9 @@ describe('tsks', () => {
       })
 
       beforeEach(() => {
-        cy.intercept(
-          testApiPostRequest.method,
-          testApiPostRequest.endpoint,
-          testApiPostResponse
-        ).as('postTsks')
+        cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, {
+          fixture: 'api-response-401',
+        }).as('postTsks')
       })
 
       it('requests refresh token', () => {
@@ -420,11 +355,9 @@ describe('tsks', () => {
         cy.setLocalStorageUser()
         cy.setLocalStorageAuthToken()
 
-        cy.intercept(
-          testApiGetRequest.method,
-          testApiGetRequest.endpoint,
-          testApiGetEmptyResponse
-        ).as('fetchEmptyTsks')
+        cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+          fixture: 'api-response-tsks-200-empty',
+        }).as('fetchEmptyTsks')
 
         cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, {
           delay: 5000,
@@ -488,14 +421,6 @@ describe('tsks', () => {
     }
 
     describe('cannot unexistent tsk', () => {
-      const testApiPutResponse = {
-        statusCode: 404,
-        body: {
-          ok: false,
-          message: '404 Not Found',
-        },
-      }
-
       before(() => {
         cy.setLocalStorageUser()
         cy.setLocalStorageAuthToken()
@@ -507,17 +432,13 @@ describe('tsks', () => {
       })
 
       beforeEach(() => {
-        cy.intercept(
-          testApiGetRequest.method,
-          testApiGetRequest.endpoint,
-          testApiGetResponse
-        )
+        cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+          fixture: 'api-response-tsks-200',
+        })
 
-        cy.intercept(
-          testApiPutRequest.method,
-          testApiPutRequest.endpoint,
-          testApiPutResponse
-        ).as('putTsk')
+        cy.intercept(testApiPutRequest.method, testApiPutRequest.endpoint, {
+          fixture: 'api-response-404',
+        }).as('putTsk')
 
         cy.visit('/tsks')
         cy.get('[data-testid="tsk"').first().click()
@@ -531,14 +452,6 @@ describe('tsks', () => {
 
     describe('put succesfully', () => {
       describe('put doing tsk', () => {
-        const testApiGetResponse = {
-          statusCode: 200,
-          body: {
-            ok: true,
-            tsks: [tsk],
-          },
-        }
-
         const updatedTsk = {...tsk, status: 'doing'}
 
         const testApiPutResponse = {
@@ -568,11 +481,9 @@ describe('tsks', () => {
         })
 
         beforeEach(() => {
-          cy.intercept(
-            testApiGetRequest.method,
-            testApiGetRequest.endpoint,
-            testApiGetResponse
-          )
+          cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+            fixture: 'api-response-tsks-200',
+          })
 
           cy.intercept(
             testApiPutRequest.method,
@@ -671,14 +582,6 @@ describe('tsks', () => {
     })
 
     describe('when auth token is unauthorized', () => {
-      const testApiPutResponse = {
-        statusCode: 401,
-        body: {
-          ok: false,
-          message: '401 Unauthorized',
-        },
-      }
-
       before(() => {
         cy.setLocalStorageUser()
         cy.setLocalStorageAuthToken()
@@ -690,17 +593,13 @@ describe('tsks', () => {
       })
 
       beforeEach(() => {
-        cy.intercept(
-          testApiGetRequest.method,
-          testApiGetRequest.endpoint,
-          testApiGetResponse
-        ).as('getTsks')
+        cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+          fixture: 'api-response-tsks-200',
+        }).as('getTsks')
 
-        cy.intercept(
-          testApiPutRequest.method,
-          testApiPutRequest.endpoint,
-          testApiPutResponse
-        ).as('putTsk')
+        cy.intercept(testApiPutRequest.method, testApiPutRequest.endpoint, {
+          fixture: 'api-response-401',
+        }).as('putTsk')
       })
 
       it('requests refresh token', () => {
@@ -809,14 +708,6 @@ describe('tsks', () => {
     })
 
     describe('when auth token is unauthorized', () => {
-      const testApiDeleteResponse = {
-        statusCode: 401,
-        body: {
-          ok: false,
-          message: '401 Unauthorized',
-        },
-      }
-
       before(() => {
         cy.setLocalStorageUser()
         cy.setLocalStorageAuthToken()
@@ -837,7 +728,7 @@ describe('tsks', () => {
         cy.intercept(
           testApiDeleteRequest.method,
           testApiDeleteRequest.endpoint,
-          testApiDeleteResponse
+          {fixture: 'api-response-401'}
         ).as('deleteTsk')
       })
 
@@ -863,14 +754,6 @@ describe('tsks', () => {
         endpoint: '**/v1/tsks/*',
       }
 
-      const testApiPutResponse = {
-        statusCode: 200,
-        body: {
-          ok: true,
-          body: tsk,
-        },
-      }
-
       beforeEach(() => {
         cy.setLocalStorageUser()
         cy.setLocalStorageAuthToken()
@@ -887,11 +770,7 @@ describe('tsks', () => {
           {delay: 5000}
         ).as('deleteTsk')
 
-        cy.intercept(
-          testApiPutRequest.method,
-          testApiPutRequest.endpoint,
-          testApiPutResponse
-        )
+        cy.intercept(testApiPutRequest.method, testApiPutRequest.endpoint)
 
         cy.visit('/tsks')
         cy.wait('@fetchTsks')
@@ -991,11 +870,9 @@ describe('tsks', () => {
       cy.setLocalStorageUser()
       cy.setLocalStorageAuthToken()
 
-      cy.intercept(
-        testApiGetRequest.method,
-        testApiGetRequest.endpoint,
-        testApiGetResponse
-      )
+      cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+        fixture: 'api-response-tsks-200',
+      })
 
       cy.visit('/tsks')
     })
@@ -1026,11 +903,9 @@ describe('tsks', () => {
         })
 
         beforeEach(() => {
-          cy.intercept(
-            testApiGetRequest.method,
-            testApiGetRequest.endpoint,
-            testApiGetResponse
-          )
+          cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+            fixture: 'api-response-tsks-200',
+          })
 
           cy.visit('/tsks')
         })
@@ -1075,14 +950,6 @@ describe('tsks', () => {
       })
 
       describe('when done', () => {
-        const testApiGetResponse = {
-          statusCode: 200,
-          body: {
-            ok: true,
-            tsks: [{...tsk, status: 'done'}],
-          },
-        }
-
         before(() => {
           cy.setLocalStorageUser()
           cy.setLocalStorageAuthToken()
@@ -1094,17 +961,27 @@ describe('tsks', () => {
         })
 
         beforeEach(() => {
-          cy.intercept(
-            testApiGetRequest.method,
-            testApiGetRequest.endpoint,
-            testApiGetResponse
-          )
+          cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+            fixture: 'api-response-tsks-200',
+          })
 
           cy.visit('/tsks')
         })
 
+        /*
+        cy.get('[data-testid="tsk"]')
+          .contains(tskToBeDeleted)
+          .parents('li')
+          .within(() => {
+            cy.get('button').should('not.have.class', 'loading')
+          })
+        */
         it('renders "*"', () => {
-          cy.contains('*').should('exist')
+          cy.contains(tskDone.tsk)
+            .parents('div')
+            .within(() => {
+              cy.contains('*').should('exist')
+            })
         })
       })
     })
