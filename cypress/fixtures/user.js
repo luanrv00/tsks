@@ -1,6 +1,0 @@
-module.exports = {
-  id: 0,
-  email: 'user@test.tsks',
-  created_at: '',
-  updated_at: '',
-}

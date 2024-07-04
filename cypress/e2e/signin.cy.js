@@ -1,4 +1,4 @@
-import user from '../fixtures/user.js'
+import userFixture from '../fixtures/user.json'
 
 // TODO: fix env var not being loaded
 const NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY =
@@ -45,7 +45,7 @@ describe('signin', () => {
       })
 
       cy.visit('/signin')
-      cy.get('input[placeholder="user@tsks.app"]').type(user.email)
+      cy.get('input[placeholder="user@tsks.app"]').type('unregistered@mail.com')
       cy.get('input[placeholder="******"]').type('123')
       cy.get('button').click()
     })
@@ -58,7 +58,7 @@ describe('signin', () => {
   describe('cannot without password', () => {
     beforeEach(() => {
       cy.visit('/signin')
-      cy.get('input[placeholder="user@tsks.app"]').type(user.email)
+      cy.get('input[placeholder="user@tsks.app"]').type('registered@mail.com')
       cy.get('button').click()
     })
 
@@ -74,7 +74,7 @@ describe('signin', () => {
       })
 
       cy.visit('/signin')
-      cy.get('input[placeholder="user@tsks.app"]').type(user.email)
+      cy.get('input[placeholder="user@tsks.app"]').type('registered@mail.com')
       cy.get('input[placeholder="******"]').type('123')
       cy.get('button').click()
     })
@@ -91,7 +91,7 @@ describe('signin', () => {
       ).as('signin')
 
       cy.visit('/signin')
-      cy.get('input[placeholder="user@tsks.app"]').type(user.email)
+      cy.get('input[placeholder="user@tsks.app"]').type('registered@mail.com')
       cy.get('input[placeholder="******"]').type('123')
       cy.get('button').click()
     })
@@ -112,7 +112,7 @@ describe('signin', () => {
       })
 
       cy.visit('/signup')
-      cy.get('input[placeholder="user@tsks.app"]').type(user.email)
+      cy.get('input[placeholder="user@tsks.app"]').type('registered@mail.com')
       cy.get('input[placeholder="******"]').type('123')
       cy.get('button').click()
     })
@@ -133,7 +133,7 @@ describe('signin', () => {
       })
 
       cy.visit('/signin')
-      cy.get('input[placeholder="user@tsks.app"]').type(user.email)
+      cy.get('input[placeholder="user@tsks.app"]').type(userFixture.email)
       cy.get('input[placeholder="******"]').type('123')
       cy.get('button').click()
     })
@@ -149,7 +149,7 @@ describe('signin', () => {
         const localStorageUser = JSON.parse(
           window.localStorage.getItem(NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY)
         )
-        expect(localStorageUser).to.deep.eq(user)
+        expect(localStorageUser).to.deep.eq(userFixture)
       })
     })
 

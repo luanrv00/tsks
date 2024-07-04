@@ -1,4 +1,4 @@
-import user from '../fixtures/user.js'
+import user from '../fixtures/user.json'
 
 const NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY =
   process.env.NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY || '@tsks-user'

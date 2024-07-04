@@ -1,4 +1,4 @@
-import user from '../fixtures/user.js'
+import user from '../fixtures/user.json'
 import invalidUser from '../fixtures/invalid-user.json'
 
 const NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY =
