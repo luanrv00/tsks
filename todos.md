@@ -71,7 +71,7 @@
     ! refactor services to be custom hooks (exporting dispatch)
 * implements when request fails
 * implements tests for api calls
-+ implements user header
+* implements user header
     * research apollo client/server possibility
 - review all docs and organize
 - implements tsk edit

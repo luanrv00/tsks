@@ -36,7 +36,7 @@
 * when refresh token is unauthorized
 * when refresh token owner is not found
 * when refreshing token
-- when refreshing token fails
+* when refreshing token fails
 * refresh token succesfully
 
 ### tsks
@@ -47,7 +47,7 @@
 * when unauthorized
 * when forbidden
 
-+ access succesfully
+* access succesfully
 
 #### GET tsks
 

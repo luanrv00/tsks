@@ -327,7 +327,7 @@
 * redirects to /signin
 
 **access succesfully**
-+ renders user email
+* renders user email
 
 #### GET tsks
 
