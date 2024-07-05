@@ -1,0 +1,4 @@
+{
+  "method": "GET",
+  "endpoint": "**/v1/tsks"
+}

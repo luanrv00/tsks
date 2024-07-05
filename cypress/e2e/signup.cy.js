@@ -1,4 +1,5 @@
 import userFixture from '../fixtures/user.json'
+import postSignupFixture from '../fixtures/api-post-signup.json'
 
 // TODO: fix env var not being loaded
 const NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY =
@@ -8,11 +9,6 @@ const NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY =
   process.env.NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY || '@tsks-auth-token'
 
 describe('signup', () => {
-  const testApiPostRequest = {
-    method: 'POST',
-    endpoint: '**/v1/signup',
-  }
-
   context('cannot without email', () => {
     beforeEach(() => {
       cy.visit('/signup')
@@ -52,7 +48,7 @@ describe('signup', () => {
 
   context('cannot without unregistered email', () => {
     beforeEach(() => {
-      cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, {
+      cy.intercept(postSignupFixture.method, postSignupFixture.endpoint, {
         fixture: 'api-response-user-409',
       })
 
@@ -69,7 +65,7 @@ describe('signup', () => {
 
   context('when signing up', () => {
     beforeEach(() => {
-      cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, () =>
+      cy.intercept(postSignupFixture.method, postSignupFixture.endpoint, () =>
         Promise.resolve({json: () => ({})})
       ).as('signup')
 
@@ -90,7 +86,7 @@ describe('signup', () => {
 
   context('when signing up fails', () => {
     beforeEach(() => {
-      cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, {
+      cy.intercept(postSignupFixture.method, postSignupFixture.endpoint, {
         forceNetworkError: true,
       })
 
@@ -111,7 +107,7 @@ describe('signup', () => {
 
   context('signup succesfully', () => {
     beforeEach(() => {
-      cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, {
+      cy.intercept(postSignupFixture.method, postSignupFixture.endpoint, {
         fixture: 'api-response-user-201',
       })
 

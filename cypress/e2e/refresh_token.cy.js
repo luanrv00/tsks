@@ -1,3 +1,6 @@
+import getTsksFixture from '../fixtures/api-get-tsks.json'
+import postRefreshTokenFixture from '../fixtures/api-post-refresh-token.json'
+
 const NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY =
   process.env.NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY || '@tsks-user'
 
@@ -5,28 +8,18 @@ const NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY =
   process.env.NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY || '@tsks-auth-token'
 
 describe('requests refresh token', () => {
-  const testApiGetRequest = {
-    method: 'GET',
-    endpoint: '**/v1/tsks',
-  }
-
-  const testApiPostRefreshTokenRequest = {
-    method: 'POST',
-    endpoint: '**/v1/refresh_token',
-  }
-
   describe('when is not valid', () => {
     beforeEach(() => {
       cy.setLocalStorageUser()
       cy.setLocalStorageAuthToken()
 
-      cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+      cy.intercept(getTsksFixture.method, getTsksFixture.endpoint, {
         fixture: 'api-response-401',
       }).as('fetchTsks')
 
       cy.intercept(
-        testApiPostRefreshTokenRequest.method,
-        testApiPostRefreshTokenRequest.endpoint,
+        postRefreshTokenFixture.method,
+        postRefreshTokenFixture.endpoint,
         {fixture: 'api-response-400'}
       ).as('requestRefreshToken')
 
@@ -75,13 +68,13 @@ describe('requests refresh token', () => {
       cy.setLocalStorageUser()
       cy.setLocalStorageAuthToken()
 
-      cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+      cy.intercept(getTsksFixture.method, getTsksFixture.endpoint, {
         fixture: 'api-response-401',
       }).as('fetchTsks')
 
       cy.intercept(
-        testApiPostRefreshTokenRequest.method,
-        testApiPostRefreshTokenRequest.endpoint,
+        postRefreshTokenFixture.method,
+        postRefreshTokenFixture.endpoint,
         {fixture: 'api-response-401'}
       ).as('requestRefreshToken')
 
@@ -130,13 +123,13 @@ describe('requests refresh token', () => {
       cy.setLocalStorageUser()
       cy.setLocalStorageAuthToken()
 
-      cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+      cy.intercept(getTsksFixture.method, getTsksFixture.endpoint, {
         fixture: 'api-response-401',
       }).as('fetchTsks')
 
       cy.intercept(
-        testApiPostRefreshTokenRequest.method,
-        testApiPostRefreshTokenRequest.endpoint,
+        postRefreshTokenFixture.method,
+        postRefreshTokenFixture.endpoint,
         {fixture: 'api-response-404'}
       ).as('requestRefreshToken')
 
@@ -185,13 +178,13 @@ describe('requests refresh token', () => {
       cy.setLocalStorageUser()
       cy.setLocalStorageAuthToken()
 
-      cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+      cy.intercept(getTsksFixture.method, getTsksFixture.endpoint, {
         fixture: 'api-response-401',
       }).as('fetchTsks')
 
       cy.intercept(
-        testApiPostRefreshTokenRequest.method,
-        testApiPostRefreshTokenRequest.endpoint,
+        postRefreshTokenFixture.method,
+        postRefreshTokenFixture.endpoint,
         {fixture: 'api-response-refresh-token-201'}
       ).as('requestRefreshToken')
 
@@ -213,13 +206,13 @@ describe('requests refresh token', () => {
       cy.setLocalStorageUser()
       cy.setLocalStorageAuthToken()
 
-      cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+      cy.intercept(getTsksFixture.method, getTsksFixture.endpoint, {
         fixture: 'api-response-401',
       }).as('fetchTsks')
 
       cy.intercept(
-        testApiPostRefreshTokenRequest.method,
-        testApiPostRefreshTokenRequest.endpoint,
+        postRefreshTokenFixture.method,
+        postRefreshTokenFixture.endpoint,
         {forceNetworkError: true}
       ).as('requestRefreshToken')
 
@@ -243,13 +236,13 @@ describe('requests refresh token', () => {
       cy.setLocalStorageUser()
       cy.setLocalStorageAuthToken()
 
-      cy.intercept(testApiGetRequest.method, testApiGetRequest.endpoint, {
+      cy.intercept(getTsksFixture.method, getTsksFixture.endpoint, {
         fixture: 'api-response-401',
       }).as('fetchTsks')
 
       cy.intercept(
-        testApiPostRefreshTokenRequest.method,
-        testApiPostRefreshTokenRequest.endpoint,
+        postRefreshTokenFixture.method,
+        postRefreshTokenFixture.endpoint,
         {fixture: 'api-response-refresh-token-201'}
       ).as('requestRefreshToken')
 

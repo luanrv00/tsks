@@ -1,0 +1,4 @@
+{
+  "method": "POST",
+  "endpoint": "**/v1/signup"
+}

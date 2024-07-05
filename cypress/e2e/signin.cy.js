@@ -1,4 +1,5 @@
 import userFixture from '../fixtures/user.json'
+import postSigninFixture from '../fixtures/api-post-signin.json'
 
 // TODO: fix env var not being loaded
 const NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY =
@@ -8,11 +9,6 @@ const NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY =
   process.env.NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY || '@tsks-auth-token'
 
 describe('signin', () => {
-  const testApiPostRequest = {
-    method: 'POST',
-    endpoint: '**/v1/signin',
-  }
-
   describe('cannot without email', () => {
     beforeEach(() => {
       cy.visit('/signin')
@@ -40,7 +36,7 @@ describe('signin', () => {
 
   describe('cannot without registered email', () => {
     beforeEach(() => {
-      cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, {
+      cy.intercept(postSigninFixture.method, postSigninFixture.endpoint, {
         fixture: 'api-response-404',
       })
 
@@ -69,7 +65,7 @@ describe('signin', () => {
 
   describe('cannot without correct password', () => {
     beforeEach(() => {
-      cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, {
+      cy.intercept(postSigninFixture.method, postSigninFixture.endpoint, {
         fixture: 'api-response-401',
       })
 
@@ -86,7 +82,7 @@ describe('signin', () => {
 
   context('when signing in', () => {
     beforeEach(() => {
-      cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, () =>
+      cy.intercept(postSigninFixture.method, postSigninFixture.endpoint, () =>
         Promise.resolve({json: () => ({})})
       ).as('signin')
 
@@ -107,7 +103,7 @@ describe('signin', () => {
 
   context('when signing in fails', () => {
     beforeEach(() => {
-      cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, {
+      cy.intercept(postSigninFixture.method, postSigninFixture.endpoint, {
         forceNetworkError: true,
       })
 
@@ -128,7 +124,7 @@ describe('signin', () => {
 
   describe('signin succesfully', () => {
     beforeEach(() => {
-      cy.intercept(testApiPostRequest.method, testApiPostRequest.endpoint, {
+      cy.intercept(postSigninFixture.method, postSigninFixture.endpoint, {
         fixture: 'api-response-user-201',
       })
 

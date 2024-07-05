@@ -1,0 +1,4 @@
+{
+  "method": "DELETE",
+  "endpoint": "**/v1/tsks/*"
+}

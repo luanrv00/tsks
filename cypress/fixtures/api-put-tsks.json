@@ -1,0 +1,4 @@
+{
+  "method": "PUT",
+  "endpoint": "**/v1/tsks/*"
+}
