@@ -32,6 +32,11 @@ export function LoadingButton({onClick}) {
   )
 }
 
+export function AddButton({value, onClick}) {
+  const labelValue = `+ ${value}`
+  return <ButtonBase onClick={onClick} value={labelValue} />
+}
+
 export function SmallLoadingButton({onClick}) {
   return (
     <ButtonBase

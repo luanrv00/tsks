@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Input, SmallInput, Button, Subtitle, LoadingButton} from '..'
+import {Input, SmallInput, AddButton, Subtitle, LoadingButton} from '..'
 import styles from './index.module.css'
 
 export function TskForm({handleSubmit, isLoading}) {
@@ -33,7 +33,7 @@ export function TskForm({handleSubmit, isLoading}) {
           />
         </div>
         {emptyTskError && <span>cannot without tsk</span>}
-        {isLoading ? <LoadingButton /> : <Button value='Add' />}
+        {isLoading ? <LoadingButton /> : <AddButton value='add' />}
       </form>
     </>
   )
