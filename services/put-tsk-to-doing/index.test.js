@@ -1,8 +1,8 @@
-import {putTsk} from '.'
+import {putTskToDoing} from '.'
 
 const {NEXT_PUBLIC_API_URL} = process.env
 
-describe('putTsk', () => {
+describe('putTskToDoing', () => {
   const fakeTskId = 0
   const fakeTsk = {tsk: 'this is a fake tsk'}
   const successResponseBody = {ok: true, tsk: fakeTsk}
@@ -25,13 +25,13 @@ describe('putTsk', () => {
 
     beforeEach(async () => {
       fetch.mockClear()
-      await putTsk({tskId: fakeTskId, tsk: fakeTsk})
+      await putTskToDoing(fakeTskId)
     })
 
-    it('calls PUT /v1/tsks endpoint with auth token and tsk', () => {
+    it('calls PUT /v1/tsks endpoint with auth token and tsk id', () => {
       const expectedEndpoint = `${NEXT_PUBLIC_API_URL}/tsks/${fakeTskId}`
       const expectedMethod = 'PUT'
-      const expectedBody = JSON.stringify({tsk: fakeTsk})
+      const expectedBody = JSON.stringify({tsk: {status: 'doing'}})
 
       expect(fetch).toHaveBeenCalledWith(expectedEndpoint, {
         ...apiHeaders,
@@ -54,7 +54,7 @@ describe('putTsk', () => {
 
     beforeEach(async () => {
       fetch.mockClear()
-      response = await putTsk({tskId: fakeTskId, tsk: fakeTsk})
+      response = await putTskToDoing(fakeTskId)
     })
 
     it('returns ok', () => {
@@ -63,6 +63,10 @@ describe('putTsk', () => {
 
     it('returns data containing tsk', () => {
       expect(response).toHaveProperty('data.tsk', successResponseBody.tsk)
+    })
+
+    it('returns is ready', () => {
+      expect(response).toHaveProperty('isReady', true)
     })
   })
 
@@ -80,7 +84,7 @@ describe('putTsk', () => {
 
     beforeEach(async () => {
       fetch.mockClear()
-      response = await putTsk({tskId: fakeTskId, tsk: fakeTsk})
+      response = await putTskToDoing(fakeTskId)
     })
 
     it('returns not ok', () => {
@@ -92,6 +96,40 @@ describe('putTsk', () => {
         'error.message',
         failedResponseBody.message
       )
+    })
+
+    it('returns is ready', () => {
+      expect(response).toHaveProperty('isReady', true)
+    })
+  })
+
+  describe('when request breaks', () => {
+    let response = null
+
+    beforeAll(() => {
+      global.fetch = jest.fn(() =>
+        Promise.reject(new Error('500 Internal Server Error'))
+      )
+    })
+
+    beforeEach(async () => {
+      fetch.mockClear()
+      response = await putTskToDoing(fakeTskId)
+    })
+
+    //it('returns not ok', () => {
+    //  expect(response).toHaveProperty('ok', false)
+    //})
+
+    it('returns error containing message', () => {
+      expect(response).toHaveProperty(
+        'error.message',
+        '500 Internal Server Error'
+      )
+    })
+
+    it('returns is ready', () => {
+      expect(response).toHaveProperty('isReady', true)
     })
   })
 })
