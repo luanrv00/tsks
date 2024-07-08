@@ -92,4 +92,30 @@ describe('getRefreshToken', () => {
       )
     })
   })
+
+  describe('when request breaks', () => {
+    let response = null
+
+    beforeAll(() => {
+      global.fetch = jest.fn(() =>
+        Promise.reject(new Error('500 Internal Server Error'))
+      )
+    })
+
+    beforeEach(async () => {
+      fetch.mockClear()
+      response = await getRefreshToken()
+    })
+
+    it('returns not ok', () => {
+      expect(response).toHaveProperty('ok', false)
+    })
+
+    it('returns error containing message', () => {
+      expect(response).toHaveProperty(
+        'error.message',
+        '500 Internal Server Error'
+      )
+    })
+  })
 })

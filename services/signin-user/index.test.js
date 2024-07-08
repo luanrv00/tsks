@@ -126,6 +126,10 @@ describe('signInUser', () => {
       response = await signInUser({email: userEmail, password: userPassword})
     })
 
+    it('returns not ok', () => {
+      expect(response).toHaveProperty('ok', false)
+    })
+
     it('returns error containing message', () => {
       expect(response).toHaveProperty(
         'error.message',

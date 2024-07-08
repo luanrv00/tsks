@@ -110,6 +110,10 @@ describe('deleteTsk', () => {
       response = await deleteTsk({tskId: 0})
     })
 
+    it('returns not ok', () => {
+      expect(response).toHaveProperty('ok', false)
+    })
+
     it('returns error containing message', () => {
       expect(response).toHaveProperty(
         'error.message',

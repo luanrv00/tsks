@@ -14,7 +14,7 @@ export async function getRefreshToken() {
 
   if (!res.ok) {
     const {ok, message} = res
-    return {ok, error: {message}, data: null}
+    return {ok: Boolean(ok), error: {message}, data: null}
   }
 
   const {ok, auth_token} = res

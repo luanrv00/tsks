@@ -25,7 +25,7 @@ describe('putTskToDone', () => {
 
     beforeEach(async () => {
       fetch.mockClear()
-      await putTskToDone(fakeTskId)
+      await putTskToDone({tskId: fakeTskId})
     })
 
     it('calls PUT /v1/tsks endpoint with auth token and tsk id', () => {
@@ -54,7 +54,7 @@ describe('putTskToDone', () => {
 
     beforeEach(async () => {
       fetch.mockClear()
-      response = await putTskToDone(fakeTskId)
+      response = await putTskToDone({tskId: fakeTskId})
     })
 
     it('returns ok', () => {
@@ -84,7 +84,7 @@ describe('putTskToDone', () => {
 
     beforeEach(async () => {
       fetch.mockClear()
-      response = await putTskToDone(fakeTskId)
+      response = await putTskToDone({tskId: fakeTskId})
     })
 
     it('returns not ok', () => {
@@ -114,12 +114,12 @@ describe('putTskToDone', () => {
 
     beforeEach(async () => {
       fetch.mockClear()
-      response = await putTskToDone(fakeTskId)
+      response = await putTskToDone({tskId: fakeTskId})
     })
 
-    //it('returns not ok', () => {
-    //  expect(response).toHaveProperty('ok', false)
-    //})
+    it('returns not ok', () => {
+      expect(response).toHaveProperty('ok', false)
+    })
 
     it('returns error containing message', () => {
       expect(response).toHaveProperty(

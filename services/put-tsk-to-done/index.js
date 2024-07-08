@@ -3,7 +3,7 @@ import {getCurrentAuthTokenAtBrowser} from '../../utils'
 const {NEXT_PUBLIC_API_URL} = process.env
 
 // TODO: handle catch return
-export async function putTskToDone(tskId) {
+export async function putTskToDone({tskId}) {
   const apiToken = getCurrentAuthTokenAtBrowser()
   const tsk = {status: 'done'}
 
@@ -21,7 +21,7 @@ export async function putTskToDone(tskId) {
 
   if (!res.ok) {
     const {ok, message} = res
-    return {ok, error: {message}, isReady: true}
+    return {ok: Boolean(ok), error: {message}, isReady: true}
   }
 
   const {ok, tsk: updatedTsk} = res
