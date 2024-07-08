@@ -73,7 +73,11 @@
 * implements tests for api calls
 * implements user header
     * research apollo client/server possibility
-- review all docs and organize
+- update tsk form width to 100%
+- update tsk form button to contain "+"
 - implements tsk edit
+    - add edit button to tsk component
+    - render edit tsk form when editing
+- review all docs and organize
 - changes all NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY to NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY
   ! write specs for cli implementation
