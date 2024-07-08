@@ -7,7 +7,14 @@ import {
   deleteCurrentAuthTokenAtBrowser,
   setCurrentAuthTokenAtBrowser,
 } from '../utils'
-import {getTsks, postTsk, putTsk, deleteTsk, getRefreshToken} from '../services'
+import {
+  getTsks,
+  postTsk,
+  deleteTsk,
+  getRefreshToken,
+  putTskToDoing,
+  putTskToDone,
+} from '../services'
 
 export default function Tsks() {
   const router = useRouter()
@@ -80,12 +87,7 @@ export default function Tsks() {
 
   // TODO: update tsk params (only tsk is necessary)
   async function handleDoing(tskId) {
-    const now = new Date().toISOString()
-    const tsk = {
-      status: 'doing',
-      updated_at: now,
-    }
-    const {ok, error} = await putTsk({tskId, tsk})
+    const {ok, error} = await putTskToDoing(tskId)
 
     if (!ok) {
       const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
@@ -97,13 +99,7 @@ export default function Tsks() {
   }
 
   async function handleDone(tskId) {
-    const now = new Date().toISOString()
-    const tsk = {
-      status: 'done',
-      updated_at: now,
-    }
-
-    const {ok, error} = await putTsk({tskId, tsk})
+    const {ok, error} = await putTskToDone(tskId)
 
     if (!ok) {
       const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
