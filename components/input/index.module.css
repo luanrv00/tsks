@@ -1,5 +1,5 @@
 .input {
-  width: 600px;
+  width: 100%;
   padding: 5px;
   border: 0;
   background-color: #555;
@@ -28,5 +28,5 @@
 }
 
 .smallInput {
-  width: 150px;
+  max-width: 150px;
 }
