@@ -43,7 +43,7 @@
 
 * cannot without authentication token
 
-**cannot without valid authentication token**
+#### cannot without valid authentication token
 * when unauthorized
 * when forbidden
 
@@ -73,7 +73,7 @@
 
 #### DELETE tsk
 
-**cannot without valid authentication token**
+##### cannot without valid authentication token
 * when unauthorized
 
 * when deleting

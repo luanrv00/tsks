@@ -4,27 +4,27 @@
 
 ### POST signup
 
-**cannot without email**
+#### cannot without email
 * returns status_code=400
 * returns message="400 Bad Request"
 * returns ok=false
 
-**cannot without password**
+#### cannot without password
 * returns status_code=400
 * returns message="400 Bad Request"
 * returns ok=false
 
-**cannot without valid email**
+#### cannot without valid email
 * returns status_code=400
 * returns message="400 Bad Request"
 * returns ok=false
 
-**cannot with already registered email**
+#### cannot with already registered email
 * returns status_code=409
 * returns message="409 Conflict"
 * returns ok=false
 
-**signup succesfully**
+#### signup succesfully
 * returns status_code=201
 * returns message="201 Created"
 * returns ok=true
@@ -36,32 +36,32 @@
 
 ### POST signin
 
-**cannot without email**
+#### cannot without email
 * returns status_code=400
 * returns message="400 Bad Request"
 * returns ok=false
 
-**cannot without valid email**
+#### cannot without valid email
 * returns status_code=400
 * returns message="400 Bad Request"
 * returns ok=false
 
-**cannot without registered email**
+#### cannot without registered email
 * returns status_code=404
 * returns message="404 Not Found"
 * returns ok=false
 
-**cannot without password**
+#### cannot without password
 * returns status_code=400
 * returns message="400 Bad Request"
 * returns ok=false
 
-**cannot without correct password**
+#### cannot without correct password
 * returns status_code=401
 * returns message="401 Unauthorized"
 * returns ok=false
 
-**signin succesfully**
+#### signin succesfully
 * returns status_code=200
 * returns message="200 Success"
 * returns ok=true
@@ -76,24 +76,24 @@
 
 ### POST refresh_token
 
-**cannot without refresh token**
+#### cannot without refresh token
 * returns status_code=400
 * returns message="400 Bad Request"
 * returns ok=false
 
-**cannot without valid refresh token**
+#### cannot without valid refresh token
 
-*when refresh token is invalid*
+##### when refresh token is invalid
 * returns status_code=400
 * returns message="400 Bad Request"
 * returns ok=false
 
-*when refresh token is unauthorized*
+##### when refresh token is unauthorized
 * returns status_code=401
 * returns message="401 Unauthorized"
 * returns ok=false
 
-**refresh token succesfully**
+#### refresh token succesfully
 * returns status_code=201
 * returns message="201 Created"
 * returns ok=true
@@ -102,17 +102,17 @@
 
 ### GET tsks
 
-**cannot without auth token**
+#### cannot without auth token
 * returns status_code=401
 * returns message="401 Unauthorized"
 * returns ok=false
 
-**cannot without valid auth token**
+#### cannot without valid auth token
 * returns status_code=403
 * returns message="403 Forbidden"
 * returns ok=false
 
-**get succesfully**
+#### get succesfully
 * returns status_code=200
 * returns message="200 Success"
 * returns ok=true
@@ -121,27 +121,27 @@
 
 ### POST tsk
 
-**cannot without auth token**
+#### cannot without auth token
 * returns status_code=401
 * returns message="401 Unauthorized"
 * returns ok=false
 
-**cannot without valid auth token**
+#### cannot without valid auth token
 * returns status_code=403
 * returns message="403 Forbidden"
 * returns ok=false
 
-**cannot without tsk**
+#### cannot without tsk
 * returns status_code=400
 * returns message="400 Bad Request"
 * returns ok=false
 
-**cannot without valid tsk**
+#### cannot without valid tsk
 * returns status_code=400
 * returns message="400 Bad Request"
 * returns ok=false
 
-**post succesfully**
+#### post succesfully
 * returns status_code=201
 * returns message="201 Created"
 * returns ok=true
@@ -151,32 +151,32 @@
 
 ### PUT tsk
 
-**cannot without auth token**
+#### cannot without auth token
 * returns status_code=401
 * returns message="401 Unauthorized"
 * returns ok=false
 
-**cannot without valid auth token**
+#### cannot without valid auth token
 * returns status_code=403
 * returns message="403 Forbidden"
 * returns ok=false
 
-**cannot without tsk**
+#### cannot without tsk
 * returns status_code=400
 * returns message="400 Bad Request"
 * returns ok=false
 
-**cannot without valid tsk**
+#### cannot without valid tsk
 * returns status_code=400
 * returns message="400 Bad Request"
 * returns ok=false
 
-**cannot unexistent tsk**
+#### cannot unexistent tsk
 * returns status_code=404
 * returns message="404 Not Found"
 * returns ok=false
 
-**put succesfully**
+#### put succesfully
 * returns status_code=200
 * returns message="200 Success"
 * returns ok=true
@@ -184,217 +184,216 @@
 
 ### DELETE tsk
 
-**cannot without auth token**
+#### cannot without auth token
 * returns status_code=401
 * returns message="401 Unauthorized"
 * returns ok=false
 
-**cannot without valid auth token**
+#### cannot without valid auth token
 * returns status_code=403
 * returns message="403 Forbidden"
 * returns ok=false
 
-**cannot without valid id**
+#### cannot without valid id
 * returns status_code=400
 * returns message="400 Bad Request"
 * returns ok=false
 
-**cannot unexistent tsk**
+#### cannot unexistent tsk
 * returns status_code=404
 * returns message="404 Not Found"
 * returns ok=false
 
-**delete succesfully**
+#### delete succesfully
 * returns status_code=204
 
-*--
+---
 
 ## WEB
 
 ### home
 
-**when has session**
+#### when has session
 * redirects to tsks
 
-**when has not session**
+#### when has not session
 * redirects to signin
 
 ### signup
 
-**cannot without email**
+#### cannot without email
 * renders "required"
 
-**cannot without password**
+#### cannot without password
 * renders "required"
 
-**cannot without valid email**
+#### cannot without valid email
 * renders "invalid email"
 
-**cannot without unregistered email**
+#### cannot without unregistered email
 * renders "email already registered"
 
-**when signing up**
+#### when signing up
 * renders loading button
 * calls signup api
 
-**when signing up fails**
+#### when signing up fails
 * renders error message
 * not renders loading button
 
-**signup succesfully**
+#### signup succesfully
 * saves user on localStorage
 * saves auth token on localStorage
 * redirects to /tsks
 
-**renders a link to signin**
+#### renders a link to signin
 * renders a link to signin
 * redirects to signin when clicking
 
 ### signin
 
-**cannot without email**
+#### cannot without email
 * renders "required"
 
-**cannot without valid email**
+#### cannot without valid email
 * renders "invalid email"
 
-**cannot without registered email**
+#### cannot without registered email
 * renders "email not registered"
 
-**cannot without password**
+#### cannot without password
 * renders "required"
 
-**cannot without correct password**
+#### cannot without correct password
 * renders "incorrect password"
 
-**when signing in**
+#### when signing in
 * renders loading button
 * calls signin api
 
-**when signing in fails**
+#### when signing in fails
 * renders error message
 * not renders loading button
 
-**signin succesfully**
+#### signin succesfully
 * saves user on localStorage
 * saves auth token on localStorage
 * redirects to /tsks
 
-**renders a link to signup**
+#### renders a link to signup
 * renders a link to signup
 * redirects to signup when clicking
 
 ### refresh token
 
-**when refresh token is not valid**
+#### when refresh token is not valid
 * removes user from localStorage
 * removes auth token from localStorage
 * redirects to /signin
 
-**when refresh token is unauthorized**
+#### when refresh token is unauthorized
 * removes user from localStorage
 * removes auth token from localStorage
 * redirects to /signin
 
-**when refresh token owner is not found**
+#### when refresh token owner is not found
 * removes user from localStorage
 * removes auth token from localStorage
 * redirects to /signin
 
-**when refreshing token**
+#### when refreshing token
 * calls refresh token api
 
-**when refresh token fails**
+#### when refresh token fails
 * redirects to signin
 
-**refresh token succesfully**
+#### refresh token succesfully
 * saves auth token on localStorage
 * renders "authentication renewed. please, try again"
 
 ### tsks
 
-**cannot without authentication token**
+#### cannot without authentication token
 * redirects to /signin
 
-**cannot without valid authentication token**
+#### cannot without valid authentication token
 
-*when auth token is unauthorized*
+##### when auth token is unauthorized
 * requests refresh token
 
-*when auth token is forbidden*
+##### when auth token is forbidden
 * removes user from localStorage
 * removes auth token from localStorage
 * redirects to /signin
 
-**access succesfully**
+#### access succesfully
 * renders user email
 
 #### GET tsks
 
-**when getting**
+##### when getting
 * renders loading
 * calls GET tsks api
 
-**when getting fails**
+##### when getting fails
 * renders error message
 * not renders loading
 
-**get succesfully**
+##### get succesfully
 
-*when has tsks*
+###### when has tsks
 * renders tsks
 
-*when has not tsks*
+###### when has not tsks
 * renders "tsks not found"
 
 #### POST tsk
 
-**cannot without tsk**
+##### cannot without tsk
 * renders "cannot without tsk"
 
-**when posting**
+##### when posting
 * renders loading
 * calls POST tsk api
 
-**when posting fails**
+##### when posting fails
 * renders error message
 * not renders loading button
 
-**post succesfully**
+##### post succesfully
 * renders tsk
 * clears tsk input
 
 #### PUT tsk
 
-**cannot unexistent tsk**
+##### cannot unexistent tsk
 * renders "cannot unexistent tsk"
 
-**when puting**
-- calls PUT tsk api
-- renders loading
+##### when puting
+* calls PUT tsk api
 
-**put succesfully**
+##### put succesfully
 
-*put doing tsk*
+###### put doing tsk
 * renders tsk
 
-*put done tsk*
+###### put done tsk
 * renders tsk
 
-*put tsk content*
+###### put tsk content
 - renders tsk
 
 #### DELETE tsk
 
-**when deleting**
+##### when deleting
 * renders loading
 * calls DELETE tsk api
 
-**when deleting fails**
+##### when deleting fails
 * renders error message
 + not renders loading
 
-**delete succesfully**
+##### delete succesfully
 * renders "deleted succesfully"
 * remove tsk from render
 
@@ -403,159 +402,159 @@
 * renders tsk
 * renders context
 
-**renders status**
+##### renders status
 
-*when todo*
+###### when todo
 * renders "-"
 
-*when doing*
+###### when doing
 * renders "+"
 
-*when done*
+###### when done
 * renders "*"
 
 ### services
 
 #### signUpUser
 
-**calls signup api**
+##### calls signup api
 * calls POST /v1/signup endpoint with received credentials
 
-**when request is succesfull**
+##### when request is succesfull
 * returns ok
 * returns data containing user
 * returns data containing auth_token
 * returns is ready
 
-**when request is failed**
+##### when request is failed
 * returns not ok
 * returns error containing message
 * returns is ready
 
-**when request breaks**
+##### when request breaks
 * returns not ok
 * returns error containing message
 * returns is ready
 
 #### signInUser
 
-**calls signup api**
+##### calls signup api
 * calls POST /v1/signin endpoint with received credentials
 
-**when request is succesfull**
+##### when request is succesfull
 * returns ok
 * returns data containing user
 * returns data containing auth_token
 * returns is ready
 
-**when request is failed**
+##### when request is failed
 * returns not ok
 * returns error containing message
 * returns is ready
 
-**when request breaks**
+##### when request breaks
 * returns not ok
 * returns error containing message
 * returns is ready
 
 #### getTsks
 
-**calls get tsks api**
+##### calls get tsks api
 * calls GET /v1/tsks endpoint with auth token
 
-**when request is succesfull**
+##### when request is succesfull
 * returns ok
 * returns data containing tsks
 * returns is ready
 
-**when request is failed**
+##### when request is failed
 * returns not ok
 * returns error containing message
 * returns is ready
 
-**when request breaks**
+##### when request breaks
 * returns not ok
 * returns error containing message
 * returns is ready
 
 #### postTsk
 
-**calls post tsk api**
+##### calls post tsk api
 * calls POST /v1/tsks endpoint with auth token and tsk
 
-**when request is succesfull**
+##### when request is succesfull
 * returns ok
 * returns data containing tsk
 * returns is ready
 
-**when request is failed**
+##### when request is failed
 * returns not ok
 * returns error containing message
 * returns is ready
 
-**when request breaks**
+##### when request breaks
 * returns not ok
 * returns error containing message
 * returns is ready
 
-**when request is loading**
+##### when request is loading
 * returns not ready
 
 #### putTskToDoing
 
-**calls put tsk api**
-- calls PUT /v1/tsks/:id endpoint with auth token and tsk status
+##### calls put tsk api
+* calls PUT /v1/tsks/:id endpoint with auth token and tsk status
 
-**when request is succesfull**
-- returns ok
-- returns data containing tsk
-- returns is ready
-
-**when request is failed**
-- returns not ok
-- returns error containing message
-- returns is ready
-
-**when request breaks**
-- returns not ok
-- returns error containing message
-- returns is ready
-
-#### putTskToDone
-
-**calls put tsk api**
-- calls PUT /v1/tsks/:id endpoint with auth token and tsk status
-
-**when request is succesfull**
-- returns ok
-- returns data containing tsk
-- returns is ready
-
-**when request is failed**
-- returns not ok
-- returns error containing message
-- returns is ready
-
-**when request breaks**
-- returns not ok
-- returns error containing message
-- returns is ready
-
-#### deleteTsk
-
-**calls delete tsk api**
-* calls DELETE /v1/tsks/:id endpoint with auth token
-
-**when request is succesfull**
+##### when request is succesfull
 * returns ok
+* returns data containing tsk
 * returns is ready
 
-**when request is failed**
+##### when request is failed
 * returns not ok
 * returns error containing message
 * returns is ready
 
-**when request breaks**
+##### when request breaks
+* returns not ok
+* returns error containing message
+* returns is ready
+
+#### putTskToDone
+
+##### calls put tsk api
+* calls PUT /v1/tsks/:id endpoint with auth token and tsk status
+
+##### when request is succesfull
+* returns ok
+* returns data containing tsk
+* returns is ready
+
+##### when request is failed
+* returns not ok
+* returns error containing message
+* returns is ready
+
+##### when request breaks
+* returns not ok
+* returns error containing message
+* returns is ready
+
+#### deleteTsk
+
+##### calls delete tsk api
+* calls DELETE /v1/tsks/:id endpoint with auth token
+
+##### when request is succesfull
+* returns ok
+* returns is ready
+
+##### when request is failed
+* returns not ok
+* returns error containing message
+* returns is ready
+
+##### when request breaks
 * returns not ok
 * returns error containing message
 * returns is ready
