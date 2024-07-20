@@ -80,6 +80,8 @@
 * fix services tests missing "returns not ok"
 * changes all NEXT_PUBLIC_TSKS_LOCAL_STORAGE_KEY to NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY
 * review all docs and organize
++ implements storybook
+- move components to jsx files
 - implements tsk edit
     - add edit button to tsk component
     - render edit tsk form when editing
