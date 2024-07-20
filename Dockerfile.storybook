@@ -1,0 +1,7 @@
+FROM node:lts-alpine3.18
+WORKDIR /app/
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
+COPY . .
+EXPOSE $PORT
+CMD ["yarn", "storybook"]

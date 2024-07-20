@@ -9,7 +9,9 @@
     "lint": "next lint",
     "format": "yarn prettier -w **/*.js",
     "test_e2e": "cypress run",
-    "test_unit": "jest"
+    "test_unit": "jest",
+    "storybook": "storybook dev -p 6006 --no-open",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@babel/core": "^7.21.8",
@@ -22,16 +24,27 @@
     "react-loader-spinner": "^6.1.6"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^1.6.1",
+    "@storybook/addon-essentials": "^8.2.5",
+    "@storybook/addon-interactions": "^8.2.5",
+    "@storybook/addon-links": "^8.2.5",
+    "@storybook/addon-onboarding": "^8.2.5",
+    "@storybook/blocks": "^8.2.5",
+    "@storybook/nextjs": "^8.2.5",
+    "@storybook/react": "^8.2.5",
+    "@storybook/test": "^8.2.5",
     "@testing-library/react": "^15.0.7",
     "babel-jest": "^27.0.6",
     "cypress": "^8.3.0",
     "eslint": "7.32.0",
     "eslint-config-next": "^13.4.1",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-storybook": "^0.8.0",
     "jest": "^27.0.6",
     "jest-css-modules": "^2.1.0",
     "jest-localstorage-mock": "^2.4.26",
     "prettier": "^2.4.0",
-    "react-test-renderer": "^17.0.2"
+    "react-test-renderer": "^17.0.2",
+    "storybook": "^8.2.5"
   }
 }

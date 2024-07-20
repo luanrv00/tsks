@@ -36,3 +36,5 @@ yarn-error.log*
 *.txt
 package-lock.json
 .env
+
+*storybook.log
