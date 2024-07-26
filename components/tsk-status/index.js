@@ -10,6 +10,4 @@ const availableStatus = {
   todo: '-',
   doing: '+',
   done: '*',
-  freezed: '!',
-  archived: 'x',
 }

@@ -1,0 +1,32 @@
+import {Input} from '.'
+
+export default {
+  component: Input,
+  title: 'inputs/Input',
+  tags: ['autodocs'],
+}
+
+export const Primary = {
+  args: {
+    value: 'some value',
+    placeholder: 'placeholder',
+    type: 'any',
+    onChange: () => {},
+    hasEmptyError: false,
+    hasInvalidEmailError: false,
+  },
+}
+
+export const EmptyError = {
+  args: {
+    ...Primary.args,
+    hasEmptyError: true,
+  },
+}
+
+export const InvalidError = {
+  args: {
+    ...Primary.args,
+    hasInvalidEmailError: true,
+  },
+}

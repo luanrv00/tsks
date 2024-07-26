@@ -28,8 +28,8 @@ function InputBase({
         placeholder={placeholder}
         onChange={onChange}
       />
-      {hasEmptyError && <span>required</span>}
-      {hasInvalidEmailError && <span>invalid email</span>}
+      <div>{hasEmptyError && <span>required</span>}</div>
+      <div>{hasInvalidEmailError && <span>invalid email</span>}</div>
     </>
   )
 }

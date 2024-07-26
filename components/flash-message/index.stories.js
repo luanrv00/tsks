@@ -9,13 +9,13 @@ export default {
 export const Error = {
   args: {
     type: 'error',
-    message: 'error flash message',
+    message: 'flash message',
   },
 }
 
 export const Success = {
   args: {
+    ...Error.args,
     type: 'success',
-    message: 'success flash message',
   },
 }

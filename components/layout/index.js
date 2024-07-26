@@ -1,11 +1,18 @@
-import React from 'react'
-import {Header} from '..'
+import React, {useState, useEffect} from 'react'
 import styles from './index.module.css'
+import {Header} from '..'
+import {getCurrentUserAtBrowser} from '../../utils'
 
 export function Layout({children}) {
+  const [currentUser, setCurrentUser] = useState(null)
+
+  useEffect(() => {
+    setCurrentUser(getCurrentUserAtBrowser())
+  }, [])
+
   return (
     <div className={styles.wrapper}>
-      <Header />
+      <Header currentUser={currentUser} />
       {children}
     </div>
   )
