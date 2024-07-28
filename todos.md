@@ -82,7 +82,7 @@
 * review all docs and organize
 * implements storybook
     * fix font for rendering stories
-- update font to a sans serif
+- update font to Inder sans-serif
 - move components to jsx files
 - implements tsk edit
     - add edit button to tsk component
