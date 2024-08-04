@@ -87,7 +87,7 @@ export default function Tsks() {
 
   // TODO: update tsk params (only tsk is necessary)
   async function handleDoing(tskId) {
-    const {ok, error} = await putTskToDoing(tskId)
+    const {ok, error} = await putTskToDoing({tskId})
 
     if (!ok) {
       const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
@@ -99,7 +99,7 @@ export default function Tsks() {
   }
 
   async function handleDone(tskId) {
-    const {ok, error} = await putTskToDone(tskId)
+    const {ok, error} = await putTskToDone({tskId})
 
     if (!ok) {
       const isUnauthorizedAuthToken = error.message === '401 Unauthorized'
