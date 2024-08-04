@@ -9,8 +9,11 @@ export default function Index() {
 
   useEffect(() => {
     const user = getCurrentUserAtBrowser()
-    if (!user) return router.push('/signin')
-    return router.push('/tsks')
+    if (!user) {
+      router.push('/signin')
+    }
+
+    router.push('/tsks')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
