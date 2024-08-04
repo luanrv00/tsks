@@ -56,9 +56,9 @@ module V1
         tsk = user.tsks.build tsk_params
         begin
           if tsk.save!
-            return render json: {ok: true, 
+            return render json: {ok: true,
                                  tsk: user.tsks.last,
-                                 message: "201 Created"}, 
+                                 message: "201 Created"},
                                  status: :created
           else
             return render json: {ok: false,
@@ -171,7 +171,7 @@ module V1
     private
 
     def tsk_params
-      params.require(:tsk).permit(:tsk, :context)
+      params.require(:tsk).permit(:tsk, :context, :status)
     end
   end
 end
