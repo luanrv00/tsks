@@ -1,6 +1,6 @@
 import {getCurrentAuthTokenAtBrowser} from '../../utils'
 
-const {NEXT_PUBLIC_API_URL} = process.env
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL
 
 // TODO: handle catch return
 export async function postTsk(tskParams) {
