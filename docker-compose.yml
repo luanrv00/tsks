@@ -11,3 +11,5 @@ services:
     env_file:
       - .env.dev
     command: yarn dev
+    networks:
+      - default
