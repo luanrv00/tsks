@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
-. bin/env_vars
-if [ -z "$(docker images -q $APP_IMAGE_NAME 2> /dev/null)" ]; then
+if [ -z "$(docker images -q tsks-web-app 2> /dev/null)" ]; then
   bin/download-node-image
-  docker build -t $APP_IMAGE_NAME -f $DOCKERFILE_DEV .
+  docker build -t tsks-web-app -f Dockerfile.dev .
 fi
