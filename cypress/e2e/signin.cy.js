@@ -89,15 +89,15 @@ describe('signin', () => {
       cy.visit('/signin')
       cy.get('input[placeholder="user@tsks.app"]').type('registered@mail.com')
       cy.get('input[placeholder="******"]').type('123')
-      cy.get('button').click()
     })
 
     it('renders loading button', () => {
-      cy.wait(2000)
+      cy.get('button').click()
       cy.get('button').should('have.class', 'loading')
     })
 
     it('calls signin api', () => {
+      cy.get('button').click()
       cy.wait('@signin')
     })
   })

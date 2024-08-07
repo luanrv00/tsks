@@ -72,15 +72,15 @@ describe('signup', () => {
       cy.visit('/signup')
       cy.get('input[placeholder="user@tsks.app"]').type('unregistered@mail.com')
       cy.get('input[placeholder="******"]').type('123')
-      cy.get('button').click()
     })
 
     it('renders loading button', () => {
-      cy.wait(2000)
+      cy.get('button').click()
       cy.get('button').should('have.class', 'loading')
     })
 
     it('calls signup api', () => {
+      cy.get('button').click()
       cy.wait('@signup')
     })
   })
