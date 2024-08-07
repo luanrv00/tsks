@@ -1,0 +1,6 @@
+version: '3.3'
+services:
+  lint:
+    container_name: tsks-web-lint
+    image: tsks-web-app
+    command: yarn lint
