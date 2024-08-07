@@ -1,5 +1,2 @@
 #!/usr/bin/env sh
-bin/download-node-image
-docker rm -f tsks-web-storybook
-docker rmi -f tsks-web-app
-docker compose -f docker-compose.storybook.yml up --build --force-recreate --abort-on-container-exit
+docker compose -f docker-compose.storybook.yml up

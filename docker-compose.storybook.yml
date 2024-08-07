@@ -1,12 +1,6 @@
 version: '3.3'
 services:
-  app:
+  lint:
     container_name: tsks-web-storybook
-    build:
-      context: .
-      dockerfile: Dockerfile.storybook
-    ports:
-      - '6006:6006'
-    volumes:
-      - ./:/app/
-      - /app/node_modules
+    image: tsks-web-app
+    command: yarn storybook
