@@ -3,6 +3,4 @@ services:
   test_unit:
     container_name: tsks-web-test_unit
     image: tsks-web-app
-    env_file:
-      - .env.dev
     command: yarn test_unit
