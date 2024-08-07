@@ -65,8 +65,10 @@ describe('signup', () => {
 
   context('when signing up', () => {
     beforeEach(() => {
-      cy.intercept(postSignupFixture.method, postSignupFixture.endpoint, () =>
-        Promise.resolve({json: () => ({})})
+      cy.intercept(
+        postSignupFixture.method,
+        postSignupFixture.endpoint,
+        () => new Promise(res => setTimeout(res({json: () => {}}), 4000))
       ).as('signup')
 
       cy.visit('/signup')
