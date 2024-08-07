@@ -1,4 +1,6 @@
 #!/usr/bin/env sh
 . bin/env_vars
-bin/download-node-image
-docker build -t $APP_IMAGE_NAME -f $DOCKERFILE_DEV .
+if [ -z "$(docker images -q $APP_IMAGE_NAME 2> /dev/null)" ]; then
+  bin/download-node-image
+  docker build -t $APP_IMAGE_NAME -f $DOCKERFILE_DEV .
+fi
