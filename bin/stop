@@ -1,4 +1,2 @@
 #!/usr/bin/env sh
 docker compose stop
-docker rm -f tsks-web-app
-docker rmi -f tsks-web-app
