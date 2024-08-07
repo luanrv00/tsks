@@ -5,4 +5,3 @@ COPY cypress.config.js ./
 COPY cypress ./
 RUN yarn install --frozen-lockfile
 COPY . .
-CMD ["yarn", "test_e2e"]
