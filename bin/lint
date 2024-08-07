@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 . bin/env_vars
-if [ -z "$(docker images -q $IMAGE_NAME 2> /dev/null)" ]; then
+if [ -z "$(docker images -q $APP_IMAGE_NAME 2> /dev/null)" ]; then
   bin/build_dev
 fi
-docker run --name tsks-web-lint $IMAGE_NAME yarn lint
+docker run --name tsks-web-lint $APP_IMAGE_NAME yarn lint
 docker rm -f tsks-web-lint
