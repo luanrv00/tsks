@@ -1,3 +1,2 @@
 #!/usr/bin/env sh
-. bin/env_vars
 docker compose -f docker-compose.lint.yml up
