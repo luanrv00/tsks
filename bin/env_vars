@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+IMAGE_NAME=tsks-web-app
+DOCKERFILE_DEV=Dockerfile.dev

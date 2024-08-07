@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+. bin/env_vars
+bin/download-node-image
+docker build -t $IMAGE_NAME -f $DOCKERFILE_DEV .

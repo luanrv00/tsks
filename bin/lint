@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
-bin/download-node-image
-docker compose -f docker-compose.lint.yml up --build --force-recreate --abort-on-container-exit
+. bin/env_vars
+if [ -z "$(docker images -q $IMAGE_NAME 2> /dev/null)" ]; then
+  bin/build_dev
+fi
+docker run --name tsks-web-lint $IMAGE_NAME yarn lint
 docker rm -f tsks-web-lint
-docker rmi -f tsks-web-lint
