@@ -30,6 +30,12 @@
 ./bin/lint
 ```
 
+**Running storybook:**
+
+```
+./bin/storybook
+```
+
 **Obs.:** after testing run `./bin/stop` to put svc and test containers down.
 
 ## Troubleshooting
