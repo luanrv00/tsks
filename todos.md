@@ -82,7 +82,11 @@
 * review all docs and organize
 * implements storybook
     * fix font for rendering stories
-- update font to Inder sans-serif
+* update font to Inder sans-serif
+* update docker
+    * run linter inside tsks-web-app
+    * run storybook inside tsks-web-app
+    * run test_unit inside tsks-web-app
 - move components to jsx files
 - implements tsk edit
     - add edit button to tsk component
