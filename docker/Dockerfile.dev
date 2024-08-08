@@ -22,8 +22,8 @@ RUN apk add --update --virtual \
   tzdata \
   && rm -rf /var/cache/apk/*
 
-WORKDIR /app
-COPY . /app/
+WORKDIR /app/
+COPY . .
 
 ENV BUNDLE_PATH /gems
 ENV RAILS_ENV=development
@@ -31,9 +31,6 @@ ENV PORT 5000
 RUN yarn install
 RUN bundle install
 
-#COPY entrypoint.sh /usr/bin/
-#RUN chmod +x /usr/bin/entrypoint.sh
-#ENTRYPOINT ["entrypoint.sh"]
-
-EXPOSE 5000 5432
+EXPOSE 5000
+EXPOSE 5432
 CMD ["./bin/rails", "s", "-b", "0.0.0.0"]

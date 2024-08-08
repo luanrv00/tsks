@@ -5,29 +5,26 @@ services:
     image: postgres
     environment:
       - POSTGRES_PASSWORD=postgres
-    volumes:
-      - "./tmp/db:/var/lib/postgresql/data"
+    #volumes:
+    #  - "../tmp/db:/var/lib/postgresql/data"
   db-migration:
     container_name: tsks-api-db-migration
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
+    image: tsks-api-app
     command: bundle exec rake db:prepare
     depends_on:
       - db
     volumes:
-      - .:/app
+      - ../:/app
   app:
     container_name: tsks-api-app
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
+    image: tsks-api-app
     depends_on:
       - db
       - db-migration
     volumes:
-     - .:/app
+     - ../:/app
     ports:
       - 5000:5000
-    env_file:
-      - .env.dev
+    environment:
+      - AUTH_TOKEN_KEY=auth_key
+      - REFRESH_TOKEN_KEY=refresh_key

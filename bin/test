@@ -1,11 +1,3 @@
 #!/usr/bin/env sh
-sudo rm -rf tmp/db
-sudo rm -rf tmp/pids
-docker compose --env-file .env.test up --build --force-recreate -d
-docker compose run --name tsks-api-test app rake spec
-docker rm -f tsks-api-app
-docker rm -f tsks-api-db
-docker rm -f tsks-api-db-migration
-docker rm -f tsks-api-test
-docker rmi -f tsks-api-app
-docker rmi -f tsks-api-db-migration
+bin/dev
+docker exec -e RAILS_ENV=test tsks-api-app rake spec
