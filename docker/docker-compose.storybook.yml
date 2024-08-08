@@ -1,6 +1,0 @@
-version: '3.3'
-services:
-  storybook:
-    container_name: tsks-web-storybook
-    image: tsks-web-app
-    command: yarn storybook
