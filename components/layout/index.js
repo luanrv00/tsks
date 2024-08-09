@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import {useState, useEffect} from 'react'
 import {Inder} from 'next/font/google'
 import styles from './index.module.css'
 import {Header} from '..'

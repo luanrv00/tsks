@@ -1,4 +1,3 @@
-import React from 'react'
 import {Tsk, LoadingIcon} from '..'
 import styles from './index.module.css'
 

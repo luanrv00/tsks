@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import {useState} from 'react'
 import {MediumInput, Button, LoadingButton} from '..'
 import styles from './index.module.css'
 
