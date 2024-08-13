@@ -19,7 +19,7 @@ RSpec.describe "refresh_token", type: :request do
 
       it "returns error message" do
         parsed_body = JSON.parse response.body
-        expect(parsed_body["message"]).to eq "401 Bad Request"
+        expect(parsed_body["message"]).to eq "400 Bad Request"
       end
 
       it "returns not ok" do
