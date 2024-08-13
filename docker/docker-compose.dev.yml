@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  db:
+    container_name: tsks-api-db
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    #volumes:
+    #  - "../tmp/db:/var/lib/postgresql/data"
+  db-migration:
+    container_name: tsks-api-db-migration
+    image: tsks-api-app
+    command: bundle exec rake db:prepare
+    depends_on:
+      - db
+    volumes:
+      - ../:/app
+  app:
+    container_name: tsks-api-app
+    image: tsks-api-app
+    depends_on:
+      - db
+      - db-migration
+    volumes:
+     - ../:/app
+    ports:
+      - 5000:5000
+    environment:
+      - AUTH_TOKEN_KEY=auth_key
+      - REFRESH_TOKEN_KEY=refresh_key

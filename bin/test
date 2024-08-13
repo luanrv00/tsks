@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+bin/dev
+docker exec -e RAILS_ENV=test tsks-api-app rake spec

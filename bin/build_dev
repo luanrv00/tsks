@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+if [ -z "$(docker images -q tsks-api-app 2> /dev/null)" ];then
+    bin/download-ruby-image
+    docker build -t tsks-api-app -f docker/Dockerfile.dev .
+fi
