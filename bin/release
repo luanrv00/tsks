@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+bundle exec rake build
+git commit -am 'feat: new release'
+bundle exec rake release
