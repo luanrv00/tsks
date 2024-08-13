@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 if [ -z "$(docker images -q tsks-web-app 2> /dev/null)" ]; then
-  bin/download-node-image
+  docker pull node:lts-alpine3.18
   docker build -t tsks-web-app -f docker/Dockerfile.dev .
 fi
