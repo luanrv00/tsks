@@ -7,3 +7,21 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
       - run: scripts/api_test
+  web-lint-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: scripts/web_lint
+  web-unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: scripts/web_test_unit
+  web-e2e-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: scripts/web_test_e2e
