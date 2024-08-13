@@ -87,7 +87,6 @@
     * run linter inside tsks-web-app
     * run storybook inside tsks-web-app
     * run test_unit inside tsks-web-app
-- move components to jsx files
 - implements tsk edit
     - add edit button to tsk component
     - render edit tsk form when editing
