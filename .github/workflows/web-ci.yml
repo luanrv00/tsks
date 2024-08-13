@@ -6,16 +6,16 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - run: web/bin/lint
+      - run: scripts/web_lint
   web-unit-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - run: web/bin/test_unit
+      - run: scripts/web_test_unit
   web-e2e-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - run: web/bin/test_e2e
+      - run: scripts/web_test_e2e
