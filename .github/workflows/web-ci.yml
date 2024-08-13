@@ -1,0 +1,21 @@
+name: web ci
+on: [push]
+jobs:
+  web-lint-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: web/bin/lint
+  web-unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: web/bin/test_unit
+  web-e2e-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: web/bin/test_e2e
