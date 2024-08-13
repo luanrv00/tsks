@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
-api/bin/build_dev
+./api/bin/build_dev
 docker compose -f api/docker/docker-compose.dev.yml --project-directory tsks-api up -d
