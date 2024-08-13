@@ -6,5 +6,4 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - run: cd api
-      - run: bin/test
+      - run: scripts/api_test
