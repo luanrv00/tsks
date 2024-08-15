@@ -6,7 +6,7 @@ A project for study purposes only. Built using Docker, Ruby on Rails, PostgreSQL
 
 ## Instructions
 
-## Running development environment
+### Running development environment
 
 ```sh
 scripts/dev
