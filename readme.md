@@ -6,6 +6,14 @@ A project for study purposes only. Built using Docker, Ruby on Rails, PostgreSQL
 
 ## Instructions
 
+## Running development environment
+
+```sh
+scripts/dev
+```
+
+**By running `scripts/api_dev` or `scripts/web_dev` only these specific development servers will start.**
+
 ### Running tests
 
 #### API tests
