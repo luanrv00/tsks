@@ -42,6 +42,10 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'sqlite3', '~> 1.4'
+  gem 'prettier_print'
+  gem 'syntax_tree'
+  #gem 'syntax_tree-haml'
+  #gem 'syntax_tree-rbs'
 end
 
 group :test do
