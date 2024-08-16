@@ -9,17 +9,17 @@ A project for study purposes only. Built using Docker, Ruby on Rails, PostgreSQL
 ### Running development environment
 
 ```sh
-scripts/dev
+bin/dev
 ```
 
-**By running `scripts/api_dev` or `scripts/web_dev` only these specific development servers will start.**
+**By running `bin/api_dev` or `bin/web_dev` only these specific development servers will start.**
 
 ### Running tests
 
 #### API tests
 
 ```sh
-scripts/api_test
+bin/api_test
 ```
 
 #### WEB
@@ -27,17 +27,17 @@ scripts/api_test
 ##### Code lint tests
 
 ```sh
-scripts/web_lint
+bin/web_lint
 ```
 
 ##### Unit tests
 
 ```sh
-scripts/web_test_unit
+bin/web_test_unit
 ```
 
 ##### E2E tests
 
 ```sh
-scripts/web_test_e2e
+bin/web_test_e2e
 ```
