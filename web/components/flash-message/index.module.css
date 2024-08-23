@@ -1,0 +1,16 @@
+.flash {
+  display: flex;
+  align-items: center;
+  height: 25px;
+  padding-left: 5px;
+}
+
+.error {
+  border: 1px solid var(--error-border-color);
+  background-color: var(--error-bg-color);
+}
+
+.success {
+  border: 1px solid var(--success-border-color);
+  background-color: var(--success-bg-color);
+}

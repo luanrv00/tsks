@@ -5,6 +5,10 @@
   --hover-color: #666;
   --line-color: #444;
   --done-color: #999;
+  --success-border-color: #3EAF3F;
+  --success-bg-color: #102D10;
+  --error-border-color: #FF6058;
+  --error-bg-color: #471816;
 }
 
 * {
