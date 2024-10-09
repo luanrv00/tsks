@@ -92,3 +92,4 @@
     - add edit button to tsk component
     - render edit tsk form when editing
 - autofocus signup/signin form
+- shows delete tsk button only when hovering the tsk
