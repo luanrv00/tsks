@@ -90,4 +90,4 @@
 - implements tsk edit
     - add edit button to tsk component
     - render edit tsk form when editing
-- autofocus signup/signin form
++ autofocus signup/signin form
