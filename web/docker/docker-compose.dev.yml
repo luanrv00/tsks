@@ -1,5 +1,5 @@
 version: '3.3'
-name: tsks-web
+name: tsks
 services:
   app:
     container_name: tsks-web-app

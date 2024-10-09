@@ -1,5 +1,5 @@
 version: "3.8"
-name: tsks-api
+name: tsks
 services:
   db:
     container_name: tsks-api-db
