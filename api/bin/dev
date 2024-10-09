@@ -3,4 +3,4 @@ if [ -z "$(docker images -q tsks-api-app 2> /dev/null)" ];then
     docker pull ruby:3.1.2-alpine
     docker build -t tsks-api-app -f docker/Dockerfile.dev .
 fi
-docker compose -f docker/docker-compose.dev.yml --project-directory tsks-api up -d
+docker compose -f docker/docker-compose.dev.yml up -d

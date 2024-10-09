@@ -2,4 +2,4 @@
 bin/download-cypress-image
 bin/dev
 docker build -t tsks-web-test_e2e -f docker/Dockerfile.e2e .
-docker compose -f docker/docker-compose.e2e.yml --project-directory tsks-web up --abort-on-container-exit
+docker compose -f docker/docker-compose.e2e.yml up --abort-on-container-exit

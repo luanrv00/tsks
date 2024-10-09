@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
-scripts/api_dev
-scripts/web_dev
+bin/api_dev
+bin/web_dev

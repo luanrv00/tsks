@@ -1,4 +1,5 @@
 version: '3.3'
+name: tsks-web
 services:
   test_e2e:
     container_name: tsks-web-test_e2e
