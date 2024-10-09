@@ -4,6 +4,8 @@
 
 A project for study purposes only. Built using Docker, Ruby on Rails, PostgreSQL, Thor and Next.js
 
+![screenshot](ss.png)
+
 ## Instructions
 
 ### Running development environment
