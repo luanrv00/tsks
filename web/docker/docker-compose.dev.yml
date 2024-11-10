@@ -1,12 +1,12 @@
-version: '3.3'
-name: tsks
+name: tsks-web
 services:
   app:
-    container_name: tsks-web-app
-    image: tsks-web-app
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     ports:
-      - '80:3000'
-      - '6006:6006'
+      - 80:3000
+      - 6006:6006
     volumes:
       - ../:/app/
       - /app/node_modules
@@ -14,4 +14,3 @@ services:
       - NEXT_PUBLIC_API_URL=http://localhost:5000/v1
       - NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY=@tsks-user
       - NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY=@tsks-auth-token
-    command: yarn dev
