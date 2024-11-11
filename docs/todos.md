@@ -93,3 +93,4 @@
     - render edit tsk form when editing
 - autofocus signup/signin form
 - shows delete tsk button only when hovering the tsk
+- fix new tsks not being saved with context=inbox (api)
