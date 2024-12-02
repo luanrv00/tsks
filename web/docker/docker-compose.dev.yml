@@ -1,6 +1,7 @@
 name: tsks-web
 services:
   app:
+    container_name: tsks-web-app
     build:
       context: .
       dockerfile: Dockerfile.dev
