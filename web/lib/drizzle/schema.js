@@ -20,3 +20,12 @@ export const tsksTable = pgTable('tsks', {
   updated_at: varchar().notNull(),
   deleted_at: varchar().notNull(),
 })
+
+export type UserType = {
+  id: string,
+  email: string,
+  password_digest: string,
+  refresh_token: string,
+  created_at: string,
+  updated_at: string,
+}
