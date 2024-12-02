@@ -8,8 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "format": "yarn prettier -w **/*.js",
-    "test_e2e": "cypress run",
-    "test_unit": "jest",
+    "test:e2e": "cypress run",
+    "test:unit": "jest",
+    "test:unit:w": "jest --watchAll",
     "storybook": "storybook dev -p 6006 --no-open",
     "build-storybook": "storybook build"
   },

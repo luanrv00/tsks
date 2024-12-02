@@ -4,4 +4,4 @@ services:
   test_e2e:
     container_name: tsks-web-test_e2e
     image: tsks-web-test_e2e
-    command: yarn test_e2e
+    command: yarn test:e2e

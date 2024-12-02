@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+bin/dev
+docker exec tsks-web-app yarn test:unit:w
