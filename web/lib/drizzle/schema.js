@@ -6,17 +6,17 @@ export const usersTable = pgTable('users', {
   email: varchar().notNull(),
   password_digest: varchar().notNull(),
   refresh_token: varchar(),
-  created_at: varchar(),
-  updated_at: varchar(),
+  created_at: varchar().notNull(),
+  updated_at: varchar().notNull(),
 })
 
 export const tsksTable = pgTable('tsks', {
   id: uuid().primaryKey().defaultRandom(),
-  user_id: varchar.notNull(),
+  user_id: uuid().notNull(),
   tsk: varchar().notNull(),
   context: varchar().notNull().default('inbox'),
   status: boolean().default('todo'),
-  created_at: varchar(),
-  updated_at: varchar(),
-  deleted_at: varchar(),
+  created_at: varchar().notNull(),
+  updated_at: varchar().notNull(),
+  deleted_at: varchar().notNull(),
 })
