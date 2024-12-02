@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+docker rm -f -v tsks-web-app
+docker rmi -f tsks-web-app
+docker network rm tsks-web_default
