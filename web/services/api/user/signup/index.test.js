@@ -1,12 +1,11 @@
 import {apiUserSignup} from '.'
-import type {APIResponseType} from '.'
 
 jest.mock('../../../../lib/drizzle')
 import {db} from '../../../../lib'
 
 describe('apiUserSignup', () => {
   describe('cannot without email', () => {
-    let response: APIResponseType | undefined = undefined
+    let response = null
 
     beforeEach(async () => {
       response = await apiUserSignup({email: '', password: 's'})
@@ -26,7 +25,7 @@ describe('apiUserSignup', () => {
   })
 
   describe('cannot without password', () => {
-    let response: APIResponseType | undefined = undefined
+    let response = null
 
     beforeEach(async () => {
       response = await apiUserSignup({email: '', password: ''})
@@ -46,7 +45,7 @@ describe('apiUserSignup', () => {
   })
 
   describe('cannot without valid email', () => {
-    let response: APIResponseType | undefined = undefined
+    let response = null
 
     beforeEach(async () => {
       response = await apiUserSignup({email: 'random', password: 's'})
@@ -66,11 +65,11 @@ describe('apiUserSignup', () => {
   })
 
   describe('cannot without already registered email', () => {
-    let response: APIResponseType | undefined = undefined
+    let response = null
 
     beforeEach(async () => {
-      ;(db as jest.Mock).mockReturnValue([{}])
-      response = await apiUserSignup({email: 'random', password: 's'})
+      db.mockReturnValue([{}])
+      response = await apiUserSignup({email: 'a@b.c', password: 's'})
     })
 
     it('returns status_code=409', () => {
