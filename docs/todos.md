@@ -94,3 +94,4 @@
 - autofocus signup/signin form
 - shows delete tsk button only when hovering the tsk
 - fix new tsks not being saved with context=inbox (api)
+- fix docs schemas of user's uuid to be string type (signup/signin endpoints)
