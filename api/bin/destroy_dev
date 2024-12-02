@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+docker rm -f -v tsks-api-app
+docker rmi -f tsks-api-app
+docker network rm tsks-api_default
