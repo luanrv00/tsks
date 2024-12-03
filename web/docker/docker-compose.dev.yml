@@ -1,5 +1,15 @@
 name: tsks-web
 services:
+  db:
+    container_name: tsks-web-db
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_URL=postgres://postgres:pass@db:5432/tsks
+      - POSTGRES_DB=ivewatched
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pass
   app:
     container_name: tsks-web-app
     build:
@@ -15,3 +25,6 @@ services:
       - NEXT_PUBLIC_API_URL=http://localhost:5000/v1
       - NEXT_PUBLIC_USER_LOCAL_STORAGE_KEY=@tsks-user
       - NEXT_PUBLIC_AUTH_TOKEN_LOCAL_STORAGE_KEY=@tsks-auth-token
+      - DATABASE_URL=postgres://postgres:pass@db:5432/tsks
+    depends_on:
+      - db
