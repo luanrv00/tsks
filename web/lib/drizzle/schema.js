@@ -1,13 +1,12 @@
-import {boolean} from 'drizzle-orm/mysql-core'
-import {pgTable, uuid, varchar} from 'drizzle-orm/pg-core'
+import {pgTable, timestamp, uuid, varchar} from 'drizzle-orm/pg-core'
 
 export const usersTable = pgTable('users', {
   id: uuid().primaryKey().defaultRandom(),
   email: varchar().notNull(),
   password_digest: varchar().notNull(),
   refresh_token: varchar(),
-  created_at: varchar().notNull(),
-  updated_at: varchar().notNull(),
+  created_at: timestamp().defaultNow().notNull(),
+  updated_at: timestamp(),
 })
 
 export const tsksTable = pgTable('tsks', {
@@ -15,8 +14,8 @@ export const tsksTable = pgTable('tsks', {
   user_id: uuid().notNull(),
   tsk: varchar().notNull(),
   context: varchar().notNull().default('inbox'),
-  status: boolean().default('todo'),
-  created_at: varchar().notNull(),
-  updated_at: varchar().notNull(),
-  deleted_at: varchar().notNull(),
+  status: varchar().default('todo'),
+  created_at: timestamp().defaultNow().notNull(),
+  updated_at: timestamp(),
+  deleted_at: timestamp(),
 })

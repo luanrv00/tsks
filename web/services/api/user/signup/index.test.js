@@ -1,7 +1,7 @@
 import {apiUserSignup} from '.'
 
-jest.mock('../../../../lib/drizzle')
 import {db} from '../../../../lib'
+jest.mock('../../../../lib/drizzle')
 
 describe('apiUserSignup', () => {
   describe('cannot without email', () => {
@@ -68,7 +68,7 @@ describe('apiUserSignup', () => {
     let response = null
 
     beforeEach(async () => {
-      db.mockReturnValue([{}])
+      //db.mockReturnValue([{}])
       response = await apiUserSignup({email: 'a@b.c', password: 's'})
     })
 
