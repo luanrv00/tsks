@@ -1,6 +1,5 @@
-import {eq} from 'drizzle-orm'
 import {validateEmail} from '../../../../utils'
-import {db, usersTable} from '../../../../lib'
+import {selectUserByEmail} from '../../../db/'
 
 export async function apiUserSignup({email, password}) {
   if (!email) {
@@ -17,10 +16,7 @@ export async function apiUserSignup({email, password}) {
     return {status_code: 400, message: '400 Bad Request', ok: false}
   }
 
-  const userByEmail = await db
-    .select()
-    .from(usersTable)
-    .where(eq(usersTable.email, email))
+  const userByEmail = selectUserByEmail(email)
 
   if (userByEmail.length) {
     return {status_code: 409, message: '409 Conflict', ok: false}

@@ -1,7 +1,7 @@
 import {apiUserSignup} from '.'
 
-import {db} from '../../../../lib'
-jest.mock('../../../../lib/drizzle')
+import {selectUserByEmail} from '../../../db'
+jest.mock('../../../db')
 
 describe('apiUserSignup', () => {
   describe('cannot without email', () => {
@@ -68,8 +68,8 @@ describe('apiUserSignup', () => {
     let response = null
 
     beforeEach(async () => {
-      //db.mockReturnValue([{}])
-      response = await apiUserSignup({email: 'a@b.c', password: 's'})
+      selectUserByEmail.mockReturnValue([{}])
+      response = await apiUserSignup({email: 'aaa@bbb.ccc', password: 's'})
     })
 
     it('returns status_code=409', () => {
@@ -85,11 +85,6 @@ describe('apiUserSignup', () => {
     })
   })
 })
-// #### cannot with already registered email
-// * returns status_code=409
-// * returns message="409 Conflict"
-// * returns ok=false
-//
 // #### signup succesfully
 // * returns status_code=201
 // * returns message="201 Created"
