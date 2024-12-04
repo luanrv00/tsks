@@ -1,1 +1,1 @@
-export * from './select-user-by-email'
+export * from './select-users-by-email'

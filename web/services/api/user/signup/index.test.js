@@ -1,6 +1,6 @@
 import {apiUserSignup} from '.'
 
-import {selectUserByEmail} from '../../../db'
+import {selectUsersByEmail} from '../../../db'
 jest.mock('../../../db')
 
 describe('apiUserSignup', () => {
@@ -28,7 +28,7 @@ describe('apiUserSignup', () => {
     let response = null
 
     beforeEach(async () => {
-      response = await apiUserSignup({email: '', password: ''})
+      response = await apiUserSignup({email: 'aaa@bbb.ccc', password: ''})
     })
 
     it('returns status_code=400', () => {
@@ -68,7 +68,7 @@ describe('apiUserSignup', () => {
     let response = null
 
     beforeEach(async () => {
-      selectUserByEmail.mockReturnValue([{}])
+      selectUsersByEmail.mockReturnValue([{}])
       response = await apiUserSignup({email: 'aaa@bbb.ccc', password: 's'})
     })
 
@@ -85,6 +85,7 @@ describe('apiUserSignup', () => {
     })
   })
 })
+// TODO:
 // #### signup succesfully
 // * returns status_code=201
 // * returns message="201 Created"

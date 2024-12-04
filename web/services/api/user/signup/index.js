@@ -1,6 +1,11 @@
 import {validateEmail} from '../../../../utils'
-import {selectUserByEmail} from '../../../db/'
+import {selectUsersByEmail} from '../../../db/'
 
+// TODO:
+// - genereate access_token
+// - genereate refresh_token
+// - save user on db
+// - return user
 export async function apiUserSignup({email, password}) {
   if (!email) {
     return {status_code: 400, message: '400 Bad Request', ok: false}
@@ -10,15 +15,15 @@ export async function apiUserSignup({email, password}) {
     return {status_code: 400, message: '400 Bad Request', ok: false}
   }
 
-  const isEmailValid = validateEmail(email)
+  const isValidEmail = validateEmail(email)
 
-  if (!isEmailValid) {
+  if (!isValidEmail) {
     return {status_code: 400, message: '400 Bad Request', ok: false}
   }
 
-  const userByEmail = selectUserByEmail(email)
+  const usersByEmail = selectUsersByEmail(email)
 
-  if (userByEmail.length) {
+  if (usersByEmail.length) {
     return {status_code: 409, message: '409 Conflict', ok: false}
   }
 
