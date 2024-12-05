@@ -1,6 +1,6 @@
 import {apiUserSignup} from '.'
 
-import {selectUsersByEmail} from '../../../db'
+import {selectUsersByEmail, createUser} from '../../../db'
 jest.mock('../../../db')
 
 describe('apiUserSignup', () => {
@@ -84,14 +84,47 @@ describe('apiUserSignup', () => {
       expect(response).toHaveProperty('ok', false)
     })
   })
+
+  describe('signup succesfully', () => {
+    let response = null
+
+    beforeEach(() => {
+      selectUsersByEmail.mockReturnValue([])
+      response = apiUserSignup({email: 'aaa@bbb.ccc', pass: 's'})
+    })
+
+    it('returns status_code=201', () => {
+      expect(response).toHaveProperty('status_code', 201)
+    })
+
+    it('returns message="201 Created"', () => {
+      expect(response).toHaveProperty('message', '201 Created')
+    })
+
+    it('returns ok=true', () => {
+      expect(response).toHaveProperty('ok', true)
+    })
+
+    // TODO: test response has user info such email
+    it('returns user', () => {
+      expect(response).toHaveProperty('user')
+    })
+
+    it('returns access token', () => {
+      expect(response).toHaveProperty('access_token')
+    })
+
+    it('returns refresh token', () => {
+      expect(response).toHaveProperty('refresh_token')
+    })
+
+    it('saves user on db', () => {
+      expect(createUser).toHaveBeenCalled()
+    })
+
+    it('saves refresh token on db', () => {
+      // TODO: called with refresh_token
+      //expect(createUser).toHaveBeenCalledWith()
+    })
+  })
 })
-// TODO:
-// #### signup succesfully
-// * returns status_code=201
-// * returns message="201 Created"
-// * returns ok=true
-// * returns user
-// * returns auth token
-// * returns refresh token
-// * saves user on db
-// * saves refresh token on db

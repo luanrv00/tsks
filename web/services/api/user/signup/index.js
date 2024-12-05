@@ -1,11 +1,10 @@
-import {validateEmail} from '../../../../utils'
-import {selectUsersByEmail} from '../../../db/'
+import {
+  createAccessToken,
+  createRefreshToken,
+  validateEmail,
+} from '../../../../utils'
+import {selectUsersByEmail, createUser} from '../../../db/'
 
-// TODO:
-// - genereate access_token
-// - genereate refresh_token
-// - save user on db
-// - return user
 export async function apiUserSignup({email, password}) {
   if (!email) {
     return {status_code: 400, message: '400 Bad Request', ok: false}
@@ -21,11 +20,27 @@ export async function apiUserSignup({email, password}) {
     return {status_code: 400, message: '400 Bad Request', ok: false}
   }
 
-  const usersByEmail = selectUsersByEmail(email)
+  const usersByEmail = await selectUsersByEmail(email)
 
   if (usersByEmail.length) {
     return {status_code: 409, message: '409 Conflict', ok: false}
   }
 
-  return {status_code: 0, message: '0', ok: false}
+  const accessToken = await createAccessToken(email)
+  const refreshToken = await createRefreshToken(email)
+
+  // TODO: research about password digest (rails) how to manage passwords
+  const user = await createUser({email, passwordDigest: password, refreshToken})
+
+  if (user) {
+    return {
+      status_code: 201,
+      message: '201 Created',
+      ok: true,
+      user,
+      accessToken,
+    }
+  }
+
+  return {status_code: 422, message: '422 Unprocessable Entity', ok: false}
 }
