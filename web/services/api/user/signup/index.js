@@ -32,6 +32,7 @@ export async function apiUserSignup({email, password}) {
   // TODO: research about password digest (rails) how to manage passwords
   const user = await createUser({email, passwordDigest: password, refreshToken})
 
+  // TODO: this object structure is responsibility of this service?
   if (user) {
     return {
       status_code: 201,
