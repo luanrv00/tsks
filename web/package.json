@@ -4,11 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-<<<<<<< Updated upstream
     "build": "next build && yarn db:migrate",
-=======
-    "build": "next build && drizzle-kit migrate",
->>>>>>> Stashed changes
     "start": "next start",
     "lint": "next lint",
     "format": "yarn prettier -w **/*.js",
