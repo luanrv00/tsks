@@ -8,5 +8,5 @@ export async function createUser({email, passwordDigest, refreshToken}) {
     refresh_token: refreshToken,
   }
 
-  return await db.insert(usersTable).values(user)
+  return await db.insert(usersTable).values(user).returning()
 }
