@@ -1,3 +1,5 @@
+import * as jose from 'jose'
+
 const REFRESH_TOKEN_KEY = process.env.REFRESH_TOKEN_KEY
 
 export async function createRefreshToken(email) {
