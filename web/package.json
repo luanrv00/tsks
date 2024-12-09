@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && yarn db:migrate",
+    "build": "next build && yarn db:generate && yarn db:migrate",
     "start": "next start",
     "lint": "next lint",
     "format": "yarn prettier -w **/*.js",
@@ -13,7 +13,8 @@
     "test:unit:w": "jest --watchAll",
     "storybook": "storybook dev -p 6006 --no-open",
     "build-storybook": "storybook build",
-    "db:migrate": "yarn drizzle-kit migrate"
+    "db:migrate": "drizzle-kit migrate",
+    "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.3",
