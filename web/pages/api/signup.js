@@ -1,3 +1,3 @@
 export default function handler(req, res) {
-  res.status(202)
+  return res.status(202)
 }
