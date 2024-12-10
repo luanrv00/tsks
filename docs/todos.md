@@ -96,11 +96,12 @@
 - fix new tsks not being saved with context=inbox (api)
 - fix docs schemas of user's uuid to be string type (signup/signin endpoints)
 + migrate db to vercel-pg
-    + add user auth services
-    + add user db services
-    + add tsks crud services
-    + add tsks crud db services
-    - add pages/api/signup
+    * add user auth services
+    * add user db services
+    - add tsks crud services
+    - add tsks crud db services
+    + add pages/api/signup
     - add pages/api/signin
     - add pages/api/tsks
-    - update NEXT_PUBLIC_API_URL to be /api
+    * update NEXT_PUBLIC_API_URL to be /api
+    - get all env vars and setup vercel
